@@ -1,0 +1,5 @@
+paragraphs_ee.paragraphs_category.collection:
+  title: 'Paragraphs categories'
+  parent: system.admin_structure
+  description: 'Create and manage Paragraphs categories.'
+  route_name: entity.paragraphs_category.collection

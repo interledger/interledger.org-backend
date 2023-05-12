@@ -1,0 +1,120 @@
+<?php
+
+/**
+ * @file
+ * Main functions for "Paragraphs Sets Editor Enhancements" module.
+ */
+
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Template\Attribute;
+use Drupal\paragraphs\Plugin\Field\FieldWidget\ParagraphsWidget;
+use Drupal\paragraphs_sets\ParagraphsSets;
+use Drupal\paragraphs_sets\Entity\ParagraphsSet;
+
+/**
+ * Implements hook_paragraphs_ee_widget_access().
+ */
+function paragraphs_ee_sets_paragraphs_ee_widget_access(array $elements, FormStateInterface $form_state, array $context) {
+  if (isset($elements['add_more']['#theme']) && ('paragraphs_sets_add_dialog' !== $elements['add_more']['#theme'])) {
+    return AccessResult::neutral('Do not override default theme implementation for "add-more" element which is not "paragraphs_sets_add_dialog".');
+  }
+  return AccessResult::allowed();
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * For some strange reasons the implementation of
+ * hook_field_widget_complete_form_alter() is called before the implementation
+ * in paragraphs_sets.module (even the weight of paragraphs_ee_sets is higher).
+ */
+function paragraphs_ee_sets_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'field_widget_complete_form_alter') {
+    // Move paragraphs_ee_sets_field_widget_complete_form_alter() to the end
+    // of the list.
+    $group = $implementations['paragraphs_ee_sets'];
+    unset($implementations['paragraphs_ee_sets']);
+    $implementations['paragraphs_ee_sets'] = $group;
+  }
+}
+
+/**
+ * Implements hook_field_widget_complete_form_alter().
+ */
+function paragraphs_ee_sets_field_widget_complete_form_alter(array &$field_widget_complete_form, FormStateInterface $form_state, array $context) {
+  /** @var \Drupal\paragraphs\Plugin\Field\FieldWidget\ParagraphsWidget $widget */
+  $widget = $context['widget'];
+  if (!($widget instanceof ParagraphsWidget && !empty($field_widget_complete_form['widget']))) {
+    return;
+  }
+
+  $elements = &$field_widget_complete_form['widget'];
+  // Load third-party settings.
+  $widget_third_party_settings = $widget->getThirdPartySetting('paragraphs_sets', 'paragraphs_sets', []);
+  if (empty($widget_third_party_settings['use_paragraphs_sets'])) {
+    return;
+  }
+
+  $items = $context['items'];
+  $field_definition = $items->getFieldDefinition();
+  // Get a list of all Paragraphs types allowed in this field.
+  $field_allowed_paragraphs_types = $widget->getAllowedTypes($field_definition);
+  $sets = ParagraphsSets::getSets(array_keys($field_allowed_paragraphs_types));
+
+  // Limit available sets from widget settings.
+  if (isset($widget_third_party_settings['sets_allowed']) && count(array_filter($widget_third_party_settings['sets_allowed']))) {
+    $sets = array_intersect_key($sets, array_filter($widget_third_party_settings['sets_allowed']));
+  }
+
+  foreach (array_keys($sets) as $key) {
+    /** @var \Drupal\paragraphs_sets\ParagraphsSetInterface $set */
+    if (empty($elements['add_more']["append_selection_button_{$key}"]) || ($set = ParagraphsSet::load($key)) === NULL) {
+      continue;
+    }
+    $button = &$elements['add_more']["append_selection_button_{$key}"];
+    // Use custom button layout.
+    $button['#theme_wrappers'] = ['input__submit__paragraph_action__image'];
+    $button['#attributes']['class'][] = 'paragraphs-button--add-more';
+
+    $button['#description'] = $set->getDescription();
+
+    $button['#icon_attributes'] = new Attribute();
+    $button['#icon_attributes']['aria-hidden'] = 'true';
+    $button['#icon_attributes']['class'] = ['paragraphs-button--icon'];
+    if ($icon_url = $set->getIconUrl()) {
+      // Extract icon from button.
+      $elements['add_more']["append_selection_button_{$key}"]['#attributes']['class'][] = 'icon';
+      unset($button['#attributes']['style']);
+      $button['#icon'] = $icon_url;
+    }
+    else {
+      $button['#icon_attributes']['class'][] = 'image-default';
+    }
+  }
+}
+
+/**
+ * Override variables used in paragraphs-add-dialog--categorized.html.twig.
+ */
+function paragraphs_ee_sets_preprocess_paragraphs_add_dialog__categorized(&$vars) {
+  $vars['groups']['paragraphs_sets'] = [];
+  foreach (Element::children($vars['element']) as $key) {
+    if (strpos($key, 'append_selection_button_') === 0) {
+      // Buttons for the paragraph sets in the modal form.
+      $button = $vars['element'][$key];
+      $button['#attributes']['aria-describedby'] = $button['#id'] . '--description';
+      $vars['groups']['paragraphs_sets'][] = $button;
+    }
+  }
+  if (!empty($vars['groups']['paragraphs_sets'])) {
+    // Add new button group.
+    $vars['categories']['paragraphs_sets'] = [
+      'id' => Html::getUniqueId($vars['element']['#id'] . '-category-paragraphs_sets'),
+      'title' => t('Paragraphs Sets', [], ['context' => 'Paragraphs EE Sets: categories']),
+      'description' => '',
+    ];
+  }
+}

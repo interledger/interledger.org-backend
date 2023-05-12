@@ -1,0 +1,10 @@
+name: "GraphQL Compose: Views"
+description: "Load views as queries."
+type: module
+core_version_requirement: ^9 || ^10
+dependencies:
+  - core:user
+  - core:views
+  - graphql_compose:graphql_compose
+package: GraphQL Compose
+hidden: false

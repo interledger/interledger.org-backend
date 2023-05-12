@@ -1,0 +1,5 @@
+services:
+  # Name of this service, using the event subscriber class that will listen for the events.
+  Drupal\next_cloudfront_purge\EventSubscriber\EntityRevalidatedEventSubscriber:
+    tags:
+      - { name: 'event_subscriber' }

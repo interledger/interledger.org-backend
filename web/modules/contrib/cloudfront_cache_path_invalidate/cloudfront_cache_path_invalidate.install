@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for cloudfront_cache_path_invalidate.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function cloudfront_cache_path_invalidate_uninstall() {
+  // Remove the cache configurations.
+  \Drupal::configFactory()->getEditable('cci_Cloudfront_auto_cache.settings')->delete();
+  \Drupal::configFactory()->getEditable('cci_Cloudfront_cache.settings')->delete();
+}

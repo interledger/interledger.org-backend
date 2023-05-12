@@ -1,0 +1,9 @@
+name: "GraphQL Compose: Users"
+description: "Load user information on entities."
+type: module
+core_version_requirement: ^9 || ^10
+dependencies:
+  - core:user
+  - graphql_compose:graphql_compose
+package: GraphQL Compose
+hidden: false

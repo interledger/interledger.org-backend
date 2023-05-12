@@ -1,0 +1,51 @@
+{# twig and pre, not so simple, br and nbsp, get it done. #}
+
+<h2>Unions</h2>
+
+{% for union in types.unions %}
+<details class="fragment">
+  <summary>{{ union.name }} <span>Fragment{{ union.name }}</span></summary>
+  <code language="graphql">
+    fragment Fragment{{ union.name }} on {{ union.name }} {<br>
+    {% for child in union.types %}
+    &nbsp;&nbsp;...Fragment{{ child.name }}<br>
+    {% endfor %}
+    }
+  </code>
+</details>
+{% endfor %}
+
+<h2>Objects</h2>
+
+{% for object in types.objects %}
+
+<details class="fragment">
+  <summary>{{ object.name }} <span>Fragment{{ object.name }}</span></summary>
+
+  {% set fields = object.fields|merge(extensions.objects[object.name].fields ?: []) %}
+
+  <code language="graphql">
+  fragment Fragment{{ object.name }} on {{ object.name }} {
+  {% for field in fields %}
+  <br>
+    {%- set subType = field.getType.getWrappedType(true) ?: field.getType -%}
+
+    &nbsp;&nbsp;{{ field.name }}
+
+    {% if subType.name in types.unions or subType.name in types.objects %}
+    {
+      <br>
+      {%- if subType.name == object.name -%}
+        &nbsp;&nbsp;&nbsp;&nbsp;# {{ 'Recursion. Use best judgement or just define manually'|t }}.<br>
+      {%- else -%}
+        &nbsp;&nbsp;&nbsp;&nbsp;...Fragment{{ subType.name }}<br>
+      {%- endif -%}
+
+    &nbsp;&nbsp;}
+    {% endif %}
+  {% endfor %}
+  <br>
+  }
+</code>
+</details>
+{% endfor %}

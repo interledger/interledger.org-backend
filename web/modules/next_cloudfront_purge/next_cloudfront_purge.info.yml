@@ -1,0 +1,8 @@
+name: Next Cloudfront Purge
+type: module
+description: Purge path from cloudfront
+package: Custom
+core_version_requirement: ^9 || ^10
+dependencies:
+  - next:next
+  - cloudfront_cache_path_invalidate:cloudfront_cache_path_invalidate

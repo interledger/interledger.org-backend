@@ -1,0 +1,38 @@
+paragraphs_ee.paragraphs:
+  js:
+    js/paragraphs_ee.admin.js: {}
+  css:
+    theme:
+      css/paragraphs_ee.admin.css: {}
+  dependencies:
+    - core/jquery
+    - core/once
+    - core/drupal
+    - core/drupalSettings
+    - paragraphs_features/add_in_between
+
+paragraphs_ee.categories:
+  js:
+    js/paragraphs_ee.categories.js: {}
+  css:
+    theme:
+      css/paragraphs_ee.categories.css: {}
+  dependencies:
+    - core/jquery
+    - core/once
+    - core/drupal
+    - core/drupalSettings
+    - paragraphs_ee/paragraphs_ee.paragraphs
+
+paragraphs_ee.off_canvas:
+  js:
+    js/paragraphs_ee.off_canvas.js: {}
+  css:
+    theme:
+      css/paragraphs_ee.off_canvas.css: {}
+  dependencies:
+    - core/drupal.dialog.off_canvas
+    - core/once
+    - core/drupal
+    - core/drupalSettings
+    - paragraphs_ee/paragraphs_ee.categories

@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * @file
+ * Add connection config_pages to entity bundles.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Change enabled state of an entity plugin bundle.
+ *
+ * @param bool $enabled
+ *   Field is enabled or not.
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   The current entity bundle being processed.
+ */
+function graphql_compose_config_pages_graphql_compose_entity_bundle_enabled_alter(
+  bool &$enabled,
+  \Drupal\Core\Entity\EntityInterface $entity
+) {
+  if ($entity->id() === 'config_pages') {
+    $enabled = FALSE;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add settings to config_pages settings page.
+ */
+function graphql_compose_config_pages_form_domain_settings_alter(&$form, FormStateInterface $form_state)
+{
+  $entity_type = \Drupal::entityTypeManager()->getDefinition('config_pages');
+  $form_state->set('entity_type', $entity_type);
+
+  _graphql_compose_entity_type_settings_alter($form, $form_state);
+
+  $form['graphql_compose']['#open'] = TRUE;
+}

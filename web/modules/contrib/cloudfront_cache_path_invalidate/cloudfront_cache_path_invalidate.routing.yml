@@ -1,0 +1,14 @@
+cloudfront_cache_path_invalidate.admin_cloudfront_invalidate_url:
+  path: '/admin/config/services/cloudfront-invalidate-url'
+  defaults:
+    _form: '\Drupal\cloudfront_cache_path_invalidate\Form\CloudfrontCacheInvalidateForm'
+    _title: 'Cloudfront Cache Setting'
+  requirements:
+    _permission: 'cloudfront_cache_path_invalidate_permission'
+cloudfront_cache_path_invalidate.auto_admin_cloudfront_url_invalidate_setting:
+  path: '/admin/config/services/auto-cloudfront-cache-entities'
+  defaults:
+    _form: '\Drupal\cloudfront_cache_path_invalidate\Form\AutoCloudfrontCacheSettingForm'
+    _title: 'Automatic Cloudfront Cache Setting'
+  requirements:
+    _permission: 'cloudfront_cache_path_invalidate_permission'

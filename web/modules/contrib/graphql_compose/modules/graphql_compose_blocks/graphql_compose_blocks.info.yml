@@ -1,0 +1,9 @@
+name: "GraphQL Compose: Blocks"
+description: "Enable blocks and block fields."
+type: module
+core_version_requirement: ^9 || ^10
+dependencies:
+  - graphql_compose:graphql_compose
+  - core:block_content
+package: GraphQL Compose
+hidden: false

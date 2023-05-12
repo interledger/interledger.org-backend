@@ -1,0 +1,33 @@
+uuid: b1d234d4-536e-4392-afe0-970262bd2f67
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.aspect_ratio_16_9_1021w
+    - image.style.aspect_ratio_16_9_1228w
+    - image.style.aspect_ratio_16_9_1400w
+    - image.style.aspect_ratio_16_9_1600w
+    - image.style.aspect_ratio_16_9_1920w
+    - image.style.aspect_ratio_16_9_320w
+    - image.style.aspect_ratio_16_9_450w
+    - image.style.aspect_ratio_16_9_725w
+id: aspect_ratio_landscape_16_9
+label: 'Aspect Ratio Landscape (16:9)'
+image_style_mappings:
+  -
+    image_mapping_type: sizes
+    image_mapping:
+      sizes: 100vw
+      sizes_image_styles:
+        - aspect_ratio_16_9_1021w
+        - aspect_ratio_16_9_1228w
+        - aspect_ratio_16_9_1400w
+        - aspect_ratio_16_9_1600w
+        - aspect_ratio_16_9_1920w
+        - aspect_ratio_16_9_320w
+        - aspect_ratio_16_9_450w
+        - aspect_ratio_16_9_725w
+    breakpoint_id: responsive_image.viewport_sizing
+    multiplier: 1x
+breakpoint_group: responsive_image
+fallback_image_style: aspect_ratio_16_9_1228w

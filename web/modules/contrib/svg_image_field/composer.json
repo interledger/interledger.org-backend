@@ -1,0 +1,21 @@
+{
+  "name": "drupal/svg_image_field",
+  "description": "Provides SVG Image field.",
+  "type": "drupal-module",
+  "homepage": "https://www.drupal.org/project/svg_image_field",
+  "authors": [
+    {
+      "name": "See contributors",
+      "homepage": "https://www.drupal.org/node/2863622/committers"
+    }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/svg_image_field",
+    "source": "https://git.drupalcode.org/project/svg_image_field"
+  },
+  "license": "GPL-2.0+",
+  "minimum-stability": "dev",
+  "require": {
+    "enshrined/svg-sanitize": "~0.15"
+  }
+}

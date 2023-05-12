@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Add configuration points for Menus.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessResultInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\system\Entity\Menu;
+
+/**
+ * Implements hook_entity_access().
+ *
+ * Enable access to view a menu.
+ */
+function graphql_compose_menus_entity_access(EntityInterface $entity, $operation, AccountInterface $account): AccessResultInterface {
+
+  $config = \Drupal::config('graphql_compose.settings');
+
+  if ($operation === 'view' && $entity instanceof Menu) {
+    $access = $config->get('menu.' . $entity->id() . '.enabled') ?: FALSE;
+    return AccessResult::allowedIf($access);
+  }
+
+  return AccessResult::neutral();
+}

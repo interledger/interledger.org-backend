@@ -1,0 +1,99 @@
+<?php
+
+/**
+ * @file
+ * Implements hooks for the next module.
+ */
+
+use Drupal\content_moderation\EntityOperations;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\next\Event\EntityActionEvent;
+use Drupal\next\Event\EntityActionEventInterface;
+use Drupal\next\Event\EntityEvents;
+
+/**
+ * Implements hook_decoupled_router_info_alter().
+ */
+function next_decoupled_router_info_alter(array &$output, array $context) {
+  if (!isset($output['entity']['canonical'])) {
+    return;
+  }
+
+  // If this entity has a canonical url, add the relative url to the output.
+  // This saves an extra trip to JSON:API to fetch the path alias.
+  /** @var \Drupal\Core\Entity\EntityInterface $entity */
+  $entity = $context['entity'];
+  $path = $entity->toUrl()->toString(TRUE);
+  if ($path) {
+    $output['entity']['path'] = $path->getGeneratedUrl();
+  }
+}
+
+/**
+ * Implements hook_next_site_preview_alter().
+ */
+function next_next_site_preview_alter(array &$preview, array $context) {
+  if (!Drupal::moduleHandler()->moduleExists('content_moderation')) {
+    return;
+  }
+
+  /** @var \Drupal\next\Plugin\SitePreviewerInterface $plugin */
+  $plugin = $context['plugin'];
+
+  if ($plugin->getId() !== 'iframe') {
+    return;
+  }
+
+  /** @var \Drupal\Core\Entity\EntityInterface $entity */
+  $entity = $context['entity'];
+  /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository */
+  $display_repository = Drupal::service('entity_display.repository');
+  $display = $display_repository->getViewDisplay($entity->getEntityTypeId(), $entity->bundle());
+
+  // Add the content moderation control form to the preview.
+  $build = [];
+
+  \Drupal::service('class_resolver')
+    ->getInstanceFromDefinition(EntityOperations::class)
+    ->entityView($build, $entity, $display, $display->getMode());
+
+  if (isset($build['content_moderation_control'])) {
+    // Pull the moderation form to the top.
+    $build['content_moderation_control']['#weight'] = -100;
+    $preview['content_moderation_control'] = $build['content_moderation_control'];
+  }
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function next_entity_insert(EntityInterface $entity) {
+  $event = EntityActionEvent::createFromEntity($entity, EntityActionEventInterface::INSERT_ACTION);
+  drupal_register_shutdown_function('_next_dispatch_entity_action_event', $event);
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function next_entity_update(EntityInterface $entity) {
+  $event = EntityActionEvent::createFromEntity($entity, EntityActionEventInterface::UPDATE_ACTION);
+  drupal_register_shutdown_function('_next_dispatch_entity_action_event', $event);
+}
+
+/**
+ * Implements hook_entity_predelete().
+ */
+function next_entity_predelete(EntityInterface $entity) {
+  $event = EntityActionEvent::createFromEntity($entity, EntityActionEventInterface::DELETE_ACTION);
+  drupal_register_shutdown_function('_next_dispatch_entity_action_event', $event);
+}
+
+/**
+ * Helper to dispatch an entity action event.
+ *
+ * @param \Drupal\next\Event\EntityActionEventInterface $event
+ *   The entity action event.
+ */
+function _next_dispatch_entity_action_event(EntityActionEventInterface $event) {
+  \Drupal::service('event_dispatcher')->dispatch($event, EntityEvents::ENTITY_ACTION);
+}

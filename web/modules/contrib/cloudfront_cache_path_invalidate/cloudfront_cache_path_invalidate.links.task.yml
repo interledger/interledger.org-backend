@@ -1,0 +1,8 @@
+cloudfront_cache_path_invalidate.admin_cloudfront_invalidate_url:
+  title: 'Cloudfront URL Invalidate'
+  route_name: cloudfront_cache_path_invalidate.admin_cloudfront_invalidate_url
+  base_route: cloudfront_cache_path_invalidate.admin_cloudfront_invalidate_url
+cloudfront_cache_path_invalidate.auto_admin_cloudfront_url_invalidate_setting:
+  title: 'Automatic Cloudfront URl Invalidate Settings'
+  route_name: cloudfront_cache_path_invalidate.auto_admin_cloudfront_url_invalidate_setting
+  base_route: cloudfront_cache_path_invalidate.admin_cloudfront_invalidate_url

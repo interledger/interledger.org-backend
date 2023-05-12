@@ -1,0 +1,19 @@
+uuid: 3105cd4f-0800-40c3-a1cc-02efde7fb4c2
+langcode: en
+status: true
+dependencies:
+  module:
+    - next_extras
+third_party_settings:
+  next_extras:
+    revalidate: false
+    revalidate_paths: ''
+id: node.page
+site_resolver: site_selector
+configuration:
+  sites:
+    client: client
+revalidator: path
+revalidator_configuration:
+  revalidate_page: true
+  additional_paths: ''

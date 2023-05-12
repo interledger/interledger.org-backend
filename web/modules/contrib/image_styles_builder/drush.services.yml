@@ -1,0 +1,16 @@
+services:
+  image_styles_builder.generate_command:
+    class: \Drupal\image_styles_builder\Commands\GenerateCommand
+    arguments:
+      - '@plugin.manager.image_styles_builder.derivative'
+      - '@image_styles_builder.manager.image_style_generator'
+    tags:
+      - { name: drush.command }
+
+  image_styles_builder.flush_command:
+    class: \Drupal\image_styles_builder\Commands\FlushCommand
+    arguments:
+      - '@plugin.manager.image_styles_builder.derivative'
+      - '@image_styles_builder.manager.image_style_flusher'
+    tags:
+      - { name: drush.command }

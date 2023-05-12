@@ -1,0 +1,100 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Drupal\graphql_compose_blocks\Plugin\GraphQL\DataProducer;
+
+use Drupal\Core\Block\BlockPluginInterface;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
+use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Render\RenderContext;
+use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+/**
+ * Load drupal blocks.
+ *
+ * @DataProducer(
+ *   id = "block_render",
+ *   name = @Translation("Block renderer"),
+ *   description = @Translation("Render a block."),
+ *   produces = @ContextDefinition("any",
+ *     label = @Translation("Block instance")
+ *   ),
+ *   consumes = {
+ *     "block_instance" = @ContextDefinition("any",
+ *       label = @Translation("Block instance")
+ *     ),
+ *   }
+ * )
+ */
+class BlockRender extends DataProducerPluginBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity.repository'),
+      $container->get('current_user'),
+      $container->get('renderer'),
+    );
+  }
+
+  /**
+   * LayoutDefinitionLoad constructor.
+   */
+  public function __construct(
+    array $configuration,
+    $pluginId,
+    $pluginDefinition,
+    protected EntityRepositoryInterface $entityRepository,
+    protected AccountProxyInterface $currentUser,
+    protected RendererInterface $renderer,
+  ) {
+    parent::__construct($configuration, $pluginId, $pluginDefinition);
+  }
+
+  /**
+   * Resolve the layout definition.
+   */
+  public function resolve(BlockPluginInterface $block_instance, RefinableCacheableDependencyInterface $metadata): ?string {
+    $metadata->addCacheableDependency($block_instance);
+
+    $access = $block_instance->access($this->currentUser->getAccount(), TRUE);
+    $metadata->addCacheableDependency($access);
+
+    if (!$access->isAllowed()) {
+      return NULL;
+    }
+
+    $build = [];
+
+    // Place the content returned by the block plugin into a 'content' child
+    // element, as a way to allow the plugin to have complete control of its
+    // properties and rendering (for instance, its own #theme) without
+    // conflicting with the properties used above.
+    $build['content'] = $block_instance->build();
+
+    CacheableMetadata::createFromRenderArray($build)
+      ->addCacheableDependency($access)
+      ->addCacheableDependency($block_instance)
+      ->applyTo($build);
+
+    // This seems dumb. Turn url back into a path.
+    $context = new RenderContext();
+    $content = $this->renderer->executeInRenderContext($context, function () use ($build): string {
+      return (string) $this->renderer->renderRoot($build);
+    });
+
+    return $content;
+  }
+
+}

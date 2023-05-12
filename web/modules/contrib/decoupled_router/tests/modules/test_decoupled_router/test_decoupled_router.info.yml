@@ -1,0 +1,11 @@
+name: Test decoupled router
+description: Perform alterations before to return the router info.
+type: module
+package: Testing
+dependencies:
+  - decoupled_router:decoupled_router
+
+# Information added by Drupal.org packaging script on 2022-11-30
+version: '2.0.4'
+project: 'decoupled_router'
+datestamp: 1669803948

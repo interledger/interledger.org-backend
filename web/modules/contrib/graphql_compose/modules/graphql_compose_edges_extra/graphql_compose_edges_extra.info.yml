@@ -1,0 +1,8 @@
+name: "GraphQL Compose: Edges extra"
+description: "Load multiple entities at once."
+type: module
+core_version_requirement: ^9 || ^10
+dependencies:
+  - graphql_compose:graphql_compose
+package: GraphQL Compose
+hidden: false

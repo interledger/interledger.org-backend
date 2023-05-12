@@ -1,0 +1,91 @@
+@import "variables";
+@import "mixins";
+
+.ui-dialog.ui-dialog-off-canvas.paragraphs-ee-off-canvas--browser {
+  .ui-dialog-title {
+    padding-left: 35px;
+
+    &:before {
+      background-image: url(../images/paragraphs-logo.png);
+      height: calc(100% + 10px);
+      margin: -5px 5px 5px -5px;
+      width: 30px;
+    }
+  }
+
+  #drupal-off-canvas.ui-dialog-content {
+    padding: 10px;
+
+    .display-toggle {
+      background-color: $grey-blue--light;
+    }
+
+    .category-title,
+    .paragraphs-label {
+      color: $grey-blue--light;
+    }
+
+    .paragraphs-add-dialog--categorized {
+      * {
+        color: $white;
+      }
+
+      summary {
+        background: none;
+        margin: 0;
+        padding: 0;
+        transition: none;
+      }
+
+      .button-group {
+        margin-top: 10px;
+      }
+
+      .category-title {
+        color: $white;
+        font-size: 16px;
+        text-transform: none;
+      }
+
+      .display-toggle {
+        background-color: $border-color-active;
+      }
+
+      .paragraphs-button--add-more {
+        border: 1px solid $grey-light;
+      }
+
+      .paragraphs-add-dialog-row {
+        padding: 5px;
+      }
+
+      .paragraphs-label,
+      .paragraphs-description {
+        color: $white;
+      }
+
+      .paragraphs-description {
+        padding-bottom: 2px;
+      }
+    }
+
+    &.paragraphs-style-list .paragraphs-add-dialog--categorized {
+      .paragraphs-add-dialog-row {
+        width: calc(100% - 10px);
+      }
+
+      .paragraphs-label {
+        color: $white;
+      }
+
+      .paragraphs-description {
+        color: $white;
+        max-width: 100%;
+      }
+
+      .style-list {
+        background-color: $border-color-active;
+      }
+    }
+  }
+}

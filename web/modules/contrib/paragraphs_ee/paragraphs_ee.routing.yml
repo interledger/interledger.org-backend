@@ -1,0 +1,44 @@
+entity.paragraphs_category.collection:
+  path: '/admin/structure/paragraphs_category'
+  defaults:
+    _entity_list: 'paragraphs_category'
+    _title: 'Paragraphs categories'
+  requirements:
+    _permission: 'administer paragraphs categories'
+
+entity.paragraphs_category.add_form:
+  path: '/admin/structure/paragraphs_category/add'
+  defaults:
+    _entity_form: 'paragraphs_category.add'
+    _title: 'Add paragraphs category'
+  requirements:
+    _permission: 'administer paragraphs categories'
+
+entity.paragraphs_category.edit_form:
+  path: '/admin/structure/paragraphs_category/{paragraphs_category}'
+  defaults:
+    _entity_form: 'paragraphs_category.edit'
+    _title: 'Edit paragraphs category'
+  requirements:
+    _permission: 'administer paragraphs categories'
+
+entity.paragraphs_category.delete_form:
+  path: '/admin/structure/paragraphs_category/{paragraphs_category}/delete'
+  defaults:
+    _entity_form: 'paragraphs_category.delete'
+    _title: 'Delete paragraphs category'
+  requirements:
+    _permission: 'administer paragraphs categories'
+
+paragraphs_ee.paragraphs_browser:
+  path: '/paragraphs_ee/browser/{entity_type}/{bundle}/{form_mode}/{field_name}'
+  defaults:
+    _controller: '\Drupal\paragraphs_ee\Controller\ParagraphsOffCanvasBrowser::content'
+    _title_callback: '\Drupal\paragraphs_ee\Controller\ParagraphsOffCanvasBrowser::getTitle'
+    entity_type: null
+    bundle: null
+    form_mode: null
+    field_name: null
+  requirements:
+#    _csrf_token: 'TRUE'
+    _permission: 'access content'

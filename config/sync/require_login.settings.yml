@@ -1,0 +1,25 @@
+_core:
+  default_config_hash: YLyaxFHFUutVkDm7EBj9rufllzT5wZKTmcdJeMFr4mk
+login_path: ''
+login_message: ''
+login_destination: ''
+requirements:
+  request_path:
+    id: request_path
+    negate: true
+    pages: "/graphql\r\n/health\r\n/oauth/token\r\n/webform_rest/*\r\n/next/preview-url"
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles: {  }
+  'entity_bundle:taxonomy_term':
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    context_mapping:
+      taxonomy_term: '@taxonomy_term.taxonomy_term_route_context:taxonomy_term'
+    bundles: {  }
+extra:
+  include_403: false
+  include_404: false

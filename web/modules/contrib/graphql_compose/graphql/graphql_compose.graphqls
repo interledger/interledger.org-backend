@@ -1,0 +1,72 @@
+################################################################################
+# The base GraphQL Compose schema                                              #
+#                                                                              #
+# This file contains the basis of the GraphQL Compose GraphQL API Schema. It   #
+# provides base types that can be used by individual GraphQL Compose features. #
+# Additionally it contains common interfaces for things such as pagination.    #
+#                                                                              #
+# Comments aimed at schema developers are prefixed with `#` and comments       #
+# exposed to schema consumers are contained in `"""`.                          #
+#                                                                              #
+# If you're new to GraphQL I recommend starting at: https://graphql.org/learn/ #
+################################################################################
+
+# The actual GraphQL schema
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Mutation {
+  """
+  Schema generator version.
+  """
+  info: SchemaInformation!
+}
+
+"""
+The schema's entry-point for queries. This acts as the public, top-level API
+from which all queries must start.
+"""
+type Query {
+  """
+  Schema generator version.
+  """
+  info: SchemaInformation!
+}
+
+"""
+Schema generator version.
+"""
+type SchemaInformation {
+  """
+  Schema description.
+  """
+  description: String!
+
+  """
+  Schema module version.
+  """
+  version: String!
+
+  """
+  Path to the homepage.
+  """
+  home: String
+}
+
+# ################################################################################
+# #                         Data Creation Interfaces                             #
+# ################################################################################
+"""
+A violation indicates an error in the GraphQL query or other incorrect
+circumstances such as missing permissions.
+"""
+scalar Violation
+
+"""
+The base GraphQL Response class
+"""
+interface Response {
+  errors: [Violation]
+}

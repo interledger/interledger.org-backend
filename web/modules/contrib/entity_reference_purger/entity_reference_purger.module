@@ -1,0 +1,177 @@
+<?php
+
+/**
+ * @file
+ * Main hooks for Entity Reference Purger module.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\field\Entity\FieldConfig;
+
+/**
+ * Implements hook_help().
+ */
+function entity_reference_purger_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.entity_reference_purger':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Removes orphaned entity references when an entity is deleted.') . '</p>';
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function entity_reference_purger_form_field_config_edit_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  /** @var \Drupal\field\Entity\FieldConfig $field_config */
+  $field_config = $form_state->getFormObject()->getEntity();
+
+  if ($field_config->getType() == 'entity_reference' && $field_config->isComputed() === FALSE) {
+    $settings = $field_config->getThirdPartySettings('entity_reference_purger');
+
+    $entity_reference_purger_settings_form = &$form['third_party_settings']['entity_reference_purger'];
+
+    $entity_reference_purger_settings_form = [
+      '#type' => 'details',
+      '#title' => t('Entity Reference Purger'),
+      '#open' => TRUE,
+    ];
+
+    $entity_reference_purger_settings_form['remove_orphaned'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Remove orphaned entity references'),
+      '#default_value' => $settings['remove_orphaned'] ?? FALSE,
+    ];
+
+    $entity_reference_purger_settings_form['use_queue'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Use queue'),
+      '#description' => t('Enable if you want to remove orphaned entity references by using queue. Use this option if you have a lot of dangling references.'),
+      '#default_value' => $settings['use_queue'] ?? TRUE,
+      '#states' => [
+        'visible' => [
+          ':input[name="third_party_settings[entity_reference_purger][remove_orphaned]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function entity_reference_purger_entity_delete(EntityInterface $entity) {
+  $field_map = \Drupal::service('entity_field.manager')
+    ->getFieldMapByFieldType('entity_reference');
+
+  foreach ($field_map as $entity_type => $data) {
+    foreach ($data as $field_name => $field_data) {
+      foreach ($field_data['bundles'] as $bundle) {
+        $bundle_fields = \Drupal::getContainer()
+          ->get('entity_field.manager')
+          ->getFieldDefinitions($entity_type, $bundle);
+
+        if (!isset($bundle_fields[$field_name])) {
+          continue;
+        }
+
+        /** @var Drupal\Core\Field\BaseFieldDefinition $field_definition */
+        $field_definition = $bundle_fields[$field_name];
+        if ($field_definition->isComputed()) {
+          continue;
+        }
+
+        $remove_orphaned = entity_reference_purger_is_remove_orphaned_enabled($field_definition);
+        if ($remove_orphaned === FALSE) {
+          continue;
+        }
+
+        if ($field_definition->getItemDefinition()->getSetting('target_type') == $entity->getEntityType()->id()) {
+          $parent_entities = \Drupal::entityTypeManager()
+            ->getStorage($entity_type)
+            ->loadByProperties([$field_name => $entity->id()]);
+
+          $use_queue = entity_reference_purger_use_queue($field_definition);
+
+          foreach ($parent_entities as $parent_entity) {
+            foreach ($parent_entity->get($field_name) as $delta => $field_item) {
+              if ($field_item->target_id == $entity->id()) {
+                if ($use_queue === TRUE) {
+                  entity_reference_purger_add_to_queue($parent_entity, $field_name, $delta);
+                }
+                else {
+                  $parent_entity->get($field_name)->removeItem($delta);
+                  $parent_entity->save();
+                }
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Check if the 'remove_orphaned' option is enabled.
+ */
+function entity_reference_purger_is_remove_orphaned_enabled($field_definition) {
+  $remove_orphaned = FALSE;
+
+  if ($field_definition instanceof FieldConfig) {
+    $settings = $field_definition->getThirdPartySettings('entity_reference_purger');
+  }
+
+  if ($field_definition instanceof BaseFieldDefinition) {
+    $settings = $field_definition->getSetting('entity_reference_purger');
+  }
+
+  if (!empty($settings['remove_orphaned'])) {
+    $remove_orphaned = TRUE;
+  }
+
+  return $remove_orphaned;
+}
+
+/**
+ * Check if the 'remove_orphaned' option is enabled.
+ */
+function entity_reference_purger_use_queue($field_definition) {
+  $use_queue = FALSE;
+
+  if ($field_definition instanceof FieldConfig) {
+    $settings = $field_definition->getThirdPartySettings('entity_reference_purger');
+  }
+
+  if ($field_definition instanceof BaseFieldDefinition) {
+    $settings = $field_definition->getSetting('entity_reference_purger');
+  }
+
+  if (!empty($settings['use_queue'])) {
+    $use_queue = TRUE;
+  }
+
+  return $use_queue;
+}
+
+/**
+ * Adds item to the queue.
+ */
+function entity_reference_purger_add_to_queue(EntityInterface $parent_entity, $field_name, $delta) {
+  $entity_reference_purger_queue = \Drupal::queue('entity_reference_purger');
+
+  $data = [
+    'entity_type' => $parent_entity->getEntityTypeId(),
+    'entity_id' => $parent_entity->id(),
+    'field_name' => $field_name,
+    'delta' => $delta,
+  ];
+
+  $entity_reference_purger_queue->createItem($data);
+}

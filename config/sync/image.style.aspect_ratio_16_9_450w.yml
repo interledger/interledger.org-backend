@@ -1,0 +1,25 @@
+uuid: d10b94de-cd9c-488e-9c69-93a237f5bb5f
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: aspect_ratio_16_9_450w
+label: aspect_ratio_16_9_450w
+effects:
+  bd70f4c8-bb94-4414-a3fa-fabb6ebf76d7:
+    uuid: bd70f4c8-bb94-4414-a3fa-fabb6ebf76d7
+    id: focal_point_crop_ratio
+    weight: 0
+    data:
+      crop_type: null
+      aspect_ratio: '16:9'
+  c0b296b6-a7d7-4ed4-ba43-6c60eaaf7b1d:
+    uuid: c0b296b6-a7d7-4ed4-ba43-6c60eaaf7b1d
+    id: image_scale
+    weight: 1
+    data:
+      width: 450
+      height: null
+      upscale: false
+pipeline: __default__

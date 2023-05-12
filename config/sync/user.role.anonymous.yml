@@ -1,0 +1,26 @@
+uuid: d2732e6c-abd5-40a1-954a-2a60117630e9
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.restricted_html
+  module:
+    - contact
+    - filter
+    - graphql
+    - media
+    - search
+    - system
+_core:
+  default_config_hash: 6WavjUYXIegP9AAg2zXGx54MWIVoomC3SZhNiqe-Dyk
+id: anonymous
+label: 'Anonymous user'
+weight: 0
+is_admin: false
+permissions:
+  - 'access content'
+  - 'access site-wide contact form'
+  - 'execute graphql_compose_server arbitrary graphql requests'
+  - 'search content'
+  - 'use text format restricted_html'
+  - 'view media'

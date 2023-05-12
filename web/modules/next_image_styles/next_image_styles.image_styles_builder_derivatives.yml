@@ -1,0 +1,413 @@
+default:
+  id: default
+  label: Default
+  suffix: aspect_ratio
+  styles:
+    16_9_320w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '16:9'
+        -
+          type: 'image_scale'
+          data:
+            width: 320
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    16_9_450w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '16:9'
+        -
+          type: 'image_scale'
+          data:
+            width: 450
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    16_9_725w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '16:9'
+        -
+          type: 'image_scale'
+          data:
+            width: 725
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    16_9_1021w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '16:9'
+        -
+          type: 'image_scale'
+          data:
+            width: 1021
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    16_9_1228w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '16:9'
+        -
+          type: 'image_scale'
+          data:
+            width: 1228
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    16_9_1400w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '16:9'
+        -
+          type: 'image_scale'
+          data:
+            width: 1400
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    16_9_1600w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '16:9'
+        -
+          type: 'image_scale'
+          data:
+            width: 1600
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    16_9_1920w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '16:9'
+        -
+          type: 'image_scale'
+          data:
+            width: 1920
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    9_16_320w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '9:16'
+        -
+          type: 'image_scale'
+          data:
+            width: 320
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    9_16_450w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '9:16'
+        -
+          type: 'image_scale'
+          data:
+            width: 450
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    9_16_725w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '9:16'
+        -
+          type: 'image_scale'
+          data:
+            width: 725
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    9_16_1021w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '9:16'
+        -
+          type: 'image_scale'
+          data:
+            width: 1021
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    9_16_1228w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '9:16'
+        -
+          type: 'image_scale'
+          data:
+            width: 1228
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    9_16_1400w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '9:16'
+        -
+          type: 'image_scale'
+          data:
+            width: 1400
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    9_16_1600w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '9:16'
+        -
+          type: 'image_scale'
+          data:
+            width: 1600
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    9_16_1920w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '9:16'
+        -
+          type: 'image_scale'
+          data:
+            width: 1920
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    1_1_320w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '1:1'
+        -
+          type: 'image_scale'
+          data:
+            width: 320
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    1_1_450w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '1:1'
+        -
+          type: 'image_scale'
+          data:
+            width: 450
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    1_1_725w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '1:1'
+        -
+          type: 'image_scale'
+          data:
+            width: 725
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    1_1_1021w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '1:1'
+        -
+          type: 'image_scale'
+          data:
+            width: 1021
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    1_1_1228w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '1:1'
+        -
+          type: 'image_scale'
+          data:
+            width: 1228
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    1_1_1400w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '1:1'
+        -
+          type: 'image_scale'
+          data:
+            width: 1400
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    1_1_1600w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '1:1'
+        -
+          type: 'image_scale'
+          data:
+            width: 1600
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'
+    1_1_1920w:
+      effects:
+        -
+          type: 'focal_point_crop_ratio'
+          data:
+            crop_type: null
+            aspect_ratio: '1:1'
+        -
+          type: 'image_scale'
+          data:
+            width: 1920
+            height: null
+            upscale: false
+        -
+          type: 'image_convert'
+          data:
+            extension: 'webp'

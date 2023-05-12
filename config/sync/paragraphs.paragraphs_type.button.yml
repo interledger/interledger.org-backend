@@ -1,0 +1,16 @@
+uuid: 5a64f3a5-9b20-4e23-9dcd-ad6e8f7bf375
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: button
+label: Button
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

@@ -1,0 +1,68 @@
+parameters:
+  graphql_compose.config:
+    # Development mode:
+    #
+    # Not in use yet.
+    #
+    # @default false
+    development: false
+
+services:
+  graphql_compose.english_inflector:
+    class: Symfony\Component\String\Inflector\EnglishInflector
+
+  graphql_compose.language_inflector:
+    class: Drupal\graphql_compose\LanguageInflector
+    arguments:
+      - "@module_handler"
+      - "@graphql_compose.english_inflector"
+
+  # Cache bin for graphql_compose plugin definitions.
+  cache.graphql_compose.definitions:
+    class: Drupal\Core\Cache\CacheBackendInterface
+    tags:
+      - { name: cache.bin }
+    factory: cache_factory:get
+    arguments: [graphql_compose_definitions]
+
+  # Plugin manager for schema
+  graphql_compose.schema_type_manager:
+    class: Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager
+    arguments:
+      - "Plugin/GraphQLCompose/SchemaType"
+      - "@container.namespaces"
+      - "@module_handler"
+      - '\Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeSchemaTypeInterface'
+      - '\Drupal\graphql_compose\Annotation\GraphQLComposeSchemaType'
+      - "@cache.graphql_compose.definitions"
+      - "@graphql_compose.entity_type_manager"
+      - "%graphql_compose.config%"
+
+  # Plugin manager for entity types
+  graphql_compose.entity_type_manager:
+    class: Drupal\graphql_compose\Plugin\GraphQLComposeEntityTypeManager
+    arguments:
+      - "Plugin/GraphQLCompose/EntityType"
+      - "@container.namespaces"
+      - "@module_handler"
+      - '\Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeInterface'
+      - '\Drupal\graphql_compose\Annotation\GraphQLComposeEntityType'
+      - "@entity_type.manager"
+      - "@cache.graphql_compose.definitions"
+      - "%graphql_compose.config%"
+
+  # Plugin manager for field types
+  graphql_compose.field_type_manager:
+    class: Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeManager
+    arguments:
+      - "Plugin/GraphQLCompose/FieldType"
+      - "@container.namespaces"
+      - "@module_handler"
+      - '\Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeInterface'
+      - '\Drupal\graphql_compose\Annotation\GraphQLComposeFieldType'
+      - "@cache.graphql_compose.definitions"
+      - "@entity_type.manager"
+      - "@entity_field.manager"
+      - "@config.factory"
+      - "@graphql_compose.entity_type_manager"
+      - "%graphql_compose.config%"

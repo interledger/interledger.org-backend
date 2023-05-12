@@ -6,6 +6,8 @@
 # Node artifact files
 node_modules/
 dist/
+/keys/
+/vendor/
 
 # Compiled Java class files
 *.class
@@ -48,3 +50,27 @@ Thumbs.db
 *.mov
 *.wmv
 
+# Vagrant files.
+.vagrant/
+vagrant_ansible_inventory_default
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+composer.phar
+/vendor/
+web/files
+web/sites/*/files
+web/sites/*/private
+web/sites/*/settings.local.php
+/log/
+
+node_modules
+.DS_Store

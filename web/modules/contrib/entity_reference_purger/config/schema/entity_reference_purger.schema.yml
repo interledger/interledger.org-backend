@@ -1,0 +1,10 @@
+field.field.*.*.*.third_party.entity_reference_purger:
+  type: mapping
+  label: 'Entity Reference Purger'
+  mapping:
+    remove_orphaned:
+      type: boolean
+      label: 'Remove orphaned entity references'
+    use_queue:
+      type: boolean
+      label: 'Use queue'

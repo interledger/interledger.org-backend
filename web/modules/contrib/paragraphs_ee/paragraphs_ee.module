@@ -1,0 +1,443 @@
+<?php
+
+/**
+ * @file
+ * Main functions for "Paragraphs Editor Enhancements" module.
+ */
+
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Field\WidgetInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Template\Attribute;
+use Drupal\Core\Url;
+use Drupal\paragraphs\ParagraphsTypeInterface;
+use Drupal\paragraphs\Entity\ParagraphsType;
+use Drupal\paragraphs\Plugin\Field\FieldWidget\ParagraphsWidget;
+use Drupal\paragraphs_ee\Entity\ParagraphsCategory;
+
+/**
+ * Implements hook_theme().
+ */
+function paragraphs_ee_theme() {
+  return [
+    'paragraphs_add_dialog__categorized' => [
+      'render element' => 'element',
+      'template' => 'paragraphs-add-dialog--categorized',
+    ],
+    'input__submit__paragraph_action__image' => [
+      'base hook' => 'input',
+      'render element' => 'element',
+      'template' => 'input--submit--paragraph_action--image',
+      'path' => \Drupal::service('extension.list.module')->getPath('paragraphs_ee') . '/templates',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_paragraphs_ee_widget_access().
+ */
+function paragraphs_ee_paragraphs_ee_widget_access(array $elements, FormStateInterface $form_state, array $context) {
+  /** @var \Drupal\paragraphs\Plugin\Field\FieldWidget\ParagraphsWidget $widget */
+  $widget = $context['widget'];
+
+  if (!($widget instanceof ParagraphsWidget) || ('modal' !== $widget->getSetting('add_mode'))) {
+    return AccessResult::forbidden();
+  }
+
+  if (empty($elements['add_more']['#theme']) || ('paragraphs_add_dialog' !== $elements['add_more']['#theme'])) {
+    return AccessResult::neutral('Do not override default theme implementation for "add-more" element.');
+  }
+  return AccessResult::allowed();
+}
+
+/**
+ * Implements hook_field_widget_single_element_form_alter().
+ */
+function paragraphs_ee_field_widget_single_element_form_alter(&$element, FormStateInterface &$form_state, $context) {
+  if (!($context['widget'] instanceof ParagraphsWidget)) {
+    return;
+  }
+
+  // Add custom library.
+  $element['#attached']['library'][] = 'paragraphs_ee/paragraphs_ee.paragraphs';
+  if (empty($element['#attached']['drupalSettings']['paragraphs_features'])) {
+    // If the widget is not configured to use one of the features provided by
+    // the module, this would not exist and cause an error.
+    $element['#attached']['drupalSettings']['paragraphs_features'] = [];
+  }
+}
+
+/**
+ * Implements hook_field_widget_complete_form_alter().
+ */
+function paragraphs_ee_field_widget_complete_form_alter(array &$field_widget_complete_form, FormStateInterface $form_state, array $context) {
+  /** @var \Drupal\paragraphs\Plugin\Field\FieldWidget\ParagraphsWidget $widget */
+  $widget = $context['widget'];
+  if (!($widget instanceof ParagraphsWidget && !empty($field_widget_complete_form['widget']))) {
+    return;
+  }
+
+  $elements = &$field_widget_complete_form['widget'];
+  // Check if modifications to widget are allowed.
+  $hook_arguments = [$elements, $form_state, $context];
+  $access_results = \Drupal::moduleHandler()->invokeAll('paragraphs_ee_widget_access', $hook_arguments);
+  /** @var \Drupal\Core\Access\AccessResultInterface $result */
+  $result = AccessResult::neutral();
+  if (!empty($access_results)) {
+    $result = array_shift($access_results);
+    foreach ($access_results as $access_result) {
+      $result = $result->orIf($access_result);
+    }
+  }
+  if (!$result->isAllowed()) {
+    return;
+  }
+
+  if (!isset($elements['add_more'])) {
+    return;
+  }
+
+  /** @var \Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList $items */
+  $items = $context['items'];
+
+  // Add custom library.
+  $elements['#attached']['library'][] = 'paragraphs_ee/paragraphs_ee.paragraphs';
+
+  $field_definition_settings = $items->getFieldDefinition()->getSetting('handler_settings');
+
+  // Load all available paragraph types.
+  $types_available = ParagraphsType::loadMultiple(array_column($elements['add_more'], '#bundle_machine_name'));
+
+  $buttons_ref = [];
+  /** @var \Drupal\paragraphs\Entity\ParagraphsType $type */
+  foreach ($types_available as $id => $type) {
+    $button_id = "add_more_button_{$id}";
+    $button = $elements['add_more'][$button_id];
+
+    // Use custom button layout (and rewrite <input> to <button>).
+    $button['#theme_wrappers'] = ['input__submit__paragraph_action__image'];
+    $button['#attributes']['class'][] = 'paragraphs-button--add-more';
+
+    $button['#description'] = $type->getDescription();
+
+    $button['#icon_attributes'] = new Attribute();
+    $button['#icon_attributes']['aria-hidden'] = 'true';
+    $button['#icon_attributes']['class'] = ['paragraphs-button--icon'];
+    if ($icon_url = $type->getIconUrl()) {
+      // Extract icon from button.
+      $button['#attributes']['class'][] = 'icon';
+      unset($button['#attributes']['style']);
+      $button['#icon'] = $icon_url;
+    }
+    else {
+      $button['#icon_attributes']['class'][] = 'image-default';
+    }
+    $button['#weight'] = 0;
+    if (isset($field_definition_settings['target_bundles_drag_drop'][$id]['weight'])) {
+      $button['#weight'] = $field_definition_settings['target_bundles_drag_drop'][$id]['weight'];
+    }
+    $elements['add_more'][$button_id] = $button;
+
+    $settings = array_filter($type->getThirdPartySetting('paragraphs_ee', 'paragraphs_categories', []));
+    if (empty($settings)) {
+      // Store category for later use.
+      $elements['add_more'][$button_id]['#paragraphs_category'] = '_none';
+      // Paragraph type is uncategorized so we do not need to process it here.
+      continue;
+    }
+    // We need to call this first because the value is changed on second run
+    // only.
+    Html::getUniqueId($button_id);
+    foreach ($settings as $paragraphs_category) {
+      $buttons_ref[$button_id] = empty($buttons_ref[$button_id]) ? 1 : ($buttons_ref[$button_id] + 1);
+      if (empty($elements['add_more'][$button_id]['#paragraphs_category'])) {
+        // Store category for later use.
+        $elements['add_more'][$button_id]['#paragraphs_category'] = $paragraphs_category;
+        continue;
+      }
+
+      // Clone button and change some attributes so AJAX is working.
+      $button['#id'] = Html::getUniqueId($button['#id']);
+      $button_new_id = strtr(Html::getUniqueId($button_id), ['-' => '_']);
+      $button['#name'] .= '__' . $buttons_ref[$button_id];
+      // Add clone of button to add_more-element.
+      $elements['add_more'][$button_new_id] = $button;
+      // Store category for later use.
+      $elements['add_more'][$button_new_id]['#paragraphs_category'] = $paragraphs_category;
+    }
+  }
+
+  uasort($elements['add_more'], 'Drupal\Component\Utility\SortArray::sortByWeightProperty');
+
+  $widget_third_party_settings = $widget->getThirdPartySetting('paragraphs_ee', 'paragraphs_ee');
+
+  $easy_access_buttons = [];
+  $easy_access_count = $widget->getThirdPartySetting('paragraphs_features', 'add_in_between_link_count', 3);
+  // Mark the first unique buttons for easy access.
+  foreach (Element::children($elements['add_more']) as $child_key) {
+    if (empty($elements['add_more'][$child_key]['#bundle_machine_name'])) {
+      continue;
+    }
+    $bundle_machine_name = $elements['add_more'][$child_key]['#bundle_machine_name'];
+    if (count($easy_access_buttons) >= $easy_access_count) {
+      // No need to process more elements as we reached the limit already.
+      break;
+    }
+    if (isset($easy_access_buttons[$bundle_machine_name])) {
+      // Button is already in list and is not added again.
+      continue;
+    }
+    $easy_access_buttons[$bundle_machine_name] = $elements['add_more'][$child_key]['#weight'];
+    $elements['add_more'][$child_key]['#easy_access'] = TRUE;
+    $elements['add_more'][$child_key]['#attributes']['data-easy-access-weight'] = $elements['add_more'][$child_key]['#weight'];
+    $elements['add_more'][$child_key]['#attributes']['data-paragraph-bundle'] = $bundle_machine_name;
+  }
+
+  $elements['#attached']['drupalSettings']['paragraphs_ee']['dialog_style'] = 'tiles';
+  // Use different theme for modal dialog.
+  $elements['add_more']['#theme'] = 'paragraphs_add_dialog__categorized';
+  $elements['add_more']['#wrapper_attributes'] = new Attribute();
+  $elements['add_more']['#wrapper_attributes']['class'] = [
+    'paragraphs-ee-dialog-wrapper',
+    'js-hide',
+  ];
+  $elements['add_more']['#dialog_attributes'] = new Attribute();
+  $elements['add_more']['#dialog_attributes']['class'] = [
+    'paragraphs-add-dialog',
+    'paragraphs-add-dialog--categorized',
+  ];
+
+  if (!empty($widget_third_party_settings['dialog_style']) && ('tiles' !== $widget_third_party_settings['dialog_style'])) {
+    $elements['add_more']['#wrapper_attributes']['class'][] = 'paragraphs-style-' . $widget_third_party_settings['dialog_style'];
+    $elements['#attached']['drupalSettings']['paragraphs_ee']['dialog_style'] = $widget_third_party_settings['dialog_style'];
+    $elements['add_more']['#dialog_attributes']['class'][] = 'paragraphs-style-' . $widget_third_party_settings['dialog_style'];
+  }
+
+  $elements['add_more']['#dialog_attributes']['role'] = 'dialog';
+  $elements['add_more']['#dialog_attributes']['aria-modal'] = 'true';
+  $elements['add_more']['#dialog_attributes']['aria-label'] = t('Add @widget_title', ['@widget_title' => $widget->getSetting('title')], ['context' => 'Paragraphs Editor Enhancements']);
+  $elements['add_more']['#dialog_attributes']['data-widget-title'] = $widget->getSetting('title');
+  $elements['add_more']['#dialog_attributes']['data-widget-title-plural'] = $widget->getSetting('title_plural');
+  $elements['add_more']['#dialog_attributes']['data-paragraphs-ee-dialog-wrapper'] = '';
+  $elements['add_more']['#attached']['library'][] = 'paragraphs_ee/paragraphs_ee.categories';
+
+  if (!empty($widget_third_party_settings['dialog_off_canvas'])) {
+    /** @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface $form_display */
+    $form_display = $form_state->get('form_display');
+    $elements['add_more']['#dialog_attributes']['data-dialog-off-canvas'] = 'true';
+    $elements['add_more']['#dialog_attributes']['data-dialog-field-name'] = $items->getFieldDefinition()->getName();
+    $browser_params = [
+      'entity_type' => $form_display->getTargetEntityTypeId(),
+      'bundle' => $form_display->getTargetBundle(),
+      'form_mode' => $form_display->getMode(),
+      'field_name' => $items->getFieldDefinition()->getName(),
+    ];
+    $elements['add_more']['#dialog_attributes']['data-dialog-browser-url'] = Url::fromRoute('paragraphs_ee.paragraphs_browser', $browser_params)->toString();
+
+    $elements['#dialog_attributes']['data-paragraphs-ee'] = '';
+  }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function paragraphs_ee_form_paragraphs_type_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  /** @var Drupal\paragraphs\ParagraphsTypeInterface $paragraph */
+  $paragraph = $form_state->getFormObject()->getEntity();
+
+  /** @var \Drupal\paragraphs_ee\ParagraphsCategoryInterface[] $categories */
+  $categories = \Drupal::entityTypeManager()->getStorage('paragraphs_category')
+    ->loadMultiple();
+  // Sort the entities using the entity class's sort() method.
+  // See \Drupal\Core\Config\Entity\ConfigEntityBase::sort().
+  uasort($categories, [ParagraphsCategory::class, 'sort']);
+
+  $form['paragraphs_categories'] = [
+    '#type' => 'checkboxes',
+    '#options' => array_combine(array_column($categories, 'id'), array_column($categories, 'label')),
+    '#title' => t('Paragraphs categories'),
+    '#description' => t('Select all categories the paragraph applies to.'),
+    '#default_value' => $paragraph->getThirdPartySetting('paragraphs_ee', 'paragraphs_categories', []),
+  ];
+
+  $form['#entity_builders'][] = 'paragraphs_ee_form_paragraphs_type_form_builder';
+}
+
+/**
+ * Entity builder for the menu configuration entity.
+ */
+function paragraphs_ee_form_paragraphs_type_form_builder($entity_type, ParagraphsTypeInterface $paragraph, &$form, FormStateInterface $form_state) {
+  if ($form_state->getValue('paragraphs_categories')) {
+    $paragraph->setThirdPartySetting('paragraphs_ee', 'paragraphs_categories', array_filter($form_state->getValue('paragraphs_categories')));
+    return;
+  }
+
+  // Remove setting.
+  $paragraph->unsetThirdPartySetting('paragraphs_ee', 'paragraphs_categories');
+}
+
+/**
+ * Prepare variables used in paragraphs-add-dialog--categorized.html.twig.
+ */
+function template_preprocess_paragraphs_add_dialog__categorized(&$variables) {
+  // Define variables for the template.
+  $variables += ['buttons' => []];
+  $variables['add_mode'] = isset($variables['element']['#add_mode']) ? $variables['element']['#add_mode'] : 'modal';
+  $variables['add'] = [];
+  if (isset($variables['element']['add_modal_form_area'])) {
+    $variables['add']['add_modal_form_area'] = $variables['element']['add_modal_form_area'];
+  }
+  if (isset($variables['element']['add_more_delta'])) {
+    $variables['add']['add_more_delta'] = $variables['element']['add_more_delta'];
+  }
+  /** @var \Drupal\paragraphs_ee\ParagraphsCategoryInterface[] $categories */
+  $paragraphs_categories = \Drupal::entityTypeManager()->getStorage('paragraphs_category')
+    ->loadMultiple();
+  // Sort the entities using the entity class's sort() method.
+  // See \Drupal\Core\Config\Entity\ConfigEntityBase::sort().
+  uasort($paragraphs_categories, [ParagraphsCategory::class, 'sort']);
+
+  $category_names = array_keys($paragraphs_categories);
+  $grouped = array_combine($category_names, array_fill(0, count($category_names), []));
+  foreach ($paragraphs_categories as $key => $category) {
+    $conditional_id = isset($variables['element']['#id']) ? $variables['element']['#id'] . '-category-' . $key : 'category-' . $key;
+    $variables['categories'][$key] = [
+      'title' => $category->label(),
+      'description' => $category->getDescription(),
+      'id' => Html::getUniqueId($conditional_id),
+    ];
+  }
+  $variables['categories']['_none'] = [
+    'title' => t('Uncategorized'),
+    'description' => '',
+  ];
+  // Add category for uncategorized items.
+  $grouped['_none'] = [];
+  foreach (Element::children($variables['element']) as $element_key) {
+    if (empty($variables['element'][$element_key]['#paragraphs_category'])) {
+      continue;
+    }
+    // Add button to category.
+    $grouped[$variables['element'][$element_key]['#paragraphs_category']][] = $variables['element'][$element_key];
+  }
+  $variables['wrapper_attributes'] = $variables['element']['#wrapper_attributes'];
+  $variables['dialog_attributes'] = $variables['element']['#dialog_attributes'];
+  $variables['groups'] = array_filter($grouped);
+
+  $placeholder_value = 'Paragraphs';
+  if (isset($variables['element']['#dialog_attributes']['data-widget-title-plural'])) {
+    $placeholder_value = $variables['element']['#dialog_attributes']['data-widget-title-plural'];
+  }
+  $variables['filter_placeholder'] = t('Find @placeholder_value', ['@placeholder_value' => $placeholder_value], ['context' => 'Paragraphs Editor Enhancements']);
+}
+
+/**
+ * Prepare variables used in input--submit--paragraph_action--image.html.twig.
+ */
+function paragraphs_ee_preprocess_input__submit__paragraph_action__image(&$vars) {
+  $element = $vars['element'];
+
+  // Add title and description as custom element.
+  $vars['title'] = $element['#value'];
+  $vars['description'] = $element['#description'];
+  $vars['description_id'] = empty($vars['attributes']['aria-describedby']) ? NULL : $vars['attributes']['aria-describedby'];
+
+  $icon_attributes = $element['#icon_attributes'];
+  if (!empty($element['#icon'])) {
+    $icon_attributes['style'] = 'background-image: url("' . $element['#icon'] . '");';
+  }
+  $vars['icon_attributes'] = $icon_attributes;
+}
+
+/**
+ * Implements hook_field_widget_settings_summary_alter().
+ */
+function paragraphs_ee_field_widget_settings_summary_alter(&$summary, $context) {
+  if (!($context['widget'] instanceof ParagraphsWidget)) {
+    return;
+  }
+
+  if ($context['widget']->getSetting('add_mode') !== 'modal') {
+    return;
+  }
+
+  $settings = $context['widget']->getThirdPartySettings('paragraphs_ee');
+  if (!empty($settings['paragraphs_ee']['dialog_off_canvas'])) {
+    $summary[] = t('Use off-canvas dialog');
+  }
+
+  $styles = [
+    'tiles' => t('Tiles', [], ['context' => 'Paragraphs Editor Enhancements']),
+    'list' => t('List', [], ['context' => 'Paragraphs Editor Enhancements']),
+  ];
+  if (!empty($settings['paragraphs_ee']['dialog_style']) && isset($styles[$settings['paragraphs_ee']['dialog_style']])) {
+    $summary[] = t('Display paragraphs in dialog as: %style', ['%style' => $styles[$settings['paragraphs_ee']['dialog_style']]], ['context' => 'Paragraphs Editor Enhancements']);
+  }
+
+  $easy_access_count = $context['widget']->getThirdPartySetting('paragraphs_features', 'add_in_between_link_count', 3);
+  $summary[] = t('Number of add in between links: @count', ['@count' => $easy_access_count], ['context' => 'Paragraphs Editor Enhancements']);
+}
+
+/**
+ * Implements hook_field_widget_third_party_settings_form().
+ */
+function paragraphs_ee_field_widget_third_party_settings_form(WidgetInterface $plugin, FieldDefinitionInterface $field_definition, $form_mode, $form, FormStateInterface $form_state) {
+  $elements = [];
+
+  if (!($plugin instanceof ParagraphsWidget)) {
+    return $elements;
+  }
+
+  $settings_defaults = [
+    'dialog_off_canvas' => FALSE,
+    'dialog_style' => 'tiles',
+  ];
+  $settings = $plugin->getThirdPartySetting('paragraphs_ee', 'paragraphs_ee', $settings_defaults);
+  // Define rule for enabling/disabling options that depend on modal add mode.
+  $modal_related_options_rule = [
+    ':input[name="fields[' . $field_definition->getName() . '][settings_edit_form][settings][add_mode]"]' => [
+      'value' => 'modal',
+    ],
+  ];
+
+  $elements['paragraphs_ee'] = [
+    '#type' => 'fieldgroup',
+    '#title' => t('Paragraphs Editor Enhancements'),
+    '#attributes' => [
+      'class' => [
+        'fieldgroup',
+        'form-composite',
+      ],
+    ],
+    '#weight' => 20,
+  ];
+  $elements['paragraphs_ee']['dialog_off_canvas'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Use off-canvas instead of modal dialog'),
+    '#default_value' => $settings['dialog_off_canvas'] ?? FALSE,
+    '#attributes' => ['class' => ['paragraphs-ee__dialog-off-canvas__option']],
+    '#states' => [
+      'enabled' => $modal_related_options_rule,
+      'visible' => $modal_related_options_rule,
+    ],
+  ];
+  $elements['paragraphs_ee']['dialog_style'] = [
+    '#type' => 'select',
+    '#title' => t('Display Paragraphs in dialog as'),
+    '#default_value' => $settings['dialog_style'] ?? 'tiles',
+    '#attributes' => ['class' => ['paragraphs-ee__dialog-style__option']],
+    '#options' => [
+      'tiles' => t('Tiles', [], ['context' => 'Paragraphs Editor Enhancements']),
+      'list' => t('List', [], ['context' => 'Paragraphs Editor Enhancements']),
+    ],
+    '#states' => [
+      'enabled' => $modal_related_options_rule,
+      'visible' => $modal_related_options_rule,
+    ],
+  ];
+
+  return $elements;
+}

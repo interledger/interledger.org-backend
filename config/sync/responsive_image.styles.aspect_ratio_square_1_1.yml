@@ -1,0 +1,33 @@
+uuid: dbe0dc0d-c4dd-4a92-902f-5364ea1be68f
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.aspect_ratio_1_1_1021w
+    - image.style.aspect_ratio_1_1_1228w
+    - image.style.aspect_ratio_1_1_1400w
+    - image.style.aspect_ratio_1_1_1600w
+    - image.style.aspect_ratio_1_1_1920w
+    - image.style.aspect_ratio_1_1_320w
+    - image.style.aspect_ratio_1_1_450w
+    - image.style.aspect_ratio_1_1_725w
+id: aspect_ratio_square_1_1
+label: 'Aspect Ratio Square (1:1)'
+image_style_mappings:
+  -
+    image_mapping_type: sizes
+    image_mapping:
+      sizes: 100vw
+      sizes_image_styles:
+        - aspect_ratio_1_1_1021w
+        - aspect_ratio_1_1_1228w
+        - aspect_ratio_1_1_1400w
+        - aspect_ratio_1_1_1600w
+        - aspect_ratio_1_1_1920w
+        - aspect_ratio_1_1_320w
+        - aspect_ratio_1_1_450w
+        - aspect_ratio_1_1_725w
+    breakpoint_id: responsive_image.viewport_sizing
+    multiplier: 1x
+breakpoint_group: responsive_image
+fallback_image_style: aspect_ratio_1_1_1228w

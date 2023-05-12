@@ -1,0 +1,28 @@
+{
+  "name": "drupal/image_styles_builder",
+  "description": "This module provides an image-styles builder abstraction toolkit.",
+  "type": "drupal-module",
+  "homepage": "https://www.drupal.org/project/image_styles_builder",
+  "authors": [
+    {
+      "name": "Antistatique",
+      "email": "info@antistatique.net",
+      "homepage": "https://www.antistatique.net",
+      "role": "Sponsor"
+    },
+    {
+      "name": "Kevin Wenger",
+      "email": "wenger.kev@gmail.com",
+      "homepage": "https://www.drupal.org/u/wengerk",
+      "role": "Author & Maintainer"
+    }
+  ],
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/image_styles_builder"
+  },
+  "license": "GPL-2.0-or-later",
+  "require-dev": {
+    "drupal/coder": "^8.3.1",
+    "mglaman/drupal-check": "^1.2"
+  }
+}

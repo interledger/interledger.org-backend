@@ -1,0 +1,12 @@
+name: Image Styles Builder
+description: 'This module provides an image-styles builder abstraction toolkit.'
+package: 'Development'
+type: module
+core_version_requirement: ^9.3 || ^10
+dependencies:
+  - drupal:image
+
+# Information added by Drupal.org packaging script on 2023-01-27
+version: '1.1.0'
+project: 'image_styles_builder'
+datestamp: 1674810072

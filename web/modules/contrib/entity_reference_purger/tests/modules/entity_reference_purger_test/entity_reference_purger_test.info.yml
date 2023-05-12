@@ -1,0 +1,11 @@
+name: 'Entity Reference Purger Test'
+description: 'Support module for testing Entity Reference Purger.'
+type: module
+core_version_requirement: ^8.8.0 || ^9
+package: Testing
+hidden: true
+
+# Information added by Drupal.org packaging script on 2022-11-03
+version: '1.0.0-beta3'
+project: 'entity_reference_purger'
+datestamp: 1667496222

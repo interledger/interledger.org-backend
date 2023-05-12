@@ -1,0 +1,26 @@
+{#
+/**
+ * @file
+ * Theme implementation for an 'input' #type form element with image.
+ *
+ * Available variables:
+ * - attributes: A list of HTML attributes for the input element.
+ * - children: Optional additional rendered elements.
+ *
+ * @see template_preprocess_input()
+ *
+ * @ingroup themeable
+ */
+#}
+<button {{ attributes }}>
+  {% if icon_attributes %}
+    <div {{ icon_attributes }}></div>
+  {% endif %}
+  {% if title %}
+    <div class="paragraphs-label" title="{{- title -}}">{{- title -}}</div>
+  {% endif %}
+  {% if description %}
+    <div class="paragraphs-description"{% if description_id %} id="{{ description_id }}"{% endif %}>{{- description -}}</div>
+  {% endif %}
+  {{ children }}
+</button>

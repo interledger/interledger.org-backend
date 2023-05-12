@@ -1,0 +1,4 @@
+cloudfront_cache_path_invalidate_permission:
+  title: 'Automatic Cloudfront Cache'
+  description: 'Allows the ability to change settings'
+  restrict access: true

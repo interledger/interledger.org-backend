@@ -1,0 +1,41 @@
+paragraphs_ee.paragraphs_category.*:
+  type: config_entity
+  label: 'Paragraphs category config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    description:
+      type: text
+      label: 'Description'
+    weight:
+      type: integer
+      label: 'Weight'
+
+paragraphs.paragraphs_type.*.third_party.paragraphs_ee:
+  type: mapping
+  label: 'Paragraphs categories'
+  mapping:
+    paragraphs_categories:
+      type: sequence
+      label: 'Paragraphs categories'
+      sequence:
+        type: string
+
+field.widget.third_party.paragraphs_ee:
+  type: mapping
+  label: 'Paragraphs ee widget settings'
+  mapping:
+    paragraphs_ee:
+      type: mapping
+      label: 'Paragraphs ee widget settings'
+      mapping:
+        dialog_off_canvas:
+          type: boolean
+          label: 'Use off-canvas instead of modal dialog'
+        dialog_style:
+          type: string
+          label: 'Display Paragraphs in dialog as'

@@ -1,0 +1,12 @@
+@mixin transition($property, $duration:"500ms", $timing-function:"ease-in-out") {
+  -webkit-transition: $property unquote($duration) unquote($timing-function);
+  -moz-transition: $property unquote($duration) unquote($timing-function);
+  -ms-transition: $property unquote($duration) unquote($timing-function);
+  -o-transition: $property unquote($duration) unquote($timing-function);
+  transition: $property unquote($duration) unquote($timing-function);
+}
+
+@mixin mask-image($image) {
+  -webkit-mask-image: url($image);
+  mask-image: url($image);
+}

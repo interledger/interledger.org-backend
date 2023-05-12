@@ -1,0 +1,22 @@
+uuid: 2bce8678-6710-43ac-a863-1cf26334bf45
+langcode: en
+status: true
+dependencies:
+  module:
+    - contact
+    - media
+    - search
+    - shortcut
+    - system
+_core:
+  default_config_hash: I44QAB4es39lNzMQWiJLq2dfjX7VRSOzT_5KzAcUq_M
+id: authenticated
+label: 'Authenticated user'
+weight: 1
+is_admin: false
+permissions:
+  - 'access content'
+  - 'access shortcuts'
+  - 'access site-wide contact form'
+  - 'search content'
+  - 'view media'

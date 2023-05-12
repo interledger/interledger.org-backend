@@ -1,0 +1,16 @@
+name: Next.js
+description: Next.js + Drupal for Incremental Static Regeneration and Preview mode.
+type: module
+core_version_requirement: ^9 || ^10
+package: Web services
+configure: entity.next_site.collection
+dependencies:
+  - decoupled_router:decoupled_router
+  - simple_oauth:simple_oauth
+  - subrequests:subrequests
+  - pathauto:pathauto
+
+# Information added by Drupal.org packaging script on 2023-04-20
+version: '1.6.3'
+project: 'next'
+datestamp: 1681968863

@@ -1,0 +1,40 @@
+{#
+/**
+ * @file
+ * Theme override of modal add paragraph dialog template.
+ *
+ * @ingroup themeable
+ */
+#}
+{{ add }}
+<div {{ wrapper_attributes }}>
+  <div class="dialog-header clearfix">
+    <div class="filter js-hide" role="search">
+      <input type="search" class="item-filter text-full form-text" placeholder="{{ filter_placeholder }}" aria-label="{{ filter_placeholder }}" />
+      <div class="search-description">
+        <label title="{{ "Include description when searching"|t }}"><input type="checkbox" name="search_description" value="1" aria-label="{{ "Include description when searching"|t }}" />{{ "Include description when searching"|t }}</label>
+      </div>
+    </div>
+    <button type="button" class="display-toggle style-list" title="{{ "Display Paragraphs as list"|t }}">list</button>
+    <button type="button" class="display-toggle style-tiles" title="{{ "Display Paragraphs as tiles"|t }}">tiles</button>
+  </div>
+  <div {{ dialog_attributes }}>
+    {% if (add_mode|default('modal') != 'off_canvas') %}
+      {% for category_id, group in groups %}
+        <div class="button-group clearfix" role="group"{% if categories[category_id].id %} aria-labelledby="{{ categories[category_id].id }}--label" aria-describedby="{{- categories[category_id].id -}}--description"{% endif %}>
+          <div{% if categories[category_id].id %} id="{{- categories[category_id].id -}}--label"{% endif %} class="category-title">{{ categories[category_id].title }}</div>
+          {% if categories[category_id].description|length %}
+            <summary{% if categories[category_id].id %} id="{{- categories[category_id].id -}}--description"{% endif %} class="summary">{{ categories[category_id].description }}</summary>
+          {% endif %}
+          <ul class="paragraphs-add-dialog-list">
+            {% for button in group %}
+              <li class="paragraphs-add-dialog-row">
+                {{ button }}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>

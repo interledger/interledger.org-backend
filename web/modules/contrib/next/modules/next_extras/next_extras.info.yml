@@ -1,0 +1,12 @@
+name: Next.js Extras (Experimental)
+description: Adds extra (mostly experiemental) functionality to Next.js module
+type: module
+core_version_requirement: ^9 || ^10
+package: Web services
+dependencies:
+  - next:next
+
+# Information added by Drupal.org packaging script on 2023-04-20
+version: '1.6.3'
+project: 'next'
+datestamp: 1681968863

@@ -1,0 +1,4 @@
+graphql_compose_fragments.fragments:
+  route_name: graphql_compose_fragments.fragments
+  base_route: entity.graphql_server.edit_form
+  title: Fragments

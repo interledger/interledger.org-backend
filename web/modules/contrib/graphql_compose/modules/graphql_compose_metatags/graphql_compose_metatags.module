@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * GraphQL Compose Metatags module file.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_graphql_compose_entity_base_fields_alter().
+ */
+function graphql_compose_metatags_graphql_compose_entity_base_fields_alter(array &$fields, string $entity_type_id): void {
+  if ($entity_type_id === 'node') {
+    // Computed field definition isnt declairing multiple, force multiple.
+    $fields['metatag'] = [
+      'multiple' => TRUE,
+    ];
+  }
+}

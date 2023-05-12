@@ -1,0 +1,12 @@
+langcode: en
+status: true
+dependencies: {  }
+name: graphql_compose_server
+label: 'GraphQL Compose - Server'
+schema: graphql_compose
+schema_configuration: { }
+persisted_queries_settings: {  }
+endpoint: /graphql
+debug: 0
+caching: true
+batching: true

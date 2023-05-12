@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * @file
+ * GraphQL Compose Views module file.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_views_invalidate_cache().
+ */
+function graphql_compose_views_views_invalidate_cache():void {
+  _graphql_compose_cache_flush();
+}

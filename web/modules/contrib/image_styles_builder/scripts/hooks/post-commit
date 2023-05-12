@@ -1,0 +1,14 @@
+echo "\n🚔  \033[0;32mRunning Code Sniffer Drupal & DrupalPractice for ./web/modules/contrib/image_styles_builder/ ...\033[0m"
+docker-compose exec drupal ./vendor/bin/phpcs ./web/modules/contrib/image_styles_builder/
+
+#echo "\n💩  \033[0;32mRunning PHP Mess Detector ...\033[0m"
+#docker-compose exec drupal sh -c phpmd ./web/modules/contrib/image_styles_builder/ text ./phpmd.xml --suffixes php,module,inc,install,test,profile,theme,css,info,txt --exclude *Test.php,*vendor/*
+
+echo "\n🛂  \033[0;32mRunning PHP Copy/Paste Detector ...\033[0m"
+docker-compose exec drupal phpcpd ./web/modules/contrib/image_styles_builder/src --suffix .php --suffix .module --suffix .inc --suffix .install --suffix .test --suffix .profile --suffix .theme --suffix .css --suffix .info --suffix .txt --exclude *.md --exclude *.info.yml --exclude tests --exclude vendor/
+
+echo "\n🍫  \033[0;32mRunning PhpDeprecationDetector ...\033[0m"
+docker-compose exec drupal phpdd ./web/modules/contrib/image_styles_builder/ --file-extensions php,module,inc,install,test,profile,theme,info --exclude vendor
+
+echo "\n💦  \033[0;32mRunning Drupal-Check ...\033[0m"
+docker-compose exec drupal ./vendor/bin/drupal-check -dvvv ./web/modules/contrib/image_styles_builder/ --format=checkstyle --exclude-dir=*vendor* --no-progress

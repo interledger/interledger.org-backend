@@ -1,0 +1,26 @@
+{
+    "name": "drupal/entity_reference_purger",
+    "description": "Removes orphaned entity references when an entity is deleted.",
+    "type": "drupal-module",
+    "homepage": "https://www.drupal.org/project/entity_reference_purger",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Bojan Milanković",
+            "homepage": "https://www.drupal.org/u/bojanm",
+            "role": "Maintainer"
+        },
+        {
+            "name": "Goran Nikolovski",
+            "homepage": "https://www.drupal.org/u/gnikolovski",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/entity_reference_purger",
+        "source": "https://git.drupalcode.org/project/entity_reference_purger"
+    },
+    "require": {
+        "drupal/core": "^8.8.0 || ^9.0 || ^10"
+    }
+}

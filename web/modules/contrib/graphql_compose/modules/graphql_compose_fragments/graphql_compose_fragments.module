@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * GraphQL Compose Fragments module file.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Implements hook_theme().
+ */
+function graphql_compose_fragments_theme(array $existing, string $type, string $theme, string $path): array {
+  return [
+    'graphql_compose_fragments' => [
+      'variables' => [
+        'types' => [],
+        'extensions' => [],
+      ],
+    ],
+  ];
+}

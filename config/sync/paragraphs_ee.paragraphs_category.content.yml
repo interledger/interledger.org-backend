@@ -1,0 +1,8 @@
+uuid: e8fa1995-b2f6-414f-acea-e6126832849f
+langcode: en
+status: true
+dependencies: {  }
+id: content
+label: Content
+description: ''
+weight: -10

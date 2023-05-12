@@ -1,0 +1,12 @@
+name: "Require Login"
+description: "Easily require user authentication on all pages."
+type: module
+core_version_requirement: ^9 || ^10
+configure: require_login.settings
+dependencies:
+  - drupal:user
+
+# Information added by Drupal.org packaging script on 2022-11-28
+version: '3.0.4'
+project: 'require_login'
+datestamp: 1669657577

@@ -1,0 +1,14 @@
+uuid: a35619ba-fe3a-44c9-a6a9-fe0639bc08c5
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: vymHlgJy26BuI5GGj9-IXjwR3dRC5C0tij4BpWJnoqw
+id: feedback
+label: 'Website feedback'
+recipients:
+  - marcus@joipolloi.com
+reply: ''
+weight: 0
+message: 'Your message has been sent.'
+redirect: ''

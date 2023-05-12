@@ -1,0 +1,16 @@
+{
+    "name": "drupal/require_login",
+    "description": "Easily require user authentication on all pages.",
+    "type": "drupal-module",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Robert Phillips",
+            "email": "rob@imagexmedia.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "drupal/core": "^9 || ^10"
+    }
+}

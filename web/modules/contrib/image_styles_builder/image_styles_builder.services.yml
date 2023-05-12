@@ -1,0 +1,24 @@
+services:
+  plugin.manager.image_styles_builder.derivative:
+    class: Drupal\image_styles_builder\DerivativeManager
+    arguments: ['@module_handler', '@cache.discovery']
+
+  image_styles_builder.manager.image_style_generator:
+    class: Drupal\image_styles_builder\ImageStyleGenerator
+    arguments:
+      - '@entity_type.manager'
+      - '@plugin.manager.image.effect'
+      - '@logger.factory'
+
+  image_styles_builder.manager.image_style_flusher:
+    class: Drupal\image_styles_builder\ImageStyleFlusher
+    arguments:
+      - '@entity_type.manager'
+      - '@logger.factory'
+
+  image_styles_builder.twig_extension.image_style:
+    class: Drupal\image_styles_builder\TwigExtension\ImageStyle
+    calls:
+        - [setContainer, ['@service_container']]
+    tags:
+      - { name: twig.extension }

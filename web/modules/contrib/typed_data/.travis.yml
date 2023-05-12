@@ -1,0 +1,110 @@
+language: php
+os: linux
+dist: xenial
+
+env:
+  global:
+    # Make the script re-usable for other modules.
+    - MODULE=typed_data
+    # Initialise the real SYMFONY_DEPRECATIONS_HELPER variable.
+    - SYMFONY_DEPRECATIONS_HELPER=0
+    # Create a default for the allowed deprecations per branch.
+    - DEPRECATIONS=0
+
+jobs:
+  fast_finish: true
+  include:
+    - php: 7.3
+      env:
+        # Run tests at core 9.1 as this is the minimum supported by Typed Data.
+        - DRUPAL_CORE=9.1.x
+        # --- Remaining self deprecation notices (0)
+        # --- Remaining direct deprecation notices (0)
+        - DEPRECATIONS=0
+    - php: 7.4
+      env:
+        - DRUPAL_CORE=9.5.x
+        # --- Remaining self deprecation notices (0)
+        # --- Remaining direct deprecation notices (0)
+        - DEPRECATIONS=0
+
+services:
+  - mysql
+
+# Be sure to cache composer downloads.
+cache:
+  directories:
+    - $HOME/.composer
+
+before_script:
+  - echo $MODULE
+
+  # Remove Xdebug as we don't need it and it causes
+  # PHP Fatal error:  Maximum function nesting level of '256' reached.
+  # We also don't care if that file exists or not on PHP 7.
+  - phpenv config-rm xdebug.ini || true
+
+  # Navigate up out of $TRAVIS_BUILD_DIR to prevent blown stack on recursive module lookup.
+  - pwd
+  - cd ..
+
+  # Create database.
+  - mysql -e "create database $MODULE"
+  # Export database variable for kernel tests.
+  - export SIMPLETEST_DB=mysql://root:@127.0.0.1/$MODULE
+
+  # Download Drupal core from the Github mirror because it is faster.
+  - travis_retry git clone --branch $DRUPAL_CORE --depth 1 https://github.com/drupal/drupal.git
+  - cd drupal
+  # Store the path to Drupal root.
+  - DRUPAL_ROOT=$(pwd)
+  - echo $DRUPAL_ROOT
+
+  # Make a directory for our module and copy the built source into it.
+  - mkdir $DRUPAL_ROOT/modules/$MODULE
+  - cp -R $TRAVIS_BUILD_DIR/* $DRUPAL_ROOT/modules/$MODULE/
+
+  # Install the site dependencies via Composer.
+  # At job start-up Composer is installed at 1.8.4 then self-update is run. From
+  # 24 October 2020 this bumped the version to Composer 2.
+  - composer --version
+  - travis_retry composer install
+
+  # Coder is already installed as part of composer install. For Coder versions
+  # up to 8.3.13 (Core 9.3) we need to get this extra requirement.
+  - travis_retry composer require slevomat/coding-standard:*
+
+  # Start a web server on port 8888, run in the background.
+  - php -S localhost:8888 &
+
+  # Export web server URL for browser tests.
+  - export SIMPLETEST_BASE_URL=http://localhost:8888
+
+  # Get the allowed number of deprecation warnings.
+  - SYMFONY_DEPRECATIONS_HELPER=$DEPRECATIONS || $SYMFONY_DEPRECATIONS_HELPER
+  - echo $SYMFONY_DEPRECATIONS_HELPER
+
+script:
+  # Run the PHPUnit tests which also include the kernel tests.
+  - ./vendor/bin/phpunit -c ./core/phpunit.xml.dist ./modules/$MODULE/tests/
+
+  # Check for coding standards. First show the versions.
+  - composer config --no-plugins allow-plugins.composer/installers true
+  - composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+  - composer config --no-plugins allow-plugins.drupal/core-project-message true
+  - composer config --no-plugins allow-plugins.drupal/core-vendor-hardening true
+  - composer show drupal/coder | egrep 'name |vers'
+  - composer show squizlabs/php_codesniffer | egrep 'name |vers'
+  - $DRUPAL_ROOT/vendor/bin/phpcs --version
+  - $DRUPAL_ROOT/vendor/bin/phpcs --config-show installed_paths
+
+  # Change into $MODULE directory to avoid having to add --standard=$DRUPAL_ROOT/modules/$MODULE/phpcs.xml.dist
+  - cd $DRUPAL_ROOT/modules/$MODULE
+
+  # List the standards and the sniffs that are used.
+  - $DRUPAL_ROOT/vendor/bin/phpcs -i
+  - $DRUPAL_ROOT/vendor/bin/phpcs -e
+
+  # Show the coding standards faults in detail, and with summary and source
+  # reports. Switch -s shows the sniff names.
+  - $DRUPAL_ROOT/vendor/bin/phpcs --report-width=130 --colors -s --report-full --report-summary --report-source .

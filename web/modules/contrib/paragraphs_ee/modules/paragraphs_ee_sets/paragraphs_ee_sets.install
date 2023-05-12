@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for paragraphs_ee_sets module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function paragraphs_ee_sets_install() {
+  // Assign a weight higher than paragraphs_ee and paragraphs_sets.
+  module_set_weight('paragraphs_ee_sets', 20);
+}

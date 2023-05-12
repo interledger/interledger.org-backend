@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * @file
+ * Installation hooks for paragraphs_ee module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function paragraphs_ee_install() {
+  // Assign a weight higher than paragraphs.
+  module_set_weight('paragraphs_ee', 15);
+}
+
+/**
+ * Set module weight.
+ */
+function paragraphs_ee_update_8001() {
+  // Assign a weight higher than paragraphs.
+  module_set_weight('paragraphs_ee', 15);
+}
+
+/**
+ * Move parts of configuration to Paragraphs Features.
+ */
+function paragraphs_ee_update_8002() {
+  $storage = \Drupal::entityTypeManager()->getStorage('entity_form_display');
+  /** @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface[] $form_displays */
+  $form_displays = $storage->loadMultiple();
+  foreach ($form_displays as $form_display) {
+    $content = $form_display->get('content');
+    if (empty($content)) {
+      continue;
+    }
+    // Find all paragraph fields.
+    $paragraph_field_keys = array_keys(array_column($content, 'type'), 'paragraphs', TRUE);
+    $field_keys = array_keys($content);
+    if (empty($paragraph_field_keys)) {
+      continue;
+    }
+
+    $config_changed = FALSE;
+
+    foreach ($paragraph_field_keys as $field_key) {
+      $field_name = $field_keys[$field_key];
+      if (isset($content[$field_name]['third_party_settings']['paragraphs_features']) && isset($content[$field_name]['third_party_settings']['paragraphs_ee']['paragraphs_ee']['easy_access_count'])) {
+        // Set value for number of add-in-between links.
+        $content[$field_name]['third_party_settings']['paragraphs_features']['add_in_between_link_count'] = $content[$field_name]['third_party_settings']['paragraphs_ee']['paragraphs_ee']['easy_access_count'];
+        $config_changed = TRUE;
+      }
+    }
+
+    if ($config_changed) {
+      // Update form display settings.
+      $form_display->set('content', $content);
+      $form_display->save();
+    }
+  }
+}

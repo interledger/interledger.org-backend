@@ -1,0 +1,336 @@
+<?php
+
+/**
+ * @file
+ * Contains investindia_rest_api.module.
+ */
+
+use Drupal\Core\Site\Settings;
+use Aws\Exception\AwsException;
+use Aws\CloudFront\CloudFrontClient;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\cloudfront_cache_path_invalidate\Form\AutoCloudfrontCacheSettingForm;
+use Drupal\Core\Database\Query\Condition;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Invalidate specific URL.
+ *
+ * @param array $paths
+ *   Array with paths to invalidate.
+ *
+ * @return mixed
+ *   The value result.
+ */
+function cloudfront_cache_path_invalidate_url(array $paths) {
+
+  // Return values.
+  $return[0] = FALSE;
+  $return[1] = 'message';
+  if (NULL == Settings::get('aws.region')) {
+    $return[1] = 'aws.region settings are not available.';
+    return $return;
+  }
+  if (NULL == Settings::get('aws.distributionid')) {
+    $return[1] = 'aws.distributionid settings are not available.';
+    return $return;
+  }
+
+  $args = [
+    'version'     => 'latest',
+    'region'      => Settings::get('aws.region'),
+  ];
+
+  if (Settings::get('s3fs.access_key')) {
+    $args['credentials']['key'] = Settings::get('s3fs.access_key');
+  }
+  if (Settings::get('s3fs.secret_key')) {
+    $args['credentials']['secret'] = Settings::get('s3fs.secret_key');
+  }
+
+  // Quantity.
+  $total_paths = count($paths);
+
+  // Load AWS SDK.
+  $cloudFront = new CloudFrontClient($args);
+
+  // Invalidate URL.
+  try {
+    $cloudFront->createInvalidation([
+      'DistributionId' => Settings::get('aws.distributionid'),
+      'InvalidationBatch' => [
+        'CallerReference' => date('U') . \Drupal::currentUser()->getAccountName(),
+        'Paths' => [
+          'Items' => $paths,
+          'Quantity' => $total_paths,
+        ],
+      ],
+    ]);
+  }
+
+  catch (AwsException $e) {
+    $return[1] = $e->getMessage();
+
+    // Logs and displays an error.
+    \Drupal::logger('cloudfront_cache_path_invalidate')->error($e->getMessage());
+    \Drupal::messenger()->addError($e->getMessage());
+  }
+
+  $return[0] = TRUE;
+
+  return $return;
+}
+
+/**
+ * Implements hook_entity_insert().
+ */
+function cloudfront_cache_path_invalidate_entity_insert(EntityInterface $entity) {
+  $current_user = \Drupal::currentUser();
+
+  if (!$current_user->isAnonymous()) {
+    $bundle = $entity->getEntityTypeId();
+    $entity_type = $entity->getEntityType()->getBundleEntityType();
+    $bundle_type = $entity->bundle();
+    $entity_id = $entity->id();
+    $paths = cloudfront_cache_path_invalidate_entity_invalidate_settings($entity_type, $bundle_type, $bundle, $entity_id, $entity);
+    if (count($paths)) {
+      // Invalidate URL.
+      list($status, $message) = cloudfront_cache_path_invalidate_url($paths);
+
+      if ($status === TRUE) {
+        \Drupal::logger('cloudfront_cache_path_invalidate')->info("Cloudfront Auto Cache Flush on Insert entity_type: %entity_type bundle_type: %bundle_type bundle: %bundle entity_id: %entity_id and paths %paths",
+          [
+            '%entity_type' => $entity_type,
+            '%bundle_type' => $bundle_type,
+            '%bundle' => $bundle,
+            '%entity_id' => $entity_id,
+            '%paths' => implode(',', $paths),
+          ]
+        );
+      }
+      else {
+        \Drupal::logger('cloudfront_cache_path_invalidate')->info("Cloudfront Auto Cache Flush Error Message %message", ['%message' => $message]);
+      }
+    }
+  }
+
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function cloudfront_cache_path_invalidate_entity_update(EntityInterface $entity) {
+  $current_user = \Drupal::currentUser();
+
+  if (!$current_user->isAnonymous()) {
+    $bundle = $entity->getEntityTypeId();
+    $entity_type = $entity->getEntityType()->getBundleEntityType();
+    $bundle_type = $entity->bundle();
+    $entity_id = $entity->id();
+    $paths = cloudfront_cache_path_invalidate_entity_invalidate_settings($entity_type, $bundle_type, $bundle, $entity_id, $entity);
+    if (count($paths)) {
+      // Invalidate URL.
+      list($status, $message) = cloudfront_cache_path_invalidate_url($paths);
+
+      if ($status === TRUE) {
+        \Drupal::logger('cloudfront_cache_path_invalidate')->info("Cloudfront Auto Cache Flush on Update entity_type: %entity_type bundle_type: %bundle_type bundle: %bundle entity_id: %entity_id and paths %paths",
+          [
+            '%entity_type' => $entity_type,
+            '%bundle_type' => $bundle_type,
+            '%bundle' => $bundle,
+            '%entity_id' => $entity_id,
+            '%paths' => implode(',', $paths),
+          ]
+        );
+      }
+      else {
+        \Drupal::logger('cloudfront_cache_path_invalidate')->info("Cloudfront Auto Cache Flush Error Message %message", ['%message' => $message]);
+      }
+    }
+  }
+
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function cloudfront_cache_path_invalidate_entity_delete(EntityInterface $entity) {
+  $current_user = \Drupal::currentUser();
+
+  if (!$current_user->isAnonymous()) {
+    $bundle = $entity->getEntityTypeId();
+    $entity_type = $entity->getEntityType()->getBundleEntityType();
+    $bundle_type = $entity->bundle();
+    $entity_id = $entity->id();
+    $paths = cloudfront_cache_path_invalidate_entity_invalidate_settings($entity_type, $bundle_type, $bundle, $entity_id, $entity);
+    if (count($paths)) {
+      // Invalidate URL.
+      list($status, $message) = cloudfront_cache_path_invalidate_url($paths);
+
+      if ($status === TRUE) {
+        \Drupal::logger('cloudfront_cache_path_invalidate')->info("Cloudfront Auto Cache Flush on Delete entity_type: %entity_type bundle_type: %bundle_type bundle: %bundle entity_id: %entity_id and paths %paths",
+          [
+            '%entity_type' => $entity_type,
+            '%bundle_type' => $bundle_type,
+            '%bundle' => $bundle,
+            '%entity_id' => $entity_id,
+            '%paths' => implode(',', $paths),
+          ]
+        );
+      }
+      else {
+        \Drupal::logger('cloudfront_cache_path_invalidate')->info("Cloudfront Auto Cache Flush Error Message %message", ['%message' => $message]);
+      }
+    }
+  }
+
+}
+
+/**
+ * Cloundfront config setting.
+ *
+ * @param string $entity_type
+ *   Entity Type.
+ * @param string $bundle_type
+ *   Bundle Type.
+ * @param string $bundle
+ *   Bundle Name.
+ * @param string $entity_id
+ *   Entity Id.
+ * @param Drupal\Core\Entity\EntityInterface $entity
+ *   Entity.
+ *
+ * @return array
+ *   Paths.
+ */
+function cloudfront_cache_path_invalidate_settings($entity_type, $bundle_type, $bundle, $entity_id, EntityInterface $entity) {
+  $config = \Drupal::config(AutoCloudfrontCacheSettingForm::SETTINGS);
+  $paths = $redirect_source = [];
+
+  for ($i = 0; $i < $config->get('ecgroupcount') - 1; $i++) {
+
+    if ($config->get('ecentitytype')[$i] == $entity_type && $config->get('ecentitytypebundle')[$i] == $bundle_type) {
+      $url_value = isset($config->get('ec_cloudfront_url')[$i]) ? explode("\n", $config->get('ec_cloudfront_url')[$i]) : [];
+      // Get the Paths.
+      $paths = [];
+      foreach ($url_value as $value) {
+        if ($value) {
+          $paths[] = trim($value);
+        }
+      }
+      $detail_page = $config->get('detail_page')[$i] ? \Drupal::service('path_alias.manager')->getAliasByPath("/$bundle/" . $entity_id) : '';
+
+      if ($entity->hasLinkTemplate('canonical')) {
+        $path = 'internal:/' . $entity->toUrl('canonical')->getInternalPath();
+        $language = $entity->language()->getId();
+        $redirect_source = cloudfront_cache_path_invalidate_redirect_source_paths($path, $language);
+      }
+      if ($detail_page) {
+        array_push($paths, $detail_page);
+      }
+      $paths = array_merge($paths, $redirect_source);
+    }
+  }
+  return $paths;
+}
+
+/**
+ * Get saved redirect paths.
+ *
+ * @param string $path
+ *   Internal uri path.
+ * @param string $language
+ *   Entity Language.
+ *
+ * @return array
+ *   $redirect_source_paths
+ */
+function cloudfront_cache_path_invalidate_redirect_source_paths($path, $language) {
+  $moduleHandler = \Drupal::service('module_handler');
+  $paths = [];
+  if ($moduleHandler->moduleExists('redirect')) {
+    $path = ltrim($path, '/');
+    $database = \Drupal::database();
+    $query = $database->select('redirect');
+    $query->addField('redirect', 'redirect_source__path');
+    $query_or = new Condition('OR');
+    $query_or->condition('redirect_source__path', $database->escapeLike($path), 'LIKE');
+    $query_or->condition('redirect_source__path', $database->escapeLike($path . '/') . '%', 'LIKE');
+    $query_or->condition('redirect_redirect__uri', $database->escapeLike($path), 'LIKE');
+    $query_or->condition('redirect_redirect__uri', $database->escapeLike($path . '/') . '%', 'LIKE');
+
+    $query->condition($query_or);
+    if ($language) {
+      $query->condition('language', $language);
+    }
+
+    $query->condition($query_or);
+    foreach ($query->execute()->fetchCol() as $value) {
+      $paths[] = '/' . $value;
+    }
+    return $paths;
+  }
+  return $paths;
+
+}
+
+/**
+ * Common code to get paths.
+ *
+ * @param string $entity_type
+ *   Entity Type.
+ * @param string $bundle_type
+ *   Bundle Type.
+ * @param string $bundle
+ *   Bundle Name.
+ * @param string $entity_id
+ *   Entity Id.
+ * @param Drupal\Core\Entity\EntityInterface $entity
+ *   Entity.
+ *
+ * @return array
+ *   Cloudfront invalidate paths array.
+ */
+function cloudfront_cache_path_invalidate_entity_invalidate_settings($entity_type, $bundle_type, $bundle, $entity_id, EntityInterface $entity) {
+
+  if (empty($entity_type) && $bundle_type == 'menu_link_content') {
+    $entity_type = 'menu';
+    $bundle_type = $entity->getMenuName();
+  }
+
+  return cloudfront_cache_path_invalidate_settings($entity_type, $bundle_type, $bundle, $entity_id, $entity);
+
+}
+
+/**
+ * Implements hook_help().
+ */
+function cloudfront_cache_path_invalidate_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.cloudfront_cache_path_invalidate':
+      $filepath = dirname(__FILE__) . '/README.txt';
+      if (file_exists(dirname(__FILE__) . '/README.txt')) {
+        $readme = file_get_contents($filepath);
+      }
+
+      if (!isset($readme)) {
+        return NULL;
+      }
+      if (\Drupal::moduleHandler()->moduleExists('markdown')) {
+        $filters = module_invoke('markdown', 'filter_info');
+        $info = $filters['filter_markdown'];
+
+        if (function_exists($info['process callback'])) {
+          $output = $info['process callback']($readme, NULL);
+        }
+        else {
+          $output = '<pre>' . $readme . '</pre>';
+        }
+      }
+      else {
+        $output = '<pre>' . $readme . '</pre>';
+      }
+
+      return $output;
+  }
+}

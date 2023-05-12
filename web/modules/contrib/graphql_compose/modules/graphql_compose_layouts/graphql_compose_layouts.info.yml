@@ -1,0 +1,9 @@
+name: "GraphQL Compose: Layouts"
+description: "Enable layout discovery information."
+type: module
+core_version_requirement: ^9 || ^10
+dependencies:
+  - core:layout_discovery
+  - graphql_compose:graphql_compose
+package: GraphQL Compose
+hidden: false

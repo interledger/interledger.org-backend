@@ -1,0 +1,16 @@
+name: Decoupled Router
+type: module
+description: 'Handles the awkwardness of routing in decoupled architectures.'
+package: Web services
+core_version_requirement: ^8.8 || ^9 || ^10
+dependencies:
+  - drupal:path_alias
+test_dependencies:
+  - drupal:path
+  - drupal:jsonapi
+  - redirect:redirect
+
+# Information added by Drupal.org packaging script on 2022-11-30
+version: '2.0.4'
+project: 'decoupled_router'
+datestamp: 1669803948

@@ -1,0 +1,5 @@
+cloudfront_cache_path_invalidate.admin_cloudfront_invalidate_url:
+  title: 'Cloudfront URL Invalidate'
+  parent: system.admin_config_services
+  description: 'Cloudfront URL Invalidate'
+  route_name: cloudfront_cache_path_invalidate.admin_cloudfront_invalidate_url

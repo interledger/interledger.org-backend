@@ -1,0 +1,23 @@
+{
+    "breadcrumbs.enabled": true,
+    "css.validate": true,
+    "editor.formatOnSave": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "files.associations": {
+        "*.inc": "php",
+        "*.module": "php",
+        "*.install": "php",
+        "*.theme": "php",
+        "*.tpl.php": "php",
+        "*.test": "php",
+        "*.php": "php",
+        "*.info": "ini"
+    },
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "[php]": {
+        "editor.tabSize": 2,
+        "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
+        "editor.formatOnSave": true
+    }
+}

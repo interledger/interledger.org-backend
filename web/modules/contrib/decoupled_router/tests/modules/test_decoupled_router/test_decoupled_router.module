@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Allows to extend the functionalities of the decouple router.
+ */
+
+use Drupal\user\EntityOwnerInterface;
+
+/**
+ * Implements hook_decoupled_router_info_alter().
+ */
+function test_decoupled_router_decoupled_router_info_alter(&$output, $context) {
+  $entity = $context['entity'];
+  if (!is_subclass_of($entity, EntityOwnerInterface::class)) {
+    return;
+  }
+  $output['entity']['owner'] = $entity->getOwner()->uuid();
+}

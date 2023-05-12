@@ -1,0 +1,14 @@
+{
+  "name": "paragraphs_ee",
+  "version": "1.0.0",
+  "description": "Paragraphs Editor Enhancements for better usability.",
+  "author": "stBorchert",
+  "private": true,
+  "devDependencies": {
+    "node-sass": "^8"
+  },
+  "scripts": {
+    "compile": "node-sass --recursive --output=css --output-style=compressed scss",
+    "watch": "yarn compile --watch"
+  }
+}

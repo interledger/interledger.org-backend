@@ -1,0 +1,281 @@
+<?php
+
+/**
+ * @file
+ * GraphQL Compose module file.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Component\Utility\Xss;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Config\Entity\ConfigEntityInterface;
+use Drupal\Core\Entity\ContentEntityTypeInterface;
+use Drupal\Core\Entity\EntityFormInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\field\Entity\FieldConfig;
+
+/**
+ * Implements hook_help().
+ */
+function graphql_compose_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.graphql_compose':
+      $path = \Drupal::service('extension.list.module')->getPath('graphql_compose');
+      $output = file_get_contents($path . '/README.md');
+      return '<pre>' . Xss::filterAdmin($output) . '</pre>';
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Enable config on entity type form.
+ */
+function graphql_compose_form_alter(&$form, FormStateInterface $form_state, $form_id): void {
+
+  $entityTypeManager = \Drupal::entityTypeManager();
+  $gqlEntityTypeManager = \Drupal::service('graphql_compose.entity_type_manager');
+
+  $form_object = $form_state->getFormObject();
+  if (!$form_object instanceof EntityFormInterface) {
+    return;
+  }
+
+  $entity = $form_object->getEntity();
+  if (!$entity instanceof ConfigEntityInterface) {
+    return;
+  }
+
+  if (stristr($form_id, '_delete_') || stristr($form_id, '_confirm_')) {
+    return;
+  }
+
+  // Shortlist the enabled entity types.
+  $enabled_entities = [FieldConfig::class];
+  $entity_type_plugins = $gqlEntityTypeManager->getDefinitions();
+
+  foreach (array_keys($entity_type_plugins) as $entity_type_plugin_id) {
+    if ($type = $entityTypeManager->getDefinition($entity_type_plugin_id, FALSE)) {
+      $enabled_entities[] = $type->getClass();
+    }
+  }
+
+  // Set this form entity type.
+  $entity_type = $base_type = $entity->getEntityType();
+
+  if ($bundle_of = $entity->getEntityType()->getBundleOf()) {
+    $base_type = $entityTypeManager->getDefinition($bundle_of);
+  }
+
+  if (!in_array($base_type->getClass(), $enabled_entities)) {
+    return;
+  }
+
+  $form_state->set('entity_type', $entity_type);
+  $form_state->set('base_type', $base_type);
+
+  _graphql_compose_entity_type_settings_alter($form, $form_state);
+}
+
+/**
+ * Alter form with GraphQL settings.
+ */
+function _graphql_compose_entity_type_settings_alter(&$form, FormStateInterface $form_state): void {
+  $config = \Drupal::config('graphql_compose.settings');
+  $form_object = $form_state->getFormObject();
+
+  $entity = ($form_object instanceof EntityFormInterface)
+      ? $form_object->getEntity()
+      : NULL;
+
+  $form_state->set('entity', $entity);
+
+  $entity_type = $form_state->get('entity_type');
+  $base_type = $form_state->get('base_type');
+
+  $target = $entity ? $entity->getConfigTarget() : $entity_type->id();
+  $settings = $config->get($base_type->id() . '.' . $target) ?: [];
+
+  \Drupal::moduleHandler()->invokeAll('graphql_compose_entity_type_form_alter', [
+    &$form,
+    $form_state,
+    $settings,
+  ]);
+
+  // https://www.drupal.org/project/drupal/issues/2252165
+  // Its not so much an issue, just a work around.
+  if (isset($form['actions']['submit']['#submit'])) {
+    $form['actions']['submit']['#submit'][] = '_graphql_compose_entity_type_settings_submit';
+  }
+
+  if (isset($form['actions']['save_continue']['#submit'])) {
+    $form['actions']['save_continue']['#submit'][] = '_graphql_compose_entity_type_settings_submit';
+  }
+
+  $form['#submit'][] = '_graphql_compose_entity_type_settings_submit';
+}
+
+/**
+ * Callback on settings submit.
+ */
+function _graphql_compose_entity_type_settings_submit(&$form, FormStateInterface $form_state): void {
+  $settings = [];
+
+  \Drupal::moduleHandler()->invokeAll('graphql_compose_entity_type_form_submit_alter', [
+    $form,
+    $form_state,
+    &$settings,
+  ]);
+
+  /** @var \Drupal\Core\Entity\EntityInterface|null $entity */
+  $entity = $form_state->get('entity');
+
+  /** @var \Drupal\Core\Entity\EntityTypeInterface $entity_type */
+  $entity_type = $form_state->get('entity_type');
+
+  // Reload the entity by uuid.
+  // Helps deal with isNew items.
+  if ($entity->uuid()) {
+    $entity = \Drupal::service('entity.repository')
+      ->loadEntityByUuid($entity_type->id(), $entity->uuid());
+  }
+  $target = $entity ? $entity->getConfigTarget() : $entity_type->id();
+  if (!$target) {
+    return;
+  }
+
+  $config = \Drupal::service('config.factory')->getEditable('graphql_compose.settings');
+  $base_type = $form_state->get('base_type');
+  $cid = $base_type->id() . '.' . $target;
+
+  // Cleanup or set.
+  if (empty($settings['enabled'])) {
+    $config->clear($cid);
+  }
+  else {
+    $config->set($cid, $settings);
+  }
+
+  $config->save();
+
+  _graphql_compose_cache_flush();
+}
+
+/**
+ * Implements hook_graphql_compose_entity_type_form_alter().
+ *
+ * Modify form to add GraphQL Compose settings.
+ */
+function graphql_compose_graphql_compose_entity_type_form_alter(array &$form, FormStateInterface $form_state, array $settings): void {
+  $form['graphql_compose'] = [
+    '#type' => 'details',
+    '#title' => t('GraphQL'),
+    '#tree' => TRUE,
+    '#weight' => 90,
+    '#group' => isset($form['additional_settings']) ? 'additional_settings' : NULL,
+  ];
+
+  $form['graphql_compose']['enabled'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Enable GraphQL'),
+    '#default_value' => $settings['enabled'] ?? FALSE,
+  ];
+
+  $base_type = $form_state->get('base_type');
+
+  if ($base_type->getClass() === FieldConfig::class) {
+    $form['graphql_compose']['name_sdl'] = [
+      '#type' => 'textfield',
+      '#title' => t('Schema field name'),
+      '#default_value' => $settings['name_sdl'] ?? NULL,
+      '#description' => t('Leave blank to use automatically generated name.'),
+      '#element_validate' => ['_graphql_compose_validate_name_sdl'],
+    ];
+  }
+
+  if ($base_type instanceof ContentEntityTypeInterface) {
+    $form['graphql_compose']['query_load_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Enable single query'),
+      '#default_value' => $settings['query_load_enabled'] ?? FALSE,
+      '#description' => t('Enable a query to load this type by UUID.'),
+    ];
+  }
+}
+
+/**
+ * Callback for name sdl validation.
+ *
+ * @see hook_graphql_compose_entity_type_form_alter()
+ */
+function _graphql_compose_validate_name_sdl(array &$element, FormStateInterface &$form_state, array $form): void {
+  $field_value = $element['#value'];
+
+  if (!empty($field_value) && !preg_match('/^[a-z0-9]+$/i', $field_value)) {
+    $form_state->setError($element, t('Name can only include letters and numbers.'));
+  }
+}
+
+/**
+ * Implements hook_graphql_compose_entity_type_form_submit_alter().
+ */
+function graphql_compose_graphql_compose_entity_type_form_submit_alter(array $form, FormStateInterface $form_state, array &$settings): void {
+  $values = $form_state->getValue('graphql_compose', []);
+  $settings['enabled'] = (bool) $values['enabled'] ?: FALSE;
+
+  $base_type = $form_state->get('base_type');
+  if ($base_type instanceof ContentEntityTypeInterface) {
+    $settings['query_load_enabled'] = (bool) $values['query_load_enabled'] ?: FALSE;
+  }
+
+  // Only add field name to config, if there is a value.
+  if ($base_type->getClass() === FieldConfig::class) {
+    if ($name = $values['name_sdl'] ?: NULL) {
+      $settings['name_sdl'] = $name;
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_predelete().
+ *
+ * Remove config on entity type deletion.
+ */
+function graphql_compose_entity_predelete(EntityInterface $entity): void {
+  if (!$entity instanceof ConfigEntityInterface) {
+    return;
+  }
+
+  $config = \Drupal::service('config.factory')->getEditable('graphql_compose.settings');
+  $entityTypeManager = \Drupal::entityTypeManager();
+
+  $entity_type = $base_type = $entity->getEntityType();
+  if ($bundle_of = $entity->getEntityType()->getBundleOf()) {
+    $base_type = $entityTypeManager->getDefinition($bundle_of);
+  }
+
+  $target = $entity ? $entity->getConfigTarget() : $entity_type->id();
+  $cid = $base_type->id() . '.' . $target;
+
+  if ($target && $config->get($cid)) {
+    $config->clear($cid);
+
+    // Any fields associated with this.
+    $config->clear('field_config.' . $cid);
+
+    $config->save();
+    _graphql_compose_cache_flush();
+  }
+}
+
+/**
+ * Utility function to nuke cache for GraphQL.
+ */
+function _graphql_compose_cache_flush(): void {
+  \Drupal::service('cache.graphql.ast')->invalidateAll();
+  \Drupal::service('cache.graphql.definitions')->invalidateAll();
+  \Drupal::service('cache.graphql.results')->invalidateAll();
+  \Drupal::service('cache.graphql_compose.definitions')->invalidateAll();
+}

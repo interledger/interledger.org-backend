@@ -1,0 +1,5 @@
+paragraphs_ee.category_add:
+  route_name: 'entity.paragraphs_category.add_form'
+  title: 'Add paragraphs category'
+  appears_on:
+    - entity.paragraphs_category.collection

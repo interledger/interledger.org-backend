@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Support module for testing Entity Reference Purger.
+ */
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\field\FieldStorageConfigInterface;
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function entity_reference_purger_test_entity_base_field_info(EntityTypeInterface $entity_type) {
+  if ($entity_type->id() == 'node') {
+    $fields['test_base_field1'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Test base field 1'))
+      ->setCardinality(FieldStorageConfigInterface::CARDINALITY_UNLIMITED)
+      ->setSetting('target_type', 'taxonomy_term')
+      ->setSetting('handler', 'default');
+
+    $fields['test_base_field2'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Test base field 2'))
+      ->setCardinality(FieldStorageConfigInterface::CARDINALITY_UNLIMITED)
+      ->setSetting('target_type', 'taxonomy_term')
+      ->setSetting('handler', 'default')
+      ->setSetting('entity_reference_purger', [
+        'remove_orphaned' => TRUE,
+        'use_queue' => FALSE,
+      ]);
+
+    return $fields;
+  }
+}

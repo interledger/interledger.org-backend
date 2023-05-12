@@ -1,0 +1,109 @@
+@import "variables";
+@import "mixins";
+
+.js .field--widget-paragraphs {
+  .draggable td {
+    padding: 15px 0;
+  }
+}
+
+.js .paragraphs-features__add-in-between__row {
+  line-height: 1px;
+  height: 1px;
+  border-bottom-width: 0;
+
+  &:first-of-type .paragraphs-features__add-in-between__wrapper,
+  &:last-of-type .paragraphs-features__add-in-between__wrapper {
+    opacity: 1;
+  }
+
+  td {
+    height: 1px;
+    padding: 0 !important;
+    position: relative;
+    text-align: center;
+  }
+}
+.js .paragraphs-features__add-in-between__wrapper {
+  @include transition(border-color);
+
+  display: inline-flex;
+  left: 50%;
+  opacity: 0.0;
+  position: absolute;
+  top: -50%;
+  transform: translate(-50%, -50%);
+  width: auto;
+  z-index: 1;
+
+  &:active,
+  &:focus,
+  &:hover {
+    opacity: 1.0 !important;
+  }
+
+  .paragraphs-features__add-in-between__button-list li {
+    margin: 0;
+
+    .ajax-progress-throbber {
+      display: none;
+    }
+  }
+
+  .paragraphs-features__add-in-between__button {
+    background: $button-background;
+    border: 1px solid $border-color !important;
+    border-radius: 0;
+    border-right-width: 0 !important;
+    box-shadow: none;
+    color: $grey-dark;
+    display: inline-block;
+    float: left;
+    line-height: normal;
+    margin: 0;
+    position: relative;
+
+    &:before {
+      border: 1px solid $border-color-active;
+      bottom: -1px;
+      content: '';
+      height: auto;
+      left: -1px;
+      opacity: 0;
+      position: absolute;
+      right: -1px;
+      top: -1px;
+      transition: opacity 0.2s;
+      width: auto;
+      z-index: -1;
+    }
+
+    &.first,
+    &.first:before {
+      border-bottom-left-radius: $border-radius;
+      border-top-left-radius: $border-radius;
+    }
+
+    &.last,
+    &.last:before {
+      border-bottom-right-radius: $border-radius;
+      border-right-width: 1px !important;
+      border-top-right-radius: $border-radius;
+    }
+
+    &:active,
+    &:focus,
+    &:hover {
+      background: $button-background;
+      border-color: $border-color-active;
+      box-shadow: none;
+      color: $black;
+      text-decoration: none;
+
+      &:before {
+        opacity: 1;
+        z-index: 1;
+      }
+    }
+  }
+}

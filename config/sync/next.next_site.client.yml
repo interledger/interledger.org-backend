@@ -1,0 +1,11 @@
+uuid: c18adafc-99c8-4b31-b50e-5a5855e5dbfd
+langcode: en
+status: true
+dependencies: {  }
+id: client
+label: Client
+base_url: 'http://localhost:3000'
+preview_url: 'http://localhost:3000/api/preview'
+preview_secret: 'UN]%Fx|pH4J3td}D`)hR)y''uiFnq6G'
+revalidate_url: 'http://localhost:3000/api/revalidate'
+revalidate_secret: 'UN]%Fx|pH4J3td}D`)hR)y''uiFnq6G'

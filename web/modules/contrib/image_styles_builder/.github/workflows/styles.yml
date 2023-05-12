@@ -1,0 +1,99 @@
+name: Code styles
+on:
+  push:
+
+jobs:
+  phpcs:
+    name: phpcs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.3'
+          extensions: mbstring, intl, gd, xml, dom, json, fileinfo, curl, zip, iconv
+          tools: cs2pr, composer:v1
+      - uses: actions/checkout@v3
+      - run: composer install --prefer-dist
+      - run: ./vendor/bin/phpcs ./ --report=checkstyle | cs2pr
+
+  phpmd:
+    name: phpmd
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.3'
+          extensions: mbstring, intl, gd, xml, dom, json, fileinfo, curl, zip, iconv
+          tools: cs2pr, composer:v1, phpmd
+      - uses: actions/checkout@v3
+      - run: composer install --prefer-dist
+      - run: phpmd ./ text ./phpmd.xml --suffixes php,module,inc,install,test,profile,theme,css,info,txt --exclude *Test.php,*vendor/*
+
+  phpcpd:
+    name: phpcpd
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.3'
+          extensions: mbstring, intl, gd, xml, dom, json, fileinfo, curl, zip, iconv
+          tools: cs2pr, composer:v1, phpcpd
+      - uses: actions/checkout@v3
+      - run: composer install --prefer-dist
+      - run: phpcpd ./src --suffix .php --suffix .module --suffix .inc --suffix .install --suffix .test --suffix .profile --suffix .theme --suffix .css --suffix .info --suffix .txt --exclude *.md --exclude *.info.yml --exclude tests --exclude vendor/
+
+  phpdd:
+    name: PhpDeprecationDetector (phpdd)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker-compose -f docker-compose.yml pull --include-deps drupal
+      - name: Build the docker-compose stack
+        run: docker-compose -f docker-compose.yml build drupal
+      - name: Run phpdd
+        run: docker-compose run drupal phpdd ./web/modules/contrib/image_styles_builder/ --file-extensions php,module,inc,install,test,profile,theme,info --exclude vendor
+
+  drupal-check:
+    name: drupal-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker-compose -f docker-compose.yml pull --include-deps drupal
+      - name: Build the docker-compose stack
+        run: docker-compose -f docker-compose.yml build drupal
+      - name: Run Drupal-Check
+        run: docker-compose run drupal ./vendor/bin/drupal-check -dvvv ./web/modules/contrib/image_styles_builder/ --format=checkstyle --exclude-dir=*vendor* --exclude-dir=*tests* --no-progress
+
+  upgrade-status:
+    name: Upgrade Status
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        drupal_version: ['9.4']
+        module: ['image_styles_builder']
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - run: docker-compose -f docker-compose.yml pull --include-deps drupal
+      - name: Build the docker-compose stack
+        run: docker-compose -f docker-compose.yml build --pull --build-arg BASE_IMAGE_TAG=${{ matrix.drupal_version }} drupal
+      - name: Up a persistent Docker Container
+        run: docker-compose -f docker-compose.yml up -d drupal
+      - name: Add upgrade status dependency
+        run: docker-compose exec -T drupal wait-for-it db:3306 -- composer require --dev drupal/upgrade_status --no-interaction
+      - name: Bootstrap Drupal
+        run: docker-compose -f docker-compose.yml exec -T -u www-data drupal drush site-install standard --db-url="mysql://drupal:drupal@db/drupal" -y
+      - name: Enable upgrade status
+        run: docker-compose exec -T drupal wait-for-it db:3306 -- ./vendor/bin/drush en upgrade_status -y
+      - name: Disable incompatible module
+        run: docker-compose exec -T drupal wait-for-it db:3306 -- ./vendor/bin/drush pmu page_cache -y
+      - name: Enable the module
+        run: docker-compose exec -T drupal wait-for-it db:3306 -- ./vendor/bin/drush en ${{ matrix.module }} -y
+      - name: Run upgrade status
+        run: docker-compose exec -T drupal wait-for-it db:3306 -- ./vendor/bin/drush upgrade_status:analyze ${{ matrix.module }}

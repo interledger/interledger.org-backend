@@ -1,0 +1,17 @@
+uuid: 8c26deaf-0a65-4120-aa52-01a0b49e60cd
+langcode: en
+status: true
+dependencies:
+  module:
+    - graphql
+    - node
+    - subrequests
+id: next_js_site
+label: 'Next.js Site'
+weight: 4
+is_admin: null
+permissions:
+  - 'access user profiles'
+  - 'bypass node access'
+  - 'execute graphql_compose_server arbitrary graphql requests'
+  - 'issue subrequests'

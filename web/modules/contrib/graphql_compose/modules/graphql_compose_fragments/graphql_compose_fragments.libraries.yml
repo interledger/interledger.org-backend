@@ -1,0 +1,6 @@
+# Drupal library file
+
+fragments:
+  css:
+    theme:
+      css/fragments.css: {}

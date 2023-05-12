@@ -1,0 +1,25 @@
+uuid: 5c559ac1-708f-4cbc-8757-5d9de6fde4b0
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: aspect_ratio_1_1_450w
+label: aspect_ratio_1_1_450w
+effects:
+  2de7e3f6-6875-47f2-9ed6-bf0c349056e3:
+    uuid: 2de7e3f6-6875-47f2-9ed6-bf0c349056e3
+    id: focal_point_crop_ratio
+    weight: 0
+    data:
+      crop_type: null
+      aspect_ratio: '1:1'
+  c4053f65-62cc-4c16-9c78-06c41f837acb:
+    uuid: c4053f65-62cc-4c16-9c78-06c41f837acb
+    id: image_scale
+    weight: 1
+    data:
+      width: 450
+      height: null
+      upscale: false
+pipeline: __default__

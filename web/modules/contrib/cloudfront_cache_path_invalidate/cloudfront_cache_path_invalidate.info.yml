@@ -1,0 +1,11 @@
+name: 'Cloudfront Cache Path Invalidate'
+type: module
+description: 'Cloudfront Cache Path Invalidate'
+core_version_requirement: ^8 || ^9 || ^10
+package: 'Cloudfront CCache Path Invalidate'
+configure: cloudfront_cache_path_invalidate.admin_cloudfront_invalidate_url
+
+# Information added by Drupal.org packaging script on 2023-01-17
+version: '3.0.3'
+project: 'cloudfront_cache_path_invalidate'
+datestamp: 1673962959

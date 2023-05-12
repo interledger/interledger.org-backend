@@ -1,0 +1,16 @@
+name: SVG image field
+type: module
+description: 'Provides svg image field'
+package: Field types
+core_version_requirement: ^9.3 || ^10
+dependencies:
+  - drupal:image
+
+libraries-extend:
+  media_library/style:
+    - svg_image_field/media_library
+
+# Information added by Drupal.org packaging script on 2023-02-19
+version: '2.2.0'
+project: 'svg_image_field'
+datestamp: 1676832587

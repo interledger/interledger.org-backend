@@ -1,0 +1,10 @@
+name: "GraphQL Compose: Config Pages"
+description: "Load config_pages information on entities."
+type: module
+core_version_requirement: ^9 || ^10
+dependencies:
+  - config_pages:config_pages
+  - graphql_compose:graphql_compose
+  - svg_image_field:svg_image_field
+package: GraphQL Compose
+hidden: false

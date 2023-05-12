@@ -1,0 +1,18 @@
+permission_callbacks:
+  - Drupal\config_pages\ConfigPagesPermissions::permissions
+access config_pages overview:
+  title: 'Access the ConfigPage overview page'
+
+view config_pages entity:
+  title: 'View All ConfigPages entities'
+
+edit config_pages entity:
+  title: 'Edit All ConfigPages entities'
+  description: 'Allow user to edit all ConfigPages'
+
+delete config_pages entity:
+  title: 'Delete ConfigPages entities'
+
+administer config_pages types:
+  title: 'Administer Config Pages'
+  description: 'Allow user to create and delete fields for Config Pages.'

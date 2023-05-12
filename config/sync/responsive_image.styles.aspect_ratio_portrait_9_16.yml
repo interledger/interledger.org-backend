@@ -1,0 +1,33 @@
+uuid: 7678ce79-7044-4cf3-819c-ddc0211301f0
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.aspect_ratio_9_16_1021w
+    - image.style.aspect_ratio_9_16_1228w
+    - image.style.aspect_ratio_9_16_1400w
+    - image.style.aspect_ratio_9_16_1600w
+    - image.style.aspect_ratio_9_16_1920w
+    - image.style.aspect_ratio_9_16_320w
+    - image.style.aspect_ratio_9_16_450w
+    - image.style.aspect_ratio_9_16_725w
+id: aspect_ratio_portrait_9_16
+label: 'Aspect Ratio Portrait (9:16)'
+image_style_mappings:
+  -
+    image_mapping_type: sizes
+    image_mapping:
+      sizes: 100vw
+      sizes_image_styles:
+        - aspect_ratio_9_16_1021w
+        - aspect_ratio_9_16_1228w
+        - aspect_ratio_9_16_1400w
+        - aspect_ratio_9_16_1600w
+        - aspect_ratio_9_16_1920w
+        - aspect_ratio_9_16_320w
+        - aspect_ratio_9_16_450w
+        - aspect_ratio_9_16_725w
+    breakpoint_id: responsive_image.viewport_sizing
+    multiplier: 1x
+breakpoint_group: responsive_image
+fallback_image_style: aspect_ratio_9_16_1228w

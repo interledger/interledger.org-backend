@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Module implementation file.
+ */
+
+use Drupal\path_alias\PathAliasInterface;
+
+/**
+ * Implements hook_path_update().
+ */
+function decoupled_router_path_update($path) {
+  \Drupal::service('decoupled_router.cache_invalidation')
+    ->invalidateByPath($path);
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_insert().
+ */
+function decoupled_router_path_alias_insert(PathAliasInterface $path_alias) {
+  \Drupal::service('decoupled_router.cache_invalidation')
+    ->invalidateByPath(['source' => $path_alias->getAlias()]);
+}
+
+/**
+ * Implements hook_path_delete().
+ */
+function decoupled_router_path_delete($path) {
+  \Drupal::service('decoupled_router.cache_invalidation')
+    ->invalidateByPath($path);
+}
