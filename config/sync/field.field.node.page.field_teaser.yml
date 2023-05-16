@@ -1,0 +1,43 @@
+uuid: 28cd43a9-1517-489b-835e-dd3965cd14eb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_teaser
+    - node.type.page
+    - paragraphs.paragraphs_type.teaser
+  module:
+    - entity_reference_revisions
+id: node.page.field_teaser
+field_name: field_teaser
+entity_type: node
+bundle: page
+label: Teaser
+description: 'Preview image pulled in when post displayed in listings'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      teaser: teaser
+    negate: 0
+    target_bundles_drag_drop:
+      button:
+        weight: 6
+        enabled: false
+      spacer:
+        weight: 7
+        enabled: false
+      teaser:
+        weight: 8
+        enabled: true
+      text:
+        weight: 9
+        enabled: false
+      two_column_content:
+        weight: 10
+        enabled: false
+field_type: entity_reference_revisions

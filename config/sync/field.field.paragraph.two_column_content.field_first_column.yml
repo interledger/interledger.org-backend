@@ -1,0 +1,61 @@
+uuid: 51ea46aa-465b-463a-abe3-48fa4bc69914
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_first_column
+    - paragraphs.paragraphs_type.button
+    - paragraphs.paragraphs_type.content_title
+    - paragraphs.paragraphs_type.spacer
+    - paragraphs.paragraphs_type.text
+    - paragraphs.paragraphs_type.two_column_content
+  module:
+    - entity_reference_revisions
+id: paragraph.two_column_content.field_first_column
+field_name: field_first_column
+entity_type: paragraph
+bundle: two_column_content
+label: 'First Column'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      button: button
+      spacer: spacer
+      text: text
+      content_title: content_title
+    negate: 0
+    target_bundles_drag_drop:
+      button:
+        weight: 5
+        enabled: true
+      content_title:
+        weight: 9
+        enabled: true
+      highlighted_list:
+        weight: 12
+        enabled: false
+      image:
+        weight: 13
+        enabled: false
+      large_callout_text:
+        weight: 10
+        enabled: false
+      spacer:
+        weight: 6
+        enabled: true
+      teaser:
+        weight: 12
+        enabled: false
+      text:
+        weight: 7
+        enabled: true
+      two_column_content:
+        weight: 8
+        enabled: false
+field_type: entity_reference_revisions

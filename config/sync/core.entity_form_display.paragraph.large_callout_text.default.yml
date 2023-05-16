@@ -1,0 +1,23 @@
+uuid: 684e6061-c0b0-405d-a9fe-ebdd2322338a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.large_callout_text.field_large_callout_text
+    - paragraphs.paragraphs_type.large_callout_text
+id: paragraph.large_callout_text.default
+targetEntityType: paragraph
+bundle: large_callout_text
+mode: default
+content:
+  field_large_callout_text:
+    type: string_textarea
+    weight: 0
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

@@ -1,0 +1,16 @@
+uuid: b233178b-b1e4-4c0c-bfea-5786e764ff1e
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: highlighted_list
+label: 'Highlighted List'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

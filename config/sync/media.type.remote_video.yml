@@ -1,7 +1,12 @@
 uuid: 94449157-80f3-47c1-8864-b26971d99bff
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - crop
+third_party_settings:
+  crop:
+    image_field: null
 _core:
   default_config_hash: hIBTnDGgDKnCiP6HUZm1m7600DHUEpC6FN3LQ4sUgZ4
 id: remote_video

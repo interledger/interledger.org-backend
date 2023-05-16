@@ -1,4 +1,4 @@
-uuid: 921d285d-579f-4120-9286-4ec501227ccd
+uuid: 53880efb-db71-4a2c-9af8-4cd8eb865ee3
 langcode: en
 status: true
 dependencies:
@@ -7,19 +7,25 @@ dependencies:
 name: aspect_ratio_16_9_1600w
 label: aspect_ratio_16_9_1600w
 effects:
-  e1bdfff8-a3db-4cd5-89e7-379f37eccbf4:
-    uuid: e1bdfff8-a3db-4cd5-89e7-379f37eccbf4
+  e05e2eeb-8be5-4a8d-9f68-5e204b38402c:
+    uuid: e05e2eeb-8be5-4a8d-9f68-5e204b38402c
     id: focal_point_crop_ratio
     weight: 0
     data:
       crop_type: null
       aspect_ratio: '16:9'
-  8035866a-f81c-4f10-9046-abc904513012:
-    uuid: 8035866a-f81c-4f10-9046-abc904513012
+  dc2baa9a-d617-430d-aefe-22ae19d1fcd7:
+    uuid: dc2baa9a-d617-430d-aefe-22ae19d1fcd7
     id: image_scale
     weight: 1
     data:
       width: 1600
       height: null
       upscale: false
+  bce555be-5ccb-4359-a5a8-71e6fc0cac47:
+    uuid: bce555be-5ccb-4359-a5a8-71e6fc0cac47
+    id: image_convert
+    weight: 2
+    data:
+      extension: webp
 pipeline: __default__

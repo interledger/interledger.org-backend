@@ -1,0 +1,16 @@
+uuid: b050c98a-9d71-4fb6-836e-db7282015347
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: content_title
+label: 'Content Title'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

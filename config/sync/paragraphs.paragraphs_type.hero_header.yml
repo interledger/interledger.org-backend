@@ -1,0 +1,16 @@
+uuid: ed5e49e3-722f-414e-9938-82e6a953dfd2
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      header: header
+id: hero_header
+label: 'Hero Header'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

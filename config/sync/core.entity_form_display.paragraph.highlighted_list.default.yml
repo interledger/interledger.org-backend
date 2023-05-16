@@ -1,0 +1,23 @@
+uuid: d2ab819b-a442-491a-ad3a-3d6e247f66f7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.highlighted_list.field_list_item
+    - paragraphs.paragraphs_type.highlighted_list
+id: paragraph.highlighted_list.default
+targetEntityType: paragraph
+bundle: highlighted_list
+mode: default
+content:
+  field_list_item:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

@@ -6,6 +6,6 @@ id: client
 label: Client
 base_url: 'http://localhost:3000'
 preview_url: 'http://localhost:3000/api/preview'
-preview_secret: 'UN]%Fx|pH4J3td}D`)hR)y''uiFnq6G'
+preview_secret: "UN]%Fx|pH4J3td}D`)hR)y'uiFnq6G"
 revalidate_url: 'http://localhost:3000/api/revalidate'
-revalidate_secret: 'UN]%Fx|pH4J3td}D`)hR)y''uiFnq6G'
+revalidate_secret: "UN]%Fx|pH4J3td}D`)hR)y'uiFnq6G"

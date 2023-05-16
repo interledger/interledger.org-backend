@@ -1,0 +1,21 @@
+uuid: 02511882-7ba1-40d6-801a-7190f1311fe7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.highlighted_list.field_list_item
+    - paragraphs.paragraphs_type.highlighted_list
+id: paragraph.highlighted_list.default
+targetEntityType: paragraph
+bundle: highlighted_list
+mode: default
+content:
+  field_list_item:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

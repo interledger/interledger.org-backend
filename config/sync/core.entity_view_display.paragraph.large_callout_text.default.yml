@@ -1,0 +1,20 @@
+uuid: 00210f53-0124-48ff-bcf4-040294845649
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.large_callout_text.field_large_callout_text
+    - paragraphs.paragraphs_type.large_callout_text
+id: paragraph.large_callout_text.default
+targetEntityType: paragraph
+bundle: large_callout_text
+mode: default
+content:
+  field_large_callout_text:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

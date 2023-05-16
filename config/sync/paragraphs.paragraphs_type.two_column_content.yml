@@ -1,0 +1,16 @@
+uuid: f68d0a0d-b6ae-4d90-b399-5cd5be3b35b3
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: two_column_content
+label: 'Two Column Content'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

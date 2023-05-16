@@ -1,0 +1,33 @@
+uuid: f012fcf8-5115-4e92-a1a3-562a0a721fb6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.spacer.field_spacer_line
+    - field.field.paragraph.spacer.field_spacer_size
+    - paragraphs.paragraphs_type.spacer
+  module:
+    - options
+id: paragraph.spacer.default
+targetEntityType: paragraph
+bundle: spacer
+mode: default
+content:
+  field_spacer_line:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_spacer_size:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

@@ -1,0 +1,27 @@
+uuid: c6d004b1-a03a-4b4c-b005-e3788523ea20
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.teaser.field_image
+    - paragraphs.paragraphs_type.teaser
+  module:
+    - media_library
+    - media_library_edit
+id: paragraph.teaser.default
+targetEntityType: paragraph
+bundle: teaser
+mode: default
+content:
+  field_image:
+    type: media_library_widget
+    weight: 0
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings:
+      media_library_edit:
+        show_edit: '1'
+hidden:
+  created: true
+  status: true

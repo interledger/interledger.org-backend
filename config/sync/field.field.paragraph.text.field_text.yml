@@ -6,12 +6,7 @@ dependencies:
     - field.storage.paragraph.field_text
     - paragraphs.paragraphs_type.text
   module:
-    - allowed_formats
     - text
-third_party_settings:
-  allowed_formats:
-    allowed_formats:
-      - basic_html
 id: paragraph.text.field_text
 field_name: field_text
 entity_type: paragraph

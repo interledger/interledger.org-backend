@@ -1,0 +1,156 @@
+_core:
+  default_config_hash: UUIwv478j8AtmCC-S4c5LLZQlyt2IsOPJ7vYrZ1Gu8w
+entities: {  }
+field_config:
+  node:
+    article:
+      field_sections:
+        enabled: true
+      field_image:
+        enabled: true
+    page:
+      field_sections:
+        enabled: true
+      field_teaser:
+        enabled: true
+      field_header:
+        enabled: true
+  paragraph:
+    button:
+      field_link:
+        enabled: true
+    text:
+      field_text:
+        enabled: true
+    spacer:
+      field_spacer_size:
+        enabled: true
+      field_spacer_line:
+        enabled: true
+    two_column_content:
+      field_first_column:
+        enabled: true
+      field_second_column:
+        enabled: true
+    teaser:
+      field_image:
+        enabled: true
+    large_callout_text:
+      field_large_callout_text:
+        enabled: true
+    content_title:
+      field_title:
+        enabled: true
+    highlighted_list:
+      field_list_item:
+        enabled: true
+    image:
+      field_image:
+        enabled: true
+    hero_header:
+      field_image:
+        enabled: true
+      field_video:
+        enabled: true
+      field_title:
+        enabled: true
+      field_where_text:
+        enabled: true
+      field_when_text:
+        enabled: true
+  media:
+    image:
+      field_media_image:
+        enabled: true
+    remote_video:
+      field_media_oembed_video:
+        enabled: true
+    video:
+      field_media_video_file:
+        enabled: true
+    vector_image:
+      field_media_svg:
+        enabled: true
+media:
+  image:
+    enabled: true
+    query_load_enabled: false
+    routes_enabled: false
+  remote_video:
+    enabled: true
+    query_load_enabled: false
+    routes_enabled: false
+  video:
+    enabled: true
+    query_load_enabled: false
+    routes_enabled: false
+  vector_image:
+    enabled: true
+    query_load_enabled: false
+    routes_enabled: false
+paragraph:
+  spacer:
+    enabled: true
+    query_load_enabled: false
+  button:
+    enabled: true
+    query_load_enabled: false
+    edges_enabled: false
+  text:
+    enabled: true
+    query_load_enabled: false
+    edges_enabled: false
+  two_column_content:
+    enabled: true
+    query_load_enabled: false
+    edges_enabled: false
+  teaser:
+    enabled: true
+    query_load_enabled: false
+    edges_enabled: false
+  large_callout_text:
+    enabled: true
+    query_load_enabled: false
+    edges_enabled: false
+  content_title:
+    enabled: true
+    query_load_enabled: false
+    edges_enabled: false
+  highlighted_list:
+    enabled: true
+    query_load_enabled: false
+    edges_enabled: false
+  image:
+    enabled: true
+    query_load_enabled: false
+    edges_enabled: false
+  hero_header:
+    enabled: true
+    query_load_enabled: false
+    edges_enabled: false
+responsive_image_style:
+  aspect_ratio_landscape_16_9:
+    enabled: true
+  aspect_ratio_portrait_9_16:
+    enabled: true
+  aspect_ratio_square_1_1:
+    enabled: true
+node:
+  article:
+    enabled: true
+    query_load_enabled: false
+    edges_enabled: true
+    routes_enabled: true
+  page:
+    enabled: true
+    query_load_enabled: false
+    edges_enabled: true
+    routes_enabled: true
+image_style:
+  medium:
+    enabled: true
+menu:
+  footer:
+    enabled: true
+  main:
+    enabled: true

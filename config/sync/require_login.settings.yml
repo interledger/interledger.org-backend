@@ -4,10 +4,12 @@ login_path: ''
 login_message: ''
 login_destination: ''
 requirements:
+  config_pages_values_access:
+    id: config_pages_values_access
   request_path:
     id: request_path
     negate: true
-    pages: "/graphql\r\n/health\r\n/oauth/token\r\n/webform_rest/*\r\n/next/preview-url"
+    pages: "/cdn/*\r\n/graphql\r\n/graphql/*\r\n/health\r\n/oauth/token\r\n/webform_rest/*\r\n/next/preview-url\r\n/sites/default/files/*\r\n/"
   'entity_bundle:node':
     id: 'entity_bundle:node'
     negate: false

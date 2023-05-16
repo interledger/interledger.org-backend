@@ -1,4 +1,4 @@
-uuid: 5c559ac1-708f-4cbc-8757-5d9de6fde4b0
+uuid: 4254f92c-8d78-48cf-9f19-1ad29e352007
 langcode: en
 status: true
 dependencies:
@@ -7,19 +7,25 @@ dependencies:
 name: aspect_ratio_1_1_450w
 label: aspect_ratio_1_1_450w
 effects:
-  2de7e3f6-6875-47f2-9ed6-bf0c349056e3:
-    uuid: 2de7e3f6-6875-47f2-9ed6-bf0c349056e3
+  1d90a35e-fdb4-48a7-ac43-7a325dd8ad25:
+    uuid: 1d90a35e-fdb4-48a7-ac43-7a325dd8ad25
     id: focal_point_crop_ratio
     weight: 0
     data:
       crop_type: null
       aspect_ratio: '1:1'
-  c4053f65-62cc-4c16-9c78-06c41f837acb:
-    uuid: c4053f65-62cc-4c16-9c78-06c41f837acb
+  73486e71-10c9-4e2c-b4f1-a228e0c678c5:
+    uuid: 73486e71-10c9-4e2c-b4f1-a228e0c678c5
     id: image_scale
     weight: 1
     data:
       width: 450
       height: null
       upscale: false
+  11dabda5-db86-4714-bc47-e40728af1d1b:
+    uuid: 11dabda5-db86-4714-bc47-e40728af1d1b
+    id: image_convert
+    weight: 2
+    data:
+      extension: webp
 pipeline: __default__

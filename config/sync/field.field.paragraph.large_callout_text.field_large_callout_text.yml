@@ -1,0 +1,19 @@
+uuid: 9dc6e891-f781-424d-aedb-9c01fa4435cb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_large_callout_text
+    - paragraphs.paragraphs_type.large_callout_text
+id: paragraph.large_callout_text.field_large_callout_text
+field_name: field_large_callout_text
+entity_type: paragraph
+bundle: large_callout_text
+label: 'Large Callout Text'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

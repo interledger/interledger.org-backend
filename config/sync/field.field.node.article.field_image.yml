@@ -6,6 +6,12 @@ dependencies:
     - field.storage.node.field_image
     - media.type.image
     - node.type.article
+  module:
+    - entity_reference_purger
+third_party_settings:
+  entity_reference_purger:
+    remove_orphaned: false
+    use_queue: true
 id: node.article.field_image
 field_name: field_image
 entity_type: node

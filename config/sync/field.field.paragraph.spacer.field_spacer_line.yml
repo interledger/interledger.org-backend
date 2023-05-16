@@ -1,0 +1,23 @@
+uuid: 95c9c5fa-cd6f-4cda-9039-9fa9c1281851
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_spacer_line
+    - paragraphs.paragraphs_type.spacer
+id: paragraph.spacer.field_spacer_line
+field_name: field_spacer_line
+entity_type: paragraph
+bundle: spacer
+label: 'Spacer Line'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

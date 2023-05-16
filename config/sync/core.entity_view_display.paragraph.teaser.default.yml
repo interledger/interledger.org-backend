@@ -1,0 +1,22 @@
+uuid: 02e6a519-2224-467d-b3e6-3676669a6dd7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.teaser.field_image
+    - paragraphs.paragraphs_type.teaser
+id: paragraph.teaser.default
+targetEntityType: paragraph
+bundle: teaser
+mode: default
+content:
+  field_image:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

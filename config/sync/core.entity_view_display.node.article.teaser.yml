@@ -5,10 +5,8 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.article.body
-    - field.field.node.article.field_content
     - field.field.node.article.field_image
-    - field.field.node.article.field_refs
-    - field.field.node.article.field_tags
+    - field.field.node.article.field_sections
     - node.type.article
   module:
     - text
@@ -28,19 +26,9 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-  field_tags:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 10
-    region: content
   links:
     weight: 100
     region: content
 hidden:
-  field_content: true
   field_image: true
-  field_refs: true
-  field_tags: true
+  field_sections: true

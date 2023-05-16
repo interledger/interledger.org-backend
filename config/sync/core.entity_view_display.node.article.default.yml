@@ -4,10 +4,8 @@ status: true
 dependencies:
   config:
     - field.field.node.article.body
-    - field.field.node.article.field_content
     - field.field.node.article.field_image
-    - field.field.node.article.field_refs
-    - field.field.node.article.field_tags
+    - field.field.node.article.field_sections
     - node.type.article
   module:
     - entity_reference_revisions
@@ -27,15 +25,6 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-  field_content:
-    type: entity_reference_revisions_entity_view
-    label: above
-    settings:
-      view_mode: default
-      link: ''
-    third_party_settings: {  }
-    weight: 105
-    region: content
   field_image:
     type: entity_reference_entity_view
     label: above
@@ -45,21 +34,14 @@ content:
     third_party_settings: {  }
     weight: 103
     region: content
-  field_refs:
-    type: entity_reference_label
+  field_sections:
+    type: entity_reference_revisions_entity_view
     label: above
     settings:
-      link: true
+      view_mode: default
+      link: ''
     third_party_settings: {  }
-    weight: 106
-    region: content
-  field_tags:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 10
+    weight: 107
     region: content
   links:
     settings: {  }

@@ -3,16 +3,16 @@ _core:
 module:
   admin_toolbar: 0
   admin_toolbar_tools: 0
-  allowed_formats: 0
+  autocomplete_deluxe: 0
   automated_cron: 0
   big_pipe: 0
   block: 0
   block_content: 0
   breakpoint: 0
-  ckeditor: 0
-  ckeditor_entity_link: 0
+  ckeditor5: 0
   cloudfront_cache_path_invalidate: 0
   config: 0
+  config_pages: 0
   consumers: 0
   contact: 0
   contextual: 0
@@ -22,8 +22,10 @@ module:
   decoupled_router: 0
   dynamic_page_cache: 0
   editor: 0
+  entity_reference_purger: 0
   entity_reference_revisions: 0
   field: 0
+  field_group: 0
   field_ui: 0
   file: 0
   file_mdm: 0
@@ -32,13 +34,17 @@ module:
   gin_toolbar: 0
   graphql: 0
   graphql_compose: 0
+  graphql_compose_config_pages: 0
+  graphql_compose_edges_extra: 0
+  graphql_compose_image_style_path: 0
+  graphql_compose_menus: 0
+  graphql_compose_metatags: 0
+  graphql_compose_responsive_image_style: 0
+  graphql_compose_routes: 0
   health_check: 0
   history: 0
   image: 0
   image_styles_builder: 0
-  imageapi_optimize: 0
-  imageapi_optimize_avif_webp: 0
-  imageapi_optimize_avif_webp_responsive: 0
   imagemagick: 0
   jquery_ui: 0
   jquery_ui_draggable: 0
@@ -63,6 +69,7 @@ module:
   paragraphs_features: 0
   path: 0
   path_alias: 0
+  quick_node_clone: 0
   require_login: 0
   responsive_image: 0
   search: 0
@@ -71,6 +78,7 @@ module:
   simple_oauth: 0
   sophron: 0
   subrequests: 0
+  svg_image_field: 0
   system: 0
   taxonomy: 0
   text: 0
@@ -78,6 +86,7 @@ module:
   toolbar: 0
   typed_data: 0
   update: 0
+  upgrade_status: 0
   user: 0
   views_ui: 0
   pathauto: 1
