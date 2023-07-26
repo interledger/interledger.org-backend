@@ -19,6 +19,7 @@ use Drupal\Tests\node\Traits\NodeCreationTrait;
 use Drupal\Tests\Traits\PhpUnitWarnings;
 use Drupal\Tests\user\Traits\UserCreationTrait;
 use Drupal\TestTools\Comparator\MarkupInterfaceComparator;
+use Drupal\TestTools\Random;
 use Drupal\TestTools\TestVarDumper;
 use GuzzleHttp\Cookie\CookieJar;
 use PHPUnit\Framework\TestCase;
@@ -126,9 +127,11 @@ abstract class BrowserTestBase extends TestCase {
   protected $defaultTheme;
 
   /**
-   * An array of custom translations suitable for drupal_rewrite_settings().
+   * An array of custom translations suitable for SettingsEditor::rewrite().
    *
    * @var array
+   *
+   * @see \Drupal\Core\Site\SettingsEditor::rewrite()
    */
   protected $customTranslations;
 
@@ -281,7 +284,7 @@ abstract class BrowserTestBase extends TestCase {
   /**
    * Gets an instance of the default Mink driver.
    *
-   * @return Behat\Mink\Driver\DriverInterface
+   * @return \Behat\Mink\Driver\DriverInterface
    *   Instance of default Mink driver.
    *
    * @throws \InvalidArgumentException
@@ -373,6 +376,15 @@ abstract class BrowserTestBase extends TestCase {
     // PHPUnit 6 tests that only make assertions using $this->assertSession()
     // can be marked as risky.
     $this->addToAssertionCount(1);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __get(string $name) {
+    if ($name === 'randomGenerator') {
+      return Random::getGenerator();
+    }
   }
 
   /**
@@ -548,7 +560,7 @@ abstract class BrowserTestBase extends TestCase {
     // as expected.
     $this->container->get('cache_tags.invalidator')->resetChecksums();
 
-    // Generate a route to prime the url generator with the correct base url.
+    // Generate a route to prime the URL generator with the correct base URL.
     // @todo Remove in https://www.drupal.org/project/drupal/issues/3207896.
     Url::fromRoute('<front>')->setAbsolute()->toString();
 

@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "Text",
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class TextType extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -27,8 +27,8 @@ class TextType extends GraphQLComposeSchemaTypeBase {
       'name' => $this->getPluginId(),
       'description' => (string) $this->t('A processed text format defined by the CMS.'),
       'fields' => fn() => [
-        'format'    => Type::string(),
-        'value'     => Type::string(),
+        'format' => Type::string(),
+        'value' => Type::string(),
         'processed' => static::type('Html'),
       ],
     ]);

@@ -6,12 +6,12 @@ namespace Drupal\graphql_compose\Plugin\GraphQLCompose\FieldType;
 
 use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\Core\Field\FieldItemInterface;
-use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
-use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerTrait;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerItemInterface;
+use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerTrait;
+use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeFieldType(
  *   id = "text",
@@ -28,8 +28,8 @@ class TextItem extends GraphQLComposeFieldTypeBase implements FieldProducerItemI
   public function resolveFieldItem(FieldItemInterface $item, array $context, RefinableCacheableDependencyInterface $metadata) {
 
     return [
-      'format'    => $item->format,
-      'value'     => $item->value,
+      'format' => $item->format,
+      'value' => $item->value,
       'processed' => $item->processed,
     ];
   }

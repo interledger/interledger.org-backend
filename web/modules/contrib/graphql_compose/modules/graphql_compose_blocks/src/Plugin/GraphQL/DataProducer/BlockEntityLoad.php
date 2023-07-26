@@ -33,6 +33,27 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class BlockEntityLoad extends DataProducerPluginBase implements ContainerFactoryPluginInterface {
 
   /**
+   * Constructs a BlockEntityLoad object.
+   *
+   * @param array $configuration
+   *   The plugin configuration.
+   * @param string $plugin_id
+   *   The plugin id.
+   * @param mixed $plugin_definition
+   *   The plugin definition.
+   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entityRepository
+   *   Drupal entity repository.
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    protected EntityRepositoryInterface $entityRepository,
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+  }
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -45,19 +66,15 @@ class BlockEntityLoad extends DataProducerPluginBase implements ContainerFactory
   }
 
   /**
-   * LayoutDefinitionLoad constructor.
-   */
-  public function __construct(
-    array $configuration,
-    $pluginId,
-    $pluginDefinition,
-    protected EntityRepositoryInterface $entityRepository,
-  ) {
-    parent::__construct($configuration, $pluginId, $pluginDefinition);
-  }
-
-  /**
    * Resolve the layout definition.
+   *
+   * @param \Drupal\Core\Block\BlockPluginInterface $block_instance
+   *   The block instance.
+   * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface $metadata
+   *   The cache metadata.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface|null
+   *   The block entity.
    */
   public function resolve(BlockPluginInterface $block_instance, RefinableCacheableDependencyInterface $metadata): ?EntityInterface {
 

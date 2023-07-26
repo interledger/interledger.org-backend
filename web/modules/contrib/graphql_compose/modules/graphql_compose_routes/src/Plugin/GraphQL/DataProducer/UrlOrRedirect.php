@@ -10,7 +10,6 @@ use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Render\RenderContext;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Url;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
@@ -36,31 +35,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *       label = @Translation("Language code"),
  *       required = FALSE
  *     ),
- *     "url" = @ContextDefinition("any",
- *       label = @Translation("URL"),
- *       required = FALSE
- *     )
  *   }
  * )
  */
 class UrlOrRedirect extends DataProducerPluginBase implements ContainerFactoryPluginInterface {
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('path_alias.manager'),
-      $container->get('path.validator'),
-      $container->get('module_handler'),
-      $container->get('language_manager'),
-      $container->get('renderer'),
-      $container->get('redirect.repository', ContainerInterface::NULL_ON_INVALID_REFERENCE),
-    );
-  }
 
   /**
    * Constructs a \Drupal\Component\Plugin\PluginBase object.
@@ -99,27 +77,42 @@ class UrlOrRedirect extends DataProducerPluginBase implements ContainerFactoryPl
   }
 
   /**
-   * Resolver.
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('path_alias.manager'),
+      $container->get('path.validator'),
+      $container->get('module_handler'),
+      $container->get('language_manager'),
+      $container->get('renderer'),
+      $container->get('redirect.repository', ContainerInterface::NULL_ON_INVALID_REFERENCE),
+    );
+  }
+
+  /**
+   * Resolve a URL or Redirect off path.
+   *
+   * @param string|null $path
+   *   Path to resolve.
+   * @param string|null $langcode
+   *   Language code to resolve.
+   * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface $metadata
+   *   Metadata to attach cacheability to.
    *
    * @return null|Redirect|Url
    *   Path resolution result.
    */
-  public function resolve(?string $path, ?string $langcode, ?Url $url, RefinableCacheableDependencyInterface $metadata) {
-
-    if (!empty($url)) {
-      if (!$this->hasLink($url) || !$this->isAccessible($url)) {
-        return $this->fail($metadata);
-      }
-
-      // This seems dumb. Turn url back into a path.
-      $context = new RenderContext();
-      $path = $this->renderer->executeInRenderContext($context, function () use ($url): string {
-        return $url->toString();
-      });
-    }
-
+  public function resolve(?string $path, ?string $langcode, RefinableCacheableDependencyInterface $metadata): mixed {
     // Give opportunity for other modules to alter incoming path urls.
     $this->moduleHandler->invokeAll('graphql_compose_routes_incoming_alter', [&$path]);
+
+    if (!$path) {
+      return NULL;
+    }
 
     if ($redirect = $this->getRedirect($path, $langcode)) {
       return $redirect;
@@ -135,11 +128,13 @@ class UrlOrRedirect extends DataProducerPluginBase implements ContainerFactoryPl
 
     // Reconstruct the url, path may have been altered.
     if (!$url) {
-      return $this->fail($metadata);
+      $metadata->addCacheTags(['4xx-response']);
+      return NULL;
     }
 
     if (!$this->hasLink($url) || !$this->isAccessible($url)) {
-      return $this->fail($metadata);
+      $metadata->addCacheTags(['4xx-response']);
+      return NULL;
     }
 
     return $url;
@@ -147,6 +142,14 @@ class UrlOrRedirect extends DataProducerPluginBase implements ContainerFactoryPl
 
   /**
    * Get the URL for a redirect.
+   *
+   * @param string $path
+   *   Path to check.
+   * @param string|null $langcode
+   *   Language code to check.
+   *
+   * @return null|\Drupal\redirect\Entity\Redirect
+   *   Redirect entity if found.
    */
   protected function getRedirect(string $path, ?string $langcode): mixed {
     // Add default language for redirect check.
@@ -174,25 +177,29 @@ class UrlOrRedirect extends DataProducerPluginBase implements ContainerFactoryPl
   }
 
   /**
-   * Check if the URL shouldnt actually be a route.
+   * Check if the URL shouldn't actually be a route.
+   *
+   * @param \Drupal\Core\Url $url
+   *   Url to check.
+   *
+   * @return bool
+   *   Whether the url should be a route.
    */
   protected function hasLink(Url $url): bool {
     return $url->isRouted() ? $url->getRouteName() !== '<nolink>' : TRUE;
   }
 
   /**
-   * Check if the URL shouldnt actually be a route.
+   * Check if the URL shouldn't actually be a accessible.
+   *
+   * @param \Drupal\Core\Url $url
+   *   Url to check.
+   *
+   * @return bool
+   *   Whether the url should be accessible.
    */
   protected function isAccessible(Url $url): bool {
     return $url->isRouted() ? $url->access() : TRUE;
-  }
-
-  /**
-   * Cache the response and exit.
-   */
-  protected function fail($metadata) {
-    $metadata->addCacheTags(['4xx-response']);
-    return NULL;
   }
 
 }

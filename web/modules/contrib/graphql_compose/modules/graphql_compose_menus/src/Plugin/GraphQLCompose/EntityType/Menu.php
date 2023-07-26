@@ -4,22 +4,24 @@ declare(strict_types=1);
 
 namespace Drupal\graphql_compose_menus\Plugin\GraphQLCompose\EntityType;
 
-use Drupal\graphql\GraphQL\ResolverBuilder;
-use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeBase;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeEntityType(
  *   id = "menu",
  *   base_fields = {
- *     "name" = {},
+ *     "name" = {
+ *       "field_type" = "entity_label",
+ *       "required" = TRUE,
+ *     },
  *     "items" = {
  *       "type_sdl" = "MenuItem",
- *       "multiple" = TRUE
+ *       "multiple" = TRUE,
+ *       "required" = TRUE,
  *     },
  *   }
  * )
@@ -27,6 +29,8 @@ use GraphQL\Type\Definition\Type;
 class Menu extends GraphQLComposeEntityTypeBase {
 
   /**
+   * {@inheritdoc}
+   *
    * Force add a query for menus to the base Query.
    */
   public function registerTypes(): void {
@@ -49,15 +53,6 @@ class Menu extends GraphQLComposeEntityTypeBase {
     ]);
 
     $this->gqlSchemaTypeManager->extend($extension);
-  }
-
-  /**
-   * Disable automatic entity resolvers.
-   *
-   * Menus are resolved within MenusSchemaExtension.
-   */
-  public function registerResolvers(ResolverRegistryInterface $registry, ResolverBuilder $builder): void {
-
   }
 
 }

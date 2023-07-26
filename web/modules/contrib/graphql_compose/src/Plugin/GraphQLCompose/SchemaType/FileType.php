@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "File",
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class FileType extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -28,7 +28,7 @@ class FileType extends GraphQLComposeSchemaTypeBase {
       'description' => (string) $this->t('A file object to represent an managed file.'),
       'fields' => fn() => [
         'name' => Type::string(),
-        'url'  => Type::nonNull(Type::string()),
+        'url' => Type::nonNull(Type::string()),
         'size' => Type::nonNull(Type::int()),
         'mime' => Type::string(),
         'description' => Type::string(),

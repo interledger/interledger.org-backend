@@ -1,0 +1,53 @@
+<?php
+
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+ * Implements hook_install().
+ */
+function graphql_compose_extra_statistics_install()
+{
+  $field_storage = FieldStorageConfig::create([
+    'field_name' => 'field_node_view_count',
+    'entity_type' => 'node',
+    'type' => 'integer',
+    'cardinality' => 1,
+    'settings' => [
+      'unsigned' => TRUE,
+      'size' => 'normal',
+    ],
+    'translatable' => FALSE,
+  ]);
+  $field_storage->save();
+
+  $node_types = \Drupal::entityTypeManager()->getStorage('node_type')->loadMultiple();
+
+  foreach ($node_types as $node_type) {
+    // Attach the custom field to all node types.
+
+    if ($node_type->id()) {
+      $field_instance = FieldConfig::create([
+        'field_name' => 'field_node_view_count',
+        'entity_type' => 'node',
+        'bundle' => $node_type->id(),
+        'label' => 'View Count',
+        'description' => 'Record a view count value.',
+        'required' => FALSE,
+        'settings' => [
+          'prefix_suffix' => FALSE,
+          'min' => NULL,
+          'max' => NULL,
+          'unsigned' => TRUE,
+          'precision' => 0,
+          'decimal_separator' => '.',
+          'grouping_separator' => ',',
+        ],
+        'default_value' => 0,
+        'default_value_callback' => NULL,
+      ]);
+      $field_instance->setSetting('widget', 'hidden');
+      $field_instance->save();
+    }
+  }
+}

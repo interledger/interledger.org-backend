@@ -13,7 +13,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 interface FieldProducerItemsInterface {
 
   /**
-   * Resolve a field.
+   * Resolve a field's items.
    *
    * @param \Drupal\Core\Field\FieldItemListInterface $field
    *   Field to process.

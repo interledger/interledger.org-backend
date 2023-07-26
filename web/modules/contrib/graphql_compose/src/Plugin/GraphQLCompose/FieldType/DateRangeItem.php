@@ -10,7 +10,7 @@ use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerItemInterfac
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerTrait;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeFieldType(
  *   id = "daterange",
@@ -37,7 +37,7 @@ class DateRangeItem extends DateTimeItem implements FieldProducerItemInterface {
 
     return [
       'start' => $item->value ? $start : NULL,
-      'end'   => $item->end_value ? $end : NULL,
+      'end' => $item->end_value ? $end : NULL,
     ];
   }
 

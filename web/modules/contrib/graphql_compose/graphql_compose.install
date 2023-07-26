@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * @file
+ * GraphQL Compose module file.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Component\Utility\Crypt;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\graphql_compose\Form\SchemaForm;
+
+/**
+ * Breaking change. Block renamed to BlockInterface, block_plugin_id now id.
+ */
+function graphql_compose_update_8004() {
+  return (string) new TranslatableMarkup("Check your schema if you use Blocks. Breaking changes.");
+}
+
+/**
+ * Add extra default site settings to config.
+ */
+function graphql_compose_update_8003() {
+  $settings = \Drupal::configFactory()->getEditable('graphql_compose.settings');
+
+  $settings->set('settings.expose_entity_ids', FALSE);
+  $settings->set('settings.site_front', TRUE);
+  $settings->set('settings.site_name', FALSE);
+  $settings->set('settings.site_slogan', FALSE);
+
+  $settings->save();
+
+  _graphql_compose_cache_flush();
+}
+
+/**
+ * Add default site settings to config.
+ */
+function graphql_compose_update_8002() {
+  $settings = \Drupal::configFactory()->getEditable('graphql_compose.settings');
+
+  $settings->set('settings', [
+    'schema_description' => 'GraphQL Compose',
+    'schema_version' => '1',
+    'simple_unions' => TRUE,
+  ]);
+
+  $settings->save();
+
+  _graphql_compose_cache_flush();
+
+  return (string) new TranslatableMarkup("The sites's caches should be rebuilt to ensure GraphQL Compose works as intended.");
+}
+
+/**
+ * Migrate GraphQL Compose settings to use config schema.
+ */
+function graphql_compose_update_8001() {
+
+  $settings = \Drupal::configFactory()->getEditable('graphql_compose.settings');
+
+  $current = $settings->get() ?: [];
+
+  // Get config thats not part of the schema.
+  $entity_config = array_filter($current, function ($key) {
+    return !in_array($key, [
+      'field_config',
+      'entities',
+      'entity_config',
+      'settings',
+      '_core',
+    ]);
+  }, ARRAY_FILTER_USE_KEY);
+
+  $default_config = [
+    'entity_config' => [],
+    'field_config' => [],
+  ];
+
+  // Reconstruct in desired format.
+  $config_to_create = [
+    '_core' => [
+      'default_config_hash' => Crypt::hashBase64(serialize($default_config)),
+    ],
+    'entity_config' => $current['entity_config'] ?? $entity_config,
+    'field_config' => $current['field_config'] ?? [],
+  ];
+
+  SchemaForm::sortAndFilterSettings($config_to_create);
+
+  $settings->setData($config_to_create)->save();
+
+  _graphql_compose_cache_flush();
+
+  return (string) new TranslatableMarkup("The sites's caches should be rebuilt to ensure GraphQL Compose works as intended.");
+}

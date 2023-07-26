@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Drupal\graphql_compose\Plugin\GraphQLCompose;
 
-use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Component\Plugin\DerivativeInspectionInterface;
+use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql_compose\Wrapper\EntityTypeWrapper;
@@ -17,11 +17,17 @@ interface GraphQLComposeEntityTypeInterface extends PluginInspectionInterface, D
 
   /**
    * Description of this entity type.
+   *
+   * @return string|null
+   *   Description of this entity type.
    */
   public function getDescription(): ?string;
 
   /**
    * Prefix for this entity type. Eg Paragraph.
+   *
+   * @return string
+   *   Prefix for this entity type. Eg Paragraph.
    */
   public function getPrefix(): string;
 
@@ -41,17 +47,25 @@ interface GraphQLComposeEntityTypeInterface extends PluginInspectionInterface, D
   public function getBundle(string $bundle_id): ?EntityTypeWrapper;
 
   /**
-   * Entity wide SDL.
+   * Entity wide type registration.
    */
   public function registerTypes(): void;
 
   /**
    * Allow type plugins to add extra resolvers.
+   *
+   * @param \Drupal\graphql\GraphQL\ResolverRegistryInterface $registry
+   *   The resolver registry.
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
    */
   public function registerResolvers(ResolverRegistryInterface $registry, ResolverBuilder $builder): void;
 
   /**
    * Get common union name between entity bundles.
+   *
+   * @return string
+   *   Common union name between entity bundles.
    */
   public function getUnionTypeSdl(): string;
 

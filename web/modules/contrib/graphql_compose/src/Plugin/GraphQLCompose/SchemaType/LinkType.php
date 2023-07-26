@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "Link",
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class LinkType extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -26,7 +26,8 @@ class LinkType extends GraphQLComposeSchemaTypeBase {
     $types[] = new ObjectType([
       'name' => $this->getPluginId(),
       'fields' => fn() => [
-        'url'   => Type::string(),
+        'url' => Type::string(),
+        'internal' => Type::nonNull(Type::boolean()),
         'title' => Type::string(),
       ],
     ]);

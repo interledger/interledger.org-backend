@@ -1,0 +1,8 @@
+name: "GraphQL Compose Extra"
+description: "GraphQL Compose with Extras."
+type: module
+core_version_requirement: ^9 || ^10
+dependencies:
+  - graphql_compose:graphql_compose
+package: GraphQL Compose Extra
+hidden: false

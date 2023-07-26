@@ -14,7 +14,7 @@ use Drupal\paragraphs\ParagraphInterface;
  * @DataProducer(
  *   id = "layout_paragraphs",
  *   name = @Translation("Layout Paragraphs"),
- *   description = @Translation("Layout patragraphs information for Paragraph entity."),
+ *   description = @Translation("Layout paragraphs information for Paragraph entity."),
  *   produces = @ContextDefinition("any",
  *     label = @Translation("Layout Paragraphs settings")
  *   ),
@@ -29,6 +29,12 @@ class LayoutParagraphs extends DataProducerPluginBase implements DataProducerPlu
 
   /**
    * Return the entity if it has layout paragraphs setting.
+   *
+   * @param \Drupal\paragraphs\ParagraphInterface|null $entity
+   *   The paragraph entity.
+   *
+   * @return array|null
+   *   The layout paragraphs settings.
    */
   public function resolve(?ParagraphInterface $entity): ?array {
     if (!$entity) {

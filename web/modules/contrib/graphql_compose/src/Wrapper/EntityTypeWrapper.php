@@ -10,10 +10,9 @@ use Drupal\Core\Config\Entity\ConfigEntityTypeInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeManager;
 use Drupal\graphql_compose\LanguageInflector;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeInterface;
-
+use Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeManager;
 use function Symfony\Component\String\u;
 
 /**
@@ -25,31 +24,46 @@ class EntityTypeWrapper {
 
   /**
    * Language inflector service.
+   *
+   * @var \Drupal\graphql_compose\LanguageInflector
    */
   public LanguageInflector $inflector;
 
   /**
    * Field type plugin manager.
+   *
+   * @var \Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeManager
    */
   public GraphQLComposeFieldTypeManager $gqlFieldTypeManager;
 
   /**
    * Drupal entity field manager.
+   *
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
    */
   public EntityFieldManagerInterface $entityFieldManager;
 
   /**
    * Drupal entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   public EntityTypeManagerInterface $entityTypeManager;
 
   /**
    * Drupal config factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   public ConfigFactoryInterface $configFactory;
 
   /**
-   * Entity Type plugin bundle constructor.
+   * Constructs a EntityTypeWrapper object.
+   *
+   * @param \Drupal\graphql_compose\Plugin\GraphQLComposeEntityTypeInterface $entityTypePlugin
+   *   The entity type plugin.
+   * @param mixed $entity
+   *   The entity to wrap.
    */
   public function __construct(
     public GraphQLComposeEntityTypeInterface $entityTypePlugin,
@@ -63,7 +77,10 @@ class EntityTypeWrapper {
   }
 
   /**
-   * Type of this entity and bundle. Eg paragraphText.
+   * Type of this entity and bundle.
+   *
+   * @return string
+   *   The GraphQL type name of the entity type. Eg paragraphText.
    */
   public function getNameSdl(): string {
     return u($this->entity->id())
@@ -75,25 +92,21 @@ class EntityTypeWrapper {
 
   /**
    * Type of this entity and bundle, plural. Eg paragraphTexts.
+   *
+   * @return string
+   *   The GraphQL type name of the entity type, plural.
    */
   public function getNamePluralSdl(): string {
-    // Converting the original to a singular can have side effects
-    // (wrong words in languages). Assume if someone has named a content
-    // type "News" the plural version could be "NewsItems".
-    // This should mostly work. Pages, PagesItems.
     $plural = $this->inflector->pluralize($this->getNameSdl())[0];
-
-    // This is a failure catch. News = NewsItems.
-    // If someone needs to make further adjustments, use the pluralize hook.
-    if ($plural === $this->getNameSdl()) {
-      $plural .= $this->t('Items');
-    }
 
     return $plural;
   }
 
   /**
-   * Type for the Schema. Title cased singular. Eg ParagraphText.
+   * Type for the Schema. Title cased singular.
+   *
+   * @return string
+   *   The GraphQL type of the entity type. Eg ParagraphText.
    */
   public function getTypeSdl(): string {
     return u($this->getNameSdl())
@@ -103,7 +116,10 @@ class EntityTypeWrapper {
   }
 
   /**
-   * Return the bundle description or the defined desceription on the plugin.
+   * Return the bundle description or the defined description on the plugin.
+   *
+   * @return string|null
+   *   The description of the wrapped entity.
    */
   public function getDescription(): ?string {
     return method_exists($this->entity, 'getDescription')
@@ -113,27 +129,39 @@ class EntityTypeWrapper {
 
   /**
    * Check if this entity bundle is enabled.
+   *
+   * @return bool
+   *   True if the bundle is enabled.
    */
   public function isEnabled(): bool {
     if ($this->entity instanceof ConfigEntityTypeInterface) {
       return TRUE;
     }
 
-    return $this->getSetting('enabled') ?: FALSE;
+    return (bool) $this->getSetting('enabled') ?: FALSE;
   }
 
   /**
    * Enabled single resolution query for type. Eg nodePage()
+   *
+   * @return bool
+   *   True if the query load option is enabled.
    */
   public function isQueryLoadEnabled(): bool {
-    return $this->getSetting('query_load_enabled') ?: FALSE;
+    return (bool) $this->getSetting('query_load_enabled') ?: FALSE;
   }
 
   /**
    * Get a config setting.
+   *
+   * @param string $setting
+   *   The setting to get.
+   *
+   * @return mixed
+   *   The setting value or null.
    */
-  public function getSetting($setting) {
-    $config = $this->configFactory->get('graphql_compose.settings');
+  public function getSetting(string $setting): mixed {
+    $settings = $this->configFactory->get('graphql_compose.settings');
 
     $entity_type = $base_type = $this->entity;
     if ($entity_type instanceof ConfigEntityInterface) {
@@ -142,7 +170,7 @@ class EntityTypeWrapper {
       }
     }
 
-    return $config->get($base_type->id() . '.' . $entity_type->id() . '.' . $setting) ?: NULL;
+    return $settings->get('entity_config.' . $base_type->id() . '.' . $entity_type->id() . '.' . $setting) ?: NULL;
   }
 
 }

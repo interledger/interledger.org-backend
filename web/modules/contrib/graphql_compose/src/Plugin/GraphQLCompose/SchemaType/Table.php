@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "Table",
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class Table extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -27,8 +27,8 @@ class Table extends GraphQLComposeSchemaTypeBase {
       'name' => $this->getPluginId(),
       'fields' => fn() => [
         'caption' => Type::string(),
-        'rows'    => Type::listOf(static::type('TableRow')),
-        'format'  => [
+        'rows' => Type::listOf(static::type('TableRow')),
+        'format' => [
           'type' => Type::string(),
           'description' => (string) $this->t('A text format associated with the row data.'),
         ],

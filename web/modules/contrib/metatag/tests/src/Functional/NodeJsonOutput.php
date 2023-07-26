@@ -49,8 +49,10 @@ class NodeJsonOutput extends BrowserTestBase {
   public function testNode() {
     $this->provisionResource();
 
+    $title = 'Test JSON output';
+    $body = 'Testing JSON output for a content type';
     /** @var \Drupal\node\NodeInterface $node */
-    $node = $this->createContentTypeNode('Test JSON output', 'Testing JSON output for a content type');
+    $node = $this->createContentTypeNode($title, $body);
     $url = $node->toUrl();
 
     // Load the node's page.
@@ -75,8 +77,28 @@ class NodeJsonOutput extends BrowserTestBase {
     }
     $this->assertTrue(isset($json->metatag));
     if (isset($json->metatag)) {
-      $this->assertEquals($json->metatag[0]->attributes->content, $node->label() . ' | Drupal');
-      // @todo Test other meta tags.
+      // It is not clear what order the meta tags will be in, so loop over them
+      // and check each item.
+      $meta_tags_found = FALSE;
+      foreach ($json->metatag as $tag) {
+        // Title.
+        if (isset($tag->tag, $tag->attributes->name) && $tag->attributes->name == 'title') {
+          $this->assertEquals($tag->attributes->content, $title . ' | Drupal');
+          $this->assertEquals($tag->attributes->content, $node->label() . ' | Drupal');
+          $meta_tags_found = TRUE;
+        }
+        // Canonical URL tag.
+        if (isset($tag->tag, $tag->attributes->rel) && $tag->attributes->rel == 'canonical') {
+          $this->assertEquals($tag->attributes->href, $node->toUrl('canonical', ['absolute' => TRUE])->toString());
+          $meta_tags_found = TRUE;
+        }
+        // Description.
+        if (isset($tag->tag, $tag->attributes->name) && $tag->attributes->name == 'description') {
+          $this->assertEquals($tag->attributes->content, $body);
+          $meta_tags_found = TRUE;
+        }
+      }
+      $this->assertEquals($meta_tags_found, TRUE);
     }
   }
 
@@ -91,7 +113,7 @@ class NodeJsonOutput extends BrowserTestBase {
    *   The allowed authentication providers for this resource; defaults to
    *   ['basic_auth'].
    */
-  protected function provisionResource($entity_type = 'node', array $formats = [], array $authentication = []) {
+  protected function provisionResource($entity_type = 'node', array $formats = [], array $authentication = []): void {
     /** @var \Drupal\Core\Entity\EntityStorageInterface */
     $esource_config_storage = $this->container
       ->get('entity_type.manager')

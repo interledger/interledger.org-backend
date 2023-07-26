@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "DateTime"
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class DateTimeType extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -28,9 +28,9 @@ class DateTimeType extends GraphQLComposeSchemaTypeBase {
       'description' => (string) $this->t('A DateTime object.'),
       'fields' => fn() => [
         'timestamp' => Type::nonNull(static::type('Timestamp')),
-        'timezone'  => Type::nonNull(static::type('TimeZone')),
-        'offset'    => Type::nonNull(static::type('UtcOffset')),
-        'time'      => Type::nonNull(static::type('Time')),
+        'timezone' => Type::nonNull(static::type('TimeZone')),
+        'offset' => Type::nonNull(static::type('UtcOffset')),
+        'time' => Type::nonNull(static::type('Time')),
       ],
     ]);
 

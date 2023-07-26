@@ -6,9 +6,8 @@ namespace Drupal\graphql_compose_views\Plugin\views\display;
 
 use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Cache\CacheableMetadata;
-use Drupal\views\Plugin\views\display\DisplayPluginBase;
 use Drupal\Core\Form\FormStateInterface;
-
+use Drupal\views\Plugin\views\display\DisplayPluginBase;
 use function Symfony\Component\String\u;
 
 /**
@@ -99,11 +98,16 @@ class GraphQL extends DisplayPluginBase {
     unset($options['css_class']);
 
     $options['graphql_query_name'] = ['default' => ''];
+    $options['graphql_query_exposed'] = ['default' => TRUE];
+
     return $options;
   }
 
   /**
    * Get the user defined query name or the default one.
+   *
+   * @return string
+   *   The query name.
    */
   public function getGraphQlQueryName(): string {
     return Unicode::lcfirst($this->getGraphQlName());
@@ -111,6 +115,9 @@ class GraphQL extends DisplayPluginBase {
 
   /**
    * Gets the result name.
+   *
+   * @return string
+   *   The result name.
    */
   public function getGraphQlResultName(): string {
     return $this->getGraphQlName('result');
@@ -118,6 +125,9 @@ class GraphQL extends DisplayPluginBase {
 
   /**
    * Gets the row name.
+   *
+   * @return string
+   *   The row name.
    */
   public function getGraphQlRowName(): string {
     return $this->getGraphQlName('row');
@@ -125,6 +135,9 @@ class GraphQL extends DisplayPluginBase {
 
   /**
    * Gets the filter input name.
+   *
+   * @return string
+   *   The filter input name.
    */
   public function getGraphQlFilterInputName(): string {
     return $this->getGraphQlName('filter_input');
@@ -132,33 +145,32 @@ class GraphQL extends DisplayPluginBase {
 
   /**
    * Gets the contextual filter input name.
+   *
+   * @return string
+   *   The contextual filter input name.
    */
   public function getGraphQlContextualFilterInputName(): string {
     return $this->getGraphQlName('contextual_filter_input');
   }
 
   /**
-   * Gets the filter input name.
+   * Gets the sort input name.
+   *
+   * @return string
+   *   The filter sort name.
    */
   public function getGraphQlSortInputName(): string {
     return $this->getGraphQlName('sort_keys');
   }
 
   /**
-   * Gets the per-page input name.
-   */
-  public function getGraphQlPerPageFilterInputName(): string {
-    return $this->getGraphQlName('contextual_filter_input');
-  }
-
-  /**
-   * Returns the formatted name.
+   * Return a type string for usage in GraphQL.
    *
    * @param string|null $suffix
    *   Id suffix, eg. row, result.
    *
    * @return string
-   *   The id.
+   *   The formatted name.
    */
   public function getGraphQlName($suffix = NULL): string {
     $queryName = strip_tags($this->getOption('graphql_query_name'));
@@ -235,6 +247,12 @@ class GraphQL extends DisplayPluginBase {
       'title' => $this->t('Query name'),
       'value' => views_ui_truncate($this->getGraphQlQueryName(), 24),
     ];
+
+    $options['graphql_query_exposed'] = [
+      'category' => 'graphql',
+      'title' => $this->t('Query visibility'),
+      'value' => $this->getOption('graphql_query_exposed') ? $this->t('Visible') : $this->t('Hidden'),
+    ];
   }
 
   /**
@@ -246,11 +264,32 @@ class GraphQL extends DisplayPluginBase {
     switch ($form_state->get('section')) {
       case 'graphql_query_name':
         $form['#title'] .= $this->t('Query name');
+
         $form['graphql_query_name'] = [
           '#type' => 'textfield',
           '#description' => $this->t('This will be the graphQL query name.'),
           '#default_value' => $this->getGraphQlQueryName(),
         ];
+
+        break;
+
+      case 'graphql_query_exposed':
+        $form['#title'] .= $this->t('Query visible');
+
+        $form['graphql_query_exposed'] = [
+          '#type' => 'checkbox',
+          '#title' => $this->t('Query visible'),
+          '#description' => $this->t('
+            Enable the query on the root of the schema.<br><br>
+            Disabling hides the query only.<br>
+            All types and resolvers are still added to your schema.<br><br>
+            This is useful if you only want to use this view in a field with the <a href=":url" target="_blank">viewfield</a> module.
+          ', [
+            ':url' => 'https://www.drupal.org/project/viewfield',
+          ]),
+          '#default_value' => $this->getOption('graphql_query_exposed'),
+        ];
+
         break;
     }
   }
@@ -263,6 +302,10 @@ class GraphQL extends DisplayPluginBase {
     $section = $form_state->get('section');
     switch ($section) {
       case 'graphql_query_name':
+        $this->setOption($section, $form_state->getValue($section));
+        break;
+
+      case 'graphql_query_exposed':
         $this->setOption($section, $form_state->getValue($section));
         break;
     }

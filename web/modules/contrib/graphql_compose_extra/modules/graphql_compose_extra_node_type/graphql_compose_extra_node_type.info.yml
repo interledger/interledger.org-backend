@@ -1,0 +1,8 @@
+name: "GraphQL Compose Extra: Node Type"
+description: "Enable node types."
+type: module
+core_version_requirement: ^9 || ^10
+dependencies:
+  - graphql_compose_extra:graphql_compose_extra
+package: GraphQL Compose Extra
+hidden: false

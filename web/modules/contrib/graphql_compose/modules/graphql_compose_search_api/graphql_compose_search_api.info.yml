@@ -1,8 +1,0 @@
-name: "GraphQL Compose: Search API"
-description: "Enable search api."
-type: module
-core_version_requirement: ^9 || ^10
-dependencies:
-  - search_api:search_api
-package: GraphQL Compose
-hidden: false

@@ -6,20 +6,6 @@
  */
 
 /**
- * Alter the result from language singularize.
- *
- * @param string $original
- *   Original string to be converted.
- * @param array $singular
- *   Result from the language interface.
- */
-function hook_graphql_compose_singularize_alter($original, array &$singular): void {
-  if (preg_match('/media$/i', $original)) {
-    $singular = [$original];
-  }
-}
-
-/**
  * Alter the result from language pluralize.
  *
  * @param string $original
@@ -28,9 +14,14 @@ function hook_graphql_compose_singularize_alter($original, array &$singular): vo
  *   Result from the language interface.
  */
 function hook_graphql_compose_pluralize_alter($original, array &$plural): void {
-  if (preg_match('/media$/i', $original)) {
-    $plural = [$original . 'Items'];
+  // Ends in z,s,x. (Eg termTags)
+  if (preg_match('/[sxz]$/', $original)) {
+    // Eg Query termTagss becomes termTagItems.
+    $plural = [
+      rtrim($original, 'sxz') . t('Items'),
+    ];
   }
+
 }
 
 /**
@@ -39,12 +30,9 @@ function hook_graphql_compose_pluralize_alter($original, array &$plural): void {
  * @param bool $enabled
  *   Field is enabled or not.
  * @param \Drupal\Core\Field\FieldDefinitionInterface $field_definition
- *   Fiel definition.
+ *   Field definition.
  */
-function hook_graphql_compose_field_enabled_alter(
-  bool &$enabled,
-  \Drupal\Core\Field\FieldDefinitionInterface $field_definition
-) {
+function hook_graphql_compose_field_enabled_alter(bool &$enabled, \Drupal\Core\Field\FieldDefinitionInterface $field_definition) {
   $entity_type = $field_definition->getTargetEntityTypeId();
 
   if ($entity_type === 'user' && $field_definition->getName() === 'mail') {
@@ -62,11 +50,7 @@ function hook_graphql_compose_field_enabled_alter(
  * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface $metadata
  *   Context for metadata expansion.
  */
-function hook_graphql_compose_field_results_alter(
-  array &$results,
-  array $context,
-  \Drupal\Core\Cache\RefinableCacheableDependencyInterface $metadata
-) {
+function hook_graphql_compose_field_results_alter(array &$results, array $context, \Drupal\Core\Cache\RefinableCacheableDependencyInterface $metadata) {
   $field = $context['value']->getFieldDefinition();
   if ($field->getName() === 'field_potato' && empty($results)) {
     $results = ['Chips'];
@@ -81,10 +65,7 @@ function hook_graphql_compose_field_results_alter(
  * @param \Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeInterface $plugin
  *   The current entity type being processed.
  */
-function hook_graphql_compose_entity_interfaces_alter(
-  array &$interfaces,
-  \Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeInterface $plugin
-) {
+function hook_graphql_compose_entity_interfaces_alter(array &$interfaces, \Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeInterface $plugin) {
   if ($plugin->getBaseId() === 'block') {
     $interfaces[] = 'TestBlocks';
   }
@@ -98,10 +79,7 @@ function hook_graphql_compose_entity_interfaces_alter(
  * @param \Drupal\Core\Entity\EntityInterface $entity
  *   The current entity bundle being processed.
  */
-function hook_graphql_compose_entity_bundle_enabled_alter(
-  bool &$enabled,
-  \Drupal\Core\Entity\EntityInterface $entity
-) {
+function hook_graphql_compose_entity_bundle_enabled_alter(bool &$enabled, \Drupal\Core\Entity\EntityInterface $entity) {
   if ($entity->id() === 'user') {
     $enabled = FALSE;
   }
@@ -124,41 +102,43 @@ function hook_graphql_compose_entity_base_fields_alter(array &$fields, string $e
 /**
  * Alter the entity type form GraphQL settings.
  *
- * @param array $form
- *   Drupal form array.
- * @param \Drupal\Core\Form\FormStateInterface $form_state
- *   Drupal form state.
- * @param array $settings
- *   Current settings.
- */
-function hook_graphql_compose_entity_type_form_alter(
-  array &$form,
-  \Drupal\Core\Form\FormStateInterface $form_state,
-  array $settings,
-) {
-  // $entity_type = $form_state->get('entity_type');
-  $form['graphql_compose']['my_setting'] = [
-    'default_value' => $settings['my_setting'] ?? NULL,
-  ];
-}
-
-/**
- * Operations to execute on save.
+ * Note: You should hook alter the config schema if you edit this.
+ * Alter config schema using hook_config_schema_info_alter().
+ * See graphql_compose_routes.module for an example.
  *
  * @param array $form
  *   Drupal form array.
  * @param \Drupal\Core\Form\FormStateInterface $form_state
  *   Drupal form state.
+ * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
+ *   Current entity type.
  * @param array $settings
- *   Settings to write to config.
+ *   Current settings.
  */
-function hook_graphql_compose_entity_type_form_submit_alter(
-  array $form,
-  \Drupal\Core\Form\FormStateInterface $form_state,
-  array &$settings,
-) {
-  $settings['my_setting'] = $form_state->getValue([
-    'graphql_compose',
-    'my_setting',
-  ]);
+function hook_graphql_compose_entity_type_form_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, \Drupal\Core\Entity\EntityTypeInterface $entity_type, array $settings) {
+  $form['my_setting'] = [
+    '#default_value' => $settings['my_setting'] ?? NULL,
+  ];
+}
+
+/**
+ * Alter the field type form GraphQL settings.
+ *
+ * Note: You should hook alter the config schema if you edit this.
+ * Alter config schema using hook_config_schema_info_alter().
+ * See graphql_compose_routes.module for an example.
+ *
+ * @param array $form
+ *   Drupal form array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Drupal form state.
+ * @param \Drupal\Core\Field\FieldDefinitionInterface $field
+ *   Current field type.
+ * @param array $settings
+ *   Current settings.
+ */
+function hook_graphql_compose_field_type_form_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, \Drupal\Core\Field\FieldDefinitionInterface $field, array $settings) {
+  $form['my_setting'] = [
+    '#default_value' => $settings['my_setting'] ?? NULL,
+  ];
 }

@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "Language",
@@ -18,17 +18,17 @@ use GraphQL\Type\Definition\Type;
 class LanguageType extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
 
     $types[] = new ObjectType([
       'name' => $this->getPluginId(),
-      'description' => (string) $this->t('A langauge definition provided by the CMS.'),
+      'description' => (string) $this->t('A language definition provided by the CMS.'),
       'fields' => fn() => [
-        'id'        => Type::id(),
-        'name'      => Type::string(),
+        'id' => Type::id(),
+        'name' => Type::string(),
         'direction' => Type::string(),
       ],
     ]);

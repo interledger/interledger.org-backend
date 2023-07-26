@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "Image",
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class ImageType extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -27,12 +27,12 @@ class ImageType extends GraphQLComposeSchemaTypeBase {
       'name' => $this->getPluginId(),
       'description' => (string) $this->t('A image object to represent an managed file.'),
       'fields' => fn() => [
-        'url'    => Type::nonNull(Type::string()),
-        'width'  => Type::nonNull(Type::int()),
+        'url' => Type::nonNull(Type::string()),
+        'width' => Type::nonNull(Type::int()),
         'height' => Type::nonNull(Type::int()),
-        'alt'    => Type::string(),
-        'title'  => Type::string(),
-        'mime'   => Type::string(),
+        'alt' => Type::string(),
+        'title' => Type::string(),
+        'mime' => Type::string(),
       ],
     ]);
 

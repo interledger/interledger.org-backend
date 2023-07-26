@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Add connection edges to entity bundles.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\ContentEntityTypeInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_graphql_compose_entity_type_form_alter().
+ */
+function graphql_compose_extra_edges_graphql_compose_entity_type_form_alter(array &$form, FormStateInterface $form_state, EntityTypeInterface $entity_type, array $settings): void {
+  if ($entity_type instanceof ContentEntityTypeInterface) {
+    $form['edges_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Enable multiple query'),
+      '#default_value' => $settings['edges_enabled'] ?? FALSE,
+      '#description' => t('Edge connections enable loading multiple entities at once with a cursor.'),
+    ];
+  }
+}
+
+/**
+ * Implements hook_config_schema_info_alter().
+ */
+function graphql_compose_extra_edges_config_schema_info_alter(&$definitions) {
+  $definitions['graphql_compose.entity.*.*']['mapping']['edges_enabled'] = [
+    'type' => 'boolean',
+    'label' => t('Enable multiple query'),
+  ];
+}

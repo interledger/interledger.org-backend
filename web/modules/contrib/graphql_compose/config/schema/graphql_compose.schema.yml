@@ -1,0 +1,80 @@
+graphql_compose.settings:
+  type: config_object
+  label: 'GraphQL Compose settings'
+  mapping:
+    entity_config:
+      type: sequence
+      label: 'Entity config types'
+      sequence:
+        type: 'graphql_compose.entity.[%key]'
+    field_config:
+      type: sequence
+      label: 'Field config types'
+      sequence:
+        type: 'graphql_compose.field.[%key]'
+    settings:
+      type: mapping
+      label: 'Settings'
+      mapping:
+        expose_entity_ids:
+          type: boolean
+          label: 'Expose entity IDs to the schema'
+        schema_description:
+          type: string
+          label: 'Schema description'
+        schema_version:
+          type: string
+          label: 'Schema version'
+        simple_unions:
+          type: boolean
+          label: 'Simple entity unions'
+        site_name:
+          type: boolean
+          label: 'Expose site name'
+        site_slogan:
+          type: boolean
+          label: 'Expose site slogan'
+        site_front:
+          type: boolean
+          label: 'Expose site front'
+
+graphql_compose.entity.*:
+  type: sequence
+  label: 'Entity type'
+  sequence:
+    type: 'graphql_compose.entity.[%parent.%key].[%key]'
+
+graphql_compose.entity.*.*:
+  label: 'Entity bundle'
+  type: mapping
+  mapping:
+    enabled:
+      type: boolean
+      label: 'Enable GraphQL'
+    query_load_enabled:
+      type: boolean
+      label: 'Enable single query'
+
+graphql_compose.field.*:
+  type: sequence
+  label: 'Field type'
+  sequence:
+    type: 'graphql_compose.field.[%parent.%key].[%key]'
+
+graphql_compose.field.*.*:
+  type: sequence
+  label: 'Field bundle'
+  sequence:
+    type: 'graphql_compose.field.[%parent.%parent.%key].[%parent.%key].[%key]'
+
+graphql_compose.field.*.*.*:
+  label: 'Field'
+  type: mapping
+  mapping:
+    enabled:
+      type: boolean
+      label: 'Enable Field'
+    name_sdl:
+      type: string
+      label: 'Schema field name'
+      nullable: true

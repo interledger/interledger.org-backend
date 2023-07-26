@@ -27,44 +27,54 @@
 .js .paragraphs-features__add-in-between__wrapper {
   @include transition(border-color);
 
-  display: inline-flex;
+  display: block;
   left: 50%;
   opacity: 0.0;
   position: absolute;
   top: -50%;
   transform: translate(-50%, -50%);
-  width: auto;
+  width: 100%;
   z-index: 1;
 
+  &.is-active,
   &:active,
   &:focus,
   &:hover {
     opacity: 1.0 !important;
   }
 
-  .paragraphs-features__add-in-between__button-list li {
-    margin: 0;
+  .paragraphs-features__add-in-between__button-list {
+    width: 100%;
 
-    .ajax-progress-throbber {
+    .ajax-progress-throbber,
+    .ajax-progress--throbber {
       display: none;
     }
   }
 
+  .paragraphs-features__add-in-between__button-list li {
+    /** Set a fixed height. */
+    height: var(--space-l);
+    margin: 0;
+  }
+
   .paragraphs-features__add-in-between__button {
     background: $button-background;
-    border: 1px solid $border-color !important;
+    border: var(--dropbutton-border-size) solid var(--input-border-color) !important;
     border-radius: 0;
     border-right-width: 0 !important;
     box-shadow: none;
-    color: $grey-dark;
+    color: var(--input-fg-color);
     display: inline-block;
     float: left;
+    font-weight: normal;
     line-height: normal;
     margin: 0;
+    padding: calc(var(--space-xs) / 2) calc(var(--space-m) / 2);
     position: relative;
 
     &:before {
-      border: 1px solid $border-color-active;
+      border: var(--dropbutton-border-size) solid $border-color-active;
       bottom: -1px;
       content: '';
       height: auto;
@@ -76,19 +86,6 @@
       transition: opacity 0.2s;
       width: auto;
       z-index: -1;
-    }
-
-    &.first,
-    &.first:before {
-      border-bottom-left-radius: $border-radius;
-      border-top-left-radius: $border-radius;
-    }
-
-    &.last,
-    &.last:before {
-      border-bottom-right-radius: $border-radius;
-      border-right-width: 1px !important;
-      border-top-right-radius: $border-radius;
     }
 
     &:active,
@@ -104,6 +101,39 @@
         opacity: 1;
         z-index: 1;
       }
+    }
+
+    &.first,
+    &.first:before {
+      border-bottom-left-radius: $border-radius;
+      border-top-left-radius: $border-radius;
+    }
+
+    &.last,
+    &.last:before {
+      border-bottom-right-radius: $border-radius;
+      border-right-width: var(--dropbutton-border-size) !important;
+      border-top-right-radius: $border-radius;
+    }
+
+    &.paragraphs_ee__add-in-between__dialog-button {
+      background: var(--button-bg-color--primary);
+      color: var(--button-fg-color--primary);
+      font-weight: bolder;
+      padding-left: var(--space-m);
+      padding-right: var(--space-m);
+
+      &:active,
+      &:focus,
+      &:hover {
+        background: var(--button--hover-bg-color--primary);
+        color: var(--button-fg-color--primary);
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+      font-size: var(--font-size-xs);
+      padding: calc(var(--space-xs)/2) var(--space-xs);
     }
   }
 }

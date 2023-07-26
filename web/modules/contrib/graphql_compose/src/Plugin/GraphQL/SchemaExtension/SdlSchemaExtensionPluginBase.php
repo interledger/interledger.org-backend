@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Drupal\graphql_compose\Plugin\GraphQL\SchemaExtension;
 
-use Drupal\graphql\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase as GSdlSchemaExtensionPluginBase;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Core\Entity\EntityFieldManager;
 use Drupal\Core\Entity\EntityTypeManager;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
+use Drupal\graphql\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase as GSdlSchemaExtensionPluginBase;
 use Drupal\graphql_compose\Plugin\GraphQLComposeEntityTypeManager;
 use Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeManager;
 use Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager;
@@ -22,26 +22,36 @@ abstract class SdlSchemaExtensionPluginBase extends GSdlSchemaExtensionPluginBas
 
   /**
    * Entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManager
    */
   protected EntityTypeManager $entityTypeManager;
 
   /**
    * Entity field manager.
+   *
+   * @var \Drupal\Core\Entity\EntityFieldManager
    */
   protected EntityFieldManager $entityFieldManager;
 
   /**
    * Entity type plugin manager.
+   *
+   * @var \Drupal\graphql_compose\Plugin\GraphQLComposeEntityTypeManager
    */
   protected GraphQLComposeEntityTypeManager $gqlEntityTypeManager;
 
   /**
    * Field type plugin manager.
+   *
+   * @var \Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeManager
    */
   protected GraphQLComposeFieldTypeManager $gqlFieldTypeManager;
 
   /**
    * SDL type plugin manager.
+   *
+   * @var \Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager
    */
   protected GraphQLComposeSchemaTypeManager $gqlSchemaTypeManager;
 
@@ -68,9 +78,10 @@ abstract class SdlSchemaExtensionPluginBase extends GSdlSchemaExtensionPluginBas
   /**
    * {@inheritdoc}
    *
-   * Satisfy interface. We may not need to resolve anything if field based.
+   * We may not need to resolve anything if field based.
    */
   public function registerResolvers(ResolverRegistryInterface $registry) {
+    // Satisfy interface. Nothing to do here.
   }
 
   /**
@@ -83,7 +94,9 @@ abstract class SdlSchemaExtensionPluginBase extends GSdlSchemaExtensionPluginBas
       return parent::loadDefinitionFile($type);
     }
     catch (InvalidPluginDefinitionException $e) {
-      // Ignore this.
+      // Ignore this exception from parent.
+      // We are not concerned with the schema file not existing.
+      return NULL;
     }
   }
 

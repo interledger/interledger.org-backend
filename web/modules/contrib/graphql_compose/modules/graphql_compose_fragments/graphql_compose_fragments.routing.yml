@@ -1,12 +1,7 @@
 graphql_compose_fragments.fragments:
-  path: "/admin/config/graphql/servers/manage/{graphql_server}/fragments"
+  path: '/admin/config/graphql_compose/fragments'
   defaults:
     _controller: '\Drupal\graphql_compose_fragments\Controller\FragmentController::show'
-    _title: "GraphQL Compose Fragments"
+    _title: 'GraphQL Compose Fragments'
   requirements:
-    _permission: "administer graphql configuration"
-  options:
-    _admin_route: TRUE
-    parameters:
-      graphql_server:
-        type: entity:graphql_server
+    _permission: 'administer graphql configuration'

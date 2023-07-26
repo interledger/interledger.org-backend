@@ -1,0 +1,11 @@
+settings.admin:
+  version: 1
+  js:
+    js/settings.admin.js: {}
+  dependencies:
+    - core/drupal.form
+
+uuid.admin:
+  version: 1
+  js:
+    js/uuid.admin.js: {}

@@ -13,7 +13,13 @@ use Drupal\graphql\GraphQL\ResolverBuilder;
 trait FieldProducerTrait {
 
   /**
-   * {@inheritdoc}
+   * Retrieves the producers for a field.
+   *
+   * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
+   *   The resolver builder.
+   *
+   * @return \Drupal\graphql\GraphQL\Resolver\Composite
+   *   The composite resolver.
    */
   public function getProducers(ResolverBuilder $builder): Composite {
     return $builder->compose(

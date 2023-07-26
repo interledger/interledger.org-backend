@@ -16,7 +16,7 @@ use Drupal\graphql_compose_edges\Wrappers\EdgeInterface;
  *   name = @Translation("Edge node"),
  *   description = @Translation("Returns the node associated with an edge."),
  *   produces = @ContextDefinition("any",
- *     label = @Translation("Node")
+ *     label = @Translation("EdgeNode")
  *   ),
  *   consumes = {
  *     "edge" = @ContextDefinition("any",

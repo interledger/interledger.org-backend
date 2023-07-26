@@ -4,17 +4,20 @@ declare(strict_types=1);
 
 namespace Drupal\graphql_compose\Plugin\GraphQL\Schema;
 
+use Drupal\Component\Plugin\ConfigurableInterface;
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Cache\CacheBackendInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Plugin\PluginFormInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\Url;
 use Drupal\graphql\GraphQL\ResolverRegistry;
 use Drupal\graphql\Plugin\GraphQL\Schema\SdlSchemaPluginBase;
 use Drupal\graphql\Plugin\SchemaExtensionPluginInterface;
 use Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager;
 use GraphQL\Language\Parser;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\graphql_compose\Plugin\GraphQLComposeEntityTypeManager;
 
 /**
  * The provider of the schema base for the GraphQL Compose GraphQL API.
@@ -28,24 +31,16 @@ use Drupal\graphql_compose\Plugin\GraphQLComposeEntityTypeManager;
  *   name = "GraphQL Compose Schema"
  * )
  */
-class GraphqlComposeSchema extends SdlSchemaPluginBase implements ContainerFactoryPluginInterface {
+class GraphQLComposeSchema extends SdlSchemaPluginBase implements ConfigurableInterface, PluginFormInterface, ContainerFactoryPluginInterface {
 
   use StringTranslationTrait;
 
   /**
    * Field type plugin manager.
+   *
+   * @var \Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager
    */
   protected GraphQLComposeSchemaTypeManager $gqlSchemaTypeManager;
-
-  /**
-   * Entity type plugin manager.
-   */
-  protected GraphQLComposeEntityTypeManager $gqlEntityTypeManager;
-
-  /**
-   * Drupal entity type manager.
-   */
-  protected EntityTypeManagerInterface $entityTypeManager;
 
   /**
    * {@inheritdoc}
@@ -55,12 +50,10 @@ class GraphqlComposeSchema extends SdlSchemaPluginBase implements ContainerFacto
       $container,
       $configuration,
       $plugin_id,
-      $plugin_definition,
+      $plugin_definition
     );
 
-    $instance->gqlEntityTypeManager = $container->get('graphql_compose.entity_type_manager');
     $instance->gqlSchemaTypeManager = $container->get('graphql_compose.schema_type_manager');
-    $instance->entityTypeManager = $container->get('entity_type.manager');
 
     return $instance;
   }
@@ -80,6 +73,7 @@ class GraphqlComposeSchema extends SdlSchemaPluginBase implements ContainerFacto
   protected function getSchemaDocument(array $extensions = []) {
     // Only use caching of the parsed document if we aren't in development mode.
     $cid = "schema:{$this->getPluginId()}";
+
     if (empty($this->inDevelopment) && $cache = $this->astCache->get($cid)) {
       return $cache->data;
     }
@@ -135,6 +129,57 @@ class GraphqlComposeSchema extends SdlSchemaPluginBase implements ContainerFacto
     }
 
     return $ast;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getConfiguration() {
+    return $this->configuration;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setConfiguration(array $configuration): void {
+    $this->configuration = NestedArray::mergeDeep($this->defaultConfiguration(), $configuration);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration() {
+    return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $form['settings_link'] = [
+      '#type' => 'link',
+      '#title' => $this->t('Configure GraphQL Compose Schema'),
+      '#url' => Url::fromRoute('graphql_compose.schema'),
+      '#attributes' => [
+        'class' => ['button'],
+      ],
+    ];
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateConfigurationForm(array &$form, FormStateInterface $formState): void {
+    // Satisfy interface. Nothing to do here.
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitConfigurationForm(array &$form, FormStateInterface $formState): void {
+    // Satisfy interface. Nothing to do here.
   }
 
 }

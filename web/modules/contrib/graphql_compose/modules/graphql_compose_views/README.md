@@ -2,7 +2,8 @@
 
 This module is based heavily on the GraphQL 3.x module: graphql_views.
 
-Tons of credit and attribution and admiration goes to the original authors of the graphql_views module.
+Tons of credit and attribution and admiration goes to the original authors
+of the graphql_views module.
 
 - fubhy
 - klausi

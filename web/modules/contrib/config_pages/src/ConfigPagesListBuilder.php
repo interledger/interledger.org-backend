@@ -171,6 +171,7 @@ class ConfigPagesListBuilder extends EntityListBuilder implements EntityListBuil
     $query = $this->cptStorage->getQuery();
     $keys = $this->entityType->getKeys();
     return $query
+      ->accessCheck()
       ->sort($keys['id'])
       ->pager($this->limit)
       ->execute();

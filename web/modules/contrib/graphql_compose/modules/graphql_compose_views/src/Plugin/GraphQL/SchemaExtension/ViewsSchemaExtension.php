@@ -8,8 +8,10 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
+use Drupal\graphql_compose_views\Plugin\views\display\GraphQL;
 use Drupal\views\ViewExecutable;
 use Drupal\views\Views;
+use GraphQL\Error\UserError;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @SchemaExtension(
  *   id = "view_schema_extension",
- *   name = "Views Schema Extension",
+ *   name = "GraphQL Compose Views",
  *   description = @Translation("Exposed views resolution."),
  *   schema = "graphql_compose"
  * )
@@ -144,6 +146,23 @@ class ViewsSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
           ->map('executable', $builder->fromParent())
       );
     }
+
+    $registry->addTypeResolver(
+      'ViewResultUnion',
+      function ($view) {
+        if ($view instanceof ViewExecutable) {
+          $display = $view->getDisplay();
+          $display_id = $display->display['id'];
+
+          if (!$display instanceof GraphQL) {
+            throw new UserError(sprintf('View %s:%s is not a GraphQL display.', $view->id(), $display_id));
+          }
+
+          return $display->getGraphQlResultName();
+        }
+        throw new UserError('Could not resolve view type.');
+      }
+    );
   }
 
 }

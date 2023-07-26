@@ -24,13 +24,40 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *     label = @Translation("Block instance")
  *   ),
  *   consumes = {
- *     "block_plugin_id" = @ContextDefinition("string",
+ *     "id" = @ContextDefinition("string",
  *       label = @Translation("Block plugin ID")
  *     ),
  *   }
  * )
  */
 class BlockLoad extends DataProducerPluginBase implements ContainerFactoryPluginInterface {
+
+  /**
+   * Constructs a BlockLoad object.
+   *
+   * @param array $configuration
+   *   The plugin configuration.
+   * @param string $plugin_id
+   *   The plugin id.
+   * @param mixed $plugin_definition
+   *   The plugin definition.
+   * @param \Drupal\Core\Block\BlockManagerInterface $blockManager
+   *   Drupal block manager.
+   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entityRepository
+   *   Drupal entity repository.
+   * @param \Drupal\Core\Session\AccountProxyInterface $currentUser
+   *   The current user.
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    protected BlockManagerInterface $blockManager,
+    protected EntityRepositoryInterface $entityRepository,
+    protected AccountProxyInterface $currentUser,
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+  }
 
   /**
    * {@inheritdoc}
@@ -47,26 +74,20 @@ class BlockLoad extends DataProducerPluginBase implements ContainerFactoryPlugin
   }
 
   /**
-   * LayoutDefinitionLoad constructor.
-   */
-  public function __construct(
-    array $configuration,
-    $pluginId,
-    $pluginDefinition,
-    protected BlockManagerInterface $blockManager,
-    protected EntityRepositoryInterface $entityRepository,
-    protected AccountProxyInterface $currentUser,
-  ) {
-    parent::__construct($configuration, $pluginId, $pluginDefinition);
-  }
-
-  /**
    * Resolve the layout definition.
+   *
+   * @param string $id
+   *   The block plugin ID.
+   * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface $metadata
+   *   The cache metadata.
+   *
+   * @return \Drupal\Core\Block\BlockPluginInterface|null
+   *   The block plugin instance.
    */
-  public function resolve(string $block_plugin_id, RefinableCacheableDependencyInterface $metadata): ?BlockPluginInterface {
+  public function resolve(string $id, RefinableCacheableDependencyInterface $metadata): ?BlockPluginInterface {
 
     /** @var \Drupal\Core\Block\BlockPluginInterface $block_instance */
-    $block_instance = $this->blockManager->createInstance($block_plugin_id);
+    $block_instance = $this->blockManager->createInstance($id);
     $metadata->addCacheableDependency($block_instance);
 
     $access = $block_instance->access($this->currentUser->getAccount(), TRUE);

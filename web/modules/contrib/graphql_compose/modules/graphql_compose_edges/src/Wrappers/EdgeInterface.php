@@ -11,11 +11,17 @@ interface EdgeInterface {
 
   /**
    * Return the cursor for this edge.
+   *
+   * @return string
+   *   The cursor for this edge.
    */
-  public function getCursor() : string;
+  public function getCursor(): string;
 
   /**
    * Return the node for this edge.
+   *
+   * @return mixed
+   *   The node for this edge.
    */
   public function getNode();
 

@@ -7,8 +7,6 @@
 
 declare(strict_types=1);
 
-use Drupal\Core\Form\FormStateInterface;
-
 /**
  * Implements hook_graphql_compose_entity_base_fields_alter().
  */
@@ -19,19 +17,4 @@ function graphql_compose_users_graphql_compose_entity_base_fields_alter(array &$
       'name_sdl' => 'author',
     ];
   }
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- *
- * Add settings to account configuration page.
- */
-function graphql_compose_users_form_user_admin_settings_alter(&$form, FormStateInterface $form_state): void {
-  $entity_type = \Drupal::entityTypeManager()->getDefinition('user');
-  $form_state->set('entity_type', $entity_type);
-  $form_state->set('base_type', $entity_type);
-
-  _graphql_compose_entity_type_settings_alter($form, $form_state);
-
-  $form['graphql_compose']['#open'] = TRUE;
 }

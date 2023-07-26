@@ -6,15 +6,16 @@ namespace Drupal\graphql_compose\Plugin\GraphQLCompose\FieldType;
 
 use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Image\ImageFactory;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerItemInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerTrait;
+use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeFieldType(
  *   id = "image",
@@ -26,21 +27,31 @@ class ImageItem extends GraphQLComposeFieldTypeBase implements FieldProducerItem
   use FieldProducerTrait;
 
   /**
+   * File URL generator service.
+   *
+   * @var \Drupal\Core\File\FileUrlGeneratorInterface
+   */
+  protected FileUrlGeneratorInterface $fileUrlGenerator;
+
+  /**
    * Drupal image factory.
+   *
+   * @var \Drupal\Core\Image\ImageFactory
    */
   protected ImageFactory $imageFactory;
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $instance = parent::create(
       $container,
       $configuration,
-      $pluginId,
-      $pluginDefinition,
+      $plugin_id,
+      $plugin_definition
     );
 
+    $instance->fileUrlGenerator = $container->get('file_url_generator');
     $instance->imageFactory = $container->get('image.factory');
 
     return $instance;
@@ -73,12 +84,12 @@ class ImageItem extends GraphQLComposeFieldTypeBase implements FieldProducerItem
     }
 
     return [
-      'url'    => \Drupal::service('file_url_generator')->generateAbsoluteString($item->entity->getFileUri()),
-      'width'  => $width ?: 0,
+      'url' => $this->fileUrlGenerator->generateAbsoluteString($item->entity->getFileUri()),
+      'width' => $width ?: 0,
       'height' => $height ?: 0,
-      'alt'    => $item->alt ?: NULL,
-      'title'  => $item->title ?: NULL,
-      'mime'   => $item->entity->getMimeType(),
+      'alt' => $item->alt ?: NULL,
+      'title' => $item->title ?: NULL,
+      'mime' => $item->entity->getMimeType(),
     ];
   }
 

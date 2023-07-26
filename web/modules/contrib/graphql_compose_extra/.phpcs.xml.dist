@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="GraphqlCompose">
+    <description>PHP CodeSniffer</description>
+    <rule ref="Drupal"/>
+    <rule ref="DrupalPractice"/>
+    <arg name="extensions" value="inc,install,module,php,profile,theme,yml"/>
+</ruleset>

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\graphql_compose\Plugin\GraphQL\SchemaExtension;
 
-use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
@@ -21,7 +20,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class EntityTypePluginSchemaExtension extends SdlSchemaExtensionPluginBase implements ContainerFactoryPluginInterface {
-
 
   /**
    * The config factory.
@@ -45,7 +43,7 @@ class EntityTypePluginSchemaExtension extends SdlSchemaExtensionPluginBase imple
       $container,
       $configuration,
       $plugin_id,
-      $plugin_definition,
+      $plugin_definition
     );
 
     $instance->configFactory = $container->get('config.factory');
@@ -70,37 +68,56 @@ class EntityTypePluginSchemaExtension extends SdlSchemaExtensionPluginBase imple
       'SchemaInformation',
       'description',
       $builder->callback(function () {
-        $extension = $this->moduleHandler->getModule('graphql_compose');
-        $info = Yaml::parseFile($extension->getPathname());
-
-        return $info['description'] ?? $this->getPluginDefinition()['description'];
+        return $this->configFactory->get('graphql_compose.settings')->get('settings.schema_description') ?: NULL;
       })
     );
 
     $registry->addFieldResolver(
       'SchemaInformation',
       'version',
-      $builder->callback(function ($info) {
-        $extension = $this->moduleHandler->getModule('graphql_compose');
-        $info = Yaml::parseFile($extension->getPathname());
-
-        return $info['version'] ?? '2.x-dev';
-      })
-    );
-
-    $registry->addFieldResolver(
-      'SchemaInformation',
-      'home',
       $builder->callback(function () {
-        $path = $this->configFactory->get('system.site')->get('page.front');
-        return $path ? $this->pathAliasManager->getAliasByPath($path) : NULL;
+        return $this->configFactory->get('graphql_compose.settings')->get('settings.schema_version') ?: NULL;
       })
     );
+
+    if ($this->configFactory->get('graphql_compose.settings')->get('settings.site_front')) {
+      $registry->addFieldResolver(
+        'SchemaInformation',
+        'home',
+        $builder->callback(function () {
+          $path = $this->configFactory->get('system.site')->get('page.front') ?: NULL;
+
+          return $path ? $this->pathAliasManager->getAliasByPath($path) : NULL;
+        })
+      );
+    }
+
+    if ($this->configFactory->get('graphql_compose.settings')->get('settings.site_slogan')) {
+      $registry->addFieldResolver(
+        'SchemaInformation',
+        'slogan',
+        $builder->callback(fn () => $this->configFactory->get('system.site')->get('slogan') ?: NULL)
+      );
+    }
+
+    if ($this->configFactory->get('graphql_compose.settings')->get('settings.site_name')) {
+      $registry->addFieldResolver(
+        'SchemaInformation',
+        'name',
+        $builder->callback(fn () => $this->configFactory->get('system.site')->get('name') ?: NULL)
+      );
+    }
 
     // Utility for junk.
     $registry->addFieldResolver(
       'UnsupportedType',
       'unsupported',
+      $builder->callback(fn () => TRUE),
+    );
+
+    $registry->addFieldResolver(
+      'Mutation',
+      '_',
       $builder->callback(fn () => TRUE),
     );
 

@@ -32,6 +32,14 @@ class LayoutDefinitionProperty extends DataProducerPluginBase implements DataPro
 
   /**
    * Resolve the layout definition.
+   *
+   * @param \Drupal\Core\Layout\LayoutDefinition $layout
+   *   The layout definition.
+   * @param string $path
+   *   The property path.
+   *
+   * @return mixed
+   *   The value of the property.
    */
   public function resolve(LayoutDefinition $layout, string $path): mixed {
     return ($path === 'regions') ? $layout->getRegionNames() : $layout->get($path);

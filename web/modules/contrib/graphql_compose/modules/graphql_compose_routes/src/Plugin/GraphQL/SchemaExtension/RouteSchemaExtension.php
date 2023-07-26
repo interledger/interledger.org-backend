@@ -10,6 +10,7 @@ use Drupal\Core\Url;
 use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
+use GraphQL\Error\UserError;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @SchemaExtension(
  *   id = "route_schema_extension",
- *   name = "Route Schema Extension",
+ *   name = "GraphQL Compose Routes",
  *   description = @Translation("URL, Links and paths"),
  *   schema = "graphql_compose"
  * )
@@ -61,22 +62,16 @@ class RouteSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
       $this->addRedirect($registry, $builder);
     }
 
-    // Extend links with route information.
-    $registry->addFieldResolver(
-      'Link',
-      'route',
-      $builder->callback(function ($link) {
-        $path = $link['url'] ?? $link['uri'] ?? NULL;
-        return $path ? $this->pathValidator->getUrlIfValid($path) : NULL;
-      }),
-    );
-
     $registry->addFieldResolver(
       'Query',
       'route',
-      $builder->produce('url_or_redirect')
-        ->map('path', $builder->fromArgument('path'))
-        ->map('langcode', $builder->fromArgument('langcode')),
+      $builder->compose(
+        $builder->produce('url_or_redirect')
+          ->map('path', $builder->fromArgument('path'))
+          ->map('langcode', $builder->fromArgument('langcode')),
+
+        $builder->context('langcode', $builder->fromArgument('langcode'))
+      )
     );
 
     $registry->addTypeResolver('RouteUnion', function ($value) {
@@ -88,7 +83,7 @@ class RouteSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
         return 'RouteRedirect';
       }
 
-      throw new \Error('Could not resolve route type.');
+      throw new UserError('Could not resolve route type.');
     });
 
   }
@@ -114,13 +109,13 @@ class RouteSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
       'entity',
       $builder->produce('route_entity')
         ->map('url', $builder->fromParent())
+        ->map('language', $builder->fromContext('langcode'))
     );
 
     $registry->addFieldResolver(
       'RouteInternal',
-      'langcode',
-      $builder->produce('route_language')
-        ->map('url', $builder->fromParent())
+      'breadcrumbs',
+      $builder->produce('breadcrumbs')->map('url', $builder->fromParent())
     );
 
     $registry->addFieldResolver(

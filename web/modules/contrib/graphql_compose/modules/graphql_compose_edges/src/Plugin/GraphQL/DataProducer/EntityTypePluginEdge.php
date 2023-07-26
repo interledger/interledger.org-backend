@@ -6,10 +6,10 @@ namespace Drupal\graphql_compose_edges\Plugin\GraphQL\DataProducer;
 
 use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\graphql\GraphQL\Buffers\EntityBuffer;
-use Drupal\graphql\GraphQL\Buffers\EntityRevisionBuffer;
-use Drupal\graphql\GraphQL\Buffers\EntityUuidBuffer;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
 use Drupal\graphql_compose_edges\EntityConnection;
 use Drupal\graphql_compose_edges\EntityTypePluginQueryHelper;
@@ -50,6 +50,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *       label = @Translation("Sort key"),
  *       required = FALSE
  *     ),
+ *     "langcode" = @ContextDefinition("string",
+ *       label = @Translation("Language code"),
+ *       required = FALSE
+ *     ),
  *   },
  *   deriver = "Drupal\graphql_compose_edges\Plugin\Derivative\QueryEntityTypePluginTypeDeriver"
  * )
@@ -57,52 +61,49 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class EntityTypePluginEdge extends DataProducerPluginBase implements ContainerFactoryPluginInterface {
 
   /**
+   * The entity type manager service.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected EntityTypeManagerInterface $entityTypeManager;
+
+  /**
+   * The entity buffer service.
+   *
+   * @var \Drupal\graphql\GraphQL\Buffers\EntityBuffer
+   */
+  protected EntityBuffer $graphqlEntityBuffer;
+
+  /**
+   * Drupal language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected LanguageManagerInterface $languageManager;
+
+  /**
+   * The current user account.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected AccountProxyInterface $currentUser;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
+    $instance = new static(
       $configuration,
       $plugin_id,
-      $plugin_definition,
-      $container->get('entity_type.manager'),
-      $container->get('graphql.buffer.entity'),
-      $container->get('graphql.buffer.entity_uuid'),
-      $container->get('graphql.buffer.entity_revision')
+      $plugin_definition
     );
-  }
 
-  /**
-   * EntityLoad constructor.
-   *
-   * @param array $configuration
-   *   The plugin configuration array.
-   * @param string $pluginId
-   *   The plugin id.
-   * @param array $pluginDefinition
-   *   The plugin definition array.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   The entity type manager service.
-   * @param \Drupal\graphql\GraphQL\Buffers\EntityBuffer $graphqlEntityBuffer
-   *   The GraphQL entity buffer.
-   * @param \Drupal\graphql\GraphQL\Buffers\EntityUuidBuffer $graphqlEntityUuidBuffer
-   *   The GraphQL entity uuid buffer.
-   * @param \Drupal\graphql\GraphQL\Buffers\EntityRevisionBuffer $graphqlEntityRevisionBuffer
-   *   The GraphQL entity revision buffer.
-   */
-  public function __construct(
-    array $configuration,
-    $pluginId,
-    array $pluginDefinition,
-    protected EntityTypeManagerInterface $entityTypeManager,
-    protected EntityBuffer $graphqlEntityBuffer,
-    protected EntityUuidBuffer $graphqlEntityUuidBuffer,
-    protected EntityRevisionBuffer $graphqlEntityRevisionBuffer
-  ) {
-    parent::__construct($configuration, $pluginId, $pluginDefinition);
-    $this->entityTypeManager = $entityTypeManager;
-    $this->graphqlEntityBuffer = $graphqlEntityBuffer;
-    $this->graphqlEntityUuidBuffer = $graphqlEntityUuidBuffer;
-    $this->graphqlEntityRevisionBuffer = $graphqlEntityRevisionBuffer;
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+    $instance->graphqlEntityBuffer = $container->get('graphql.buffer.entity');
+    $instance->languageManager = $container->get('language_manager');
+    $instance->currentUser = $container->get('current_user');
+
+    return $instance;
   }
 
   /**
@@ -120,28 +121,34 @@ class EntityTypePluginEdge extends DataProducerPluginBase implements ContainerFa
    *   Reverses the order of the data.
    * @param string|null $sortKey
    *   Key to sort by.
+   * @param string|null $langcode
+   *   Language code to filter with.
    * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface $metadata
    *   Cacheability metadata for this request.
    *
    * @return \Drupal\graphql_compose\GraphQL\ConnectionInterface
    *   An entity connection with results and data about the paginated results.
    */
-  public function resolve(?int $first, ?string $after, ?int $last, ?string $before, ?bool $reverse, ?string $sortKey, RefinableCacheableDependencyInterface $metadata) {
+  public function resolve(?int $first, ?string $after, ?int $last, ?string $before, ?bool $reverse, ?string $sortKey, ?string $langcode, RefinableCacheableDependencyInterface $metadata) {
 
     [$entityType, $entityBundle] = explode(':', $this->getDerivativeId());
 
+    $langcode = $langcode ?: $this->languageManager->getCurrentLanguage()->getId();
+
     $query_helper = new EntityTypePluginQueryHelper(
       $sortKey,
+      $langcode,
+      $entityType,
+      $entityBundle,
       $this->entityTypeManager,
       $this->graphqlEntityBuffer,
-      $entityType,
-      $entityBundle
     );
-
-    $metadata->addCacheableDependency($query_helper);
 
     $connection = new EntityConnection($query_helper);
     $connection->setPagination($first, $after, $last, $before, $reverse);
+    $connection->setAccessAccount($this->currentUser);
+    $connection->setCacheContext($metadata);
+
     return $connection;
   }
 

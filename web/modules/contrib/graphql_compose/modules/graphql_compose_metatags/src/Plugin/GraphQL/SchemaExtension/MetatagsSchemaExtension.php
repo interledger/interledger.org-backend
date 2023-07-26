@@ -6,6 +6,7 @@ namespace Drupal\graphql_compose_metatags\Plugin\GraphQL\SchemaExtension;
 
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
+use GraphQL\Error\UserError;
 
 /**
  * Adds Entity Type GraphQL Compose plugins to the GraphQL API.
@@ -22,7 +23,8 @@ class MetatagsSchemaExtension extends SdlSchemaExtensionPluginBase {
   /**
    * {@inheritdoc}
    *
-   * @throws \InvalidArgumentException
+   * @throws \GraphQL\Error\UserError
+   *   Thrown when the type cannot be resolved.
    */
   public function registerResolvers(ResolverRegistryInterface $registry) {
     $registry->addTypeResolver(
@@ -41,7 +43,7 @@ class MetatagsSchemaExtension extends SdlSchemaExtensionPluginBase {
               return 'MetaTagProperty';
             }
           default:
-            throw new \InvalidArgumentException("Could not resolve type for meta tag value");
+            throw new UserError('Could not resolve type for meta tag value.');
         }
       }
 

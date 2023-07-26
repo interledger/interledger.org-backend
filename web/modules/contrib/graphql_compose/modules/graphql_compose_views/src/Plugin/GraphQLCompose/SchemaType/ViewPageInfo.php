@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "ViewPageInfo",
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class ViewPageInfo extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -37,7 +37,7 @@ class ViewPageInfo extends GraphQLComposeSchemaTypeBase {
         ],
         'pageSize' => [
           'type' => Type::nonNull(Type::int()),
-          'description' => (string) $this->t('How many resultsper page.'),
+          'description' => (string) $this->t('How many results per page.'),
         ],
         'total' => [
           'type' => Type::nonNull(Type::int()),

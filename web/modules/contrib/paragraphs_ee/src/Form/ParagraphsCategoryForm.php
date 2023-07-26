@@ -10,13 +10,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Form handler for the add and edit forms of Paragraphs category entities.
  */
-class ParagraphsCategoryForm extends EntityForm {
+class ParagraphsCategoryForm extends EntityForm implements ParagraphsCategoryFormInterface {
 
   /**
-   * Constructs an ParagraphsCategoryForm object.
-   *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   The entityTypeManager.
+   * {@inheritdoc}
    */
   public function __construct(EntityTypeManagerInterface $entityTypeManager) {
     $this->entityTypeManager = $entityTypeManager;
@@ -25,16 +22,16 @@ class ParagraphsCategoryForm extends EntityForm {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('entity_type.manager')
-    );
+  public static function create(ContainerInterface $container): ParagraphsCategoryFormInterface {
+    /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager */
+    $entity_type_manager = $container->get('entity_type.manager');
+    return new static($entity_type_manager);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function form(array $form, FormStateInterface $form_state) {
+  public function form(array $form, FormStateInterface $form_state): array {
     $form = parent::form($form, $form_state);
 
     /** @var \Drupal\paragraphs_ee\ParagraphsCategoryInterface $paragraphs_category */
@@ -55,6 +52,7 @@ class ParagraphsCategoryForm extends EntityForm {
         'exists' => [$this, 'exist'],
       ],
       '#disabled' => !$paragraphs_category->isNew(),
+      '#element_validate' => [[$this, 'validateMachineName']],
     ];
     $form['description'] = [
       '#type' => 'textarea',
@@ -76,7 +74,7 @@ class ParagraphsCategoryForm extends EntityForm {
   /**
    * {@inheritdoc}
    */
-  public function save(array $form, FormStateInterface $form_state) {
+  public function save(array $form, FormStateInterface $form_state): int {
     /** @var \Drupal\paragraphs_ee\ParagraphsCategoryInterface $paragraphs_category */
     $paragraphs_category = $this->entity;
     $status = $paragraphs_category->save();
@@ -93,18 +91,32 @@ class ParagraphsCategoryForm extends EntityForm {
     }
 
     $form_state->setRedirect('entity.paragraphs_category.collection');
+    return $status;
   }
 
   /**
-   * Helper function to check whether a Paragraphs category entity exists.
+   * {@inheritdoc}
    */
-  public function exist($id) {
+  public function exist(string $id): bool {
     $entity = $this->entityTypeManager
       ->getStorage('paragraphs_category')
       ->getQuery()
+      ->accessCheck(TRUE)
       ->condition('id', $id)
       ->execute();
     return (bool) $entity;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  function validateMachineName(array $element, FormStateInterface $form_state): void {
+    $reserved_names = [
+      'uncategorized',
+    ];
+    if (in_array($form_state->getValue('id'), $reserved_names)) {
+      $form_state->setError($element, $this->t('The machine name you entered is reserved. Please use another one.'));
+    }
   }
 
 }

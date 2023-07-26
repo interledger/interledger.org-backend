@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "ConnectionPageInfo",
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class ConnectionPageInfo extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -36,11 +36,11 @@ class ConnectionPageInfo extends GraphQLComposeSchemaTypeBase {
           'description' => (string) $this->t('Whether there are previous pages in this connection.'),
         ],
         'startCursor' => [
-          'type' => Type::nonNull(static::type('Cursor')),
+          'type' => static::type('Cursor'),
           'description' => (string) $this->t('The cursor for the first element in this page.'),
         ],
         'endCursor' => [
-          'type' => Type::nonNull(static::type('Cursor')),
+          'type' => static::type('Cursor'),
           'description' => (string) $this->t('The cursor for the last element in this page.'),
         ],
       ],

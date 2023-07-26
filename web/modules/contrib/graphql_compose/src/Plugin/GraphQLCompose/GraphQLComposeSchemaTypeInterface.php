@@ -16,6 +16,9 @@ interface GraphQLComposeSchemaTypeInterface {
    *
    * @param string $plugin_id
    *   Plugin ID of an SDL type.
+   *
+   * @return \GraphQL\Type\Definition\Type
+   *   GraphQL type.
    */
   public static function type(string $plugin_id): Type;
 

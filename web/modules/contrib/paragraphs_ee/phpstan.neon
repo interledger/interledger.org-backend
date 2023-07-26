@@ -1,0 +1,12 @@
+parameters:
+  checkGenericClassInNonGenericObjectType: false
+  checkMissingIterableValueType: false
+  level: max
+  excludePaths:
+    - */node_modules/*
+    - */vendor/*
+    - */tests/*
+  ignoreErrors:
+    - '#Dynamic call to static method PHPUnit\\Framework\\.*#'
+    - '#^Class .* extends \@internal class#'
+  reportUnmatchedIgnoredErrors: false

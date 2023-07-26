@@ -37,43 +37,53 @@ use function Symfony\Component\String\u;
 class ImageDerivatives extends DataProducerPluginBase implements ContainerFactoryPluginInterface {
 
   /**
-   * Field producer constructor.
+   * Constructs a ImageDerivatives object.
    *
    * @param array $configuration
    *   The plugin configuration array.
-   * @param string $pluginId
+   * @param string $plugin_id
    *   The plugin id.
-   * @param mixed $pluginDefinition
+   * @param mixed $plugin_definition
    *   The plugin definition.
    * @param \Drupal\graphql\Plugin\DataProducerPluginManager $dataProducerPluginManager
    *   Data producer manager.
    */
   public function __construct(
     array $configuration,
-    $pluginId,
-    $pluginDefinition,
+    $plugin_id,
+    $plugin_definition,
     protected DataProducerPluginManager $dataProducerPluginManager,
   ) {
-    parent::__construct($configuration, $pluginId, $pluginDefinition);
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
       $configuration,
-      $pluginId,
-      $pluginDefinition,
+      $plugin_id,
+      $plugin_definition,
       $container->get('plugin.manager.graphql.data_producer'),
     );
   }
 
   /**
-   * Finds the requested enum value.
+   * Finds the enum value(s) and loads the image_derivative data producer(s).
+   *
+   * @param \Drupal\file\FileInterface $entity
+   *   The file entity.
+   * @param string|array $value
+   *   The image style name.
+   * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface $metadata
+   *   The cache metadata.
+   *
+   * @return array|null
+   *   The image derivative loaded by enum name.
    */
-  public function resolve(FileInterface $entity = NULL, string|array $value, RefinableCacheableDependencyInterface $metadata): ?array {
-    // Return if we dont have an entity.
+  public function resolve(?FileInterface $entity = NULL, string|array $value, RefinableCacheableDependencyInterface $metadata): ?array {
+    // Return if we don't have an entity.
     if (!$entity) {
       return NULL;
     }

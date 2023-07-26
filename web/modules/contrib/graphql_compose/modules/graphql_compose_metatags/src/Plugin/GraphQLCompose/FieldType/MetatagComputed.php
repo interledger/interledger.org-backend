@@ -6,27 +6,53 @@ namespace Drupal\graphql_compose_metatags\Plugin\GraphQLCompose\FieldType;
 
 use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Render\RenderContext;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\TypedData\TypedDataTrait;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerItemsInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerTrait;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
 use Drupal\typed_data\DataFetcherTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeFieldType(
  *   id = "metatag_computed",
  *   type_sdl = "MetaTagUnion",
  * )
  */
-class MetatagComputed extends GraphQLComposeFieldTypeBase implements FieldProducerItemsInterface {
+class MetatagComputed extends GraphQLComposeFieldTypeBase implements FieldProducerItemsInterface, ContainerFactoryPluginInterface {
 
   use TypedDataTrait;
   use DataFetcherTrait;
   use FieldProducerTrait;
+
+  /**
+   * Drupal renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected RendererInterface $renderer;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $instance = parent::create(
+      $container,
+      $configuration,
+      $plugin_id,
+      $plugin_definition
+    );
+
+    $instance->renderer = $container->get('renderer');
+
+    return $instance;
+  }
 
   /**
    * {@inheritdoc}
@@ -42,7 +68,7 @@ class MetatagComputed extends GraphQLComposeFieldTypeBase implements FieldProduc
     $definition = $manager->createDataDefinition($type);
     $typed_data = $manager->create($definition, $field->getEntity());
 
-    $result = \Drupal::service('renderer')->executeInRenderContext(
+    $result = $this->renderer->executeInRenderContext(
       $render_context,
       function () use ($typed_data, $bubbleable) {
         return $this->getDataFetcher()->fetchDataByPropertyPath($typed_data, 'metatag', $bubbleable)->getValue();

@@ -13,12 +13,12 @@ use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeManager;
 use Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager;
 use Drupal\graphql_compose\Wrapper\EntityTypeWrapper;
+use GraphQL\Error\UserError;
 use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\UnionType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use function Symfony\Component\String\u;
 
 /**
@@ -34,48 +34,48 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
   private array $bundles;
 
   /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
-    return new static(
-      $configuration,
-      $pluginId,
-      $pluginDefinition,
-      $container->get('entity_type.manager'),
-      $container->get('entity_type.bundle.info'),
-      $container->get('graphql_compose.field_type_manager'),
-      $container->get('graphql_compose.schema_type_manager'),
-    );
-  }
-
-  /**
-   * Entity Type plugin constructor.
+   * Constructs a GraphQLComposeEntityTypeBase object.
    *
    * @param array $configuration
    *   The plugin configuration array.
-   * @param string $pluginId
+   * @param string $plugin_id
    *   The plugin id.
-   * @param array $pluginDefinition
+   * @param array $plugin_definition
    *   The plugin definition array.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   Entity type manager service.
+   *   Drupal entity type manager service.
    * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entityTypeBundleInfo
-   *   Entity type bundle information service.
+   *   Drupal entity type bundle service.
    * @param \Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeManager $gqlFieldTypeManager
-   *   Field type plugin manager.
+   *   GraphQL Compose field type plugin manager.
    * @param \Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager $gqlSchemaTypeManager
-   *   SDL type plugin manager.
+   *   GraphQL Compose schema type plugin manager.
    */
   public function __construct(
     array $configuration,
-    $pluginId,
-    array $pluginDefinition,
+    $plugin_id,
+    array $plugin_definition,
     protected EntityTypeManagerInterface $entityTypeManager,
     protected EntityTypeBundleInfoInterface $entityTypeBundleInfo,
     protected GraphQLComposeFieldTypeManager $gqlFieldTypeManager,
     protected GraphQLComposeSchemaTypeManager $gqlSchemaTypeManager,
   ) {
-    parent::__construct($configuration, $pluginId, $pluginDefinition);
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager'),
+      $container->get('entity_type.bundle.info'),
+      $container->get('graphql_compose.field_type_manager'),
+      $container->get('graphql_compose.schema_type_manager'),
+    );
   }
 
   /**
@@ -178,9 +178,11 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
   public function registerTypes(): void {
 
     $bundles = $this->getBundles();
+    if (!$bundles) {
+      return;
+    }
 
     foreach ($bundles as $bundle) {
-
       $fields = $this->gqlFieldTypeManager->getBundleFields($this->getPluginId(), $bundle->entity->id());
 
       // Create bundle type.
@@ -201,6 +203,7 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
                 $field->isMultiple(),
                 $field->isRequired()
               ),
+              'args' => $field->getArgsSdl(),
             ];
           }
           return $result;
@@ -233,6 +236,36 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
 
         $this->gqlSchemaTypeManager->extend($entityQuery);
       }
+
+      // Add union types for non-simple unions.
+      foreach ($fields as $field_plugin) {
+        // Check it uses the union trait.
+        $traits = (new \ReflectionClass($field_plugin::class))->getTraits();
+        if (!in_array(FieldUnionTrait::class, array_keys($traits))) {
+          continue;
+        }
+
+        // Generic unions return a generic entity union.
+        if ($field_plugin->isGenericUnion()) {
+          continue;
+        }
+
+        // Single unions just return the type.
+        if ($field_plugin->isSingleUnion()) {
+          continue;
+        }
+
+        // Create the new union type.
+        $union = new UnionType([
+          'name' => $field_plugin->getUnionTypeSdl(),
+          'types' => fn() => array_map(
+            fn($type): Type => $this->gqlSchemaTypeManager->get($type),
+            $field_plugin->getUnionTypeMapping()
+          ) ?: [$this->gqlSchemaTypeManager->get('UnsupportedType')],
+        ]);
+
+        $this->gqlSchemaTypeManager->add($union);
+      }
     }
 
     // Create interface.
@@ -261,19 +294,16 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
       $this->gqlSchemaTypeManager->add($interface);
     }
 
-    // Create union.
-    if ($bundles) {
-      $union = new UnionType([
-        'name' => $this->getUnionTypeSdl(),
-        'types' => fn() => array_map(
-          fn($bundle): Type => $this->gqlSchemaTypeManager->get($bundle->getTypeSdl()),
-          $bundles
-        ) ?: [$this->gqlSchemaTypeManager->get('UnsupportedType')],
-      ]);
+    // Create generic entity wide union.
+    $union = new UnionType([
+      'name' => $this->getUnionTypeSdl(),
+      'types' => fn() => array_map(
+        fn($bundle): Type => $this->gqlSchemaTypeManager->get($bundle->getTypeSdl()),
+        $bundles
+      ) ?: [$this->gqlSchemaTypeManager->get('UnsupportedType')],
+    ]);
 
-      $this->gqlSchemaTypeManager->add($union);
-    }
-
+    $this->gqlSchemaTypeManager->add($union);
   }
 
   /**
@@ -282,7 +312,11 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
    * Resolve unions only if there is multiple enabled bundles.
    */
   public function registerResolvers(ResolverRegistryInterface $registry, ResolverBuilder $builder): void {
+
     $bundles = $this->getBundles();
+    if (!$bundles) {
+      return;
+    }
 
     $entity_class = $this->entityTypeManager
       ->getDefinition($this->getPluginId())
@@ -297,18 +331,19 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
           if ($value instanceof ($entity_class)) {
             return $this->getBundle($value->bundle())->getTypeSdl();
           }
-          throw new \InvalidArgumentException('Could not resolve entity type.');
+          throw new UserError('Could not resolve entity type.');
         }
       );
 
       $fields = $this->gqlFieldTypeManager->getBundleFields($this->getPluginId(), $bundle->entity->id());
 
       // Add fields to bundle type.
-      foreach ($fields as $field) {
+      foreach ($fields as $field_plugin) {
+        // Add field resolution.
         $registry->addFieldResolver(
           $bundle->getTypeSdl(),
-          $field->getNameSdl(),
-          $field->getProducers($builder)
+          $field_plugin->getNameSdl(),
+          $field_plugin->getProducers($builder)
         );
       }
 
@@ -317,29 +352,61 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
         $registry->addFieldResolver(
           'Query',
           $bundle->getNameSdl(),
-          $builder->produce('entity_load_by_uuid')
+          $builder->produce('entity_load_by_uuid_or_id')
             ->map('type', $builder->fromValue($this->getPluginId()))
             ->map('bundles', $builder->fromValue([$bundle->entity->id()]))
-            ->map('uuid', $builder->fromArgument('id'))
+            ->map('identifier', $builder->fromArgument('id'))
+        );
+      }
+
+      // Add union field resolution for non-simple unions.
+      foreach ($fields as $field_plugin) {
+        // Check it uses the union trait.
+        $traits = (new \ReflectionClass($field_plugin::class))->getTraits();
+        if (!in_array(FieldUnionTrait::class, array_keys($traits))) {
+          continue;
+        }
+
+        // Generic unions return a generic entity union.
+        if ($field_plugin->isGenericUnion()) {
+          continue;
+        }
+
+        // Single unions just return the type.
+        if ($field_plugin->isSingleUnion()) {
+          continue;
+        }
+
+        $map = $field_plugin->getUnionTypeMapping();
+
+        $registry->addTypeResolver(
+          $field_plugin->getUnionTypeSdl(),
+          function ($value) use ($entity_class, $map) {
+            if (array_key_exists($value->bundle(), $map)) {
+              return $map[$value->bundle()];
+            }
+
+            throw new UserError(sprintf('Could not resolve entity of type %s::%s for this field, is it enabled in the field config?', $entity_class, $value->bundle()));
+          }
         );
       }
     }
 
-    // Resolve type wide union.
-    if ($bundles) {
-      $registry->addTypeResolver(
-        $this->getUnionTypeSdl(),
-        function ($value) use ($entity_class) {
-          if ($value instanceof ($entity_class)) {
-            $bundle = $this->getBundle($value->bundle());
-            if ($bundle) {
-              return $bundle->getTypeSdl();
-            }
+    // Resolve generic entity wide union.
+    $registry->addTypeResolver(
+      $this->getUnionTypeSdl(),
+      function ($value) use ($entity_class) {
+        if ($value instanceof ($entity_class)) {
+          $bundle = $this->getBundle($value->bundle());
+          if ($bundle) {
+            return $bundle->getTypeSdl();
           }
-          throw new \InvalidArgumentException('Could not resolve entity of type ' . $entity_class . '::' . $value->bundle() . ', is it enabled in the schema?');
         }
-      );
-    }
+
+        throw new UserError(sprintf('Could not resolve entity of type %s::%s, is it enabled in the schema?', $entity_class, $value->bundle()));
+      }
+    );
+
   }
 
 }

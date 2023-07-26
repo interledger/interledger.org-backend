@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "RouteExternal"
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class RouteExternal extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -30,8 +30,14 @@ class RouteExternal extends GraphQLComposeSchemaTypeBase {
         static::type('Route'),
       ],
       'fields' => fn() => [
-        'url' => Type::nonNull(Type::string()),
-        'internal' => Type::nonNull(Type::boolean()),
+        'url' => [
+          'type' => Type::nonNull(Type::string()),
+          'description' => (string) $this->t('URL of this route.'),
+        ],
+        'internal' => [
+          'type' => Type::nonNull(Type::boolean()),
+          'description' => (string) $this->t('Whether this route is internal or external.'),
+        ],
       ],
     ]);
 

@@ -1,0 +1,9 @@
+name: "GraphQL Compose Extra: Image Styles"
+description: "Enable image styles on image entities with selectable style"
+type: module
+core_version_requirement: ^9 || ^10
+dependencies:
+  - graphql_compose_extra:graphql_compose_extra
+  - core:image
+package: GraphQL Compose Extra
+hidden: false

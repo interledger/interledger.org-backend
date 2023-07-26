@@ -8,13 +8,14 @@ use Drupal\Core\Layout\LayoutDefinition;
 use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
+use GraphQL\Error\UserError;
 
 /**
- * CaaS GraphQL Extension.
+ * Layout Schema Extension.
  *
  * @SchemaExtension(
  *   id = "layout_schema_extension",
- *   name = "Layout",
+ *   name = "GraphQL Compose Layouts",
  *   description = "Layout entities",
  *   schema = "graphql_compose"
  * )
@@ -55,7 +56,7 @@ class LayoutSchemaExtension extends SdlSchemaExtensionPluginBase {
         return 'Layout';
       }
 
-      throw new \Error('Could not resolve layout type.');
+      throw new UserError('Could not resolve layout type.');
     });
   }
 

@@ -1,10 +1,16 @@
-name: "GraphQL Compose: Layout Paragraphs"
-description: "Enable layout paragraph information on paragraph entity reference fields."
+name: 'GraphQL Compose: Layout Paragraphs'
+description: 'Enable layout paragraph information on paragraph entity reference fields.'
 type: module
-core_version_requirement: ^9 || ^10
+core_version_requirement: ^9.5 || ^10
+php: 8.1
 dependencies:
   - layout_paragraphs:layout_paragraphs
   - graphql_compose:graphql_compose
   - graphql_compose:graphql_compose_layouts
 package: GraphQL Compose
 hidden: false
+
+# Information added by Drupal.org packaging script on 2023-06-19
+version: '2.0.0-beta8'
+project: 'graphql_compose'
+datestamp: 1687159784

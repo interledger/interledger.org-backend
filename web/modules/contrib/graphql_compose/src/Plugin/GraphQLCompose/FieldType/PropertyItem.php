@@ -9,10 +9,10 @@ use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * Use a property item when using something
- * like a config entity (Menu) that doesnt have fields.
+ * like a config entity (Menu) that doesn't have fields.
  *
  * Theres no access on these properties.
  *

@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "TableRow",
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class TableRow extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -27,7 +27,7 @@ class TableRow extends GraphQLComposeSchemaTypeBase {
       'name' => $this->getPluginId(),
       'fields' => fn() => [
         'weight' => Type::int(),
-        'data'   => Type::listOf(Type::string()),
+        'data' => Type::listOf(Type::string()),
       ],
     ]);
 

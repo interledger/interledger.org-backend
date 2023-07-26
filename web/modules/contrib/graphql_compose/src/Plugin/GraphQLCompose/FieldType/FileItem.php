@@ -6,21 +6,47 @@ namespace Drupal\graphql_compose\Plugin\GraphQLCompose\FieldType;
 
 use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\Core\Field\FieldItemInterface;
-use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
+use Drupal\Core\File\FileUrlGeneratorInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerItemInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerTrait;
+use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeFieldType(
  *   id = "file",
  *   type_sdl = "File",
  * )
  */
-class FileItem extends GraphQLComposeFieldTypeBase implements FieldProducerItemInterface {
+class FileItem extends GraphQLComposeFieldTypeBase implements FieldProducerItemInterface, ContainerFactoryPluginInterface {
 
   use FieldProducerTrait;
+
+  /**
+   * File URL generator service.
+   *
+   * @var \Drupal\Core\File\FileUrlGeneratorInterface
+   */
+  protected FileUrlGeneratorInterface $fileUrlGenerator;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $instance = parent::create(
+      $container,
+      $configuration,
+      $plugin_id,
+      $plugin_definition
+    );
+
+    $instance->fileUrlGenerator = $container->get('file_url_generator');
+
+    return $instance;
+  }
 
   /**
    * {@inheritdoc}
@@ -38,11 +64,11 @@ class FileItem extends GraphQLComposeFieldTypeBase implements FieldProducerItemI
     }
 
     return [
-      'url'  => \Drupal::service('file_url_generator')->generateAbsoluteString($item->entity->getFileUri()),
+      'url' => $this->fileUrlGenerator->generateAbsoluteString($item->entity->getFileUri()),
       'name' => $item->entity->getFilename(),
       'size' => (int) $item->entity->getSize(),
       'mime' => $item->entity->getMimeType(),
-      'description'  => $item->description ?: NULL,
+      'description' => $item->description ?: NULL,
     ];
   }
 

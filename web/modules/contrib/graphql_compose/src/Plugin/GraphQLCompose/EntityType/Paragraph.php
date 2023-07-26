@@ -7,14 +7,12 @@ namespace Drupal\graphql_compose\Plugin\GraphQLCompose\EntityType;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeBase;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeEntityType(
  *   id = "paragraph",
- *   interfaces = { "Node" },
  *   prefix = "Paragraph",
  *   base_fields = {
- *     "uuid" = {},
  *     "created" = {},
  *     "changed" = {},
  *   }

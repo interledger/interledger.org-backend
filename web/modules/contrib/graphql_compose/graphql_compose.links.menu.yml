@@ -1,0 +1,5 @@
+graphql_compose.settings:
+  title: 'GraphQL Compose'
+  description: 'Configuration options for the GraphQL Compose module.'
+  route_name: graphql_compose.schema
+  parent: system.admin_config_services

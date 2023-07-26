@@ -16,7 +16,7 @@
    *   The paragraphs field config.
    */
   Drupal.paragraphs_features.add_in_between.initParagraphsWidget = function (context, field) {
-    const [table] = once('paragraphs-features-add-in-between-init', '.field-multiple-table', context);
+    const [table] = once('paragraphs-features-add-in-between-init', context.querySelector('.field-multiple-table'));
     if (!table) {
       return;
     }
@@ -36,15 +36,19 @@
 
     const rowButtonElement = () => {
       const buttons = [];
-      const buttonsAllCount = Array.from(dialog.querySelectorAll('input, button')).length;
+      const buttonsAllCount = Array.from(dialog.querySelectorAll('.paragraphs-button--add-more:not([data-paragraphs-ee-button-clone])')).length;
       const addButtons = Array.from(dialog.querySelectorAll('input[data-easy-access-weight], button[data-easy-access-weight]'));
 
-
       addButtons.slice(0, field.linkCount).forEach((addButton) => {
-        // Create a remote button triggering original add button in dialog.
-        const button = Drupal.theme('paragraphsFeaturesAddInBetweenButton', {title: addButton.value});
         // Set title attribute.
-        button.setAttribute('title', Drupal.t('Add @title', {'@title': addButton.value}, {context: 'Paragraphs Editor Enhancements'}));
+        const title = addButton.value;
+        const doc = new DOMParser().parseFromString(title, 'text/html');
+        const buttonTitle = doc.documentElement.textContent;
+        // Create a remote button triggering original add button in dialog.
+        const button = Drupal.theme('paragraphsFeaturesAddInBetweenButton', {title: buttonTitle});
+        button.innerHTML = Drupal.t('+ @title', {'@title': buttonTitle}, {context: 'Paragraphs Editor Enhancements'});;
+        button.setAttribute('title', Drupal.t('Add !title', {'!title': buttonTitle}, {context: 'Paragraphs Editor Enhancements'}));
+        button.setAttribute('aria-label', Drupal.t('Add !title', {'!title': buttonTitle}, {context: 'Paragraphs Editor Enhancements'}));
         button.setAttribute('data-paragraph-bundle', addButton.dataset.paragraphBundle);
         button.setAttribute('data-easy-access-weight', 100);
         if ('easyAccessWeight' in addButton.dataset) {
@@ -64,7 +68,7 @@
       // Add more (...) button triggering dialog open.
       if (buttonsAllCount > field.linkCount) {
         const title = field.linkCount ?
-          Drupal.t('...', {}, {context: 'Paragraphs Features'}) :
+          Drupal.t('+', {}, {context: 'Paragraphs Features'}) :
           Drupal.t('+ Add', {}, {context: 'Paragraphs Features'});
         const button = Drupal.theme('paragraphsFeaturesAddInBetweenMoreButton', {title: title, settings: dialog.dataset});
 
@@ -72,10 +76,12 @@
         buttons.push(button);
       }
 
-      // First item needs a special class.
-      buttons[0].classList.add('first');
-      // The last button in the list needs a special class.
-      buttons[buttons.length - 1].classList.add('last');
+      if (buttons.length > 0) {
+        // First item needs a special class.
+        buttons[0].classList.add('first');
+        // The last button in the list needs a special class.
+        buttons[buttons.length - 1].classList.add('last');
+      }
 
       return Drupal.theme('paragraphsFeaturesAddInBetweenRow', buttons);
     };
@@ -91,15 +97,15 @@
     tableBody.querySelectorAll(':scope > tr').forEach((rowElement) => {
       rowElement.insertAdjacentElement('beforebegin', rowButtonElement());
 
-      const rowSelector = '.paragraphs-features__add-in-between__row:not(:first-of-type):not(:last-of-type)';
+      const rowSelector = '.paragraphs-features__add-in-between__row';
       var $self = $(rowElement);
       $self.on('mouseover', function () {
-        $self.prev(rowSelector).find('.paragraphs-features__add-in-between__wrapper').css({'opacity': '1.0'});
-        $self.next(rowSelector).find('.paragraphs-features__add-in-between__wrapper').css({'opacity': '1.0'});
+        $self.prev(rowSelector).find('.paragraphs-features__add-in-between__wrapper').addClass('is-active');
+        $self.next(rowSelector).find('.paragraphs-features__add-in-between__wrapper').addClass('is-active');
       });
       $self.on('mouseout', function () {
-        $self.prev(rowSelector).find('.paragraphs-features__add-in-between__wrapper').css({'opacity': '0.0'});
-        $self.next(rowSelector).find('.paragraphs-features__add-in-between__wrapper').css({'opacity': '0.0'});
+        $self.prev(rowSelector).find('.paragraphs-features__add-in-between__wrapper').removeClass('is-active');
+        $self.next(rowSelector).find('.paragraphs-features__add-in-between__wrapper').removeClass('is-active');
       });
     });
     tableBody.appendChild(rowButtonElement());
@@ -113,8 +119,43 @@
     }
 
     if (('dialogOffCanvas' in dialog.dataset) && (dialog.dataset.dialogOffCanvas === 'true')) {
-      Drupal.ajax.bindAjaxLinksWithProgress(tableBody.querySelector('.paragraphs-features__add-in-between__wrapper'));
+      Drupal.ajax.bindAjaxLinksWithProgress(tableBody.querySelectorAll('.paragraphs-features__add-in-between__wrapper'));
     }
+  };
+
+  /**
+   * Get paragraphs add modal block in various themes structures.
+   *
+   *  gin:
+   *   .layer-wrapper .gin-table-scroll-wrapper table
+   *   .form-actions
+   * claro:
+   *   table
+   *   .form-actions
+   * thunder-admin / seven:
+   *   table
+   *   .clearfix
+   *
+   * @param {HTMLElement} table
+   * The table element.
+   *
+   * @return {HTMLElement} addModalBlock
+   *   the add modal block element.
+   */
+  Drupal.paragraphs_features.add_in_between.getAddModalBlock = (table) => {
+    const fromParent = (elem) => {
+      let sibling = elem.parentNode.firstChild;
+      while (sibling) {
+        if (sibling.nodeType === 1 && sibling !== elem) {
+          const addModalBlock = sibling.querySelector('.paragraphs-add-wrapper');
+          if (addModalBlock) {
+            return addModalBlock;
+          }
+        }
+        sibling = sibling.nextSibling;
+      }
+    };
+    return fromParent(table) || fromParent(table.parentNode) || fromParent(table.parentNode.parentNode);
   };
 
   /**
@@ -198,7 +239,7 @@
       button.setAttribute('data-progress-type', 'fullscreen');
       button.setAttribute('data-dialog-type', 'dialog');
       button.setAttribute('data-dialog-renderer', 'off_canvas');
-      button.setAttribute('data-dialog-options', '{"width":485}');
+      button.setAttribute('data-dialog-options', '{"width":"25vw"}');
       button.setAttribute('formnovalidate', 'formnovalidate');
     }
 
@@ -212,14 +253,25 @@
   /**
    * Clone of Drupal.ajax.bindAjaxLinks allowing to set progress type.
    *
+   * @param {HTMLElement} element
+   *   Element to enable Ajax functionality for.
+   *
    * @todo Remove if https://www.drupal.org/project/drupal/issues/2818463 has
    *   been committed.
    */
   Drupal.ajax.bindAjaxLinksWithProgress = function (element) {
-    once('paragraphs-ee-ajax', '.use-ajax', element).forEach(function (i, ajaxLink) {
+    if (!(element instanceof Element)) {
+      return;
+    }
+
+    once('paragraphs-ee-ajax', '.use-ajax', element).forEach((ajaxLink) => {
       var $linkElement = $(ajaxLink);
 
       var elementSettings = {
+        /**
+         * Allow overriding the progress type using the data-progress-type
+         * attribute on the element.
+         */
         progress: {
           type: $linkElement.data('progress-type') || 'throbber'
         },
@@ -230,7 +282,10 @@
         element: ajaxLink
       };
       var href = $linkElement.attr('href');
-
+      /**
+       * For anchor tags, these will go to the target of the anchor rather than
+       * the usual location.
+       */
       if (href) {
         elementSettings.url = href;
         elementSettings.event = 'click';
@@ -253,6 +308,15 @@
     var $modalDelta = $element.parent().find('.paragraph-type-add-modal-delta, .paragraph-type-add-delta.modal');
 
     var dialogStyle = drupalSettings.paragraphs_ee.dialog_style || 'tiles';
+
+    // Calculate initial width of dialog.
+    var dialogWidth = 'auto';
+    var windowWidth = $(window).width();
+    var dialogMaxWidth = 1170;
+    if (windowWidth > (dialogMaxWidth + 50)) {
+      dialogWidth = dialogMaxWidth + 'px';
+    }
+
     // Deep clone with all attached events. We need to work on cloned element
     // and not directly on origin because Drupal dialog.ajax.js
     // Drupal.behaviors.dialog will do remove of origin element on dialog close.
@@ -260,9 +324,10 @@
       // Turn off autoResize from dialog.position so draggable is not disabled.
       autoResize: true,
       resizable: false,
-      dialogClass: 'paragraphs-add-dialog--categorized paragraphs-style-' + dialogStyle,
+      dialogClass: 'paragraphs-ee-add-dialog paragraphs-ee-add-dialog--categorized' + (dialogStyle == 'tiles' ? '' : ' paragraphs-style-' + dialogStyle),
       title: title,
-      width: '720px',
+      width: dialogWidth,
+      maxWidth: dialogMaxWidth,
       paragraphsModalDelta: $modalDelta
     };
     $element = $element.clone(true);
@@ -293,6 +358,109 @@
       event.preventDefault();
       event.stopPropagation();
     });
+
+    $(window).on({
+      'dialog:aftercreate': function dialogAfterCreate(event, dialog, $element, settings) {
+        if (Drupal.offCanvas && Drupal.offCanvas.isOffCanvas($element)) {
+          // Don't run this for off canvas dialogs.
+          return;
+        }
+        if (!once('paragraphs-add-dialog-afterCreate', $element).length) {
+          return;
+        }
+
+        // Move display toggle buttons to titlebar.
+        var $title_bar = $('.ui-dialog-titlebar', $element.parent());
+        Drupal.paragraphs_ee.initDialogActionButtons($element.parent(), $title_bar);
+      }
+    });
   };
+
+  /**
+   * Initialize action buttons (e.g. display toggle buttons).
+   *
+   * @param $dialog
+   *   The dialog.
+   * @param $element
+   *   The element the buttons are attached to.
+   */
+  Drupal.paragraphs_ee.initDialogActionButtons = function ($dialog, $element) {
+    $('.paragraphs-ee-actions-wrapper', $dialog).each(function (delta, elem) {
+      $(this).detach().appendTo($element).removeClass('is-hidden');
+
+      var $toggle = $('.display-toggle', elem);
+      // Add aria-pressed attributes for screen readers to show which display option is selected.
+      var $dialog_content = $dialog.find('.ui-dialog-content');
+      if ($dialog_content.hasClass('paragraphs-style-list')) {
+        $toggle.filter('.style-list').attr('aria-pressed', 'true');
+      }
+      else {
+        $toggle.filter('.style-tiles').attr('aria-pressed', 'true');
+      }
+
+      $(once('paragraphs-ee-dialog-toogle', '.display-toggle', elem)).on('click', function () {
+        var $self = $(this);
+        var $dialog = $self.closest('.paragraphs-ee-add-dialog');
+        var $dialog_wrapper = $dialog.find('[data-paragraphs-ee-dialog-wrapper]');
+        var $dialog_buttons = $self.parent().find('.display-toggle');
+
+        // Remove attribute from all buttons.
+        $dialog_buttons.removeAttr('aria-pressed');
+        // Set accessibility attribute on current button.
+        $self.attr('aria-pressed', 'true');
+
+        if ($self.hasClass('style-list')) {
+          $dialog_wrapper.addClass('paragraphs-style-list');
+          $dialog_wrapper.closest('.paragraphs-ee-add-dialog').addClass('paragraphs-style-list');
+        }
+        else {
+          $dialog_wrapper.removeClass('paragraphs-style-list');
+          $dialog_wrapper.parent().removeClass('paragraphs-style-list');
+        }
+      });
+    });
+
+  };
+
+  /**
+   * Toggle category list display.
+   */
+  Drupal.behaviors.paragraphsEEToggleCategoryDisplay = {
+    attach: function (context) {
+      $(once('paragraphs-ee-category-toggle-handler', '.paragraphs-ee-category-toggle', context)).on('click', function () {
+        var $checkbox = $(this);
+        var $wrapper = $checkbox.parents('.paragraphs-ee-category-list-wrapper');
+        if ($checkbox.is(':checked')) {
+          $checkbox.parent().addClass('is-open');
+          $('.paragraphs-ee-category-list', $wrapper).attr('aria-expanded', 'true');
+        }
+        else {
+          $checkbox.parent().removeClass('is-open');
+          $('.paragraphs-ee-category-list', $wrapper).attr('aria-expanded', 'false');
+        }
+      });
+    }
+  };
+
+  /**
+   * Resize open dialog based on current window width.
+   */
+  $(window).resize(function () {
+    var $visibleDialogs = $('.ui-dialog.paragraphs-ee-add-dialog:visible');
+    $visibleDialogs.each(function () {
+      var $this = $(this);
+      var dialog = $this.find('.ui-dialog-content').data('uiDialog');
+      var dialogWidth = '90%';
+      var windowWidth = $(window).width();
+      var dialogMaxWidth = 1170;
+      if (windowWidth > (dialogMaxWidth + 50)) {
+        dialogWidth = dialogMaxWidth + 'px';
+      }
+      $this.css('max-width', dialogWidth);
+      // Reposition dialog.
+      dialog.option('position', dialog.options.position);
+    });
+
+  });
 
 }(jQuery, Drupal, drupalSettings, once));

@@ -10,7 +10,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "LayoutParagraphsInterface",
@@ -19,7 +19,7 @@ use GraphQL\Type\Definition\Type;
 class LayoutParagraphsInterface extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -36,7 +36,7 @@ class LayoutParagraphsInterface extends GraphQLComposeSchemaTypeBase {
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getExtensions(): array {
     $extensions = parent::getExtensions();

@@ -26,7 +26,7 @@ interface ConnectionQueryHelperInterface {
    * @return \Drupal\Core\Entity\Query\QueryInterface
    *   An entity query or aggregate entity query.
    */
-  public function getQuery() : QueryInterface;
+  public function getQuery(): QueryInterface;
 
   /**
    * Returns a cursor object for a given cursor string.
@@ -38,57 +38,7 @@ interface ConnectionQueryHelperInterface {
    *   An object with the cursor information or null if it was an invalid
    *   cursor.
    */
-  public function getCursorObject(string $cursor) : ?Cursor;
-
-  /**
-   * Returns the name of the ID field of this query.
-   *
-   * The ID field is used as fallback in case entities have the same value for
-   * the sort field. This ensures a stable sort in all cases.
-   *
-   * @return string
-   *   The query field name to use as ID.
-   */
-  public function getIdField() : string;
-
-  /**
-   * Returns the name of the field to use for sorting this connection.
-   *
-   * The cursor value will be used with this field.
-   *
-   * @return string
-   *   The sort field name.
-   */
-  public function getSortField() : string;
-
-  /**
-   * Get the sort direction for normal searches.
-   *
-   * @return string
-   *   Either 'ASC' or 'DESC'.
-   */
-  public function getForwardSortDirection() : string;
-
-  /**
-   * Get the sort direction for reversed searches.
-   *
-   * @return string
-   *   Either 'ASC' or 'DESC'.
-   */
-  public function getReverseSortDirection() : string;
-
-  /**
-   * The function to use for aggregate sorting.
-   *
-   * @return string|null
-   *   The aggregate sort function or NULL if aggregate sorting shouldn't be
-   *   used.
-   *
-   * @see \Drupal\Core\Entity\Query\QueryAggregateInterface::sortAggregate
-   *
-   * @todo Move this to a separate interface.
-   */
-  public function getAggregateSortFunction() : ?string;
+  public function getCursorObject(string $cursor): ?Cursor;
 
   /**
    * Asynchronously turn the entity query result into edges.
@@ -103,6 +53,86 @@ interface ConnectionQueryHelperInterface {
    * @return \GraphQL\Executor\Promise\Adapter\SyncPromise
    *   A promise that resolves into the edges for this connection.
    */
-  public function getLoaderPromise(array $result) : SyncPromise;
+  public function getLoaderPromise(array $result): SyncPromise;
+
+  /**
+   * Returns the name of the ID field of this query.
+   *
+   * The ID field is used as fallback in case entities have the same value for
+   * the sort field. This ensures a stable sort in all cases.
+   *
+   * @return string
+   *   The query field name to use as ID.
+   */
+  public function getIdField(): string;
+
+  /**
+   * Returns the entity type ID.
+   *
+   * @return string
+   *   Entity type ID.
+   */
+  public function getEntityTypeId(): string;
+
+  /**
+   * Returns the name of the field to use for sorting this connection.
+   *
+   * The cursor value will be used with this field.
+   *
+   * @return string
+   *   The sort field name.
+   */
+  public function getSortField(): string;
+
+  /**
+   * Get the langcode in use.
+   *
+   * @return string|null
+   *   Langcode to filter results to.
+   */
+  public function getLangcode(): ?string;
+
+  /**
+   * Get the langcode field on the entity.
+   *
+   * @return string|null
+   *   Langcode property key.
+   */
+  public function getLangcodeField(): ?string;
+
+  /**
+   * Get the published field on the entity.
+   *
+   * @return string|null
+   *   Published property key.
+   */
+  public function getPublishedField(): ?string;
+
+  /**
+   * Get the sort direction for normal searches.
+   *
+   * @return string
+   *   Either 'ASC' or 'DESC'.
+   */
+  public function getForwardSortDirection(): string;
+
+  /**
+   * Get the sort direction for reversed searches.
+   *
+   * @return string
+   *   Either 'ASC' or 'DESC'.
+   */
+  public function getReverseSortDirection(): string;
+
+  /**
+   * The function to use for aggregate sorting.
+   *
+   * @return string|null
+   *   The aggregate sort function or NULL if aggregate sorting shouldn't be
+   *   used.
+   *
+   * @see \Drupal\Core\Entity\Query\QueryAggregateInterface::sortAggregate
+   */
+  public function getAggregateSortFunction(): ?string;
 
 }

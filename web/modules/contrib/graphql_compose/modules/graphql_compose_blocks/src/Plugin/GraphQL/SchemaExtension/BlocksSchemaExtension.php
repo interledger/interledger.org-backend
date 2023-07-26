@@ -9,6 +9,7 @@ use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
+use GraphQL\Error\UserError;
 
 /**
  * Add blocks to the Schema.
@@ -32,10 +33,16 @@ class BlocksSchemaExtension extends SdlSchemaExtensionPluginBase {
       'Query',
       'block',
       $builder->produce('block_load')
-        ->map('block_plugin_id', $builder->fromArgument('block_plugin_id'))
+        ->map('id', $builder->fromArgument('id'))
     );
 
-    foreach (['BlockPlugin', 'BlockContent'] as $plugin_id) {
+    $block_plugin_types = [
+      'BlockPlugin',
+      'BlockContent',
+    ];
+
+    foreach ($block_plugin_types as $plugin_id) {
+
       // Block plugin ID.
       $registry->addFieldResolver(
         $plugin_id,
@@ -47,7 +54,11 @@ class BlocksSchemaExtension extends SdlSchemaExtensionPluginBase {
       $registry->addFieldResolver(
         $plugin_id,
         'title',
-        $builder->callback(fn (BlockPluginInterface $block) => $block->label())
+        $builder->callback(function (BlockPluginInterface $block) {
+          $config = $block->getConfiguration();
+          $display = $config['label_display'] ?? FALSE;
+          return $display ? $block->label() : NULL;
+        })
       );
 
       // Block derivative ID.
@@ -77,7 +88,7 @@ class BlocksSchemaExtension extends SdlSchemaExtensionPluginBase {
         if ($value instanceof BlockPluginInterface) {
           return 'BlockPlugin';
         }
-        throw new \InvalidArgumentException('Could not resolve block union type.');
+        throw new UserError('Could not resolve block union type.');
       }
     );
   }

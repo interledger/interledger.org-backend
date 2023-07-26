@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "TextSummary",
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class TextSummaryType extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -27,10 +27,10 @@ class TextSummaryType extends GraphQLComposeSchemaTypeBase {
       'name' => $this->getPluginId(),
       'description' => (string) $this->t('A processed text format with summary defined by the CMS.'),
       'fields' => fn() => [
-        'format'    => Type::string(),
-        'value'     => Type::string(),
+        'format' => Type::string(),
+        'value' => Type::string(),
         'processed' => static::type('Html'),
-        'summary'   => static::type('Html'),
+        'summary' => static::type('Html'),
       ],
     ]);
 

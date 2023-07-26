@@ -25,6 +25,7 @@ function config_pages_token_info() {
 
   // Dynamically generate the tokens for all exposed to tokens ConfigPages.
   $ids = $storage->getQuery()
+    ->accessCheck()
     ->sort('id')
     ->condition('token', TRUE)
     ->execute();

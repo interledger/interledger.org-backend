@@ -110,11 +110,6 @@ details.fieldset-no-legend {
   background-position-y: 56%;
 }
 
-/**
- * Elements must communicate width to table rendering.
- * @todo revisit in https://drupal.org/node/3135457
- */
-
 .views-ui-dialog td .form-element {
   width: auto;
 }
@@ -233,6 +228,7 @@ details.fieldset-no-legend {
 }
 
 .views-tabs .views-display-deleted-link {
+  -webkit-text-decoration: line-through;
   text-decoration: line-through;
 }
 
@@ -292,6 +288,7 @@ details.fieldset-no-legend {
 }
 
 .views-tabs li a {
+  -webkit-text-decoration: none;
   text-decoration: none;
   background-color: #fff;
 }
@@ -519,9 +516,8 @@ details.fieldset-no-legend {
 /* @group Query info table */
 
 .views-query-info table {
+  border-spacing: 1px;
   border-radius: 0.4375rem;
-  -webkit-border-horizontal-spacing: 1px;
-  -webkit-border-vertical-spacing: 1px;
 }
 
 .views-query-info table tr td:last-child {

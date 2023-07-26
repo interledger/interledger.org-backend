@@ -7,9 +7,32 @@
 
 declare(strict_types=1);
 
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Form\FormStateInterface;
+
 /**
  * Implements hook_views_invalidate_cache().
  */
-function graphql_compose_views_views_invalidate_cache():void {
+function graphql_compose_views_views_invalidate_cache(): void {
   _graphql_compose_cache_flush();
+}
+
+/**
+ * Implements hook_graphql_compose_field_type_form_alter().
+ */
+function graphql_compose_views_graphql_compose_field_type_form_alter(array &$form, FormStateInterface $form_state, FieldDefinitionInterface $field, array $settings,): void {
+
+  $moduleHandler = \Drupal::service('module_handler');
+  if (!$moduleHandler->moduleExists('viewfield')) {
+    return;
+  }
+
+  if ($field->getType() === 'viewfield') {
+    $form['viewfield_query'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Embed view as GraphQL query'),
+      '#description' => t('Enable a proxy view query to embed any referenced GraphQL view.'),
+      '#default_value' => $settings['viewfield_query'] ?? NULL,
+    ];
+  }
 }

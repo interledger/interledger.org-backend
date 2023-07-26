@@ -9,8 +9,10 @@ declare(strict_types=1);
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Access\AccessResultInterface;
-use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\system\Entity\Menu;
 
 /**
@@ -20,12 +22,38 @@ use Drupal\system\Entity\Menu;
  */
 function graphql_compose_menus_entity_access(EntityInterface $entity, $operation, AccountInterface $account): AccessResultInterface {
 
-  $config = \Drupal::config('graphql_compose.settings');
+  $settings = \Drupal::config('graphql_compose.settings');
 
   if ($operation === 'view' && $entity instanceof Menu) {
-    $access = $config->get('menu.' . $entity->id() . '.enabled') ?: FALSE;
+    $access = $settings->get('entity_config.menu.' . $entity->id() . '.enabled') ?: FALSE;
     return AccessResult::allowedIf($access);
   }
 
   return AccessResult::neutral();
+}
+
+/**
+ * Implements hook_graphql_compose_entity_type_form_alter().
+ */
+function graphql_compose_menus_graphql_compose_entity_type_form_alter(array &$form, FormStateInterface $form_state, EntityTypeInterface $entity_type, array $settings): void {
+  if ($entity_type->id() === 'menu') {
+    $form['menu_route_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Enable route on menu'),
+      '#default_value' => $settings['menu_route_enabled'] ?? FALSE,
+      '#description' => t('<em>Warning</em>: Enable only if you have a small menu and you understand the load implications. Querying %path will load all entities within this menu.', [
+        '%path' => 'route.entity',
+      ]),
+    ];
+  }
+}
+
+/**
+ * Implements hook_config_schema_info_alter().
+ */
+function graphql_compose_menus_config_schema_info_alter(&$definitions) {
+  $definitions['graphql_compose.entity.*.*']['mapping']['menu_route_enabled'] = [
+    'type' => 'boolean',
+    'label' => t('Enable menu routes'),
+  ];
 }

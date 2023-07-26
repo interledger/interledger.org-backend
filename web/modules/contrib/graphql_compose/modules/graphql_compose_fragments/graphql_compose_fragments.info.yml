@@ -1,8 +1,14 @@
-name: "GraphQL Compose: Fragments"
-description: "Fragments added to GraphQL control panel tab."
+name: 'GraphQL Compose: Fragments'
+description: 'Fragments added to GraphQL control panel tab.'
 type: module
-core_version_requirement: ^9 || ^10
+core_version_requirement: ^9.5 || ^10
+php: 8.1
 dependencies:
   - graphql_compose:graphql_compose
 package: GraphQL Compose
 hidden: false
+
+# Information added by Drupal.org packaging script on 2023-06-19
+version: '2.0.0-beta8'
+project: 'graphql_compose'
+datestamp: 1687159784

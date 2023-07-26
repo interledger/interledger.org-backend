@@ -8,7 +8,7 @@ use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeSchemaTypeBase;
 use GraphQL\Type\Definition\ObjectType;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "DateRange"
@@ -17,7 +17,7 @@ use GraphQL\Type\Definition\ObjectType;
 class DateRangeType extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -27,7 +27,7 @@ class DateRangeType extends GraphQLComposeSchemaTypeBase {
       'description' => (string) $this->t('A Date range has a start and an end.'),
       'fields' => fn() => [
         'start' => static::type('DateTime'),
-        'end'   => static::type('DateTime'),
+        'end' => static::type('DateTime'),
       ],
     ]);
 

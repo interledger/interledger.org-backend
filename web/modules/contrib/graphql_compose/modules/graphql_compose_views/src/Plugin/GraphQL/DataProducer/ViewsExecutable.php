@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace Drupal\graphql_compose_views\Plugin\GraphQL\DataProducer;
 
 use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Render\RenderContext;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
-use Drupal\graphql_compose_views\Plugin\GraphQLCompose\SchemaType\ViewPager;
 use Drupal\views\ViewExecutable as ViewsViewExecutable;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Load a Route or Redirect based on Path.
@@ -60,15 +63,69 @@ use Drupal\views\ViewExecutable as ViewsViewExecutable;
  *   }
  * )
  */
-class ViewsExecutable extends DataProducerPluginBase {
+class ViewsExecutable extends DataProducerPluginBase implements ContainerFactoryPluginInterface {
 
   /**
-   * Resolver.
+   * Drupal renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected RendererInterface $renderer;
+
+  /**
+   * Drupal entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected EntityTypeManagerInterface $entityTypeManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $instance = new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+    );
+
+    $instance->renderer = $container->get('renderer');
+    $instance->entityTypeManager = $container->get('entity_type.manager');
+
+    return $instance;
+  }
+
+  /**
+   * Resolve a view executable.
+   *
+   * @param string $view_id
+   *   The view ID.
+   * @param string $display_id
+   *   The view display ID.
+   * @param int|null $page
+   *   The page number.
+   * @param int|null $page_size
+   *   The page size.
+   * @param int|null $offset
+   *   The page offset.
+   * @param array|null $filter
+   *   The filters to apply.
+   * @param array|null $contextual_filter
+   *   The contextual filters to apply.
+   * @param string|null $sort_key
+   *   The sort key.
+   * @param string|null $sort_dir
+   *   The sort direction (ASC/DESC).
+   * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface $metadata
+   *   The cache metadata.
+   *
+   * @return \Drupal\views\ViewExecutable|null
+   *   The view executable.
    */
   public function resolve(string $view_id, string $display_id, ?int $page, ?int $page_size, ?int $offset, ?array $filter, ?array $contextual_filter, ?string $sort_key, ?string $sort_dir, RefinableCacheableDependencyInterface $metadata): ?ViewsViewExecutable {
 
     /** @var \Drupal\views\ViewEntityInterface|null $view_entity */
-    $view_entity = \Drupal::entityTypeManager()->getStorage('view')->load($view_id);
+    $view_entity = $this->entityTypeManager->getStorage('view')->load($view_id);
     $view = $view_entity->getExecutable();
     $view->setDisplay($display_id);
 
@@ -78,8 +135,13 @@ class ViewsExecutable extends DataProducerPluginBase {
     // Default exposed input.
     $exposed_input = $view->getExposedInput();
 
-    $isPaged = ViewPager::isPaged($view);
-    if ($isPaged) {
+    // Pagination enabled at a set limit.
+    $is_paged = in_array($display->getOption('pager')['type'] ?? '', [
+      'full',
+      'mini',
+    ]);
+
+    if ($is_paged) {
       $view->setCurrentPage($page ?? 0);
 
       if ($display->getOption('pager')['options']['expose']['offset'] ?? FALSE) {
@@ -98,7 +160,19 @@ class ViewsExecutable extends DataProducerPluginBase {
       }
     }
 
-    // Input filters.
+    $filter_input = [];
+
+    // Remap any incoming KeyValueInput pairs.
+    foreach ($filter ?: [] as $key => $value) {
+      if (is_array($value) && isset($value['key'], $value['value'])) {
+        $filter_input[$value['key']] = $value['value'];
+      }
+      else {
+        $filter_input[$key] = $value;
+      }
+    }
+
+    // Exposed input filters.
     $exposed_filters = array_filter(
       $display->getOption('filters') ?: [],
       fn ($filter) => !empty($filter['exposed'])
@@ -109,11 +183,10 @@ class ViewsExecutable extends DataProducerPluginBase {
       $exposed_filters
     );
 
-    if ($filter && $exposed_filters) {
-      foreach ($filter as $key => $value) {
-        if (in_array($key, $exposed_filters)) {
-          $exposed_input[$key] = is_bool($value) ? (string) intval($value) : $value;
-        }
+    // Only allow exposed filters in exposed_input.
+    foreach ($filter_input ?: [] as $key => $value) {
+      if (in_array($key, $exposed_filters)) {
+        $exposed_input[$key] = is_bool($value) ? (string) intval($value) : $value;
       }
     }
 
@@ -123,31 +196,25 @@ class ViewsExecutable extends DataProducerPluginBase {
       fn ($filter) => !empty($filter['exposed'])
     );
 
-    if ($exposed_sorts) {
-      $sort_enums = $display->getGraphQlSortEnums();
+    if ($exposed_sorts && $sort_key) {
+      $sort_key = strtolower($sort_key);
+      $sort_enums = array_change_key_case($display->getGraphQlSortEnums());
       if (array_key_exists($sort_key, $sort_enums)) {
         $exposed_input['sort_by'] = $sort_enums[$sort_key]['value'];
       }
     }
 
     // Set sort order.
-    $exposed_form = $display->getOption('exposed_form');
-    if ($exposed_form['options']['expose_sort_order'] ?? FALSE) {
+    $exposed_sort_dir = $display->getOption('exposed_form')['options']['expose_sort_order'] ?? TRUE;
+    if ($exposed_sort_dir && $sort_dir) {
       $exposed_input['sort_order'] = $sort_dir === 'ASC' ? 'ASC' : 'DESC';
     }
 
-    $view->setExposedInput($exposed_input);
-
     // Construct contextual filters.
+    // Contextual args are a bit yolo.
     $context_args = [];
-    $contextual_filters = $display->getOption('arguments') ?: [];
-
-    if ($contextual_filter && $contextual_filters) {
-      foreach ($contextual_filter as $key => $value) {
-        if (isset($contextual_filters[$key])) {
-          $context_args[$key] = is_bool($value) ? (string) intval($value) : $value;
-        }
-      }
+    foreach ($contextual_filter ?: [] as $value) {
+      $context_args[] = is_bool($value) ? (string) intval($value) : $value;
     }
 
     $metadata->addCacheableDependency($view_entity);
@@ -155,9 +222,10 @@ class ViewsExecutable extends DataProducerPluginBase {
     // Execute the view.
     $render_context = new RenderContext();
 
-    $executed_view = \Drupal::service('renderer')->executeInRenderContext(
+    $executed_view = $this->renderer->executeInRenderContext(
       $render_context,
-      function () use ($view, $context_args) {
+      function () use ($view, $context_args, $exposed_input) {
+        $view->setExposedInput($exposed_input);
         $view->preExecute($context_args);
         $view->execute();
         return $view;

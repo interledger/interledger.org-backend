@@ -7,17 +7,16 @@
 
 declare(strict_types=1);
 
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\ContentEntityTypeInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_graphql_compose_entity_type_form_alter().
  */
-function graphql_compose_edges_graphql_compose_entity_type_form_alter(array &$form, FormStateInterface $form_state, array $settings): void {
-  $base_type = $form_state->get('base_type');
-
-  if ($base_type instanceof ContentEntityTypeInterface) {
-    $form['graphql_compose']['edges_enabled'] = [
+function graphql_compose_edges_graphql_compose_entity_type_form_alter(array &$form, FormStateInterface $form_state, EntityTypeInterface $entity_type, array $settings): void {
+  if ($entity_type instanceof ContentEntityTypeInterface) {
+    $form['edges_enabled'] = [
       '#type' => 'checkbox',
       '#title' => t('Enable multiple query'),
       '#default_value' => $settings['edges_enabled'] ?? FALSE,
@@ -27,13 +26,11 @@ function graphql_compose_edges_graphql_compose_entity_type_form_alter(array &$fo
 }
 
 /**
- * Implements graphql_compose_entity_type_form_submit_alter().
+ * Implements hook_config_schema_info_alter().
  */
-function graphql_compose_edges_graphql_compose_entity_type_form_submit_alter(array $form, FormStateInterface $form_state, array &$settings): void {
-  if (isset($form['graphql_compose']['edges_enabled'])) {
-    $settings['edges_enabled'] = (bool) $form_state->getValue([
-      'graphql_compose',
-      'edges_enabled',
-    ]);
-  }
+function graphql_compose_edges_config_schema_info_alter(&$definitions) {
+  $definitions['graphql_compose.entity.*.*']['mapping']['edges_enabled'] = [
+    'type' => 'boolean',
+    'label' => t('Enable multiple query'),
+  ];
 }

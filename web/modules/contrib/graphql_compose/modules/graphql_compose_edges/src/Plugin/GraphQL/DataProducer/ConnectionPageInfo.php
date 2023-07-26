@@ -20,7 +20,7 @@ use Drupal\graphql_compose_edges\ConnectionInterface;
  *   ),
  *   consumes = {
  *     "connection" = @ContextDefinition("any",
- *       label = @Translation("QueryConnection")
+ *       label = @Translation("Query Connection")
  *     )
  *   }
  * )
