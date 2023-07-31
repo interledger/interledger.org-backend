@@ -1,0 +1,49 @@
+image: atlassian/default-image:4
+
+definitions:
+  steps:
+    - step: &package
+        name: "Build Package"
+        script:
+          - echo "Building package"
+          - zip -r application.zip web composer.json composer.lock .ebextensions .platform scaffold config
+          - export BITBUCKET_COMMIT_SHORT=$(echo $BITBUCKET_COMMIT | cut -c1-7)
+          - pipe: atlassian/aws-elasticbeanstalk-deploy:1.1.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              APPLICATION_NAME: $APPLICATION_NAME
+              COMMAND: "upload-only"
+              ZIP_FILE: "application.zip"
+              S3_BUCKET: $S3_BUCKET
+              VERSION_LABEL: "develop-$BITBUCKET_BUILD_NUMBER-deploy-$BITBUCKET_COMMIT_SHORT"
+    - step: &deploy
+        name: "Deploy"
+        script:
+          - export BITBUCKET_COMMIT_SHORT=$(echo $BITBUCKET_COMMIT | cut -c1-7)
+          - pipe: atlassian/aws-elasticbeanstalk-deploy:1.1.0
+            variables:
+              AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+              AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+              AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+              APPLICATION_NAME: $APPLICATION_NAME
+              COMMAND: "deploy-only"
+              VERSION_LABEL: "develop-$BITBUCKET_BUILD_NUMBER-deploy-$BITBUCKET_COMMIT_SHORT"
+              ENVIRONMENT_NAME: $ENVIRONMENT_NAME
+              WAIT: "true"
+
+pipelines:
+  branches:
+    staging:
+      - stage:
+          deployment: staging
+          steps:
+            - step: *package
+            - step: *deploy
+    main:
+      - stage:
+          deployment: production
+          steps:
+            - step: *package
+            - step: *deploy
