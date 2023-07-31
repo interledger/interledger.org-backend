@@ -6,7 +6,12 @@ definitions:
         name: "Build Package"
         script:
           - echo "Building package"
-          - zip -r application.zip web composer.json composer.lock .ebextensions .platform scaffold config
+          - mkdir keys
+          - echo $OAUTH_PUBLIC_KEY | base64 --decode >> keys/public.key
+          - echo $OAUTH_PRIVATE_KEY | base64 --decode >> keys/private.key
+          - chmod -R 440 keys
+          - chmod 755 keys
+          - zip -r application.zip web composer.json composer.lock .ebextensions .platform scaffold keys config
           - export BITBUCKET_COMMIT_SHORT=$(echo $BITBUCKET_COMMIT | cut -c1-7)
           - pipe: atlassian/aws-elasticbeanstalk-deploy:1.1.0
             variables:
