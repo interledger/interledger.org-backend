@@ -1,0 +1,79 @@
+uuid: 6cbb9861-efad-432c-92ef-fb9f5e34085f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_social_media
+    - node.type.speaker
+    - paragraphs.paragraphs_type.social_media
+  module:
+    - entity_reference_revisions
+id: node.speaker.field_social_media
+field_name: field_social_media
+entity_type: node
+bundle: speaker
+label: 'Social Media'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      social_media: social_media
+    negate: 0
+    target_bundles_drag_drop:
+      button:
+        weight: 18
+        enabled: false
+      carousel_item:
+        weight: 19
+        enabled: false
+      content_title:
+        weight: 20
+        enabled: false
+      hero_header:
+        weight: 21
+        enabled: false
+      highlighted_list:
+        weight: 22
+        enabled: false
+      highlighted_speakers:
+        weight: 23
+        enabled: false
+      image:
+        weight: 24
+        enabled: false
+      image_carousel:
+        weight: 25
+        enabled: false
+      image_gallery:
+        weight: 26
+        enabled: false
+      large_callout_text:
+        weight: 27
+        enabled: false
+      social_media:
+        weight: 28
+        enabled: true
+      social_media_link:
+        weight: 29
+        enabled: false
+      spacer:
+        weight: 30
+        enabled: false
+      teaser:
+        weight: 31
+        enabled: false
+      text:
+        weight: 32
+        enabled: false
+      two_column_content:
+        weight: 33
+        enabled: false
+      video:
+        weight: 34
+        enabled: false
+field_type: entity_reference_revisions

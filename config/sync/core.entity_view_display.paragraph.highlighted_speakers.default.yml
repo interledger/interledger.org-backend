@@ -1,0 +1,21 @@
+uuid: bb12570e-4b3b-41a7-8cda-0f326fa38c16
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.highlighted_speakers.field_speakers
+    - paragraphs.paragraphs_type.highlighted_speakers
+id: paragraph.highlighted_speakers.default
+targetEntityType: paragraph
+bundle: highlighted_speakers
+mode: default
+content:
+  field_speakers:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

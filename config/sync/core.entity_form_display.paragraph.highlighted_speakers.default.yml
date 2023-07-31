@@ -1,0 +1,34 @@
+uuid: 9303a0f6-62d3-4241-a35a-4a54548f1c40
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.highlighted_speakers.field_speakers
+    - paragraphs.paragraphs_type.highlighted_speakers
+  module:
+    - autocomplete_deluxe
+id: paragraph.highlighted_speakers.default
+targetEntityType: paragraph
+bundle: highlighted_speakers
+mode: default
+content:
+  field_speakers:
+    type: autocomplete_deluxe
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      autocomplete_route_name: autocomplete_deluxe.autocomplete
+      size: 60
+      selection_handler: default
+      limit: 10
+      min_length: 0
+      delimiter: ''
+      not_found_message_allow: false
+      not_found_message: "The term '@term' will be added"
+      new_terms: false
+      no_empty_message: 'No terms could be found. Please type in order to add a new term.'
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

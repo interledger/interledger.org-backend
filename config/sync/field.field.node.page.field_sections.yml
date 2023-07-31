@@ -8,11 +8,15 @@ dependencies:
     - paragraphs.paragraphs_type.button
     - paragraphs.paragraphs_type.content_title
     - paragraphs.paragraphs_type.highlighted_list
+    - paragraphs.paragraphs_type.highlighted_speakers
     - paragraphs.paragraphs_type.image
+    - paragraphs.paragraphs_type.image_carousel
+    - paragraphs.paragraphs_type.image_gallery
     - paragraphs.paragraphs_type.large_callout_text
     - paragraphs.paragraphs_type.spacer
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.two_column_content
+    - paragraphs.paragraphs_type.video
   module:
     - entity_reference_revisions
 id: node.page.field_sections
@@ -37,6 +41,10 @@ settings:
       content_title: content_title
       highlighted_list: highlighted_list
       image: image
+      highlighted_speakers: highlighted_speakers
+      image_carousel: image_carousel
+      image_gallery: image_gallery
+      video: video
     negate: 0
     target_bundles_drag_drop:
       button:
@@ -45,11 +53,23 @@ settings:
       content_title:
         weight: 9
         enabled: true
+      hero_header:
+        weight: 14
+        enabled: false
       highlighted_list:
         weight: 11
         enabled: true
+      highlighted_speakers:
+        weight: 17
+        enabled: true
       image:
         weight: 13
+        enabled: true
+      image_carousel:
+        weight: 17
+        enabled: true
+      image_gallery:
+        weight: 21
         enabled: true
       large_callout_text:
         weight: 8
@@ -65,5 +85,8 @@ settings:
         enabled: true
       two_column_content:
         weight: 8
+        enabled: true
+      video:
+        weight: 28
         enabled: true
 field_type: entity_reference_revisions

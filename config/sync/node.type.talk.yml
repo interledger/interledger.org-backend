@@ -1,0 +1,17 @@
+uuid: 0b715907-84b8-4b63-803f-525dc26c4d24
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Talk
+type: talk
+description: ''
+help: ''
+new_revision: true
+preview_mode: 0
+display_submitted: false

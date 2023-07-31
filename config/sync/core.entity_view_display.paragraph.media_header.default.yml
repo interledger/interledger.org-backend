@@ -1,0 +1,31 @@
+uuid: 30454f69-c2f8-4d27-ba1e-1b4c8986097d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.media_header.field_single_image
+    - field.field.paragraph.media_header.field_video
+    - paragraphs.paragraphs_type.media_header
+id: paragraph.media_header.default
+targetEntityType: paragraph
+bundle: media_header
+mode: default
+content:
+  field_single_image:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_video:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

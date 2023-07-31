@@ -3,20 +3,19 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.teaser.field_image
+    - field.field.paragraph.teaser.field_single_image
     - paragraphs.paragraphs_type.teaser
 id: paragraph.teaser.default
 targetEntityType: paragraph
 bundle: teaser
 mode: default
 content:
-  field_image:
-    type: entity_reference_entity_view
+  field_single_image:
+    type: entity_reference_label
     label: above
     settings:
-      view_mode: default
-      link: false
+      link: true
     third_party_settings: {  }
-    weight: 0
+    weight: 1
     region: content
 hidden: {  }

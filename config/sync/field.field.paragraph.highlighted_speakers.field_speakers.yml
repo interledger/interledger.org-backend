@@ -1,0 +1,35 @@
+uuid: 9846c91b-e4e3-4794-a062-3554d0530c76
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_speakers
+    - node.type.speaker
+    - paragraphs.paragraphs_type.highlighted_speakers
+  module:
+    - entity_reference_purger
+third_party_settings:
+  entity_reference_purger:
+    remove_orphaned: false
+    use_queue: true
+id: paragraph.highlighted_speakers.field_speakers
+field_name: field_speakers
+entity_type: paragraph
+bundle: highlighted_speakers
+label: Speakers
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      speaker: speaker
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

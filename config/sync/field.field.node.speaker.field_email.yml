@@ -1,0 +1,19 @@
+uuid: 4a345f78-4d58-472c-9a86-beef9ae29f64
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_email
+    - node.type.speaker
+id: node.speaker.field_email
+field_name: field_email
+entity_type: node
+bundle: speaker
+label: Email
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email

@@ -1,0 +1,16 @@
+uuid: 6918cb23-f5c7-4043-a751-247c6768cc4b
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: media_header
+label: 'Media Header'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

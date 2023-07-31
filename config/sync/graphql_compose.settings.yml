@@ -1,156 +1,389 @@
 _core:
-  default_config_hash: UUIwv478j8AtmCC-S4c5LLZQlyt2IsOPJ7vYrZ1Gu8w
-entities: {  }
-field_config:
+  default_config_hash: HjBACF5NUOUEE_nzaQUEQf3mwzx-c-cevV4NejXsv1A
+entity_config:
+  image_style:
+    aspect_ratio_16_9_1021w:
+      enabled: false
+    aspect_ratio_16_9_1228w:
+      enabled: false
+    aspect_ratio_16_9_1400w:
+      enabled: false
+    aspect_ratio_16_9_1600w:
+      enabled: false
+    aspect_ratio_16_9_1920w:
+      enabled: false
+    aspect_ratio_16_9_320w:
+      enabled: false
+    aspect_ratio_16_9_450w:
+      enabled: false
+    aspect_ratio_16_9_725w:
+      enabled: false
+    aspect_ratio_1_1_1021w:
+      enabled: false
+    aspect_ratio_1_1_1228w:
+      enabled: false
+    aspect_ratio_1_1_1400w:
+      enabled: false
+    aspect_ratio_1_1_1600w:
+      enabled: false
+    aspect_ratio_1_1_1920w:
+      enabled: false
+    aspect_ratio_1_1_320w:
+      enabled: false
+    aspect_ratio_1_1_450w:
+      enabled: false
+    aspect_ratio_1_1_725w:
+      enabled: false
+    aspect_ratio_9_16_1021w:
+      enabled: false
+    aspect_ratio_9_16_1228w:
+      enabled: false
+    aspect_ratio_9_16_1400w:
+      enabled: false
+    aspect_ratio_9_16_1600w:
+      enabled: false
+    aspect_ratio_9_16_1920w:
+      enabled: false
+    aspect_ratio_9_16_320w:
+      enabled: false
+    aspect_ratio_9_16_450w:
+      enabled: false
+    aspect_ratio_9_16_725w:
+      enabled: false
+    large:
+      enabled: false
+    max_1300x1300:
+      enabled: false
+    max_2600x2600:
+      enabled: false
+    max_325x325:
+      enabled: false
+    max_650x650:
+      enabled: false
+    media_library:
+      enabled: false
+    medium:
+      enabled: true
+    thumbnail:
+      enabled: false
+    wide:
+      enabled: false
+  media:
+    audio:
+      enabled: false
+      query_load_enabled: false
+      edges_enabled: false
+      routes_enabled: false
+    document:
+      enabled: false
+      query_load_enabled: false
+      edges_enabled: false
+      routes_enabled: false
+    image:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+      routes_enabled: false
+    remote_video:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+      routes_enabled: false
+    vector_image:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+      routes_enabled: false
+    video:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+      routes_enabled: false
+  menu:
+    account:
+      enabled: false
+      menu_route_enabled: false
+    admin:
+      enabled: false
+      menu_route_enabled: false
+    footer:
+      enabled: true
+      menu_route_enabled: false
+    main:
+      enabled: true
+      menu_route_enabled: false
+    tools:
+      enabled: false
+      menu_route_enabled: false
   node:
     article:
-      field_sections:
-        enabled: true
-      field_image:
-        enabled: true
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: true
+      routes_enabled: true
     page:
-      field_sections:
-        enabled: true
-      field_teaser:
-        enabled: true
-      field_header:
-        enabled: true
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: true
+      routes_enabled: true
+    speaker:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: true
+      routes_enabled: true
+    talk:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+      routes_enabled: true
   paragraph:
     button:
-      field_link:
-        enabled: true
-    text:
-      field_text:
-        enabled: true
-    spacer:
-      field_spacer_size:
-        enabled: true
-      field_spacer_line:
-        enabled: true
-    two_column_content:
-      field_first_column:
-        enabled: true
-      field_second_column:
-        enabled: true
-    teaser:
-      field_image:
-        enabled: true
-    large_callout_text:
-      field_large_callout_text:
-        enabled: true
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    carousel_item:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
     content_title:
-      field_title:
-        enabled: true
-    highlighted_list:
-      field_list_item:
-        enabled: true
-    image:
-      field_image:
-        enabled: true
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
     hero_header:
-      field_image:
-        enabled: true
-      field_video:
-        enabled: true
-      field_title:
-        enabled: true
-      field_where_text:
-        enabled: true
-      field_when_text:
-        enabled: true
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    highlighted_list:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    highlighted_speakers:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    image:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    image_carousel:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    image_gallery:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    large_callout_text:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    media_header:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    social_media:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    social_media_link:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    spacer:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    talk_header:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    teaser:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    text:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    two_column_content:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+    video:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
+  responsive_image_style:
+    aspect_ratio_landscape_16_9:
+      enabled: true
+    aspect_ratio_portrait_9_16:
+      enabled: true
+    aspect_ratio_square_1_1:
+      enabled: true
+  taxonomy_term:
+    tags:
+      enabled: false
+      query_load_enabled: false
+      edges_enabled: false
+      routes_enabled: false
+field_config:
   media:
+    audio:
+      field_media_audio_file:
+        enabled: false
+    document:
+      field_media_document:
+        enabled: false
     image:
       field_media_image:
         enabled: true
     remote_video:
       field_media_oembed_video:
         enabled: true
-    video:
-      field_media_video_file:
-        enabled: true
     vector_image:
       field_media_svg:
         enabled: true
-media:
-  image:
-    enabled: true
-    query_load_enabled: false
-    routes_enabled: false
-  remote_video:
-    enabled: true
-    query_load_enabled: false
-    routes_enabled: false
-  video:
-    enabled: true
-    query_load_enabled: false
-    routes_enabled: false
-  vector_image:
-    enabled: true
-    query_load_enabled: false
-    routes_enabled: false
-paragraph:
-  spacer:
-    enabled: true
-    query_load_enabled: false
-  button:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  text:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  two_column_content:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  teaser:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  large_callout_text:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  content_title:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  highlighted_list:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  image:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  hero_header:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-responsive_image_style:
-  aspect_ratio_landscape_16_9:
-    enabled: true
-  aspect_ratio_portrait_9_16:
-    enabled: true
-  aspect_ratio_square_1_1:
-    enabled: true
-node:
-  article:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: true
-    routes_enabled: true
-  page:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: true
-    routes_enabled: true
-image_style:
-  medium:
-    enabled: true
-menu:
-  footer:
-    enabled: true
-  main:
-    enabled: true
+    video:
+      field_media_video_file:
+        enabled: true
+  node:
+    article:
+      body:
+        enabled: false
+      field_image:
+        enabled: true
+      field_sections:
+        enabled: true
+    page:
+      body:
+        enabled: false
+      field_header:
+        enabled: true
+      field_sections:
+        enabled: true
+      field_teaser:
+        enabled: true
+    speaker:
+      body:
+        enabled: false
+      field_biography:
+        enabled: true
+      field_company:
+        enabled: true
+      field_email:
+        enabled: true
+      field_image:
+        enabled: true
+      field_role:
+        enabled: true
+      field_social_media:
+        enabled: true
+      field_summary:
+        enabled: true
+      field_teaser:
+        enabled: true
+    talk:
+      body:
+        enabled: false
+      field_date_time:
+        enabled: true
+      field_description:
+        enabled: true
+      field_duration:
+        enabled: true
+      field_header:
+        enabled: true
+      field_speakers:
+        enabled: true
+      field_teaser:
+        enabled: true
+  paragraph:
+    button:
+      field_link:
+        enabled: true
+    carousel_item:
+      field_link:
+        enabled: true
+      field_single_image:
+        enabled: true
+    content_title:
+      field_title:
+        enabled: true
+    hero_header:
+      field_single_image:
+        enabled: true
+      field_title:
+        enabled: true
+      field_video:
+        enabled: true
+      field_when_text:
+        enabled: true
+      field_where_text:
+        enabled: true
+    highlighted_list:
+      field_list_item:
+        enabled: true
+    highlighted_speakers:
+      field_speakers:
+        enabled: true
+    image:
+      field_single_image:
+        enabled: true
+    image_carousel:
+      field_carousel_item:
+        enabled: true
+    image_gallery:
+      field_multiple_images:
+        enabled: true
+    large_callout_text:
+      field_large_callout_text:
+        enabled: true
+    media_header:
+      field_single_image:
+        enabled: true
+      field_video:
+        enabled: true
+    social_media:
+      field_social_media_links:
+        enabled: true
+    social_media_link:
+      field_link:
+        enabled: true
+      field_social_media_type:
+        enabled: true
+    spacer:
+      field_spacer_line:
+        enabled: true
+      field_spacer_size:
+        enabled: true
+    talk_header:
+      field_header_after:
+        enabled: true
+      field_header_before:
+        enabled: true
+      field_header_during:
+        enabled: true
+    teaser:
+      field_single_image:
+        enabled: true
+    text:
+      field_text:
+        enabled: true
+    two_column_content:
+      field_first_column:
+        enabled: true
+      field_second_column:
+        enabled: true
+    video:
+      field_single_image:
+        enabled: true
+      field_video:
+        enabled: true
+settings:
+  expose_entity_ids: false
+  schema_description: 'GraphQL Compose'
+  schema_version: '1'
+  simple_unions: false
+  site_name: false
+  site_slogan: false
+  site_front: true

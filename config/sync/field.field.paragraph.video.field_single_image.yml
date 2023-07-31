@@ -1,0 +1,35 @@
+uuid: 30986018-d32c-449a-a239-6cdb631f4e24
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_single_image
+    - media.type.image
+    - paragraphs.paragraphs_type.video
+  module:
+    - entity_reference_purger
+third_party_settings:
+  entity_reference_purger:
+    remove_orphaned: false
+    use_queue: true
+id: paragraph.video.field_single_image
+field_name: field_single_image
+entity_type: paragraph
+bundle: video
+label: 'Poster Image'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

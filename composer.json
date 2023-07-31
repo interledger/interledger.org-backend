@@ -51,6 +51,7 @@
         "drupal/svg_image_field": "^2.2",
         "drupal/token": "^1.12",
         "drupal/upgrade_status": "^4.0",
+        "drupal/viewfield": "^3.0@beta",
         "drush/drush": "^11.3"
     },
     "conflict": {

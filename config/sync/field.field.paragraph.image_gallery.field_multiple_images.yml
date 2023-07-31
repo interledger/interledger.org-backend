@@ -1,22 +1,22 @@
-uuid: d23fca6b-c398-4014-ab77-51a53e65d011
+uuid: 850207df-fafc-4fdc-a21c-5e8d758a180b
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_image
+    - field.storage.paragraph.field_multiple_images
     - media.type.image
-    - paragraphs.paragraphs_type.image
+    - paragraphs.paragraphs_type.image_gallery
   module:
     - entity_reference_purger
 third_party_settings:
   entity_reference_purger:
     remove_orphaned: false
     use_queue: true
-id: paragraph.image.field_image
-field_name: field_image
+id: paragraph.image_gallery.field_multiple_images
+field_name: field_multiple_images
 entity_type: paragraph
-bundle: image
-label: Image
+bundle: image_gallery
+label: 'Gallery Images'
 description: ''
 required: true
 translatable: true

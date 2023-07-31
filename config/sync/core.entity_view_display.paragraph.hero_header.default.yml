@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.hero_header.field_image
+    - field.field.paragraph.hero_header.field_single_image
     - field.field.paragraph.hero_header.field_title
     - field.field.paragraph.hero_header.field_video
     - field.field.paragraph.hero_header.field_when_text
@@ -14,13 +14,13 @@ targetEntityType: paragraph
 bundle: hero_header
 mode: default
 content:
-  field_image:
+  field_single_image:
     type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    weight: 0
+    weight: 5
     region: content
   field_title:
     type: string

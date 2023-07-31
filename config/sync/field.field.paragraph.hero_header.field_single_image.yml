@@ -1,9 +1,9 @@
-uuid: d22da472-c11d-4fb4-b623-8a07f37c1ab7
+uuid: 969861cd-9cd9-4d48-a212-e4aa75af1deb
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_image
+    - field.storage.paragraph.field_single_image
     - media.type.image
     - paragraphs.paragraphs_type.hero_header
   module:
@@ -12,8 +12,8 @@ third_party_settings:
   entity_reference_purger:
     remove_orphaned: false
     use_queue: true
-id: paragraph.hero_header.field_image
-field_name: field_image
+id: paragraph.hero_header.field_single_image
+field_name: field_single_image
 entity_type: paragraph
 bundle: hero_header
 label: 'Poster Image'

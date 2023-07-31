@@ -1,0 +1,23 @@
+uuid: df649f69-8396-4446-8163-5f181c44f890
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_duration
+    - node.type.talk
+id: node.talk.field_duration
+field_name: field_duration
+entity_type: node
+bundle: talk
+label: Duration
+description: 'Enter talk duration in minutes'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,21 @@
+uuid: 40e5f3c9-3f64-41fb-b25a-1d1843b7c341
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.image_gallery.field_multiple_images
+    - paragraphs.paragraphs_type.image_gallery
+id: paragraph.image_gallery.default
+targetEntityType: paragraph
+bundle: image_gallery
+mode: default
+content:
+  field_multiple_images:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

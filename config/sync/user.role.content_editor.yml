@@ -6,6 +6,7 @@ dependencies:
     - filter.format.basic_html
     - node.type.article
     - node.type.page
+    - node.type.speaker
     - taxonomy.vocabulary.tags
   module:
     - contextual
@@ -31,14 +32,19 @@ permissions:
   - 'administer url aliases'
   - 'create article content'
   - 'create page content'
+  - 'create speaker content'
   - 'create terms in tags'
   - 'create url aliases'
   - 'delete article revisions'
   - 'delete own article content'
+  - 'delete own files'
   - 'delete own page content'
+  - 'delete own speaker content'
   - 'delete page revisions'
+  - 'delete speaker revisions'
   - 'edit own article content'
   - 'edit own page content'
+  - 'edit own speaker content'
   - 'edit terms in tags'
   - 'revert all revisions'
   - 'use text format basic_html'
