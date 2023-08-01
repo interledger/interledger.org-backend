@@ -42,6 +42,7 @@ module:
   graphql_compose_menus: 0
   graphql_compose_metatags: 0
   graphql_compose_routes: 0
+  graphql_compose_views: 0
   health_check: 0
   history: 0
   image: 0
