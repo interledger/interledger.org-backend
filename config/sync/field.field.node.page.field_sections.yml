@@ -14,6 +14,7 @@ dependencies:
     - paragraphs.paragraphs_type.image_gallery
     - paragraphs.paragraphs_type.large_callout_text
     - paragraphs.paragraphs_type.spacer
+    - paragraphs.paragraphs_type.speakers_grid
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.two_column_content
     - paragraphs.paragraphs_type.video
@@ -45,11 +46,15 @@ settings:
       image_carousel: image_carousel
       image_gallery: image_gallery
       video: video
+      speakers_grid: speakers_grid
     negate: 0
     target_bundles_drag_drop:
       button:
         weight: 4
         enabled: true
+      carousel_item:
+        weight: 22
+        enabled: false
       content_title:
         weight: 9
         enabled: true
@@ -74,9 +79,24 @@ settings:
       large_callout_text:
         weight: 8
         enabled: true
+      media_header:
+        weight: 31
+        enabled: false
+      social_media:
+        weight: 32
+        enabled: false
+      social_media_link:
+        weight: 33
+        enabled: false
       spacer:
         weight: 5
         enabled: true
+      speakers_grid:
+        weight: 35
+        enabled: true
+      talk_header:
+        weight: 36
+        enabled: false
       teaser:
         weight: 10
         enabled: false

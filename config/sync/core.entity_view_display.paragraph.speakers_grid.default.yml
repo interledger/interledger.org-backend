@@ -1,0 +1,25 @@
+uuid: 98844c3f-a836-4d39-af10-bebe6c7952e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.speakers_grid.field_speakers_view
+    - paragraphs.paragraphs_type.speakers_grid
+  module:
+    - viewfield
+id: paragraph.speakers_grid.default
+targetEntityType: paragraph
+bundle: speakers_grid
+mode: default
+content:
+  field_speakers_view:
+    type: viewfield_default
+    label: above
+    settings:
+      view_title: hidden
+      always_build_output: false
+      empty_view_title: hidden
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

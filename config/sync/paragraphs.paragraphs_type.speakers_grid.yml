@@ -1,0 +1,16 @@
+uuid: c1dcf637-0f8d-4d46-a238-41517ab5f6ca
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: speakers_grid
+label: 'Speakers Grid'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

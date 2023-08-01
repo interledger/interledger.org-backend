@@ -193,6 +193,10 @@ entity_config:
       enabled: true
       query_load_enabled: false
       edges_enabled: false
+    speakers_grid:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
     talk_header:
       enabled: true
       query_load_enabled: false
@@ -356,6 +360,10 @@ field_config:
         enabled: true
       field_spacer_size:
         enabled: true
+    speakers_grid:
+      field_speakers_view:
+        enabled: true
+        viewfield_query: 1
     talk_header:
       field_header_after:
         enabled: true
