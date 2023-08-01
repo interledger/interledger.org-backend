@@ -128,6 +128,9 @@ entity_config:
     main:
       enabled: true
       menu_route_enabled: false
+    summit:
+      enabled: true
+      menu_route_enabled: false
     tools:
       enabled: false
       menu_route_enabled: false

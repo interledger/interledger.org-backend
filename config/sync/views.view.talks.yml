@@ -133,7 +133,7 @@ display:
           entity_type: node
           entity_field: nid
           plugin_id: node_nid
-          default_action: ignore
+          default_action: default
           exception:
             value: all
             title_enable: false
@@ -237,7 +237,7 @@ display:
           offset: 0
       display_description: ''
       display_extenders: {  }
-      graphql_query_name: talksAll
+      graphql_query_name: talks
       graphql_query_exposed: 0
     cache_metadata:
       max-age: -1
@@ -265,7 +265,7 @@ display:
       relationships: {  }
       display_description: ''
       display_extenders: {  }
-      graphql_query_name: talks
+      graphql_query_name: talksAll
       graphql_query_exposed: 0
     cache_metadata:
       max-age: -1
