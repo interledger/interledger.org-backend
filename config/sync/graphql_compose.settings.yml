@@ -68,6 +68,22 @@ entity_config:
       enabled: false
     wide:
       enabled: false
+    width_1021w:
+      enabled: false
+    width_1228w:
+      enabled: false
+    width_1400w:
+      enabled: false
+    width_1600w:
+      enabled: false
+    width_1920w:
+      enabled: false
+    width_320w:
+      enabled: false
+    width_450w:
+      enabled: false
+    width_725w:
+      enabled: false
   media:
     audio:
       enabled: false
@@ -224,6 +240,8 @@ entity_config:
       enabled: true
     aspect_ratio_square_1_1:
       enabled: true
+    width:
+      enabled: true
   taxonomy_term:
     tags:
       enabled: false
@@ -282,6 +300,10 @@ field_config:
         enabled: true
       field_social_media:
         enabled: true
+      field_speaker_talks:
+        enabled: true
+        name_sdl: talks
+        viewfield_query: 1
       field_summary:
         enabled: true
       field_teaser:
