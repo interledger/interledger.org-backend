@@ -133,7 +133,7 @@ display:
           entity_type: node
           entity_field: nid
           plugin_id: node_nid
-          default_action: default
+          default_action: ignore
           exception:
             value: all
             title_enable: false
@@ -227,7 +227,7 @@ display:
       tags: {  }
   graphql_1:
     id: graphql_1
-    display_title: GraphQL
+    display_title: 'Speaker Talks'
     display_plugin: graphql
     position: 1
     display_options:
@@ -235,6 +235,35 @@ display:
         type: none
         options:
           offset: 0
+      display_description: ''
+      display_extenders: {  }
+      graphql_query_name: talksAll
+      graphql_query_exposed: 0
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - 'user.node_grants:view'
+        - user.permissions
+      tags: {  }
+  graphql_2:
+    id: graphql_2
+    display_title: 'All Talks'
+    display_plugin: graphql
+    position: 1
+    display_options:
+      pager:
+        type: none
+        options:
+          offset: 0
+      arguments: {  }
+      defaults:
+        relationships: false
+        arguments: false
+      relationships: {  }
+      display_description: ''
       display_extenders: {  }
       graphql_query_name: talks
       graphql_query_exposed: 0
@@ -243,7 +272,6 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
-        - url
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }

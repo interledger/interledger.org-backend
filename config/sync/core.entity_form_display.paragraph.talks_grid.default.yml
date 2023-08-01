@@ -1,0 +1,23 @@
+uuid: 973361d4-6583-47da-937c-76167353195a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.talks_grid.field_talks_view
+    - paragraphs.paragraphs_type.talks_grid
+  module:
+    - viewfield
+id: paragraph.talks_grid.default
+targetEntityType: paragraph
+bundle: talks_grid
+mode: default
+content:
+  field_talks_view:
+    type: viewfield_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

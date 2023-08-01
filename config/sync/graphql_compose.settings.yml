@@ -217,6 +217,10 @@ entity_config:
       enabled: true
       query_load_enabled: false
       edges_enabled: false
+    talks_grid:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
     teaser:
       enabled: true
       query_load_enabled: false
@@ -393,6 +397,10 @@ field_config:
         enabled: true
       field_header_during:
         enabled: true
+    talks_grid:
+      field_talks_view:
+        enabled: true
+        viewfield_query: 1
     teaser:
       field_single_image:
         enabled: true
