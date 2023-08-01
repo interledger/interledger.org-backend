@@ -68,6 +68,22 @@ entity_config:
       enabled: false
     wide:
       enabled: false
+    width_1021w:
+      enabled: false
+    width_1228w:
+      enabled: false
+    width_1400w:
+      enabled: false
+    width_1600w:
+      enabled: false
+    width_1920w:
+      enabled: false
+    width_320w:
+      enabled: false
+    width_450w:
+      enabled: false
+    width_725w:
+      enabled: false
   media:
     audio:
       enabled: false
@@ -110,6 +126,9 @@ entity_config:
       enabled: true
       menu_route_enabled: false
     main:
+      enabled: true
+      menu_route_enabled: false
+    summit:
       enabled: true
       menu_route_enabled: false
     tools:
@@ -201,6 +220,10 @@ entity_config:
       enabled: true
       query_load_enabled: false
       edges_enabled: false
+    talks_grid:
+      enabled: true
+      query_load_enabled: false
+      edges_enabled: false
     teaser:
       enabled: true
       query_load_enabled: false
@@ -223,6 +246,8 @@ entity_config:
     aspect_ratio_portrait_9_16:
       enabled: true
     aspect_ratio_square_1_1:
+      enabled: true
+    width:
       enabled: true
   taxonomy_term:
     tags:
@@ -282,6 +307,10 @@ field_config:
         enabled: true
       field_social_media:
         enabled: true
+      field_speaker_talks:
+        enabled: true
+        name_sdl: talks
+        viewfield_query: 1
       field_summary:
         enabled: true
       field_teaser:
@@ -371,6 +400,10 @@ field_config:
         enabled: true
       field_header_during:
         enabled: true
+    talks_grid:
+      field_talks_view:
+        enabled: true
+        viewfield_query: 1
     teaser:
       field_single_image:
         enabled: true

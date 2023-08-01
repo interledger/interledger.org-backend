@@ -15,6 +15,7 @@ dependencies:
     - paragraphs.paragraphs_type.large_callout_text
     - paragraphs.paragraphs_type.spacer
     - paragraphs.paragraphs_type.speakers_grid
+    - paragraphs.paragraphs_type.talks_grid
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.two_column_content
     - paragraphs.paragraphs_type.video
@@ -47,6 +48,7 @@ settings:
       image_gallery: image_gallery
       video: video
       speakers_grid: speakers_grid
+      talks_grid: talks_grid
     negate: 0
     target_bundles_drag_drop:
       button:
@@ -97,6 +99,9 @@ settings:
       talk_header:
         weight: 36
         enabled: false
+      talks_grid:
+        weight: 37
+        enabled: true
       teaser:
         weight: 10
         enabled: false

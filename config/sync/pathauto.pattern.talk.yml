@@ -7,12 +7,12 @@ dependencies:
 id: talk
 label: Talk
 type: 'canonical_entities:node'
-pattern: 'talk/[node:title]'
+pattern: 'summit/talk/[node:title]'
 selection_criteria:
-  2ae2a1de-f4c3-4827-9912-1d786525bfe3:
+  b814d280-1f39-41d0-807a-e12bef045756:
     id: 'entity_bundle:node'
     negate: false
-    uuid: 2ae2a1de-f4c3-4827-9912-1d786525bfe3
+    uuid: b814d280-1f39-41d0-807a-e12bef045756
     context_mapping:
       node: node
     bundles:

@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.speaker.field_image
     - field.field.node.speaker.field_role
     - field.field.node.speaker.field_social_media
+    - field.field.node.speaker.field_speaker_talks
     - field.field.node.speaker.field_summary
     - field.field.node.speaker.field_teaser
     - node.type.speaker
@@ -42,5 +43,6 @@ hidden:
   field_image: true
   field_role: true
   field_social_media: true
+  field_speaker_talks: true
   field_summary: true
   field_teaser: true

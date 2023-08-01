@@ -7,12 +7,12 @@ dependencies:
 id: speaker
 label: Speaker
 type: 'canonical_entities:node'
-pattern: 'speaker/[node:title]'
+pattern: 'summit/speaker/[node:title]'
 selection_criteria:
-  13fb4dfb-befd-4827-ad82-ebda834d7a2d:
+  4ac32d7d-196d-4417-add3-e8bc55aa4adb:
     id: 'entity_bundle:node'
     negate: false
-    uuid: 13fb4dfb-befd-4827-ad82-ebda834d7a2d
+    uuid: 4ac32d7d-196d-4417-add3-e8bc55aa4adb
     context_mapping:
       node: node
     bundles:

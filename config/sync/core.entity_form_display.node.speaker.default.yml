@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.speaker.field_image
     - field.field.node.speaker.field_role
     - field.field.node.speaker.field_social_media
+    - field.field.node.speaker.field_speaker_talks
     - field.field.node.speaker.field_summary
     - field.field.node.speaker.field_teaser
     - node.type.speaker
@@ -20,6 +21,7 @@ dependencies:
     - paragraphs
     - path
     - text
+    - viewfield
 third_party_settings:
   field_group:
     group_header:
@@ -138,6 +140,12 @@ content:
         paragraphs_ee:
           dialog_off_canvas: false
           dialog_style: tiles
+  field_speaker_talks:
+    type: viewfield_select
+    weight: 26
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_summary:
     type: text_textarea
     weight: 3

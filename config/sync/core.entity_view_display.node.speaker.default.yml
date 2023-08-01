@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.speaker.field_image
     - field.field.node.speaker.field_role
     - field.field.node.speaker.field_social_media
+    - field.field.node.speaker.field_speaker_talks
     - field.field.node.speaker.field_summary
     - field.field.node.speaker.field_teaser
     - node.type.speaker
@@ -17,6 +18,7 @@ dependencies:
     - entity_reference_revisions
     - text
     - user
+    - viewfield
 id: node.speaker.default
 targetEntityType: node
 bundle: speaker
@@ -69,6 +71,16 @@ content:
       link: ''
     third_party_settings: {  }
     weight: 7
+    region: content
+  field_speaker_talks:
+    type: viewfield_default
+    label: above
+    settings:
+      view_title: hidden
+      always_build_output: false
+      empty_view_title: hidden
+    third_party_settings: {  }
+    weight: 104
     region: content
   field_summary:
     type: text_default

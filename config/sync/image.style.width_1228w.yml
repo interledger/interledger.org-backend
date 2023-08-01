@@ -1,0 +1,21 @@
+uuid: fa28bd70-cded-4f05-a0fe-dd297226e382
+langcode: en
+status: true
+dependencies: {  }
+name: width_1228w
+label: width_1228w
+effects:
+  6261181f-1f19-4be8-8b1e-01c67bdba594:
+    uuid: 6261181f-1f19-4be8-8b1e-01c67bdba594
+    id: image_scale
+    weight: 0
+    data:
+      width: 1228
+      height: null
+      upscale: false
+  5ead08d4-912b-48b2-9962-02a80e052b4c:
+    uuid: 5ead08d4-912b-48b2-9962-02a80e052b4c
+    id: image_convert
+    weight: 1
+    data:
+      extension: webp
