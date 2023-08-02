@@ -1,0 +1,8 @@
+uuid: e9be9a2d-e433-4828-a432-e91d3046ed3d
+langcode: en
+status: true
+dependencies: {  }
+id: interledger-summit-footer
+label: 'Interledger Summit'
+description: 'Interledger Summit Footer'
+locked: false

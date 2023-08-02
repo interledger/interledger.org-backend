@@ -1,0 +1,17 @@
+uuid: b13b5cb9-78d1-4c5e-9aa2-25157717c79f
+langcode: en
+status: true
+dependencies: {  }
+id: site_settings
+label: 'Site Settings'
+token: true
+context:
+  show_warning: true
+  group:
+    language: false
+  fallback:
+    language: ''
+menu:
+  path: /admin/site-settings
+  weight: 10
+  description: ''

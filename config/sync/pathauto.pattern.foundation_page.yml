@@ -1,22 +1,22 @@
-uuid: 811cc1a1-23ce-40f4-aea5-06b9ca9a7375
+uuid: 3ecd53de-0648-4a99-80a7-3adaaf4b8c1a
 langcode: en
 status: true
 dependencies:
   module:
     - node
-id: page
-label: 'Summit Page'
+id: foundation_page
+label: 'Foundation Page'
 type: 'canonical_entities:node'
-pattern: 'summit/[node:title]'
+pattern: '[node:title]'
 selection_criteria:
-  3d861174-617d-4042-8c39-668f8e8e6255:
+  77550de9-a760-4dae-a4e5-6c80de76b640:
     id: 'entity_bundle:node'
     negate: false
-    uuid: 3d861174-617d-4042-8c39-668f8e8e6255
+    uuid: 77550de9-a760-4dae-a4e5-6c80de76b640
     context_mapping:
       node: node
     bundles:
-      page: page
+      foundation_page: foundation_page
 selection_logic: and
 weight: -5
 relationships: {  }

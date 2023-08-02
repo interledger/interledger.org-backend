@@ -5,8 +5,10 @@ dependencies:
   config:
     - filter.format.basic_html
     - node.type.article
+    - node.type.foundation_page
     - node.type.page
     - node.type.speaker
+    - node.type.talk
     - taxonomy.vocabulary.tags
   module:
     - contextual
@@ -31,8 +33,10 @@ permissions:
   - 'access toolbar'
   - 'administer url aliases'
   - 'create article content'
+  - 'create foundation_page content'
   - 'create page content'
   - 'create speaker content'
+  - 'create talk content'
   - 'create terms in tags'
   - 'create url aliases'
   - 'delete article revisions'
@@ -42,12 +46,24 @@ permissions:
   - 'delete own speaker content'
   - 'delete page revisions'
   - 'delete speaker revisions'
-  - 'edit own article content'
+  - 'edit any article content'
+  - 'edit any foundation_page content'
+  - 'edit any speaker content'
+  - 'edit any talk content'
   - 'edit own page content'
-  - 'edit own speaker content'
   - 'edit terms in tags'
   - 'revert all revisions'
+  - 'revert article revisions'
+  - 'revert foundation_page revisions'
+  - 'revert page revisions'
+  - 'revert speaker revisions'
+  - 'revert talk revisions'
   - 'use text format basic_html'
   - 'view all revisions'
+  - 'view article revisions'
+  - 'view foundation_page revisions'
   - 'view own unpublished content'
+  - 'view page revisions'
+  - 'view speaker revisions'
+  - 'view talk revisions'
   - 'view the administration theme'
