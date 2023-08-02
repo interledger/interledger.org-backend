@@ -4,9 +4,9 @@ entity_config:
   config_pages:
     site_settings:
       enabled: true
-      query_load_enabled: false
+      query_load_enabled: true
       edges_enabled: false
-      routes_enabled: true
+      routes_enabled: false
   image_style:
     aspect_ratio_16_9_1021w:
       enabled: false
