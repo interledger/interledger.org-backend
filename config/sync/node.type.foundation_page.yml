@@ -1,0 +1,19 @@
+uuid: a23687d8-5246-41e1-a366-ebf642fde375
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - interledger-foundation-footer
+      - main
+    parent: 'main:'
+name: 'Foundation Page'
+type: foundation_page
+description: ''
+help: ''
+new_revision: true
+preview_mode: 0
+display_submitted: false

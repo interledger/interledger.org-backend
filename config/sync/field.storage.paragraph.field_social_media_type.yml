@@ -18,8 +18,14 @@ settings:
       value: instagram
       label: Instagram
     -
+      value: github
+      label: Github
+    -
       value: linkedin
       label: LinkedIn
+    -
+      value: slack
+      label: Slack
   allowed_values_function: ''
 module: options
 locked: false

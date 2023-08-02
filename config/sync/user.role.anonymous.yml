@@ -5,6 +5,7 @@ dependencies:
   config:
     - filter.format.restricted_html
   module:
+    - config_pages
     - contact
     - filter
     - graphql
@@ -23,4 +24,5 @@ permissions:
   - 'execute graphql_compose_server arbitrary graphql requests'
   - 'search content'
   - 'use text format restricted_html'
+  - 'view config_pages entity'
   - 'view media'
