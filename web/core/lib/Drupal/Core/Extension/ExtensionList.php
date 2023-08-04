@@ -557,13 +557,8 @@ abstract class ExtensionList {
     // contributed extensions to use for ordering extension lists.
     $info['mtime'] = $extension->getFileInfo()->getMTime();
 
-    // Merge extension type-specific defaults, making sure to replace NULL
-    // values.
-    foreach ($this->defaults as $key => $default_value) {
-      if (!isset($info[$key])) {
-        $info[$key] = $default_value;
-      }
-    }
+    // Merge extension type-specific defaults.
+    $info += $this->defaults;
 
     return $info;
   }

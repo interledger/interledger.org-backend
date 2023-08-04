@@ -38,6 +38,7 @@ class DrupalKernelTest extends UnitTestCase {
     $request->server->set('SERVER_NAME', $server_name);
 
     $method = new \ReflectionMethod('Drupal\Core\DrupalKernel', 'setupTrustedHosts');
+    $method->setAccessible(TRUE);
     $valid_host = $method->invoke(NULL, $request, $trusted_host_patterns);
 
     $this->assertSame($expected, $valid_host, $message);

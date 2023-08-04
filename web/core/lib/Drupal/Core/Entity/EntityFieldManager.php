@@ -25,14 +25,11 @@ class EntityFieldManager implements EntityFieldManagerInterface {
   use StringTranslationTrait;
 
   /**
-   * Extra fields info, if initialized.
+   * Extra fields by bundle.
    *
-   * The fields are keyed by entity type, bundle, type ('form' or 'display'),
-   * and the extra field name.
-   *
-   * @var array[][][][]|null
+   * @var array
    */
-  protected ?array $extraFields = NULL;
+  protected $extraFields = [];
 
   /**
    * Static cache of base field definitions.
@@ -622,7 +619,7 @@ class EntityFieldManager implements EntityFieldManagerInterface {
     $this->fieldMap = [];
     $this->fieldMapByFieldType = [];
     $this->entityDisplayRepository->clearDisplayModeInfo();
-    $this->extraFields = NULL;
+    $this->extraFields = [];
     Cache::invalidateTags(['entity_field_info']);
     // The typed data manager statically caches prototype objects with injected
     // definitions, clear those as well.
@@ -646,51 +643,36 @@ class EntityFieldManager implements EntityFieldManagerInterface {
    * {@inheritdoc}
    */
   public function getExtraFields($entity_type_id, $bundle) {
-    $this->extraFields ??= $this->loadExtraFields();
-
     // Read from the "static" cache.
-    // Return an empty fallback if the bundle has no extra fields.
-    return $this->extraFields[$entity_type_id][$bundle] ?? [
-      'form' => [],
-      'display' => [],
-    ];
-  }
+    if (isset($this->extraFields[$entity_type_id][$bundle])) {
+      return $this->extraFields[$entity_type_id][$bundle];
+    }
 
-  /**
-   * Loads extra fields from cache, or rebuilds them.
-   *
-   * @return array[][][][]
-   *   Extra fields by entity type, bundle name, type (form/display) and
-   *   extra field name.
-   */
-  protected function loadExtraFields(): array {
     // Read from the persistent cache. Since hook_entity_extra_field_info() and
     // hook_entity_extra_field_info_alter() might contain t() calls, we cache
     // per language.
-    $cache_id = 'entity_extra_field_info:' . $this->languageManager->getCurrentLanguage()->getId();
+    $cache_id = 'entity_bundle_extra_fields:' . $entity_type_id . ':' . $bundle . ':' . $this->languageManager->getCurrentLanguage()->getId();
     $cached = $this->cacheGet($cache_id);
     if ($cached) {
-      return $cached->data;
+      $this->extraFields[$entity_type_id][$bundle] = $cached->data;
+      return $this->extraFields[$entity_type_id][$bundle];
     }
 
     $extra = $this->moduleHandler->invokeAll('entity_extra_field_info');
     $this->moduleHandler->alter('entity_extra_field_info', $extra);
+    $info = $extra[$entity_type_id][$bundle] ?? [];
+    $info += [
+      'form' => [],
+      'display' => [],
+    ];
 
-    // Apply default values to each bundle.
-    foreach ($extra as $entity_type_id => $extra_fields_by_bundle) {
-      foreach ($extra_fields_by_bundle as $bundle => $bundle_extra_fields) {
-        $extra[$entity_type_id][$bundle] += [
-          'form' => [],
-          'display' => [],
-        ];
-      }
-    }
-
-    $this->cacheSet($cache_id, $extra, Cache::PERMANENT, [
+    // Store in the 'static' and persistent caches.
+    $this->extraFields[$entity_type_id][$bundle] = $info;
+    $this->cacheSet($cache_id, $info, Cache::PERMANENT, [
       'entity_field_info',
     ]);
 
-    return $extra;
+    return $this->extraFields[$entity_type_id][$bundle];
   }
 
 }

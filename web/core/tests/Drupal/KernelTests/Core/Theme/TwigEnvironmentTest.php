@@ -223,6 +223,7 @@ TWIG;
     // on a real site where you reload the page.
     $reflection = new \ReflectionClass(Environment::class);
     $property_reflection = $reflection->getProperty('templateClassPrefix');
+    $property_reflection->setAccessible(TRUE);
     $property_reflection->setValue($environment, 'otherPrefix');
 
     $output = $environment->load(basename($tempfile))->render();

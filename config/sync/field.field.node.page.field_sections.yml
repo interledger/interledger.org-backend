@@ -13,6 +13,7 @@ dependencies:
     - paragraphs.paragraphs_type.image_carousel
     - paragraphs.paragraphs_type.image_gallery
     - paragraphs.paragraphs_type.large_callout_text
+    - paragraphs.paragraphs_type.schedule
     - paragraphs.paragraphs_type.spacer
     - paragraphs.paragraphs_type.speakers_grid
     - paragraphs.paragraphs_type.talks_grid
@@ -47,6 +48,7 @@ settings:
       image_carousel: image_carousel
       image_gallery: image_gallery
       video: video
+      schedule: schedule
       speakers_grid: speakers_grid
       talks_grid: talks_grid
     negate: 0
@@ -83,6 +85,12 @@ settings:
         enabled: true
       media_header:
         weight: 31
+        enabled: false
+      schedule:
+        weight: 35
+        enabled: true
+      schedule_day:
+        weight: 36
         enabled: false
       social_media:
         weight: 32

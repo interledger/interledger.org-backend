@@ -1,0 +1,16 @@
+uuid: a897cfb5-734d-4be6-969c-6b59878e2cd3
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: schedule
+label: Schedule
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

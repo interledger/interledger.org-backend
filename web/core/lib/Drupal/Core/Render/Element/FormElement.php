@@ -157,7 +157,7 @@ abstract class FormElement extends RenderElement implements FormElementInterface
    *
    * This sets up autocomplete functionality for elements with an
    * #autocomplete_route_name property, using the #autocomplete_route_parameters
-   * and #autocomplete_query_parameters properties if present.
+   * property if present.
    *
    * For example, suppose your autocomplete route name is
    * 'mymodule.autocomplete' and its path is
@@ -176,8 +176,6 @@ abstract class FormElement extends RenderElement implements FormElementInterface
    *     autocomplete JavaScript library.
    *   - #autocomplete_route_parameters: The parameters to be used in
    *     conjunction with the route name.
-   *   - #autocomplete_query_parameters: The parameters to be used in
-   *     query string
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
    * @param array $complete_form
@@ -192,11 +190,7 @@ abstract class FormElement extends RenderElement implements FormElementInterface
 
     if (!empty($element['#autocomplete_route_name'])) {
       $parameters = $element['#autocomplete_route_parameters'] ?? [];
-      $options = [];
-      if (!empty($element['#autocomplete_query_parameters'])) {
-        $options['query'] = $element['#autocomplete_query_parameters'];
-      }
-      $url = Url::fromRoute($element['#autocomplete_route_name'], $parameters, $options)->toString(TRUE);
+      $url = Url::fromRoute($element['#autocomplete_route_name'], $parameters)->toString(TRUE);
       /** @var \Drupal\Core\Access\AccessManagerInterface $access_manager */
       $access_manager = \Drupal::service('access_manager');
       $access = $access_manager->checkNamedRoute($element['#autocomplete_route_name'], $parameters, \Drupal::currentUser(), TRUE);

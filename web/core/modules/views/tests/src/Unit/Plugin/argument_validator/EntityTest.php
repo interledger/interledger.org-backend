@@ -129,7 +129,6 @@ class EntityTest extends UnitTestCase {
 
     $this->assertFalse($this->argumentValidator->validateArgument(3));
     $this->assertFalse($this->argumentValidator->validateArgument(''));
-    $this->assertFalse($this->argumentValidator->validateArgument(NULL));
 
     $this->assertTrue($this->argumentValidator->validateArgument(1));
     $this->assertTrue($this->argumentValidator->validateArgument(2));
@@ -249,8 +248,6 @@ class EntityTest extends UnitTestCase {
 
     $this->assertFalse($this->argumentValidator->validateArgument('1,2'));
     $this->assertFalse($this->argumentValidator->validateArgument('1+2'));
-
-    $this->assertFalse($this->argumentValidator->validateArgument(NULL));
 
     $options = [];
     $options['access'] = TRUE;

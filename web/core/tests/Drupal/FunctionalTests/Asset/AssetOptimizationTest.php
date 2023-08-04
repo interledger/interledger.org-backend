@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\FunctionalTests\Asset;
 
 use Drupal\Component\Utility\UrlHelper;
@@ -90,26 +88,23 @@ class AssetOptimizationTest extends BrowserTestBase {
 
     // Collect all the URLs for all the script and styles prior to making any
     // more requests.
-    $style_elements = $page->findAll('xpath', '//link[@href and @rel="stylesheet"]');
-    $script_elements = $page->findAll('xpath', '//script[@src]');
+    $style_elements = $page->findAll('xpath', '//link[@rel="stylesheet"]');
+    $script_elements = $page->findAll('xpath', '//script');
     $style_urls = [];
     foreach ($style_elements as $element) {
-      $style_urls[] = $element->getAttribute('href');
+      if ($element->hasAttribute('href')) {
+        $style_urls[] = $element->getAttribute('href');
+      }
     }
     $script_urls = [];
     foreach ($script_elements as $element) {
-      $script_urls[] = $element->getAttribute('src');
+      if ($element->hasAttribute('src')) {
+        $script_urls[] = $element->getAttribute('src');
+      }
     }
     foreach ($style_urls as $url) {
-      $this->assertAggregate($url, TRUE, 'text/css');
-      // Once the file has been requested once, it's on disk. It is possible for
-      // a second request to hit the controller, and then find that another
-      // request has created the file already. Actually simulating this race
-      // condition is not really possible since it relies on timing. However, by
-      // changing the case of the part of the URL that is handled by Drupal
-      // routing, we can force the request to be served by Drupal.
-      $this->assertAggregate(str_replace($this->fileAssetsPath, strtoupper($this->fileAssetsPath), $url), TRUE, 'text/css');
-      $this->assertAggregate($url, FALSE, 'text/css');
+      $this->assertAggregate($url);
+      $this->assertAggregate($url, FALSE);
       $this->assertInvalidAggregates($url);
     }
 
@@ -127,23 +122,19 @@ class AssetOptimizationTest extends BrowserTestBase {
    *   The source URL.
    * @param bool $from_php
    *   (optional) Is the result from PHP or disk? Defaults to TRUE (PHP).
-   * @param string|null $content_type
-   *   The expected content type, or NULL to skip checking.
    */
-  protected function assertAggregate(string $url, bool $from_php = TRUE, string $content_type = NULL): void {
+  protected function assertAggregate(string $url, bool $from_php = TRUE): void {
     $url = $this->getAbsoluteUrl($url);
-    if (!stripos($url, $this->fileAssetsPath) !== FALSE) {
+    // Not every script or style on a page is aggregated.
+    if (!str_contains($url, $this->fileAssetsPath)) {
       return;
     }
     $session = $this->getSession();
     $session->visit($url);
     $this->assertSession()->statusCodeEquals(200);
     $headers = $session->getResponseHeaders();
-    if (isset($content_type)) {
-      $this->assertStringContainsString($content_type, $headers['Content-Type'][0]);
-    }
     if ($from_php) {
-      $this->assertStringContainsString('no-store', $headers['Cache-Control'][0]);
+      $this->assertEquals(['no-store, private'], $headers['Cache-Control']);
       $this->assertArrayHasKey('X-Generator', $headers);
     }
     else {

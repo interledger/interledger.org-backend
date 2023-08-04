@@ -224,6 +224,7 @@ class ConfigEntityBaseUnitTest extends UnitTestCase {
    */
   public function testAddDependency() {
     $method = new \ReflectionMethod('\Drupal\Core\Config\Entity\ConfigEntityBase', 'addDependency');
+    $method->setAccessible(TRUE);
     $method->invoke($this->entity, 'module', $this->provider);
     $method->invoke($this->entity, 'module', 'core');
     $method->invoke($this->entity, 'module', 'node');
