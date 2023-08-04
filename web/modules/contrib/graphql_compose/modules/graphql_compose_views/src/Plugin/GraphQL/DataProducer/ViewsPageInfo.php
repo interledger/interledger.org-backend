@@ -9,7 +9,7 @@ use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
 use Drupal\views\ViewExecutable;
 
 /**
- * Load a Route or Redirect based on Path.
+ * Get pager info for a view.
  *
  * @DataProducer(
  *   id = "views_page_info",

@@ -15,6 +15,7 @@ use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeBase;
  *   base_fields = {
  *     "created" = {},
  *     "changed" = {},
+ *     "langcode" = {},
  *   }
  * )
  */

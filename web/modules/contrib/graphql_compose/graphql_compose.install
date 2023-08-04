@@ -12,6 +12,16 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\graphql_compose\Form\SchemaForm;
 
 /**
+ * Ensure the module graphql_compose_fragments is installed.
+ */
+function graphql_compose_update_8005() {
+  $module_handler = \Drupal::service('module_handler');
+  if (!$module_handler->moduleExists('graphql_compose_fragments')) {
+    \Drupal::service('module_installer')->install(['graphql_compose_fragments']);
+  }
+}
+
+/**
  * Breaking change. Block renamed to BlockInterface, block_plugin_id now id.
  */
 function graphql_compose_update_8004() {

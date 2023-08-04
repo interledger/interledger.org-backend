@@ -68,7 +68,7 @@ class ImageItem extends GraphQLComposeFieldTypeBase implements FieldProducerItem
     $access = $item->entity->access('view', NULL, TRUE);
     $metadata->addCacheableDependency($access);
 
-    if (!$access) {
+    if (!$access->isAllowed()) {
       return NULL;
     }
 

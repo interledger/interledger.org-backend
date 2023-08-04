@@ -35,7 +35,7 @@ class SortDirectionType extends GraphQLComposeSchemaTypeBase {
 
     $types[] = new EnumType([
       'name' => $this->getPluginId(),
-      'description' => (string) $this->t('List of menus available to load.'),
+      'description' => (string) $this->t('Sort direction.'),
       'values' => $sorts,
     ]);
 

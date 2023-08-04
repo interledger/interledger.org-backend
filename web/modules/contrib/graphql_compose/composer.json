@@ -11,7 +11,7 @@
     "source": "http://cgit.drupalcode.org/graphql_compose"
   },
   "require": {
-    "php": ">=8.1",
+    "php": "^8.1",
     "drupal/graphql": "^4.5",
     "symfony/string": "^6"
   }

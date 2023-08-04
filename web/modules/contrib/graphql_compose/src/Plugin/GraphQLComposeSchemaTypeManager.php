@@ -131,43 +131,47 @@ class GraphQLComposeSchemaTypeManager extends DefaultPluginManager {
   /**
    * Get a type by name, or load it up.
    *
-   * @param string $name
+   * @param string $plugin_id
    *   The name of the type.
    * @param bool $multiple
-   *   Whether the type is a list.
+   *   Optional, if the type is a list, wrap the type.
    * @param bool $required
-   *   Whether the type is required.
+   *   Optional, if the type is required, wrap the type.
    *
    * @return \GraphQL\Type\Definition\Type
    *   The GraphQL type.
    */
-  public function get(string $name, bool $multiple = FALSE, bool $required = FALSE): Type {
-    $standardTypes = Type::getStandardTypes();
+  public function get(string $plugin_id, bool $multiple = FALSE, bool $required = FALSE): Type {
 
-    if (in_array($name, $standardTypes)) {
-      $type = $standardTypes[$name];
+    $standard_types = array_change_key_case(Type::getStandardTypes(), CASE_LOWER);
+    $standard_id = strtolower($plugin_id);
+    if (array_key_exists($standard_id, $standard_types)) {
+      $type = $standard_types[$standard_id];
     }
     else {
-      if (!array_key_exists($name, $this->types)) {
+      if (!array_key_exists($plugin_id, $this->types)) {
         try {
-          $this->createInstance($name);
+          $this->createInstance($plugin_id);
         }
         catch (PluginNotFoundException $e) {
           // This type may be referenced by a field, but not enabled in GUI.
           // or may not have a defined plugin in GraphqlCompose/SchemaType.
-          $message = 'Type @name not found (perhaps no bundle is enabled?), replacing with UnsupportedType.';
+          $message = 'Type @plugin_id not found (perhaps no bundle is enabled?), replacing with UnsupportedType.';
           $this->loggerFactory->get('graphql_compose')->warning($message, [
-            '@name' => $name,
+            '@plugin_id' => $plugin_id,
           ]);
-          $name = 'UnsupportedType';
-          $this->createInstance($name);
         }
       }
 
-      $type = $this->types[$name];
+      // If the type is still not found, load the UnsupportedType.
+      if (empty($this->types[$plugin_id])) {
+        $this->createInstance('UnsupportedType');
+      }
+
+      // Get the type from the registry.
+      $type = $this->types[$plugin_id] ?? $this->types['UnsupportedType'];
     }
 
-    // Extra utility for fields.
     if ($multiple) {
       $type = Type::listOf(Type::nonNull($type));
     }
@@ -189,8 +193,6 @@ class GraphQLComposeSchemaTypeManager extends DefaultPluginManager {
    *   The extended type.
    */
   public function extend(Type $type): Type {
-
-    // This is a good spot for a hook probably. Hit me up if you want it.
     $this->extensions[] = $type;
     return $type;
   }
@@ -223,6 +225,9 @@ class GraphQLComposeSchemaTypeManager extends DefaultPluginManager {
    */
   public function printTypes(): ?string {
 
+    // Give opportunity to hook this printer.
+    $this->moduleHandler->invokeAll('graphql_compose_print_types', [$this]);
+
     // Load all types.
     foreach ($this->getDefinitions() as $definition) {
       $this->get($definition['id']);
@@ -245,10 +250,14 @@ class GraphQLComposeSchemaTypeManager extends DefaultPluginManager {
    */
   public function printExtensions(): ?string {
 
-    // Allow types to extend only interfaces.
-    // Strip empty {} blocks.
+    // Give opportunity to hook this printer.
+    $this->moduleHandler->invokeAll('graphql_compose_print_extensions', [$this]);
+
     $print = function (Type $type) {
       $printed = SchemaPrinter::printType($type);
+
+      // Allow types to extend only interfaces.
+      // Strip empty {} blocks.
       return preg_replace('/\{[\s\r\n\t]+\}/', '', $printed);
     };
 

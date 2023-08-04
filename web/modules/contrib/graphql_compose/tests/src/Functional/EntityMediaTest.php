@@ -49,7 +49,13 @@ class EntityMediaTest extends GraphQLComposeBrowserTestBase {
     $this->createMediaType('image', ['id' => 'test']);
 
     // Create a file.
-    $this->file = File::create(['uri' => 'core/misc/druplicon.png']);
+    $this->file = File::create();
+    $this->file->setFileUri('core/misc/druplicon.png');
+
+    /** @var \Drupal\Core\File\FileSystemInterface $file_system */
+    $file_system = \Drupal::service('file_system');
+    $this->file->setFilename($file_system->basename($this->file->getFileUri()));
+
     $this->file->setPermanent();
     $this->file->save();
 

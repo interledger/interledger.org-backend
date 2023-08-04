@@ -37,6 +37,31 @@ graphql_compose.settings:
         site_front:
           type: boolean
           label: 'Expose site front'
+        custom:
+          type: sequence
+          label: 'Custom settings'
+          sequence:
+            type: graphql_compose.setting.custom.*
+
+graphql_compose.setting.custom.*:
+  type: mapping
+  label: 'Custom setting'
+  mapping:
+    name:
+      type: string
+      label: 'Name'
+    description:
+      type: string
+      label: 'Description'
+    value:
+      type: string
+      label: 'Value'
+    type:
+      type: string
+      label: 'Type'
+    weight:
+      type: integer
+      label: 'Weight'
 
 graphql_compose.entity.*:
   type: sequence

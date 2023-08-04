@@ -27,9 +27,18 @@ class BlockInterface extends GraphQLComposeSchemaTypeBase {
       'name' => $this->getPluginId(),
       'description' => (string) $this->t("Blocks are a modular piece of content that can be displayed in various regions of a website's layout."),
       'fields' => fn() => [
-        'id' => Type::nonNull(Type::id()),
-        'title' => Type::string(),
-        'render' => static::type('Html'),
+        'id' => [
+          'type' => Type::nonNull(Type::id()),
+          'description' => (string) $this->t('The Universally Unique IDentifier (UUID).'),
+        ],
+        'title' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The title of the block if provided.'),
+        ],
+        'render' => [
+          'type' => static::type('Html'),
+          'description' => (string) $this->t('The rendered output of the block.'),
+        ],
       ],
     ]);
 

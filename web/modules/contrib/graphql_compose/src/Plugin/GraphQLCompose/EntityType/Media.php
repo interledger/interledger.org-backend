@@ -13,9 +13,11 @@ use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeBase;
  *   id = "media",
  *   prefix = "Media",
  *   base_fields = {
+ *     "langcode" = {},
  *     "created" = {},
  *     "changed" = {},
  *     "status" = {},
+ *     "path" = {},
  *     "name" = {
  *       "field_type" = "entity_label"
  *     }

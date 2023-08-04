@@ -9,7 +9,7 @@ use Drupal\graphql\Plugin\DataProducerPluginCachingInterface;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
 
 /**
- * Load drupal layout definition.
+ * Load drupal layout definition property.
  *
  * @DataProducer(
  *   id = "layout_definition_property",

@@ -16,7 +16,7 @@ use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Load drupal blocks.
+ * Render drupal blocks.
  *
  * @DataProducer(
  *   id = "block_render",
@@ -96,26 +96,33 @@ class BlockRender extends DataProducerPluginBase implements ContainerFactoryPlug
       return NULL;
     }
 
-    $build = [];
+    // Render the block within a context to catch cache.
+    $render_context = new RenderContext();
+    $content = $this->renderer->executeInRenderContext(
+      $render_context,
+      function () use ($block_instance, $access): string {
+        $build = [];
 
-    // Place the content returned by the block plugin into a 'content' child
-    // element, as a way to allow the plugin to have complete control of its
-    // properties and rendering (for instance, its own #theme) without
-    // conflicting with the properties used above.
-    $build['content'] = $block_instance->build();
+        // Place the content returned by the block plugin into a 'content' child
+        // element, as a way to allow the plugin to have complete control of its
+        // properties and rendering (for instance, its own #theme) without
+        // conflicting with the properties used above.
+        $build['content'] = $block_instance->build();
 
-    CacheableMetadata::createFromRenderArray($build)
-      ->addCacheableDependency($access)
-      ->addCacheableDependency($block_instance)
-      ->applyTo($build);
+        CacheableMetadata::createFromRenderArray($build)
+          ->addCacheableDependency($access)
+          ->addCacheableDependency($block_instance)
+          ->applyTo($build);
 
-    // This seems dumb. Turn url back into a path.
-    $context = new RenderContext();
-    $content = $this->renderer->executeInRenderContext($context, function () use ($build): string {
-      return (string) $this->renderer->renderRoot($build);
-    });
+        return (string) $this->renderer->renderRoot($build);
+      }
+    );
 
-    return $content;
+    if (!$render_context->isEmpty()) {
+      $metadata->addCacheableDependency($render_context->pop());
+    }
+
+    return (string) $content ?: NULL;
   }
 
 }

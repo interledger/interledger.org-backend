@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\graphql_compose\Functional;
 
+use Drupal\Core\File\FileSystemInterface;
 use Drupal\file\Entity\File;
 use Drupal\file\FileInterface;
 use Drupal\image\Entity\ImageStyle;
@@ -65,8 +66,19 @@ class ImageStyleTest extends GraphQLComposeBrowserTestBase {
       'enabled' => TRUE,
     ]);
 
+    /** @var \Drupal\Core\File\FileSystemInterface $file_system */
+    $file_system = \Drupal::service('file_system');
+
     // Create a file.
-    $this->file = File::create(['uri' => 'core/misc/druplicon.png']);
+    $file_uri = $file_system->copy(
+      'core/misc/druplicon.png',
+      'public://druplicon.png',
+      FileSystemInterface::EXISTS_REPLACE
+    );
+
+    $this->file = File::create();
+    $this->file->setFileUri($file_uri);
+    $this->file->setFilename($file_system->basename($this->file->getFileUri()));
     $this->file->setPermanent();
     $this->file->save();
 
@@ -103,7 +115,13 @@ class ImageStyleTest extends GraphQLComposeBrowserTestBase {
   }
 
   /**
-   * Test load entity by id.
+   * Test load image style variations.
+   *
+   * Note: This can fail the first run.
+   *
+   * Maybe image style gen is slow.
+   * Note sure, don't mind.
+   * Works on CI.
    */
   public function testImageStyleVariations(): void {
 

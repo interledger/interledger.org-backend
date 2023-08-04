@@ -76,8 +76,8 @@ abstract class GraphQLComposeSchemaTypeBase extends PluginBase implements GraphQ
   /**
    * {@inheritdoc}
    */
-  public static function type(string $plugin_id): Type {
-    return \Drupal::service('graphql_compose.schema_type_manager')->get($plugin_id);
+  public static function type(string $plugin_id, bool $multiple = FALSE, bool $required = FALSE): Type {
+    return \Drupal::service('graphql_compose.schema_type_manager')->get($plugin_id, $multiple, $required);
   }
 
   /**

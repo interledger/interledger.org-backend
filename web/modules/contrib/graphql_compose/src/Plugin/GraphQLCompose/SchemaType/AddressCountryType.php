@@ -23,12 +23,22 @@ class AddressCountryType extends GraphQLComposeSchemaTypeBase {
   public function getTypes(): array {
     $types = [];
 
+    if (!$this->moduleHandler->moduleExists('address')) {
+      return [];
+    }
+
     $types[] = new ObjectType([
       'name' => $this->getPluginId(),
       'description' => (string) $this->t('Address country.'),
       'fields' => fn() => [
-        'name' => Type::string(),
-        'code' => Type::string(),
+        'name' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The name of the country.'),
+        ],
+        'code' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The code of the country.'),
+        ],
       ],
     ]);
 

@@ -25,9 +25,12 @@ class MetaTag extends GraphQLComposeSchemaTypeBase {
 
     $types[] = new InterfaceType([
       'name' => $this->getPluginId(),
-      'description' => (string) $this->t('Meta elements are tags used in HTML and XHTML documents to provide structured metadata about a Web page.'),
+      'description' => (string) $this->t('A meta tag element.'),
       'fields' => fn() => [
-        'tag' => Type::nonNull(Type::string()),
+        'tag' => [
+          'type' => Type::nonNull(Type::string()),
+          'description' => (string) $this->t('The HTML tag for this meta element.'),
+        ],
       ],
     ]);
 

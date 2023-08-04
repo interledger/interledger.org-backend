@@ -16,7 +16,7 @@ use GraphQL\Error\UserError;
  * @SchemaExtension(
  *   id = "layout_schema_extension",
  *   name = "GraphQL Compose Layouts",
- *   description = "Layout entities",
+ *   description = @Translation("Layout entities"),
  *   schema = "graphql_compose"
  * )
  */

@@ -29,6 +29,7 @@ class SchemaInformationType extends GraphQLComposeSchemaTypeBase {
       'fields' => function () {
         $settings = $this->configFactory->get('graphql_compose.settings');
 
+        // Add schema information.
         $fields = [
           'version' => [
             'type' => Type::string(),
@@ -40,6 +41,7 @@ class SchemaInformationType extends GraphQLComposeSchemaTypeBase {
           ],
         ];
 
+        // Add site information.
         if ($settings->get('settings.site_name')) {
           $fields['name'] = [
             'type' => Type::string(),
@@ -58,6 +60,29 @@ class SchemaInformationType extends GraphQLComposeSchemaTypeBase {
           $fields['home'] = [
             'type' => Type::string(),
             'description' => (string) $this->t('The internal path to the front page.'),
+          ];
+        }
+
+        // Add user defined settings.
+        $custom_types = [];
+        $custom_settings = $settings->get('settings.custom') ?: [];
+
+        foreach ($custom_settings as $setting) {
+          if (array_key_exists($setting['name'], $custom_types)) {
+            $custom_types[$setting['name']]['multiple'] = TRUE;
+            continue;
+          }
+          $custom_types[$setting['name']] = $setting;
+        }
+
+        foreach ($custom_types as $setting) {
+          $fields[$setting['name']] = [
+            'type' => static::type(
+              $setting['type'],
+              $setting['multiple'] ?? FALSE,
+              TRUE
+            ),
+            'description' => $setting['description'],
           ];
         }
 

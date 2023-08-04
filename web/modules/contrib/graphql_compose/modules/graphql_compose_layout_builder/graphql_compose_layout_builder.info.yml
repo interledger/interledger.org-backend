@@ -1,0 +1,17 @@
+name: 'GraphQL Compose: Layout Builder (Experimental)'
+description: 'Enable Layout Builder within your schema. This module is experimental and may change.'
+type: module
+core_version_requirement: ^9.5 || ^10
+php: 8.1
+dependencies:
+  - core:layout_builder
+  - graphql_compose:graphql_compose
+  - graphql_compose:graphql_compose_blocks
+  - graphql_compose:graphql_compose_layouts
+package: GraphQL Compose
+hidden: false
+
+# Information added by Drupal.org packaging script on 2023-08-04
+version: '2.0.0-beta9'
+project: 'graphql_compose'
+datestamp: 1691109311

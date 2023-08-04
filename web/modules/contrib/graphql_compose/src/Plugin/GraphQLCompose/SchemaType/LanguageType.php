@@ -27,9 +27,18 @@ class LanguageType extends GraphQLComposeSchemaTypeBase {
       'name' => $this->getPluginId(),
       'description' => (string) $this->t('A language definition provided by the CMS.'),
       'fields' => fn() => [
-        'id' => Type::id(),
-        'name' => Type::string(),
-        'direction' => Type::string(),
+        'id' => [
+          'type' => Type::id(),
+          'description' => (string) $this->t('The language code.'),
+        ],
+        'name' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The language name.'),
+        ],
+        'direction' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The language direction.'),
+        ],
       ],
     ]);
 

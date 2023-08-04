@@ -127,7 +127,8 @@ abstract class GraphQLComposeFieldTypeBase extends PluginBase implements GraphQL
    * {@inheritdoc}
    */
   public function getDescription(): ?string {
-    return $this->configuration['description'] ?? NULL;
+    $description = $this->configuration['description'] ?? NULL;
+    return is_null($description) ? NULL : (string) $description;
   }
 
   /**
@@ -168,6 +169,7 @@ abstract class GraphQLComposeFieldTypeBase extends PluginBase implements GraphQL
    */
   public function isBaseField(): bool {
     $field_definition = $this->getFieldDefinition();
+
     return ($field_definition instanceof BaseFieldDefinition || $field_definition instanceof BaseFieldOverride);
   }
 

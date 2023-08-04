@@ -59,7 +59,7 @@ class FileItem extends GraphQLComposeFieldTypeBase implements FieldProducerItemI
     $access = $item->entity->access('view', NULL, TRUE);
     $metadata->addCacheableDependency($access);
 
-    if (!$access) {
+    if (!$access->isAllowed()) {
       return NULL;
     }
 

@@ -23,6 +23,10 @@ class AddressType extends GraphQLComposeSchemaTypeBase {
   public function getTypes(): array {
     $types = [];
 
+    if (!$this->moduleHandler->moduleExists('address')) {
+      return [];
+    }
+
     $types[] = new ObjectType([
       'name' => $this->getPluginId(),
       'description' => (string) $this->t('Complex address data.'),

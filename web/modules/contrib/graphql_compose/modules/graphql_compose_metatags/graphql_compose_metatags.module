@@ -7,14 +7,52 @@
 
 declare(strict_types=1);
 
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeInterface;
+use Drupal\metatag\Form\MetatagDefaultsForm;
+
 /**
  * Implements hook_graphql_compose_entity_base_fields_alter().
  */
 function graphql_compose_metatags_graphql_compose_entity_base_fields_alter(array &$fields, string $entity_type_id): void {
-  if ($entity_type_id === 'node') {
-    // Computed field definition isn't declaring multiple, force multiple.
+  $supported_types = &drupal_static(__FUNCTION__);
+  if (!isset($supported_types)) {
+    $supported_types = MetatagDefaultsForm::getSupportedEntityTypes();
+  }
+
+  if (array_key_exists($entity_type_id, $supported_types)) {
+    // Metatag field on the entity type is not multiple, force multiple.
+    // 'metatag' field is a computed metatag_computed field type.
     $fields['metatag'] = [
       'multiple' => TRUE,
+    ];
+  }
+}
+
+/**
+ * Implements hook_graphql_compose_entity_interfaces_alter().
+ */
+function graphql_compose_metatags_graphql_compose_entity_interfaces_alter(array &$interfaces, GraphQLComposeEntityTypeInterface $plugin) {
+  $base_fields = $plugin->getBaseFields();
+
+  // Add MetaTagInterface to enabled entity type.
+  if (array_key_exists('metatag', $base_fields)) {
+    $interfaces[] = 'MetaTagInterface';
+  }
+}
+
+/**
+ * Implements hook_graphql_compose_field_type_form_alter().
+ *
+ * Hide metatag fields from form, they are implemented as base fields.
+ * This could lead to confusion having them in the UI.
+ */
+function graphql_compose_metatags_graphql_compose_field_type_form_alter(array &$form, FormStateInterface $form_state, FieldDefinitionInterface $field, array $settings) {
+  if ($field->getType() === 'metatag') {
+    $form = [
+      '#type' => 'markup',
+      '#access' => FALSE,
     ];
   }
 }

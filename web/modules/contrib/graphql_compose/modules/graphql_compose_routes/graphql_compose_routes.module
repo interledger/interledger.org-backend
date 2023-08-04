@@ -13,11 +13,11 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Implements hook_graphql_compose_entity_type_form_alter().
  */
-function graphql_compose_routes_graphql_compose_entity_type_form_alter(array &$form, FormStateInterface $form_state, EntityTypeInterface $entity_type, array $settings): void {
+function graphql_compose_routes_graphql_compose_entity_type_form_alter(array &$form, FormStateInterface $form_state, EntityTypeInterface $entity_type, string $bundle_id, array $settings): void {
   if ($entity_type->hasLinkTemplate('canonical')) {
     $form['routes_enabled'] = [
       '#type' => 'checkbox',
-      '#title' => t('Enable loading by route'),
+      '#title' => t('Enable Loading by Route'),
       '#default_value' => $settings['routes_enabled'] ?? FALSE,
       '#description' => t('Enable this type to load via URL using the route() query.'),
     ];
@@ -32,4 +32,13 @@ function graphql_compose_routes_config_schema_info_alter(&$definitions) {
     'type' => 'boolean',
     'label' => t('Enable routes'),
   ];
+}
+
+/**
+ * Implements hook_graphql_compose_routes_union_alter().
+ */
+function graphql_compose_routes_graphql_compose_routes_union_alter($value, ?string &$type): void {
+  if (\Drupal::moduleHandler()->moduleExists('redirect') && get_class($value) === 'Drupal\redirect\Entity\Redirect') {
+    $type = 'RouteRedirect';
+  }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Drupal\graphql_compose\Plugin\GraphQLCompose\FieldType;
+namespace Drupal\graphql_compose_layouts\Plugin\GraphQLCompose\FieldType;
 
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerTrait;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;

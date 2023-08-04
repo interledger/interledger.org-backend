@@ -15,7 +15,7 @@ use Drupal\graphql_compose_comments\CommentableTrait;
  * @SchemaExtension(
  *   id = "graphql_compose_comments_schema",
  *   name = "GraphQL Compose Comments",
- *   description = "Add comments extras to the Schema.",
+ *   description = @Translation("Add comments extras to the Schema."),
  *   schema = "graphql_compose"
  * )
  */

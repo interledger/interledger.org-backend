@@ -27,12 +27,30 @@ class ImageType extends GraphQLComposeSchemaTypeBase {
       'name' => $this->getPluginId(),
       'description' => (string) $this->t('A image object to represent an managed file.'),
       'fields' => fn() => [
-        'url' => Type::nonNull(Type::string()),
-        'width' => Type::nonNull(Type::int()),
-        'height' => Type::nonNull(Type::int()),
-        'alt' => Type::string(),
-        'title' => Type::string(),
-        'mime' => Type::string(),
+        'url' => [
+          'type' => Type::nonNull(Type::string()),
+          'description' => (string) $this->t('The URL of the image.'),
+        ],
+        'width' => [
+          'type' => Type::nonNull(Type::int()),
+          'description' => (string) $this->t('The width of the image.'),
+        ],
+        'height' => [
+          'type' => Type::nonNull(Type::int()),
+          'description' => (string) $this->t('The height of the image.'),
+        ],
+        'alt' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The alt text of the image.'),
+        ],
+        'title' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The title text of the image.'),
+        ],
+        'mime' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The mime type of the image.'),
+        ],
       ],
     ]);
 

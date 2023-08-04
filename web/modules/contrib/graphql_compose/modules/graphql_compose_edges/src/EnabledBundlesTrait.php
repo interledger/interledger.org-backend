@@ -7,7 +7,8 @@ namespace Drupal\graphql_compose_edges;
 /**
  * Utility trait to filter enabled bundles.
  */
-trait EnabledBundlesTrait {
+trait EnabledBundlesTrait
+{
 
   /**
    * Get enabled bundle instances for resolution.
@@ -15,10 +16,10 @@ trait EnabledBundlesTrait {
    * @return \Drupal\graphql_compose\Wrapper\EntityTypeWrapper[]
    *   Bundles enabled.
    */
-  protected function getEnabledBundlePlugins(): array {
+  protected function getEnabledBundlePlugins(): array
+  {
 
     $enabled = &drupal_static(__TRAIT__ . '::' . __FUNCTION__);
-
     if (isset($enabled)) {
       return $enabled;
     }
@@ -38,5 +39,4 @@ trait EnabledBundlesTrait {
 
     return $enabled;
   }
-
 }

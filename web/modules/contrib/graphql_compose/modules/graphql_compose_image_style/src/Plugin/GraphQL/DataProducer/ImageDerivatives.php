@@ -72,7 +72,7 @@ class ImageDerivatives extends DataProducerPluginBase implements ContainerFactor
   /**
    * Finds the enum value(s) and loads the image_derivative data producer(s).
    *
-   * @param \Drupal\file\FileInterface $entity
+   * @param \Drupal\file\FileInterface|null $entity
    *   The file entity.
    * @param string|array $value
    *   The image style name.

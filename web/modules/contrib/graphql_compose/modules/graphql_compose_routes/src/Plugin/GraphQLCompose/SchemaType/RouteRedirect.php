@@ -7,6 +7,7 @@ namespace Drupal\graphql_compose_routes\Plugin\GraphQLCompose\SchemaType;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeSchemaTypeBase;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\UnionType;
 
 /**
  * {@inheritdoc}
@@ -50,6 +51,24 @@ class RouteRedirect extends GraphQLComposeSchemaTypeBase {
     ]);
 
     return $types;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getExtensions(): array {
+    $extensions = parent::getExtensions();
+
+    if ($this->moduleHandler->moduleExists('redirect')) {
+      $extensions[] = new UnionType([
+        'name' => 'RouteUnion',
+        'types' => [
+          static::type('RouteRedirect'),
+        ],
+      ]);
+    }
+
+    return $extensions;
   }
 
 }

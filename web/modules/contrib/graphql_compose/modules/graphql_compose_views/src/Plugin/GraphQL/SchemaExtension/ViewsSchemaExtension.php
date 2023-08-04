@@ -48,6 +48,62 @@ class ViewsSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
 
     $viewStorage = $this->entityTypeManager->getStorage('view');
 
+    // The parent is a ViewExecutable.
+    $registry->addFieldResolver(
+      'View',
+      'id',
+      $builder->callback(function (ViewExecutable $executable) {
+        return $executable->storage->uuid();
+      }),
+    );
+
+    $registry->addFieldResolver(
+      'View',
+      'view',
+      $builder->callback(function (ViewExecutable $executable) {
+        return $executable->storage->id();
+      }),
+    );
+
+    $registry->addFieldResolver(
+      'View',
+      'display',
+      $builder->callback(function (ViewExecutable $executable) {
+        return $executable->current_display;
+      }),
+    );
+
+    $registry->addFieldResolver(
+      'View',
+      'langcode',
+      $builder->callback(function (ViewExecutable $executable) {
+        return $executable->storage->language()->getId();
+      }),
+    );
+
+    $registry->addFieldResolver(
+      'View',
+      'label',
+      $builder->callback(function (ViewExecutable $executable) {
+        return $executable->storage->label();
+      }),
+    );
+
+    $registry->addFieldResolver(
+      'View',
+      'description',
+      $builder->callback(function (ViewExecutable $executable) {
+        return $executable->storage->get('description');
+      }),
+    );
+
+    $registry->addFieldResolver(
+      'View',
+      'pageInfo',
+      $builder->produce('views_page_info')
+        ->map('executable', $builder->fromParent())
+    );
+
     foreach (Views::getApplicableViews('graphql_display') as $applicable_view) {
       // Destructure view and display ids.
       [$view_id, $display_id] = $applicable_view;
@@ -82,67 +138,10 @@ class ViewsSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
           ->map('sort_dir', $builder->fromArgument('sortDir'))
       );
 
-      // The parent is a ViewExecutable.
-      $registry->addFieldResolver(
-        $display->getGraphQlResultName(),
-        'id',
-        $builder->callback(function (ViewExecutable $executable) {
-          return $executable->storage->uuid();
-        }),
-      );
-
-      $registry->addFieldResolver(
-        $display->getGraphQlResultName(),
-        'view',
-        $builder->callback(function (ViewExecutable $executable) {
-          return $executable->storage->id();
-        }),
-      );
-
-      $registry->addFieldResolver(
-        $display->getGraphQlResultName(),
-        'display',
-        $builder->callback(function (ViewExecutable $executable) {
-          return $executable->current_display;
-        }),
-      );
-
-      $registry->addFieldResolver(
-        $display->getGraphQlResultName(),
-        'langcode',
-        $builder->callback(function (ViewExecutable $executable) {
-          return $executable->storage->language()->getId();
-        }),
-      );
-
-      $registry->addFieldResolver(
-        $display->getGraphQlResultName(),
-        'label',
-        $builder->callback(function (ViewExecutable $executable) {
-          return $executable->storage->label();
-        }),
-      );
-
-      $registry->addFieldResolver(
-        $display->getGraphQlResultName(),
-        'description',
-        $builder->callback(function (ViewExecutable $executable) {
-          return $executable->storage->get('description');
-        }),
-      );
-
       $registry->addFieldResolver(
         $display->getGraphQlResultName(),
         'results',
         $builder->produce('views_entity_results')
-          ->map('executable', $builder->fromParent())
-      );
-
-      // The parent is a ViewExecutable.
-      $registry->addFieldResolver(
-        $display->getGraphQlResultName(),
-        'pageInfo',
-        $builder->produce('views_page_info')
           ->map('executable', $builder->fromParent())
       );
     }
