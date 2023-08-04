@@ -428,6 +428,7 @@ class ViewAjaxControllerTest extends UnitTestCase {
    */
   protected function getCommands(ViewAjaxResponse $response) {
     $reflection_property = new \ReflectionProperty('Drupal\views\Ajax\ViewAjaxResponse', 'commands');
+    $reflection_property->setAccessible(TRUE);
     $commands = $reflection_property->getValue($response);
     return $commands;
   }

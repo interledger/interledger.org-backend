@@ -240,24 +240,18 @@ class UserAuthenticationController extends ControllerBase implements ContainerIn
     }
 
     // Load by name if provided.
-    $identifier = '';
     if (isset($credentials['name'])) {
-      $identifier = $credentials['name'];
-      $users = $this->userStorage->loadByProperties(['name' => trim($identifier)]);
+      $users = $this->userStorage->loadByProperties(['name' => trim($credentials['name'])]);
     }
     elseif (isset($credentials['mail'])) {
-      $identifier = $credentials['mail'];
-      $users = $this->userStorage->loadByProperties(['mail' => trim($identifier)]);
+      $users = $this->userStorage->loadByProperties(['mail' => trim($credentials['mail'])]);
     }
 
     /** @var \Drupal\Core\Session\AccountInterface $account */
     $account = reset($users);
     if ($account && $account->id()) {
       if ($this->userIsBlocked($account->getAccountName())) {
-        $this->logger->error('Unable to send password reset email for blocked or not yet activated user %identifier.', [
-          '%identifier' => $identifier,
-        ]);
-        return new Response();
+        throw new BadRequestHttpException('The user has not been activated or is blocked.');
       }
 
       // Send the password reset email.
@@ -272,10 +266,7 @@ class UserAuthenticationController extends ControllerBase implements ContainerIn
     }
 
     // Error if no users found with provided name or mail.
-    $this->logger->error('Unable to send password reset email for unrecognized username or email address %identifier.', [
-      '%identifier' => $identifier,
-    ]);
-    return new Response();
+    throw new BadRequestHttpException('Unrecognized username or email address.');
   }
 
   /**

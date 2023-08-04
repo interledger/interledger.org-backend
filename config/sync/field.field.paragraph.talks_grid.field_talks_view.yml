@@ -33,6 +33,7 @@ settings:
     files: '0'
     media: '0'
     media_library: '0'
+    node_paths_graphql: '0'
     user_admin_people: '0'
     content_recent: '0'
     speakers: '0'

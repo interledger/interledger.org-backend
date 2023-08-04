@@ -89,10 +89,6 @@
      *   A jQuery Event object.
      */
     focusHandler(event) {
-      // Do not scroll down when element inside bulk actions is focused.
-      if (event.currentTarget.closest('[data-drupal-views-bulk-actions]')) {
-        return;
-      }
       const stickyRect = this.bulkActions.getBoundingClientRect();
       const stickyStart = stickyRect.y;
       const elementRect = event.target.getBoundingClientRect();

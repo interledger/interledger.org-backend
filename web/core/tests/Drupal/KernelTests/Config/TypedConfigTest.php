@@ -137,7 +137,7 @@ class TypedConfigTest extends KernelTestBase {
     $this->assertEmpty($result);
 
     // Test constrains on nested mapping.
-    $config->set('cat.type', 'tiger');
+    $config->set('cat.type', 'miaus');
     $config->save();
 
     $typed_config = $typed_config_manager->get('config_test.validation');

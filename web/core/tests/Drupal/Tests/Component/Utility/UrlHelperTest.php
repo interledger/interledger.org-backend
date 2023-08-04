@@ -188,7 +188,6 @@ class UrlHelperTest extends TestCase {
    */
   public function providerTestInvalidRelativeData() {
     $data = [
-      // cspell:disable-next-line
       'ex^mple',
       'example<>',
       'ex%ample',

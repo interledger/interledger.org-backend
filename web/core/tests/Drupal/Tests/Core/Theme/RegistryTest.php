@@ -208,6 +208,7 @@ class RegistryTest extends UnitTestCase {
 
     $class = new \ReflectionClass(Registry::class);
     $reflection_method = $class->getMethod('postProcessExtension');
+    $reflection_method->setAccessible(TRUE);
     $reflection_method->invokeArgs($this->registry, [&$hooks, $theme->reveal()]);
 
     $this->assertEquals($expected, $hooks);

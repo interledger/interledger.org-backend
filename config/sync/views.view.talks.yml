@@ -275,3 +275,64 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags: {  }
+  graphql_3:
+    id: graphql_3
+    display_title: 'Talks by date'
+    display_plugin: graphql
+    position: 1
+    display_options:
+      pager:
+        type: none
+        options:
+          offset: 0
+      arguments:
+        field_date_time_value:
+          id: field_date_time_value
+          table: node__field_date_time
+          field: field_date_time_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: datetime
+          default_action: ignore
+          exception:
+            value: all
+            title_enable: false
+            title: All
+          title_enable: false
+          title: ''
+          default_argument_type: fixed
+          default_argument_options:
+            argument: ''
+          default_argument_skip_url: false
+          summary_options:
+            base_path: ''
+            count: true
+            override: false
+            items_per_page: 25
+          summary:
+            sort_order: asc
+            number_of_records: 0
+            format: default_summary
+          specify_validation: false
+          validate:
+            type: none
+            fail: 'not found'
+          validate_options: {  }
+      defaults:
+        relationships: false
+        arguments: false
+      relationships: {  }
+      display_description: ''
+      display_extenders: {  }
+      graphql_query_name: talksByDate
+      graphql_query_exposed: 0
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - 'user.node_grants:view'
+        - user.permissions
+      tags: {  }

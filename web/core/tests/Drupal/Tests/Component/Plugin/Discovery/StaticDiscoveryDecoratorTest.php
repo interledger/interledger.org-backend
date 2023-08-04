@@ -67,6 +67,7 @@ class StaticDiscoveryDecoratorTest extends TestCase {
 
     // Set up the ::$registerDefinitions property.
     $ref_register_definitions = new \ReflectionProperty($mock_decorator, 'registerDefinitions');
+    $ref_register_definitions->setAccessible(TRUE);
     if ($has_register_definitions) {
       // Set the callback object on the mocked decorator.
       $ref_register_definitions->setValue(
@@ -81,6 +82,7 @@ class StaticDiscoveryDecoratorTest extends TestCase {
 
     // Set up ::$definitions to an empty array.
     $ref_definitions = new \ReflectionProperty($mock_decorator, 'definitions');
+    $ref_definitions->setAccessible(TRUE);
     $ref_definitions->setValue($mock_decorator, []);
 
     // Mock a decorated object.
@@ -94,6 +96,7 @@ class StaticDiscoveryDecoratorTest extends TestCase {
 
     // Set up ::$decorated to our mocked decorated object.
     $ref_decorated = new \ReflectionProperty($mock_decorator, 'decorated');
+    $ref_decorated->setAccessible(TRUE);
     $ref_decorated->setValue($mock_decorator, $mock_decorated);
 
     if ($exception_on_invalid) {
@@ -134,6 +137,7 @@ class StaticDiscoveryDecoratorTest extends TestCase {
 
     // Set up the ::$registerDefinitions property.
     $ref_register_definitions = new \ReflectionProperty($mock_decorator, 'registerDefinitions');
+    $ref_register_definitions->setAccessible(TRUE);
     if ($has_register_definitions) {
       // Set the callback object on the mocked decorator.
       $ref_register_definitions->setValue(
@@ -148,6 +152,7 @@ class StaticDiscoveryDecoratorTest extends TestCase {
 
     // Set up ::$definitions to an empty array.
     $ref_definitions = new \ReflectionProperty($mock_decorator, 'definitions');
+    $ref_definitions->setAccessible(TRUE);
     $ref_definitions->setValue($mock_decorator, []);
 
     // Mock a decorated object.
@@ -161,6 +166,7 @@ class StaticDiscoveryDecoratorTest extends TestCase {
 
     // Set up ::$decorated to our mocked decorated object.
     $ref_decorated = new \ReflectionProperty($mock_decorator, 'decorated');
+    $ref_decorated->setAccessible(TRUE);
     $ref_decorated->setValue($mock_decorator, $mock_decorated);
 
     // Exercise getDefinitions(). It calls parent::getDefinitions() but in this
@@ -210,6 +216,7 @@ class StaticDiscoveryDecoratorTest extends TestCase {
       ->getMock();
     // Poke the decorated object into our decorator.
     $ref_decorated = new \ReflectionProperty($mock_decorator, 'decorated');
+    $ref_decorated->setAccessible(TRUE);
     $ref_decorated->setValue($mock_decorator, $mock_decorated);
 
     // Exercise __call.

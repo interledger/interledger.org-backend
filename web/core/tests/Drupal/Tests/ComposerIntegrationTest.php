@@ -260,6 +260,7 @@ class ComposerIntegrationTest extends UnitTestCase {
     }
 
     $reflection = new \ReflectionProperty(Config::class, 'defaultConfig');
+    $reflection->setAccessible(TRUE);
     $config = $reflection->getValue();
     foreach (array_keys($config) as $package) {
       $this->assertContains(strtolower($package), $packages);

@@ -1,0 +1,31 @@
+uuid: 845636ea-81bc-4eda-a353-ab51969d7840
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.schedule_day.field_date
+    - field.field.paragraph.schedule_day.field_talks_view
+    - paragraphs.paragraphs_type.schedule_day
+  module:
+    - datetime
+    - viewfield
+id: paragraph.schedule_day.default
+targetEntityType: paragraph
+bundle: schedule_day
+mode: default
+content:
+  field_date:
+    type: datetime_default
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_talks_view:
+    type: viewfield_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
