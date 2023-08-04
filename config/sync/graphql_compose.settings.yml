@@ -223,6 +223,8 @@ field_config:
     schedule:
       field_days:
         enabled: true
+      field_title:
+        enabled: true
     schedule_day:
       field_date:
         enabled: true
