@@ -36,3 +36,13 @@ function graphql_compose_views_graphql_compose_field_type_form_alter(array &$for
     ];
   }
 }
+
+/**
+ * Implements hook_config_schema_info_alter().
+ */
+function graphql_compose_views_config_schema_info_alter(&$definitions) {
+  $definitions['graphql_compose.field.*.*.*']['mapping']['viewfield_query'] = [
+    'type' => 'boolean',
+    'label' => t('Embed view as GraphQL query'),
+  ];
+}

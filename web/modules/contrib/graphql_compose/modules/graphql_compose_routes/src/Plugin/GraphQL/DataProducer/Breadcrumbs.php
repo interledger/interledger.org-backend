@@ -19,7 +19,7 @@ use GraphQL\Deferred;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Load a Route or Redirect based on Path.
+ * Load breadcrumbs for a URL.
  *
  * @DataProducer(
  *   id = "breadcrumbs",

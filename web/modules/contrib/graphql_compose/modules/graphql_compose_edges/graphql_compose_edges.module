@@ -14,11 +14,11 @@ use Drupal\Core\Form\FormStateInterface;
 /**
  * Implements hook_graphql_compose_entity_type_form_alter().
  */
-function graphql_compose_edges_graphql_compose_entity_type_form_alter(array &$form, FormStateInterface $form_state, EntityTypeInterface $entity_type, array $settings): void {
+function graphql_compose_edges_graphql_compose_entity_type_form_alter(array &$form, FormStateInterface $form_state, EntityTypeInterface $entity_type, string $bundle_id, array $settings): void {
   if ($entity_type instanceof ContentEntityTypeInterface) {
     $form['edges_enabled'] = [
       '#type' => 'checkbox',
-      '#title' => t('Enable multiple query'),
+      '#title' => t('Enable Edge Query'),
       '#default_value' => $settings['edges_enabled'] ?? FALSE,
       '#description' => t('Edge connections enable loading multiple entities at once with a cursor.'),
     ];

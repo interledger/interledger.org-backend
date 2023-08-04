@@ -24,12 +24,28 @@ interface GraphQLComposeEntityTypeInterface extends PluginInspectionInterface, D
   public function getDescription(): ?string;
 
   /**
+   * Interfaces for this entity type.
+   *
+   * @return string[]
+   *   Interfaces for this entity type.
+   */
+  public function getInterfaces(): array;
+
+  /**
    * Prefix for this entity type. Eg Paragraph.
    *
    * @return string
    *   Prefix for this entity type. Eg Paragraph.
    */
   public function getPrefix(): string;
+
+  /**
+   * Fetch base fields for an entity type.
+   *
+   * @return array
+   *   An array of base fields.
+   */
+  public function getBaseFields(): array;
 
   /**
    * Get bundles enabled for this entity type.
@@ -60,6 +76,11 @@ interface GraphQLComposeEntityTypeInterface extends PluginInspectionInterface, D
    *   The resolver builder.
    */
   public function registerResolvers(ResolverRegistryInterface $registry, ResolverBuilder $builder): void;
+
+  /**
+   * Type for the Schema. Title cased singular. Eg ParagraphText.
+   */
+  public function getTypeSdl(): string;
 
   /**
    * Get common union name between entity bundles.

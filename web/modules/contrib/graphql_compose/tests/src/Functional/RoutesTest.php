@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\graphql_compose\Functional;
 
+use Drupal\graphql\Plugin\GraphQL\DataProducer\Routing\RouteEntity;
 use Drupal\language\Entity\ConfigurableLanguage;
 
 /**
@@ -146,6 +147,18 @@ class RoutesTest extends GraphQLComposeBrowserTestBase {
       $this->nodes[2]->uuid(),
       $content['data']['route']['entity']['id']
     );
+  }
+
+  /**
+   * We have a tight integration with GQL core resolver.
+   *
+   * It's relying on the fact it's a loose type.
+   * Ensure it's still possible.
+   */
+  public function testRouteEntityLoose(): void {
+    $rp = new \ReflectionProperty(RouteEntity::class, 'entityBuffer');
+
+    $this->assertFalse($rp->hasType());
   }
 
 }

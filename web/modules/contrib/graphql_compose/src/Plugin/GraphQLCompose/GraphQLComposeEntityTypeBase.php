@@ -6,6 +6,7 @@ namespace Drupal\graphql_compose\Plugin\GraphQLCompose;
 
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\graphql\GraphQL\ResolverBuilder;
@@ -42,6 +43,8 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
    *   The plugin id.
    * @param array $plugin_definition
    *   The plugin definition array.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   *   Drupal module handler service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   Drupal entity type manager service.
    * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entityTypeBundleInfo
@@ -55,6 +58,7 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
     array $configuration,
     $plugin_id,
     array $plugin_definition,
+    protected ModuleHandlerInterface $moduleHandler,
     protected EntityTypeManagerInterface $entityTypeManager,
     protected EntityTypeBundleInfoInterface $entityTypeBundleInfo,
     protected GraphQLComposeFieldTypeManager $gqlFieldTypeManager,
@@ -71,6 +75,7 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
       $configuration,
       $plugin_id,
       $plugin_definition,
+      $container->get('module_handler'),
       $container->get('entity_type.manager'),
       $container->get('entity_type.bundle.info'),
       $container->get('graphql_compose.field_type_manager'),
@@ -86,14 +91,19 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
   }
 
   /**
-   * Interfaces for the schema. Eg [Node, ContentPage].
+   * {@inheritdoc}
    */
-  protected function getInterfaces(): array {
+  public function getInterfaces(): array {
     $interfaces = $this->pluginDefinition['interfaces'] ?? [];
 
     if ($this->gqlFieldTypeManager->getInterfaceFields($this->getPluginId())) {
       $interfaces[] = $this->getInterfaceTypeSdl();
     }
+
+    $this->moduleHandler->invokeAll('graphql_compose_entity_interfaces_alter', [
+      &$interfaces,
+      $this,
+    ]);
 
     return $interfaces;
   }
@@ -106,7 +116,7 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
   }
 
   /**
-   * Type for the Schema. Title cased singular. Eg ParagraphText.
+   * {@inheritdoc}
    */
   public function getTypeSdl(): string {
     $type = $this->pluginDefinition['type_sdl'] ?? $this->getPluginId();
@@ -115,6 +125,20 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
       ->camel()
       ->title()
       ->toString();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getBaseFields(): array {
+    $base_fields = $this->pluginDefinition['base_fields'] ?? [];
+
+    $this->moduleHandler->invokeAll('graphql_compose_entity_base_fields_alter', [
+      &$base_fields,
+      $this->getPluginId(),
+    ]);
+
+    return $base_fields;
   }
 
   /**
@@ -240,8 +264,12 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
       // Add union types for non-simple unions.
       foreach ($fields as $field_plugin) {
         // Check it uses the union trait.
-        $traits = (new \ReflectionClass($field_plugin::class))->getTraits();
-        if (!in_array(FieldUnionTrait::class, array_keys($traits))) {
+        if (!$field_plugin instanceof FieldUnionInterface) {
+          continue;
+        }
+
+        // The unsupported field points to an unsupported type.
+        if ($field_plugin->getUnionTypeSdl() === 'UnsupportedType') {
           continue;
         }
 
@@ -258,6 +286,7 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
         // Create the new union type.
         $union = new UnionType([
           'name' => $field_plugin->getUnionTypeSdl(),
+          'description' => $field_plugin->getDescription(),
           'types' => fn() => array_map(
             fn($type): Type => $this->gqlSchemaTypeManager->get($type),
             $field_plugin->getUnionTypeMapping()
@@ -297,6 +326,7 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
     // Create generic entity wide union.
     $union = new UnionType([
       'name' => $this->getUnionTypeSdl(),
+      'description' => $this->getDescription(),
       'types' => fn() => array_map(
         fn($bundle): Type => $this->gqlSchemaTypeManager->get($bundle->getTypeSdl()),
         $bundles
@@ -362,8 +392,7 @@ abstract class GraphQLComposeEntityTypeBase extends PluginBase implements GraphQ
       // Add union field resolution for non-simple unions.
       foreach ($fields as $field_plugin) {
         // Check it uses the union trait.
-        $traits = (new \ReflectionClass($field_plugin::class))->getTraits();
-        if (!in_array(FieldUnionTrait::class, array_keys($traits))) {
+        if (!$field_plugin instanceof FieldUnionInterface) {
           continue;
         }
 

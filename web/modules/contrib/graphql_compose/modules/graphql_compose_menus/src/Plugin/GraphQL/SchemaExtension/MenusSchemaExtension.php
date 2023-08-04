@@ -21,7 +21,7 @@ use function Symfony\Component\String\u;
  * @SchemaExtension(
  *   id = "graphql_compose_menus_schema",
  *   name = "GraphQL Compose Menus",
- *   description = "Add menus to the Schema.",
+ *   description = @Translation("Add menus to the Schema."),
  *   schema = "graphql_compose"
  * )
  */

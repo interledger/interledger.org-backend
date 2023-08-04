@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *     label = @Translation("Layout Definition")
  *   ),
  *   consumes = {
- *     "id" = @ContextDefinition("any",
+ *     "id" = @ContextDefinition("string",
  *       label = @Translation("Layout ID")
  *     ),
  *   }

@@ -28,7 +28,6 @@ class RouteUnion extends GraphQLComposeSchemaTypeBase {
       'types' => fn() => [
         static::type('RouteInternal'),
         static::type('RouteExternal'),
-        static::type('RouteRedirect'),
       ],
     ]);
 

@@ -6,6 +6,41 @@
  */
 
 /**
+ * Add custom types to the schema.
+ *
+ * @param Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager $manager
+ *   The GraphQL Compose Schema Type Manager.
+ */
+function hook_graphql_compose_print_types(\Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager $manager): void {
+  $my_type = new \GraphQL\Type\Definition\ObjectType([
+    'name' => 'MyType',
+    'fields' => [
+      'id' => \GraphQL\Type\Definition\Type::string(),
+    ],
+  ]);
+  $manager->add($my_type);
+}
+
+/**
+ * Add extensions to the schema.
+ *
+ * @param Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager $manager
+ *   The GraphQL Compose Schema Type Manager.
+ */
+function hook_graphql_compose_print_extensions(\Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager $manager): void {
+  $my_extension = new \GraphQL\Type\Definition\ObjectType([
+    'name' => 'Query',
+    'fields' => fn() => [
+      'thing' => [
+        'type' => $manager->get('MyType'),
+        'description' => (string) t('Get my type'),
+      ],
+    ],
+  ]);
+  $manager->extend($my_extension);
+}
+
+/**
  * Alter the result from language pluralize.
  *
  * @param string $original
@@ -46,14 +81,21 @@ function hook_graphql_compose_field_enabled_alter(bool &$enabled, \Drupal\Core\F
  * @param array $results
  *   The results being returned.
  * @param array $context
- *   Context Passed to resolver. Eg $context['field'].
+ *   Context Passed to resolver. Eg $context['value'].
  * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface $metadata
  *   Context for metadata expansion.
  */
 function hook_graphql_compose_field_results_alter(array &$results, array $context, \Drupal\Core\Cache\RefinableCacheableDependencyInterface $metadata) {
-  $field = $context['value']->getFieldDefinition();
-  if ($field->getName() === 'field_potato' && empty($results)) {
-    $results = ['Chips'];
+  $field_list = $context['value'] ?? NULL;
+  if (!$field_list instanceof \Drupal\Core\Field\FieldItemListInterface) {
+    return;
+  }
+
+  $entity = $field_list->getEntity();
+  $field = $field_list->getFieldDefinition();
+
+  if ($entity->getEntityTypeId() === 'node' && $field->getName() === 'field_potato') {
+    $results = ['new node value for field_potato'];
   }
 }
 
@@ -112,10 +154,12 @@ function hook_graphql_compose_entity_base_fields_alter(array &$fields, string $e
  *   Drupal form state.
  * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
  *   Current entity type.
+ * @param string $bundle_id
+ *   Current entity bundle id.
  * @param array $settings
  *   Current settings.
  */
-function hook_graphql_compose_entity_type_form_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, \Drupal\Core\Entity\EntityTypeInterface $entity_type, array $settings) {
+function hook_graphql_compose_entity_type_form_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, \Drupal\Core\Entity\EntityTypeInterface $entity_type, string $bundle_id, array $settings) {
   $form['my_setting'] = [
     '#default_value' => $settings['my_setting'] ?? NULL,
   ];
@@ -126,7 +170,7 @@ function hook_graphql_compose_entity_type_form_alter(array &$form, \Drupal\Core\
  *
  * Note: You should hook alter the config schema if you edit this.
  * Alter config schema using hook_config_schema_info_alter().
- * See graphql_compose_routes.module for an example.
+ * See graphql_compose_views.module for an example.
  *
  * @param array $form
  *   Drupal form array.

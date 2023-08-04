@@ -65,7 +65,7 @@ class BlockField extends GraphQLComposeFieldTypeBase implements FieldProducerIte
     $metadata->addCacheableDependency($block_instance);
     $metadata->addCacheableDependency($access);
 
-    if (!$access) {
+    if (!$access->isAllowed()) {
       return NULL;
     }
 

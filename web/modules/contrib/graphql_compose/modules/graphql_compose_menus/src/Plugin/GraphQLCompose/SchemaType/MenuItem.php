@@ -27,10 +27,22 @@ class MenuItem extends GraphQLComposeSchemaTypeBase {
       'name' => $this->getPluginId(),
       'description' => (string) $this->t('A menu item defined in the CMS.'),
       'fields' => fn() => [
-        'id' => Type::nonNull(Type::id()),
-        'title' => Type::nonNull(Type::string()),
-        'description' => Type::string(),
-        'url' => Type::string(),
+        'id' => [
+          'type' => Type::nonNull(Type::id()),
+          'description' => (string) $this->t('The Universally Unique IDentifier (UUID).'),
+        ],
+        'title' => [
+          'type' => Type::nonNull(Type::string()),
+          'description' => (string) $this->t('The title of the menu item.'),
+        ],
+        'description' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The description of the menu item.'),
+        ],
+        'url' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The URL of the menu item.'),
+        ],
         'internal' => [
           'type' => Type::nonNull(Type::boolean()),
           'description' => (string) $this->t('Whether this menu item links to an internal route.'),

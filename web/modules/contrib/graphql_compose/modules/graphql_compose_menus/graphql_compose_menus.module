@@ -13,18 +13,16 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
-use Drupal\system\Entity\Menu;
 
 /**
- * Implements hook_entity_access().
+ * Implements hook_ENTITY_TYPE_access().
  *
  * Enable access to view a menu.
  */
-function graphql_compose_menus_entity_access(EntityInterface $entity, $operation, AccountInterface $account): AccessResultInterface {
+function graphql_compose_menus_menu_access(EntityInterface $entity, $operation, AccountInterface $account): AccessResultInterface {
 
-  $settings = \Drupal::config('graphql_compose.settings');
-
-  if ($operation === 'view' && $entity instanceof Menu) {
+  if ($operation === 'view') {
+    $settings = \Drupal::config('graphql_compose.settings');
     $access = $settings->get('entity_config.menu.' . $entity->id() . '.enabled') ?: FALSE;
     return AccessResult::allowedIf($access);
   }
@@ -35,11 +33,11 @@ function graphql_compose_menus_entity_access(EntityInterface $entity, $operation
 /**
  * Implements hook_graphql_compose_entity_type_form_alter().
  */
-function graphql_compose_menus_graphql_compose_entity_type_form_alter(array &$form, FormStateInterface $form_state, EntityTypeInterface $entity_type, array $settings): void {
+function graphql_compose_menus_graphql_compose_entity_type_form_alter(array &$form, FormStateInterface $form_state, EntityTypeInterface $entity_type, string $bundle_id, array $settings): void {
   if ($entity_type->id() === 'menu') {
     $form['menu_route_enabled'] = [
       '#type' => 'checkbox',
-      '#title' => t('Enable route on menu'),
+      '#title' => t('Enable Route on Menu'),
       '#default_value' => $settings['menu_route_enabled'] ?? FALSE,
       '#description' => t('<em>Warning</em>: Enable only if you have a small menu and you understand the load implications. Querying %path will load all entities within this menu.', [
         '%path' => 'route.entity',

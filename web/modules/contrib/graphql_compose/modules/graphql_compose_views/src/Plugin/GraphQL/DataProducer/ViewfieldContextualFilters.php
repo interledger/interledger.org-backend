@@ -15,7 +15,7 @@ use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Load view results.
+ * Get contextual filters from a view field with token replacement.
  *
  * @DataProducer(
  *   id = "viewfield_contextual_filters",

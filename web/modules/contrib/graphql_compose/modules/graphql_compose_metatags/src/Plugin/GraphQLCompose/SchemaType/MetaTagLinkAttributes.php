@@ -25,9 +25,16 @@ class MetaTagLinkAttributes extends GraphQLComposeSchemaTypeBase {
 
     $types[] = new ObjectType([
       'name' => $this->getPluginId(),
+      'description' => (string) $this->t("A meta link element's attributes."),
       'fields' => fn() => [
-        'rel' => Type::string(),
-        'href' => Type::string(),
+        'rel' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The rel attribute of the link.'),
+        ],
+        'href' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The href attribute of the link.'),
+        ],
       ],
     ]);
 

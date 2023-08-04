@@ -24,7 +24,7 @@ class AttributesType extends GraphQLComposeSchemaTypeBase {
 
     $types[] = new CustomScalarType([
       'name' => $this->getPluginId(),
-      'description' => (string) $this->t('Untyped attribute data. Eg configuration, settings.'),
+      'description' => (string) $this->t('Untyped attribute data. Eg configuration, settings, attributes.'),
     ]);
 
     return $types;

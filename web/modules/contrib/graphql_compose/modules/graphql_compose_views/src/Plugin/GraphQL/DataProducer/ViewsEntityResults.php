@@ -91,7 +91,7 @@ class ViewsEntityResults extends DataProducerPluginBase implements ContainerFact
       $metadata->addCacheableDependency($entity);
     }
 
-    // @todo figure out what todo with unsupported entity types in results.
+    // @todo figure out what to do with unsupported entity types in results.
     // My initial thinking is an exception is reasonable here.
     // If the type isn't exposed and someone goes and makes a view trying
     // to expose it, well... Feels like an error to me.

@@ -24,6 +24,7 @@ class MetaTagUnion extends GraphQLComposeSchemaTypeBase {
 
     $types[] = new UnionType([
       'name' => $this->getPluginId(),
+      'description' => (string) $this->t('A meta tag element.'),
       'types' => fn() => [
         static::type('MetaTagLink'),
         static::type('MetaTagValue'),

@@ -30,10 +30,22 @@ class BlockContent extends GraphQLComposeSchemaTypeBase {
         static::type('BlockInterface'),
       ],
       'fields' => fn() => [
-        'id' => Type::nonNull(Type::id()),
-        'title' => Type::string(),
-        'render' => static::type('Html'),
-        'entity' => static::type('BlockContentUnion'),
+        'id' => [
+          'type' => Type::nonNull(Type::id()),
+          'description' => (string) $this->t('The Universally Unique IDentifier (UUID).'),
+        ],
+        'title' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The title of the block if provided.'),
+        ],
+        'render' => [
+          'type' => static::type('Html'),
+          'description' => (string) $this->t('The rendered output of the block.'),
+        ],
+        'entity' => [
+          'type' => Type::nonNull(static::type('BlockContentUnion')),
+          'description' => (string) $this->t('The Content Block entity to be displayed within the block.'),
+        ],
       ],
     ]);
 

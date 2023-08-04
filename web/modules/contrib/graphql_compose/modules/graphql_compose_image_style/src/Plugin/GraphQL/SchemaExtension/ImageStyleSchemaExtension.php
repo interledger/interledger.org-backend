@@ -14,7 +14,7 @@ use Drupal\graphql_compose\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPlug
  * @SchemaExtension(
  *   id = "graphql_compose_image_style_schema",
  *   name = "GraphQL Compose Image Style",
- *   description = "Add image styles to the Schema.",
+ *   description = @Translation("Add image styles to the Schema."),
  *   schema = "graphql_compose"
  * )
  */

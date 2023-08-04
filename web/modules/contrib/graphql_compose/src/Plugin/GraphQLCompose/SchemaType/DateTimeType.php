@@ -27,10 +27,22 @@ class DateTimeType extends GraphQLComposeSchemaTypeBase {
       'name' => $this->getPluginId(),
       'description' => (string) $this->t('A DateTime object.'),
       'fields' => fn() => [
-        'timestamp' => Type::nonNull(static::type('Timestamp')),
-        'timezone' => Type::nonNull(static::type('TimeZone')),
-        'offset' => Type::nonNull(static::type('UtcOffset')),
-        'time' => Type::nonNull(static::type('Time')),
+        'timestamp' => [
+          'type' => Type::nonNull(static::type('Timestamp')),
+          'description' => (string) $this->t('Type represents date and time as number of milliseconds from start of the UNIX epoch.'),
+        ],
+        'timezone' => [
+          'type' => Type::nonNull(static::type('TimeZone')),
+          'description' => (string) $this->t('A field whose value exists in the standard IANA Time Zone Database.'),
+        ],
+        'offset' => [
+          'type' => Type::nonNull(static::type('UtcOffset')),
+          'description' => (string) $this->t('A string that will have a value of format ±hh:mm'),
+        ],
+        'time' => [
+          'type' => Type::nonNull(static::type('Time')),
+          'description' => (string) $this->t('RFC 3339 compliant time string.'),
+        ],
       ],
     ]);
 

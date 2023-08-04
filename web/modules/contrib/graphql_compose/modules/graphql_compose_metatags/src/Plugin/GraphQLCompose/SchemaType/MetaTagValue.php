@@ -25,12 +25,19 @@ class MetaTagValue extends GraphQLComposeSchemaTypeBase {
 
     $types[] = new ObjectType([
       'name' => $this->getPluginId(),
+      'description' => (string) $this->t('A meta content element.'),
       'interfaces' => fn() => [
         static::type('MetaTag'),
       ],
       'fields' => fn() => [
-        'tag' => Type::nonNull(Type::string()),
-        'attributes' => Type::nonNull(static::type('MetaTagValueAttributes')),
+        'tag' => [
+          'type' => Type::nonNull(Type::string()),
+          'description' => (string) $this->t('The HTML tag for this meta element.'),
+        ],
+        'attributes' => [
+          'type' => Type::nonNull(static::type('MetaTagValueAttributes')),
+          'description' => (string) $this->t('The meta tag element attributes.'),
+        ],
       ],
     ]);
 

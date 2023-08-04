@@ -27,14 +27,14 @@ class GraphQLComposeFieldTypeManager extends DefaultPluginManager {
   /**
    * Private field plugin storage.
    *
-   * @var array
+   * @var \Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeInterface[]
    */
   private array $fields = [];
 
   /**
    * Private field plugin storage.
    *
-   * @var array
+   * @var \Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeInterface[]
    */
   private array $interfaceFields = [];
 
@@ -101,7 +101,7 @@ class GraphQLComposeFieldTypeManager extends DefaultPluginManager {
    * @param array $config
    *   Configuration for the plugin.
    *
-   * @return \Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeInterface|null
+   * @return \Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeInterface|null
    *   The field plugin instance.
    *
    * @throws \Exception
@@ -136,7 +136,7 @@ class GraphQLComposeFieldTypeManager extends DefaultPluginManager {
    * @param array $config
    *   Configuration for the plugin.
    *
-   * @return \Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeInterface|null
+   * @return \Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeInterface|null
    *   The field plugin instance.
    *
    * @throws \Exception
@@ -167,7 +167,7 @@ class GraphQLComposeFieldTypeManager extends DefaultPluginManager {
    * @param array $config
    *   Configuration for the plugin.
    *
-   * @return \Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeInterface|null
+   * @return \Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeInterface|null
    *   The field plugin instance.
    */
   protected function createFieldInstance(string $field_type_plugin_id, array $config): ?GraphQLComposeFieldTypeInterface {
@@ -189,6 +189,16 @@ class GraphQLComposeFieldTypeManager extends DefaultPluginManager {
   }
 
   /**
+   * All defined fields that have been created at time of invocation.
+   *
+   * @return \Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeInterface[]
+   *   An array of fields that have been initialized.
+   */
+  public function getFields(): array {
+    return $this->fields;
+  }
+
+  /**
    * Get fields for a bundle.
    *
    * @param string $entity_type_id
@@ -196,7 +206,7 @@ class GraphQLComposeFieldTypeManager extends DefaultPluginManager {
    * @param string $bundle_id
    *   The bundle ID.
    *
-   * @return \Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeInterface[]
+   * @return \Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeInterface[]
    *   An array of fields for the chosen entity and bundle.
    */
   public function getBundleFields(string $entity_type_id, string $bundle_id): array {
@@ -262,28 +272,6 @@ class GraphQLComposeFieldTypeManager extends DefaultPluginManager {
   }
 
   /**
-   * Fetch base fields for an entity type.
-   *
-   * @param string $entity_type_id
-   *   The entity type ID.
-   *
-   * @return array
-   *   An array of base fields.
-   */
-  public function getBaseFields(string $entity_type_id): array {
-    $plugin_definition = $this->gqlEntityTypeManager->getDefinition($entity_type_id);
-
-    $base_fields = $plugin_definition['base_fields'] ?? [];
-
-    $this->moduleHandler->invokeAll('graphql_compose_entity_base_fields_alter', [
-      &$base_fields,
-      $entity_type_id,
-    ]);
-
-    return $base_fields;
-  }
-
-  /**
    * Return fields for usage in interface.
    *
    * @return Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeInterface[]
@@ -298,7 +286,8 @@ class GraphQLComposeFieldTypeManager extends DefaultPluginManager {
 
     // Get base fields defined by the entity type plugin.
     $entity_type = $this->entityTypeManager->getDefinition($entity_type_id);
-    $base_fields = $this->getBaseFields($entity_type_id);
+    $entity_plugin_type = $this->gqlEntityTypeManager->getPluginInstance($entity_type_id);
+    $base_fields = $entity_plugin_type->getBaseFields();
 
     // If it's not fieldable, it's probably a plugin entity.
     if ($entity_type->entityClassImplements(FieldableEntityInterface::class)) {
@@ -373,6 +362,11 @@ class GraphQLComposeFieldTypeManager extends DefaultPluginManager {
       ->get('graphql_compose.settings')
       ->get('settings.expose_entity_ids');
 
+    // Check the base definitions for the entity type.
+    $field_definitions = $entity_type->entityClassImplements(FieldableEntityInterface::class)
+      ? $this->entityFieldManager->getBaseFieldDefinitions($entity_type->id())
+      : [];
+
     // If loading by UUID, do not add entity ID automatically.
     if ($expose_entity_ids && $entity_type->hasKey('id')) {
       $id_key = $entity_type->getKey('id');
@@ -383,9 +377,8 @@ class GraphQLComposeFieldTypeManager extends DefaultPluginManager {
         'name_sdl' => 'id',
         'type_sdl' => 'ID',
         'required' => TRUE,
-        'description' => (string) $this->t('The entity ID.', [
-          '@entity_type_id' => $entity_type->id(),
-        ]),
+        'description' => (string) $this->t('The entity ID.'),
+        'field_definition' => $field_definitions[$id_key] ?? NULL,
       ]);
     }
 
@@ -401,9 +394,8 @@ class GraphQLComposeFieldTypeManager extends DefaultPluginManager {
         'name_sdl' => $expose_entity_ids ? 'uuid' : 'id',
         'type_sdl' => 'ID',
         'required' => TRUE,
-        'description' => (string) $this->t('The Universally Unique IDentifier (UUID).', [
-          '@entity_type_id' => $entity_type->id(),
-        ]),
+        'description' => (string) $this->t('The Universally Unique IDentifier (UUID).'),
+        'field_definition' => $field_definitions[$uuid_key] ?? NULL,
       ]);
     }
 

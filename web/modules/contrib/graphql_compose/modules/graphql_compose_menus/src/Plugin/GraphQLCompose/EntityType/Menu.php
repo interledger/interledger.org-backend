@@ -17,11 +17,13 @@ use GraphQL\Type\Definition\Type;
  *     "name" = {
  *       "field_type" = "entity_label",
  *       "required" = TRUE,
+ *       "description" = @Translation("The menu name."),
  *     },
  *     "items" = {
  *       "type_sdl" = "MenuItem",
  *       "multiple" = TRUE,
  *       "required" = TRUE,
+ *       "description" = @Translation("The menu items."),
  *     },
  *   }
  * )

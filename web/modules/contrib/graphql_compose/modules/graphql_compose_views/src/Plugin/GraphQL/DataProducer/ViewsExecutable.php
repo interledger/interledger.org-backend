@@ -14,7 +14,7 @@ use Drupal\views\ViewExecutable as ViewsViewExecutable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Load a Route or Redirect based on Path.
+ * Load a view executable.
  *
  * @DataProducer(
  *   id = "views_executable",

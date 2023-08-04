@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\graphql_compose_routes\Plugin\GraphQL\SchemaExtension;
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Url;
 use Drupal\graphql\GraphQL\ResolverBuilder;
@@ -30,7 +31,7 @@ class RouteSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
    *
    * @var \Drupal\Core\Path\PathValidatorInterface
    */
-  protected $pathValidator;
+  protected PathValidatorInterface $pathValidator;
 
   /**
    * {@inheritdoc}
@@ -74,17 +75,27 @@ class RouteSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
       )
     );
 
-    $registry->addTypeResolver('RouteUnion', function ($value) {
-      if ($value instanceof Url) {
-        return $value->isRouted() ? 'RouteInternal' : 'RouteExternal';
-      }
+    $registry->addTypeResolver(
+      'RouteUnion',
+      function ($value) {
+        $type = NULL;
 
-      if ($this->moduleHandler->moduleExists('redirect') && get_class($value) === 'Drupal\redirect\Entity\Redirect') {
-        return 'RouteRedirect';
-      }
+        if ($value instanceof Url) {
+          $type = $value->isRouted() ? 'RouteInternal' : 'RouteExternal';
+        }
 
-      throw new UserError('Could not resolve route type.');
-    });
+        // Give opportunity to extend this union.
+        $this->moduleHandler->invokeAll('graphql_compose_routes_union_alter', [
+          $value,
+          &$type,
+        ]);
+
+        if ($type) {
+          return $type;
+        }
+
+        throw new UserError('Could not resolve route type.');
+      });
 
   }
 
@@ -107,7 +118,7 @@ class RouteSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
     $registry->addFieldResolver(
       'RouteInternal',
       'entity',
-      $builder->produce('route_entity')
+      $builder->produce('route_entity_extra')
         ->map('url', $builder->fromParent())
         ->map('language', $builder->fromContext('langcode'))
     );
@@ -115,7 +126,8 @@ class RouteSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
     $registry->addFieldResolver(
       'RouteInternal',
       'breadcrumbs',
-      $builder->produce('breadcrumbs')->map('url', $builder->fromParent())
+      $builder->produce('breadcrumbs')
+        ->map('url', $builder->fromParent())
     );
 
     $registry->addFieldResolver(
@@ -196,6 +208,9 @@ class RouteSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
    *   The resolver registry.
    * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
    *   The resolver builder.
+   *
+   * @throws \GraphQL\Error\UserError
+   *   If the entity type is not exposed.
    */
   protected function addRouteUnion(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
     $registry->addTypeResolver(
@@ -209,8 +224,7 @@ class RouteSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
         }
 
         // Its not a 404 but its not exposed.
-        // Just going to fail gracefully.
-        return 'UnsupportedType';
+        throw new UserError('Entity type is not able to be loaded by route.');
       }
     );
   }

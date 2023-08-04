@@ -1,9 +1,0 @@
-name: 'GraphQL Compose Extra: Edges'
-description: 'Load multiple entities at once using a Connection with Cursor plus filtering and domain support'
-type: module
-core_version_requirement: ^9.5 || ^10
-php: 8.1
-dependencies:
-  - graphql_compose_extra:graphql_compose_extra
-package: GraphQL Compose Extra
-hidden: false

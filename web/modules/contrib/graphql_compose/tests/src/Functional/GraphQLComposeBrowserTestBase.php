@@ -57,18 +57,10 @@ abstract class GraphQLComposeBrowserTestBase extends BrowserTestBase {
       $this->graphqlPermissions
     );
 
-    // GraphQL Config.
-    $settings['settings']['graphql.graphql_servers.core_graphql']['debug_flag'] = (object) [
-      'value' => DebugFlag::INCLUDE_DEBUG_MESSAGE,
-      'required' => TRUE,
-    ];
-
-    $settings['settings']['graphql.graphql_servers.core_graphql']['caching'] = (object) [
-      'value' => TRUE,
-      'required' => TRUE,
-    ];
-
-    $this->writeSettings($settings);
+    $config = $this->config('graphql.graphql_servers.graphql_compose_server');
+    $config->set('debug_flag', DebugFlag::INCLUDE_DEBUG_MESSAGE);
+    $config->set('caching', TRUE);
+    $config->save();
   }
 
   /**
@@ -101,9 +93,13 @@ abstract class GraphQLComposeBrowserTestBase extends BrowserTestBase {
       var_dump($e->getResponse()->getBody()->getContents());
       throw $e;
     }
+
+    $json = Json::decode($response->getBody());
+
+    $this->assertNotNull($json);
     $this->assertEquals(200, $response->getStatusCode());
 
-    return Json::decode($response->getBody());
+    return $json;
   }
 
   /**

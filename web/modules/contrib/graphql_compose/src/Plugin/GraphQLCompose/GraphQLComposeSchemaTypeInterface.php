@@ -16,11 +16,15 @@ interface GraphQLComposeSchemaTypeInterface {
    *
    * @param string $plugin_id
    *   Plugin ID of an SDL type.
+   * @param bool $multiple
+   *   Optional, if the type is a list, wrap the type.
+   * @param bool $required
+   *   Optional, if the type is required, wrap the type.
    *
    * @return \GraphQL\Type\Definition\Type
    *   GraphQL type.
    */
-  public static function type(string $plugin_id): Type;
+  public static function type(string $plugin_id, bool $multiple = FALSE, bool $required = FALSE): Type;
 
   /**
    * Add types to schema.
