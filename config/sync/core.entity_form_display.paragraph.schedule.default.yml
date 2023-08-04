@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.schedule.field_days
+    - field.field.paragraph.schedule.field_title
     - paragraphs.paragraphs_type.schedule
   module:
     - paragraphs
@@ -16,7 +17,7 @@ mode: default
 content:
   field_days:
     type: paragraphs
-    weight: 0
+    weight: 1
     region: content
     settings:
       title: Day
@@ -42,6 +43,14 @@ content:
         paragraphs_ee:
           dialog_off_canvas: false
           dialog_style: tiles
+  field_title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
 hidden:
   created: true
   status: true
