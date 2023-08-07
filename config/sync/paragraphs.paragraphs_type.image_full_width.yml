@@ -1,0 +1,16 @@
+uuid: 813b0e41-f37b-4fd7-a08c-3edc9ef5f122
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      media: media
+id: image_full_width
+label: 'Image (Full Width)'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

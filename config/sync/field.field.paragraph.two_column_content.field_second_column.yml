@@ -6,6 +6,7 @@ dependencies:
     - field.storage.paragraph.field_second_column
     - paragraphs.paragraphs_type.button
     - paragraphs.paragraphs_type.content_title
+    - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.spacer
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.two_column_content
@@ -30,6 +31,7 @@ settings:
       spacer: spacer
       text: text
       content_title: content_title
+      image: image
       video: video
     negate: 0
     target_bundles_drag_drop:
@@ -53,7 +55,7 @@ settings:
         enabled: false
       image:
         weight: 13
-        enabled: false
+        enabled: true
       image_carousel:
         weight: 23
         enabled: false
@@ -63,9 +65,33 @@ settings:
       large_callout_text:
         weight: 10
         enabled: false
+      media_header:
+        weight: 34
+        enabled: false
+      schedule:
+        weight: 35
+        enabled: false
+      schedule_day:
+        weight: 36
+        enabled: false
+      social_media:
+        weight: 37
+        enabled: false
+      social_media_link:
+        weight: 38
+        enabled: false
       spacer:
         weight: 6
         enabled: true
+      speakers_grid:
+        weight: 40
+        enabled: false
+      talk_header:
+        weight: 42
+        enabled: false
+      talks_grid:
+        weight: 41
+        enabled: false
       teaser:
         weight: 12
         enabled: false
