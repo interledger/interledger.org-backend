@@ -1,15 +1,15 @@
-uuid: 1ce7cb2c-25ad-443c-8962-0bd93f695788
+uuid: 7a332d83-8865-406a-a109-09bfe957c762
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.carousel_item.field_single_image
-    - paragraphs.paragraphs_type.carousel_item
+    - field.field.paragraph.image_full_width.field_single_image
+    - paragraphs.paragraphs_type.image_full_width
   module:
     - media_library
-id: paragraph.carousel_item.default
+id: paragraph.image_full_width.default
 targetEntityType: paragraph
-bundle: carousel_item
+bundle: image_full_width
 mode: default
 content:
   field_single_image:

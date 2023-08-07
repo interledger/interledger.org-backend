@@ -49,6 +49,8 @@ entity_config:
       enabled: true
     carousel_item:
       enabled: true
+    content_carousel:
+      enabled: true
     content_title:
       enabled: true
     hero_header:
@@ -61,6 +63,9 @@ entity_config:
       enabled: true
     image_carousel:
       enabled: true
+    image_full_width:
+      enabled: true
+      query_load_enabled: true
     image_gallery:
       enabled: true
     large_callout_text:
@@ -179,9 +184,10 @@ field_config:
       field_link:
         enabled: true
     carousel_item:
-      field_link:
-        enabled: true
       field_single_image:
+        enabled: true
+    content_carousel:
+      field_carousel_item:
         enabled: true
     content_title:
       field_title:
@@ -208,6 +214,9 @@ field_config:
         enabled: true
     image_carousel:
       field_carousel_item:
+        enabled: true
+    image_full_width:
+      field_single_image:
         enabled: true
     image_gallery:
       field_multiple_images:
