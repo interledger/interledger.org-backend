@@ -74,6 +74,7 @@ entity_config:
       enabled: true
     news_listings:
       enabled: true
+      query_load_enabled: true
     schedule:
       enabled: true
     schedule_day:
