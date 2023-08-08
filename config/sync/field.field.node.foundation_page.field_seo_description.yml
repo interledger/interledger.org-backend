@@ -1,0 +1,19 @@
+uuid: f9212019-ca62-464d-944c-09b1d014a4fc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_seo_description
+    - node.type.foundation_page
+id: node.foundation_page.field_seo_description
+field_name: field_seo_description
+entity_type: node
+bundle: foundation_page
+label: 'SEO Description'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

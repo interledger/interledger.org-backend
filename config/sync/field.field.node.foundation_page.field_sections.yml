@@ -13,6 +13,7 @@ dependencies:
     - paragraphs.paragraphs_type.image_full_width
     - paragraphs.paragraphs_type.image_gallery
     - paragraphs.paragraphs_type.large_callout_text
+    - paragraphs.paragraphs_type.news_listings
     - paragraphs.paragraphs_type.spacer
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.two_column_content
@@ -45,6 +46,7 @@ settings:
       image_gallery: image_gallery
       video: video
       content_carousel: content_carousel
+      news_listings: news_listings
     negate: 0
     target_bundles_drag_drop:
       button:
@@ -86,6 +88,9 @@ settings:
       media_header:
         weight: -35
         enabled: false
+      news_listings:
+        weight: 40
+        enabled: true
       schedule:
         weight: -28
         enabled: false

@@ -7,6 +7,20 @@ _core:
 id: node
 label: Content
 tags:
+  article_modified_time: '[node:changed:html_datetime]'
+  article_published_time: '[node:created:html_datetime]'
+  canonical_url: '[config_page:site_settings:field_frontend_url:uri][node:url:path]'
+  description: '[node:field_seo_description:value]'
+  og_description: '[node:field_seo_description:value]'
+  og_image: '[node:field_teaser:entity:field_single_image:entity:field_media_image:share_card:url]'
+  og_image_height: '[node:field_teaser:entity:field_single_image:entity:field_media_image:share_card:height]'
+  og_image_width: '[node:field_teaser:entity:field_single_image:entity:field_media_image:share_card:width]'
+  og_site_name: '[site:name]'
+  og_title: '[node:title]'
+  og_url: '[config_page:site_settings:field_frontend_url:uri][node:url:path]'
   title: '[node:title] | [site:name]'
-  description: '[node:summary]'
-  canonical_url: '[node:url]'
+  twitter_cards_description: '[node:field_seo_description:value]'
+  twitter_cards_image: '[node:field_teaser:entity:field_single_image:entity:field_media_image:share_card:url]'
+  twitter_cards_site: '@interledger'
+  twitter_cards_title: '[node:title]'
+  twitter_cards_type: summary_large_image

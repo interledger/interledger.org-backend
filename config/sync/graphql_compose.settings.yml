@@ -72,6 +72,8 @@ entity_config:
       enabled: true
     media_header:
       enabled: true
+    news_listings:
+      enabled: true
     schedule:
       enabled: true
     schedule_day:
@@ -108,8 +110,6 @@ entity_config:
 field_config:
   config_pages:
     site_settings:
-      field_frontend_url:
-        enabled: true
       field_social:
         enabled: true
   media:
@@ -130,6 +130,10 @@ field_config:
       field_image:
         enabled: true
       field_sections:
+        enabled: true
+      field_summary:
+        enabled: true
+      field_teaser:
         enabled: true
     foundation_page:
       field_header:
@@ -229,6 +233,10 @@ field_config:
         enabled: true
       field_video:
         enabled: true
+    news_listings:
+      field_news_view:
+        enabled: true
+        viewfield_query: true
     schedule:
       field_days:
         enabled: true

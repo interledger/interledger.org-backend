@@ -8,6 +8,7 @@ dependencies:
     - paragraphs.paragraphs_type.media_header
   module:
     - media_library
+    - media_library_edit
 id: paragraph.media_header.default
 targetEntityType: paragraph
 bundle: media_header
@@ -19,14 +20,18 @@ content:
     region: content
     settings:
       media_types: {  }
-    third_party_settings: {  }
+    third_party_settings:
+      media_library_edit:
+        show_edit: '1'
   field_video:
     type: media_library_widget
     weight: 1
     region: content
     settings:
       media_types: {  }
-    third_party_settings: {  }
+    third_party_settings:
+      media_library_edit:
+        show_edit: '1'
 hidden:
   created: true
   status: true

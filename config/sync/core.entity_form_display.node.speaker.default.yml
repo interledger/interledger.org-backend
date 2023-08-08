@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.speaker.field_email
     - field.field.node.speaker.field_image
     - field.field.node.speaker.field_role
+    - field.field.node.speaker.field_seo_description
     - field.field.node.speaker.field_social_media
     - field.field.node.speaker.field_speaker_talks
     - field.field.node.speaker.field_summary
@@ -60,6 +61,22 @@ third_party_settings:
         open: true
         description: ''
         required_fields: true
+    group_extra_info:
+      children:
+        - field_seo_description
+        - field_speaker_talks
+      label: 'Extra Info'
+      region: content
+      parent_name: ''
+      weight: 3
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: true
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
 id: node.speaker.default
 targetEntityType: node
 bundle: speaker
@@ -67,7 +84,7 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 6
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -112,6 +129,14 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_seo_description:
+    type: string_textarea
+    weight: 10
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   field_social_media:
     type: paragraphs
     weight: 6
@@ -142,7 +167,7 @@ content:
           dialog_style: tiles
   field_speaker_talks:
     type: viewfield_select
-    weight: 26
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -174,27 +199,27 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 9
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }
   promote:
     type: boolean_checkbox
-    weight: 7
+    weight: 6
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 10
+    weight: 9
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
-    weight: 8
+    weight: 7
     region: content
     settings:
       display_label: true
@@ -209,7 +234,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 5
+    weight: 4
     region: content
     settings:
       match_operator: CONTAINS

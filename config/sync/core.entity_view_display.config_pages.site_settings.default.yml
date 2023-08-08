@@ -5,6 +5,7 @@ dependencies:
   config:
     - config_pages.type.site_settings
     - field.field.config_pages.site_settings.field_frontend_url
+    - field.field.config_pages.site_settings.field_share_image
     - field.field.config_pages.site_settings.field_social
   module:
     - entity_reference_revisions
@@ -25,6 +26,15 @@ content:
       target: ''
     third_party_settings: {  }
     weight: 0
+    region: content
+  field_share_image:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 2
     region: content
   field_social:
     type: entity_reference_revisions_entity_view

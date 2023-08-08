@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.talk.field_description
     - field.field.node.talk.field_duration
     - field.field.node.talk.field_header
+    - field.field.node.talk.field_seo_description
     - field.field.node.talk.field_speakers
     - field.field.node.talk.field_teaser
     - node.type.talk
@@ -61,6 +62,13 @@ content:
       link: ''
     third_party_settings: {  }
     weight: 0
+    region: content
+  field_seo_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 108
     region: content
   field_speakers:
     type: entity_reference_label

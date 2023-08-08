@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.foundation_page.body
     - field.field.node.foundation_page.field_header
     - field.field.node.foundation_page.field_sections
+    - field.field.node.foundation_page.field_seo_description
     - field.field.node.foundation_page.field_teaser
     - node.type.foundation_page
   module:
@@ -33,4 +34,5 @@ content:
 hidden:
   field_header: true
   field_sections: true
+  field_seo_description: true
   field_teaser: true
