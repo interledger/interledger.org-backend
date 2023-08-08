@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.speaker.field_email
     - field.field.node.speaker.field_image
     - field.field.node.speaker.field_role
+    - field.field.node.speaker.field_seo_description
     - field.field.node.speaker.field_social_media
     - field.field.node.speaker.field_speaker_talks
     - field.field.node.speaker.field_summary
@@ -62,6 +63,13 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 3
+    region: content
+  field_seo_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 108
     region: content
   field_social_media:
     type: entity_reference_revisions_entity_view

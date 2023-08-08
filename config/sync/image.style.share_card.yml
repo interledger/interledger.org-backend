@@ -1,0 +1,17 @@
+uuid: 53a65915-1b0d-4480-871d-04066707bd25
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: share_card
+label: 'Share Card'
+effects:
+  8a2143d9-7030-4889-b607-16afc9fdbcb8:
+    uuid: 8a2143d9-7030-4889-b607-16afc9fdbcb8
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 1200
+      height: 630
+      crop_type: focal_point

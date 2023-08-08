@@ -5,9 +5,11 @@ dependencies:
   config:
     - config_pages.type.site_settings
     - field.field.config_pages.site_settings.field_frontend_url
+    - field.field.config_pages.site_settings.field_share_image
     - field.field.config_pages.site_settings.field_social
   module:
     - link
+    - media_library
     - paragraphs
 id: config_pages.site_settings.default
 targetEntityType: config_pages
@@ -21,6 +23,13 @@ content:
     settings:
       placeholder_url: ''
       placeholder_title: ''
+    third_party_settings: {  }
+  field_share_image:
+    type: media_library_widget
+    weight: 2
+    region: content
+    settings:
+      media_types: {  }
     third_party_settings: {  }
   field_social:
     type: paragraphs

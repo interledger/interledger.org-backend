@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.talk.field_description
     - field.field.node.talk.field_duration
     - field.field.node.talk.field_header
+    - field.field.node.talk.field_seo_description
     - field.field.node.talk.field_speakers
     - field.field.node.talk.field_teaser
     - node.type.talk
@@ -38,5 +39,6 @@ hidden:
   field_description: true
   field_duration: true
   field_header: true
+  field_seo_description: true
   field_speakers: true
   field_teaser: true

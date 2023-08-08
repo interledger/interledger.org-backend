@@ -11,6 +11,7 @@ dependencies:
     - paragraphs.paragraphs_type.hero_header
   module:
     - media_library
+    - media_library_edit
 id: paragraph.hero_header.default
 targetEntityType: paragraph
 bundle: hero_header
@@ -24,7 +25,7 @@ content:
       media_types: {  }
     third_party_settings:
       media_library_edit:
-        show_edit: '0'
+        show_edit: '1'
   field_title:
     type: string_textfield
     weight: 2
@@ -39,7 +40,9 @@ content:
     region: content
     settings:
       media_types: {  }
-    third_party_settings: {  }
+    third_party_settings:
+      media_library_edit:
+        show_edit: '1'
   field_when_text:
     type: string_textfield
     weight: 4
