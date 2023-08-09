@@ -65,7 +65,6 @@ entity_config:
       enabled: true
     image_full_width:
       enabled: true
-      query_load_enabled: true
     image_gallery:
       enabled: true
     large_callout_text:
@@ -235,6 +234,9 @@ field_config:
       field_video:
         enabled: true
     news_listings:
+      field_news_latest_view:
+        enabled: true
+        viewfield_query: true
       field_news_view:
         enabled: true
         viewfield_query: true

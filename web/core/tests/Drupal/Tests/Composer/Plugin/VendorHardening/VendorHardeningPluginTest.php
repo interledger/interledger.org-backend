@@ -58,10 +58,12 @@ class VendorHardeningPluginTest extends TestCase {
       ->willReturn(vfsStream::url('vendor/drupal/package'));
 
     $ref_config = new \ReflectionProperty($plugin, 'config');
+    $ref_config->setAccessible(TRUE);
     $ref_config->setValue($plugin, $config);
 
     $io = $this->prophesize(IOInterface::class);
     $ref_io = new \ReflectionProperty($plugin, 'io');
+    $ref_io->setAccessible(TRUE);
     $ref_io->setValue($plugin, $io->reveal());
 
     $this->assertFileExists(vfsStream::url('vendor/drupal/package/tests/SomeTest.php'));
@@ -87,6 +89,7 @@ class VendorHardeningPluginTest extends TestCase {
 
     $io = $this->prophesize(IOInterface::class);
     $ref_io = new \ReflectionProperty($plugin, 'io');
+    $ref_io->setAccessible(TRUE);
     $ref_io->setValue($plugin, $io->reveal());
 
     $this->assertFileExists(vfsStream::url('vendor/drupal/package/tests/SomeTest.php'));
@@ -95,6 +98,7 @@ class VendorHardeningPluginTest extends TestCase {
     $package->getName()->willReturn('drupal/package');
 
     $ref_clean = new \ReflectionMethod($plugin, 'cleanPathsForPackage');
+    $ref_clean->setAccessible(TRUE);
     $ref_clean->invokeArgs($plugin, [$package->reveal(), ['tests']]);
 
     $this->assertFileDoesNotExist(vfsStream::url('vendor/drupal/package/tests'));
@@ -129,9 +133,11 @@ class VendorHardeningPluginTest extends TestCase {
 
     $io = $this->prophesize(IOInterface::class);
     $ref_io = new \ReflectionProperty($plugin, 'io');
+    $ref_io->setAccessible(TRUE);
     $ref_io->setValue($plugin, $io->reveal());
 
     $ref_config = new \ReflectionProperty($plugin, 'config');
+    $ref_config->setAccessible(TRUE);
     $ref_config->setValue($plugin, $config);
 
     $this->assertFileExists(vfsStream::url('vendor/drupal/package/tests/SomeTest.php'));
@@ -225,6 +231,7 @@ class VendorHardeningPluginTest extends TestCase {
       ->getMock();
 
     $ref_find_bin_overlap = new \ReflectionMethod($plugin, 'findBinOverlap');
+    $ref_find_bin_overlap->setAccessible(TRUE);
 
     $this->assertSame($expected, $ref_find_bin_overlap->invokeArgs($plugin, [$binaries, $clean_paths]));
   }

@@ -363,6 +363,7 @@ class LocaleLookupTest extends UnitTestCase {
 
     $o = new \ReflectionObject($locale_lookup);
     $method = $o->getMethod('getCid');
+    $method->setAccessible(TRUE);
     $cid = $method->invoke($locale_lookup, 'getCid');
 
     $this->assertEquals($expected, $cid);

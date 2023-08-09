@@ -60,6 +60,7 @@ class ForumBreadcrumbBuilderBaseTest extends UnitTestCase {
     // Test that the constructor made a config object with our info in it.
     $reflector = new \ReflectionClass($builder);
     $ref_property = $reflector->getProperty('config');
+    $ref_property->setAccessible(TRUE);
     $config = $ref_property->getValue($builder);
     $this->assertEquals('IAmATestValue', $config->get('IAmATestKey'));
   }

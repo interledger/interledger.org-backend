@@ -163,6 +163,7 @@ class BuildTestTest extends BuildTestBase {
 
     // Get the process object for the server.
     $ref_process = new \ReflectionProperty(parent::class, 'serverProcess');
+    $ref_process->setAccessible(TRUE);
     $first_process = $ref_process->getValue($this);
 
     // Standing up the server again should not change the server process.

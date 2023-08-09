@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\comment\Functional;
 
-use Drupal\comment\CommentInterface;
 use Drupal\comment\CommentManagerInterface;
 use Drupal\comment\Entity\Comment;
 
@@ -90,7 +89,7 @@ class CommentStatisticsTest extends CommentTestBase {
     $this->drupalLogout();
 
     // Ensure that the poster can leave some contact info.
-    $this->setCommentAnonymous(CommentInterface::ANONYMOUS_MAY_CONTACT);
+    $this->setCommentAnonymous('1');
 
     // Post comment #2 as anonymous (comment approval enabled).
     $this->drupalGet('comment/reply/node/' . $this->node->id() . '/comment');

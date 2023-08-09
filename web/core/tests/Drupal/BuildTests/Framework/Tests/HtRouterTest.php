@@ -16,8 +16,7 @@ class HtRouterTest extends QuickStartTestBase {
    * @covers ::instantiateServer
    */
   public function testHtRouter() {
-    $sqlite = (new \PDO('sqlite::memory:'))->query('select sqlite_version()')->fetch()[0];
-    if (version_compare($sqlite, Tasks::SQLITE_MINIMUM_VERSION) < 0) {
+    if (version_compare(\SQLite3::version()['versionString'], Tasks::SQLITE_MINIMUM_VERSION) < 0) {
       $this->markTestSkipped();
     }
 
