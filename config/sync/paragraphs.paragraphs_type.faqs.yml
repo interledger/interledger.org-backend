@@ -1,0 +1,16 @@
+uuid: 2562d01d-658f-4528-8625-74c4708ec76b
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: faqs
+label: FAQs
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
