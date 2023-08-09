@@ -23,6 +23,7 @@ class EntityResourceValidationTraitTest extends UnitTestCase {
     $trait = new EntityResourceValidationTraitTestClass();
 
     $method = new \ReflectionMethod($trait, 'validate');
+    $method->setAccessible(TRUE);
 
     $violations = $this->prophesize(EntityConstraintViolationList::class);
     $violations->filterByFieldAccess()->shouldBeCalled()->willReturn([]);
@@ -62,6 +63,7 @@ class EntityResourceValidationTraitTest extends UnitTestCase {
     $trait = new EntityResourceValidationTraitTestClass();
 
     $method = new \ReflectionMethod($trait, 'validate');
+    $method->setAccessible(TRUE);
 
     $this->expectException(UnprocessableEntityHttpException::class);
 

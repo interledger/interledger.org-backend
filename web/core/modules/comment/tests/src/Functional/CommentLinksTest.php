@@ -83,6 +83,7 @@ class CommentLinksTest extends CommentTestBase {
 
     // Change comment settings.
     $this->setCommentSettings('form_location', CommentItemInterface::FORM_BELOW, 'Set comment form location');
+    $this->setCommentAnonymous(TRUE);
     $this->node->comment = CommentItemInterface::OPEN;
     $this->node->save();
 

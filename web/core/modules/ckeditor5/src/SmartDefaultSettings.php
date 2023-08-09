@@ -125,6 +125,7 @@ final class SmartDefaultSettings {
       // @todo Remove in https://www.drupal.org/project/drupal/issues/3231347.
       $reflector = new \ReflectionObject($text_editor);
       $property = $reflector->getProperty('filterFormat');
+      $property->setAccessible(TRUE);
       $property->setValue($text_editor, $text_format);
     }
 

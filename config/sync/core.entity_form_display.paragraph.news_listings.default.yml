@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.news_listings.field_news_latest_view
     - field.field.paragraph.news_listings.field_news_view
     - paragraphs.paragraphs_type.news_listings
   module:
@@ -12,6 +13,12 @@ targetEntityType: paragraph
 bundle: news_listings
 mode: default
 content:
+  field_news_latest_view:
+    type: viewfield_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_news_view:
     type: viewfield_select
     weight: 0

@@ -4,13 +4,9 @@ namespace Drupal\field_ui\Form;
 
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
-use Drupal\Core\Entity\FieldableEntityInterface;
-use Drupal\Core\Entity\Plugin\DataType\EntityAdapter;
 use Drupal\Core\Field\FieldFilteredMarkup;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
-use Drupal\Core\TypedData\TypedDataInterface;
-use Drupal\Core\TypedData\TypedDataManagerInterface;
 use Drupal\Core\Url;
 use Drupal\field\FieldConfigInterface;
 use Drupal\field_ui\FieldUI;
@@ -42,10 +38,8 @@ class FieldConfigEditForm extends EntityForm {
    *
    * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
    *   The entity type bundle info service.
-   * @param \Drupal\Core\TypedData\TypedDataManagerInterface $typedDataManager
-   *   The type data manger.
    */
-  public function __construct(EntityTypeBundleInfoInterface $entity_type_bundle_info, protected TypedDataManagerInterface $typedDataManager) {
+  public function __construct(EntityTypeBundleInfoInterface $entity_type_bundle_info) {
     $this->entityTypeBundleInfo = $entity_type_bundle_info;
   }
 
@@ -54,8 +48,7 @@ class FieldConfigEditForm extends EntityForm {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity_type.bundle.info'),
-      $container->get('typed_data_manager')
+      $container->get('entity_type.bundle.info')
     );
   }
 
@@ -114,7 +107,7 @@ class FieldConfigEditForm extends EntityForm {
       'entity_id' => NULL,
     ];
     $form['#entity'] = _field_create_entity_from_ids($ids);
-    $items = $this->getTypedData($form['#entity']);
+    $items = $form['#entity']->get($this->entity->getName());
     $item = $items->first() ?: $items->appendItem();
 
     // Add field settings for the field type and a container for third party
@@ -128,10 +121,6 @@ class FieldConfigEditForm extends EntityForm {
       '#tree' => TRUE,
       '#weight' => 11,
     ];
-
-    // Create a new instance of typed data for the field to ensure that default
-    // value widget is always rendered from a clean state.
-    $items = $this->getTypedData($form['#entity']);
 
     // Add handling for default value.
     if ($element = $items->defaultValuesForm($form, $form_state)) {
@@ -230,15 +219,9 @@ class FieldConfigEditForm extends EntityForm {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     parent::validateForm($form, $form_state);
 
-    // Before proceeding validation, rebuild the entity to make sure it's
-    // up-to-date. This is needed because element validators may update form
-    // state, and other validators use the entity for validating the field.
-    // @todo remove in https://www.drupal.org/project/drupal/issues/3372934.
-    $this->entity = $this->buildEntity($form, $form_state);
-
     if (isset($form['default_value']) && (!isset($form['set_default_value']) || $form_state->getValue('set_default_value'))) {
-      $items = $this->getTypedData($form['#entity']);
-      $items->defaultValuesFormValidate($form['default_value'], $form, $form_state);
+      $item = $form['#entity']->get($this->entity->getName());
+      $item->defaultValuesFormValidate($form['default_value'], $form, $form_state);
     }
   }
 
@@ -251,7 +234,7 @@ class FieldConfigEditForm extends EntityForm {
     // Handle the default value.
     $default_value = [];
     if (isset($form['default_value']) && (!isset($form['set_default_value']) || $form_state->getValue('set_default_value'))) {
-      $items = $this->getTypedData($form['#entity']);
+      $items = $form['#entity']->get($this->entity->getName());
       $default_value = $items->defaultValuesFormSubmit($form['default_value'], $form, $form_state);
     }
     $this->entity->setDefaultValue($default_value);
@@ -286,19 +269,6 @@ class FieldConfigEditForm extends EntityForm {
    */
   public function getTitle(FieldConfigInterface $field_config) {
     return $field_config->label();
-  }
-
-  /**
-   * Gets typed data object for the field.
-   *
-   * @param \Drupal\Core\Entity\FieldableEntityInterface $parent
-   *   The parent entity that the field is attached to.
-   *
-   * @return \Drupal\Core\TypedData\TypedDataInterface
-   */
-  private function getTypedData(FieldableEntityInterface $parent): TypedDataInterface {
-    $entity_adapter = EntityAdapter::createFromEntity($parent);
-    return $this->typedDataManager->create($this->entity, $this->entity->getDefaultValue($parent), $this->entity->getName(), $entity_adapter);
   }
 
 }

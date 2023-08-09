@@ -103,11 +103,6 @@ class EntityReferenceAutocompleteWidget extends WidgetBase {
       'match_limit' => $this->getSetting('match_limit'),
     ];
 
-    // Append the entity if it is already created.
-    if (!$entity->isNew()) {
-      $selection_settings['entity'] = $entity;
-    }
-
     $element += [
       '#type' => 'entity_autocomplete',
       '#target_type' => $this->getFieldSetting('target_type'),

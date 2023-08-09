@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @coversDefaultClass \Drupal\Core\TypedData\Validation\RecursiveContextualValidator
- * @group TypedData
+ * @group typedData
  */
 class RecursiveContextualValidatorTest extends UnitTestCase {
 

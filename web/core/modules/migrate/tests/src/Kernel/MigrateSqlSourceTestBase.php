@@ -91,6 +91,7 @@ abstract class MigrateSqlSourceTestBase extends MigrateSourceTestBase {
     // reflection hack to set it in the plugin instance.
     $reflector = new \ReflectionObject($plugin);
     $property = $reflector->getProperty('database');
+    $property->setAccessible(TRUE);
     $property->setValue($plugin, $this->getDatabase($source_data));
 
     /** @var MemoryCounterBackend $cache **/
@@ -98,6 +99,7 @@ abstract class MigrateSqlSourceTestBase extends MigrateSourceTestBase {
     if ($expected_cache_key) {
       // Verify the computed cache key.
       $property = $reflector->getProperty('cacheKey');
+      $property->setAccessible(TRUE);
       $this->assertSame($expected_cache_key, $property->getValue($plugin));
 
       // Cache miss prior to calling ::count().

@@ -788,6 +788,7 @@ class FormBuilderTest extends FormTestBase {
    */
   public function testValueCallableIsSafe($callback, $expected) {
     $method = new \ReflectionMethod(FormBuilder::class, 'valueCallableIsSafe');
+    $method->setAccessible(TRUE);
     $is_safe = $method->invoke($this->formBuilder, $callback);
     $this->assertSame($expected, $is_safe);
   }
@@ -838,6 +839,7 @@ class FormBuilderTest extends FormTestBase {
     $current_user = $this->prophesize(AccountInterface::class);
     $current_user->isAuthenticated()->willReturn($user_is_authenticated);
     $property = new \ReflectionProperty(FormBuilder::class, 'currentUser');
+    $property->setAccessible(TRUE);
     $property->setValue($this->formBuilder, $current_user->reveal());
 
     $expected_form = $form_id();

@@ -3,12 +3,25 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.news_listings.field_news_latest_view
     - field.field.paragraph.news_listings.field_news_view
     - paragraphs.paragraphs_type.news_listings
+  module:
+    - viewfield
 id: paragraph.news_listings.default
 targetEntityType: paragraph
 bundle: news_listings
 mode: default
-content: {  }
+content:
+  field_news_latest_view:
+    type: viewfield_default
+    label: above
+    settings:
+      view_title: hidden
+      always_build_output: false
+      empty_view_title: hidden
+    third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   field_news_view: true
