@@ -53,6 +53,10 @@ entity_config:
       enabled: true
     content_title:
       enabled: true
+    faq:
+      enabled: true
+    faqs:
+      enabled: true
     hero_header:
       enabled: true
     highlighted_list:
@@ -195,6 +199,14 @@ field_config:
         enabled: true
     content_title:
       field_title:
+        enabled: true
+    faq:
+      field_answer:
+        enabled: true
+      field_question:
+        enabled: true
+    faqs:
+      field_faqs:
         enabled: true
     hero_header:
       field_single_image:

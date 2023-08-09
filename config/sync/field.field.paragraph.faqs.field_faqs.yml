@@ -1,0 +1,112 @@
+uuid: a9942d25-187f-4f6a-8b88-608e9086b9fe
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_faqs
+    - paragraphs.paragraphs_type.faq
+    - paragraphs.paragraphs_type.faqs
+  module:
+    - entity_reference_revisions
+id: paragraph.faqs.field_faqs
+field_name: field_faqs
+entity_type: paragraph
+bundle: faqs
+label: FAQs
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      faq: faq
+    negate: 0
+    target_bundles_drag_drop:
+      button:
+        weight: 29
+        enabled: false
+      carousel_item:
+        weight: 30
+        enabled: false
+      content_carousel:
+        weight: 31
+        enabled: false
+      content_title:
+        weight: 32
+        enabled: false
+      faq:
+        weight: 33
+        enabled: true
+      faqs:
+        weight: 34
+        enabled: false
+      hero_header:
+        weight: 35
+        enabled: false
+      highlighted_list:
+        weight: 36
+        enabled: false
+      highlighted_speakers:
+        weight: 37
+        enabled: false
+      image:
+        weight: 38
+        enabled: false
+      image_carousel:
+        weight: 39
+        enabled: false
+      image_full_width:
+        weight: 40
+        enabled: false
+      image_gallery:
+        weight: 41
+        enabled: false
+      large_callout_text:
+        weight: 42
+        enabled: false
+      media_header:
+        weight: 43
+        enabled: false
+      news_listings:
+        weight: 44
+        enabled: false
+      schedule:
+        weight: 45
+        enabled: false
+      schedule_day:
+        weight: 46
+        enabled: false
+      social_media:
+        weight: 47
+        enabled: false
+      social_media_link:
+        weight: 48
+        enabled: false
+      spacer:
+        weight: 49
+        enabled: false
+      speakers_grid:
+        weight: 50
+        enabled: false
+      talk_header:
+        weight: 52
+        enabled: false
+      talks_grid:
+        weight: 51
+        enabled: false
+      teaser:
+        weight: 53
+        enabled: false
+      text:
+        weight: 54
+        enabled: false
+      two_column_content:
+        weight: 55
+        enabled: false
+      video:
+        weight: 56
+        enabled: false
+field_type: entity_reference_revisions
