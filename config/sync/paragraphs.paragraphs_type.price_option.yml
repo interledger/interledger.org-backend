@@ -1,0 +1,16 @@
+uuid: 5a46b1e4-aa47-4b0f-8f30-c8354502fe03
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: price_option
+label: 'Price Option'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

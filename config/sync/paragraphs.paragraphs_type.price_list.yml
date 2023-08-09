@@ -1,0 +1,16 @@
+uuid: 5989f335-9436-4d5d-a77d-eada9e0abf09
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: price_list
+label: 'Price List'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

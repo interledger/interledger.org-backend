@@ -1,0 +1,123 @@
+uuid: 20f46b68-d8eb-4461-a85d-d3db6db189e5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_options
+    - paragraphs.paragraphs_type.divider
+    - paragraphs.paragraphs_type.price
+    - paragraphs.paragraphs_type.price_option
+  module:
+    - entity_reference_revisions
+id: paragraph.price.field_options
+field_name: field_options
+entity_type: paragraph
+bundle: price
+label: Options
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      price_option: price_option
+      divider: divider
+    negate: 0
+    target_bundles_drag_drop:
+      button:
+        weight: -61
+        enabled: false
+      carousel_item:
+        weight: -60
+        enabled: false
+      content_carousel:
+        weight: -59
+        enabled: false
+      content_title:
+        weight: -58
+        enabled: false
+      divider:
+        weight: -62
+        enabled: true
+      faq:
+        weight: -57
+        enabled: false
+      faqs:
+        weight: -56
+        enabled: false
+      hero_header:
+        weight: -55
+        enabled: false
+      highlighted_list:
+        weight: -54
+        enabled: false
+      highlighted_speakers:
+        weight: -53
+        enabled: false
+      image:
+        weight: -52
+        enabled: false
+      image_carousel:
+        weight: -51
+        enabled: false
+      image_full_width:
+        weight: -50
+        enabled: false
+      image_gallery:
+        weight: -49
+        enabled: false
+      large_callout_text:
+        weight: -48
+        enabled: false
+      media_header:
+        weight: -47
+        enabled: false
+      news_listings:
+        weight: -46
+        enabled: false
+      price:
+        weight: -45
+        enabled: false
+      price_option:
+        weight: -63
+        enabled: true
+      schedule:
+        weight: -44
+        enabled: false
+      schedule_day:
+        weight: -43
+        enabled: false
+      social_media:
+        weight: -42
+        enabled: false
+      social_media_link:
+        weight: -41
+        enabled: false
+      spacer:
+        weight: -40
+        enabled: false
+      speakers_grid:
+        weight: -39
+        enabled: false
+      talk_header:
+        weight: -37
+        enabled: false
+      talks_grid:
+        weight: -38
+        enabled: false
+      teaser:
+        weight: -36
+        enabled: false
+      text:
+        weight: -35
+        enabled: false
+      two_column_content:
+        weight: -34
+        enabled: false
+      video:
+        weight: -33
+        enabled: false
+field_type: entity_reference_revisions

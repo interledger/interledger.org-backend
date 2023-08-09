@@ -1,0 +1,34 @@
+uuid: 3a6e8b93-43f7-46e5-a196-e062813571ff
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.price_list.field_prices_footer
+    - field.field.paragraph.price_list.field_prices_main
+    - paragraphs.paragraphs_type.price_list
+  module:
+    - entity_reference_revisions
+id: paragraph.price_list.default
+targetEntityType: paragraph
+bundle: price_list
+mode: default
+content:
+  field_prices_footer:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_prices_main:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

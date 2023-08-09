@@ -29,7 +29,7 @@ third_party_settings:
         classes: ''
         show_empty_fields: true
         id: ''
-        open: false
+        open: true
         description: ''
         required_fields: true
 id: node.foundation_page.default

@@ -15,6 +15,7 @@ dependencies:
     - paragraphs.paragraphs_type.image_gallery
     - paragraphs.paragraphs_type.large_callout_text
     - paragraphs.paragraphs_type.news_listings
+    - paragraphs.paragraphs_type.price_list
     - paragraphs.paragraphs_type.spacer
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.two_column_content
@@ -49,6 +50,7 @@ settings:
       content_carousel: content_carousel
       faqs: faqs
       news_listings: news_listings
+      price_list: price_list
     negate: 0
     target_bundles_drag_drop:
       button:
@@ -63,6 +65,9 @@ settings:
       content_title:
         weight: -46
         enabled: true
+      divider:
+        weight: 37
+        enabled: false
       faq:
         weight: 33
         enabled: false
@@ -99,6 +104,15 @@ settings:
       news_listings:
         weight: 40
         enabled: true
+      price:
+        weight: 50
+        enabled: false
+      price_list:
+        weight: 51
+        enabled: true
+      price_option:
+        weight: 52
+        enabled: false
       schedule:
         weight: -28
         enabled: false

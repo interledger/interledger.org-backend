@@ -1,0 +1,30 @@
+uuid: 98aae708-6d07-46f2-b199-958cca09a687
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.price_option.field_subtitle
+    - field.field.paragraph.price_option.field_title
+    - paragraphs.paragraphs_type.price_option
+id: paragraph.price_option.default
+targetEntityType: paragraph
+bundle: price_option
+mode: default
+content:
+  field_subtitle:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

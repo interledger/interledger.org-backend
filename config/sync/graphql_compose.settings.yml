@@ -53,6 +53,8 @@ entity_config:
       enabled: true
     content_title:
       enabled: true
+    divider:
+      enabled: true
     faq:
       enabled: true
     faqs:
@@ -78,6 +80,12 @@ entity_config:
     news_listings:
       enabled: true
       query_load_enabled: true
+    price:
+      enabled: true
+    price_list:
+      enabled: true
+    price_option:
+      enabled: true
     schedule:
       enabled: true
     schedule_day:
@@ -252,6 +260,25 @@ field_config:
       field_news_view:
         enabled: true
         viewfield_query: true
+    price:
+      field_menu_title:
+        enabled: true
+      field_options:
+        enabled: true
+      field_pricing:
+        enabled: true
+      field_title:
+        enabled: true
+    price_list:
+      field_prices_footer:
+        enabled: true
+      field_prices_main:
+        enabled: true
+    price_option:
+      field_subtitle:
+        enabled: true
+      field_title:
+        enabled: true
     schedule:
       field_days:
         enabled: true

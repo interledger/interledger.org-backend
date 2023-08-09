@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - filter.format.basic_html
+    - filter.format.simple_text_html
     - node.type.article
     - node.type.foundation_page
     - node.type.page
@@ -59,6 +60,7 @@ permissions:
   - 'revert speaker revisions'
   - 'revert talk revisions'
   - 'use text format basic_html'
+  - 'use text format simple_text_html'
   - 'view all revisions'
   - 'view article revisions'
   - 'view foundation_page revisions'

@@ -1,0 +1,19 @@
+uuid: 4d5a4263-35b3-49d2-8e6e-53ee3809a7d2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_subtitle
+    - paragraphs.paragraphs_type.price_option
+id: paragraph.price_option.field_subtitle
+field_name: field_subtitle
+entity_type: paragraph
+bundle: price_option
+label: Subtitle
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
