@@ -153,7 +153,8 @@ $settings['skip_permissions_hardening'] = TRUE;
  * the language or field module.
  */
 # $settings['config_exclude_modules'] = ['devel', 'stage_file_proxy'];
-# $settings['hash_salt'] = '25P5YZXmNg0ImP4bb7-7XnjQ9CC6bUWfsgiAjY8X6jgy4SwD5SDTelbdifOAuUIFZ3czzBgS0A';
+
+$settings['hash_salt'] = '25P5YZXmNg0ImP4bb7-7XnjQ9CC6bUWfsgiAjY8X6jgy4SwD5SDTelbdifOAuUIFZ3czzBgS0A';
 
 $databases['default']['default'] = array(
   'database' => 'drupal-headless-next',
@@ -171,7 +172,10 @@ $settings['config_sync_directory'] = '../config/sync';
 $settings['file_temp_path'] = '/tmp';
 
 $settings['trusted_host_patterns'] = [];
-$settings['aws.distributionid'] = 'E32BHMBWYE35TS';
-$settings['aws.region'] = 'us-east-1';
-$settings['s3fs.access_key'] = 'AKIAU2OQJMKDVUQ6VAXX';
-$settings['s3fs.secret_key'] = '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';
+
+$base_url = 'http://localhost:3000';
+
+// nextjs
+$config['next.next_site.client']['base_url'] = $base_url;
+$config['next.next_site.client']['preview_url'] = $base_url . '/api/preview';
+$config['next.next_site.client']['revalidate_url'] = $base_url . '/api/revalidate';
