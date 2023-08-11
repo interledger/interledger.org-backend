@@ -1,0 +1,39 @@
+uuid: fdb9953a-ddee-4d6f-a41c-fb1fe370b439
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.developer_tools.body
+    - field.field.node.developer_tools.field_sections
+    - node.type.developer_tools
+  module:
+    - entity_reference_revisions
+    - text
+    - user
+id: node.developer_tools.default
+targetEntityType: node
+bundle: developer_tools
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_sections:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

@@ -1,0 +1,24 @@
+uuid: c541531f-0842-44e8-adbe-91d6dcbdae5d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.developer_tools
+  module:
+    - text
+id: node.developer_tools.body
+field_name: body
+entity_type: node
+bundle: developer_tools
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary
