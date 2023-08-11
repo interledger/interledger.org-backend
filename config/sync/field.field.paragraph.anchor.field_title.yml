@@ -1,18 +1,18 @@
-uuid: 6b92c75a-c9d2-4909-82a5-e81b5d35cef0
+uuid: ad5f7a2c-4537-4fcf-9f9f-4aa2116ffc58
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_title
-    - paragraphs.paragraphs_type.hero_header
-id: paragraph.hero_header.field_title
+    - paragraphs.paragraphs_type.anchor
+id: paragraph.anchor.field_title
 field_name: field_title
 entity_type: paragraph
-bundle: hero_header
-label: 'Header Title'
+bundle: anchor
+label: Title
 description: ''
 required: true
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }

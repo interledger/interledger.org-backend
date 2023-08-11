@@ -1,0 +1,18 @@
+uuid: 6c337787-99f9-4d1a-9469-d18eb972d4e1
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - developer-tools
+    parent: 'developer-tools:'
+name: 'Developer Tools'
+type: developer_tools
+description: ''
+help: ''
+new_revision: true
+preview_mode: 0
+display_submitted: false

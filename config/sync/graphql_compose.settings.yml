@@ -18,6 +18,8 @@ entity_config:
     video:
       enabled: true
   menu:
+    developer-tools:
+      enabled: true
     footer:
       enabled: true
     interledger-foundation-footer:
@@ -30,6 +32,9 @@ entity_config:
       enabled: true
   node:
     article:
+      enabled: true
+      routes_enabled: true
+    developer_tools:
       enabled: true
       routes_enabled: true
     foundation_page:
@@ -45,6 +50,8 @@ entity_config:
       enabled: true
       routes_enabled: true
   paragraph:
+    anchor:
+      enabled: true
     button:
       enabled: true
     carousel_item:
@@ -147,6 +154,9 @@ field_config:
         enabled: true
       field_teaser:
         enabled: true
+    developer_tools:
+      field_sections:
+        enabled: true
     foundation_page:
       field_header:
         enabled: true
@@ -196,6 +206,9 @@ field_config:
       field_teaser:
         enabled: true
   paragraph:
+    anchor:
+      field_title:
+        enabled: true
     button:
       field_link:
         enabled: true

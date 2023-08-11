@@ -1,0 +1,22 @@
+uuid: 8165acdc-95e2-40ba-b791-029ab303cf58
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: developer_tools
+label: 'Developer Tools'
+type: 'canonical_entities:node'
+pattern: 'developer-tools/[node:menu-link:parents]/[node:title]'
+selection_criteria:
+  f5cc55e6-104f-4159-bad5-ece5d0702e8c:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: f5cc55e6-104f-4159-bad5-ece5d0702e8c
+    context_mapping:
+      node: node
+    bundles:
+      developer_tools: developer_tools
+selection_logic: and
+weight: -5
+relationships: {  }
