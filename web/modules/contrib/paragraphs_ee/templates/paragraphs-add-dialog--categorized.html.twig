@@ -8,33 +8,42 @@
 #}
 {{ add }}
 <div {{ wrapper_attributes }}>
-  <div class="dialog-header clearfix">
-    <div class="filter js-hide" role="search">
-      <input type="search" class="item-filter text-full form-text" placeholder="{{ filter_placeholder }}" aria-label="{{ filter_placeholder }}" />
-      <div class="search-description">
-        <label title="{{ "Include description when searching"|t }}"><input type="checkbox" name="search_description" value="1" aria-label="{{ "Include description when searching"|t }}" />{{ "Include description when searching"|t }}</label>
+  <div {{ dialog_attributes }}>
+    <div class="paragraphs-ee-category-list-wrapper">
+      <div class="filter js-hide" role="search">
+        <input type="search" class="item-filter text-full form-text" placeholder="{{ filter_placeholder }}" aria-label="{{ filter_description }}" autofocus />
+      </div>
+      {% if categories|length > 1 %}
+        <label class="paragraphs-ee-category-toggle-label" aria-haspopup="true"><input class="paragraphs-ee-category-toggle" type="checkbox" />{{- 'Categories'|t -}}</label>
+        <ul class="paragraphs-ee-category-list clearfix" aria-expanded="false">
+          {% for category in categories %}
+            <li class="paragraphs-ee-category-list-item{% if category.id == 'all' %} paragraphs-ee-category-list-item__all is-selected{% endif -%}">
+              <a href="#{{- category.id -}}" class="paragraphs-ee-category-list-item-link" title="{{- category.link_title -}}">{{- category.title -}}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+    <div class="paragraphs-ee-actions-wrapper clearfix is-hidden">
+      <button type="button" class="display-toggle style-list" title="{{ "Display Paragraphs as list"|t }}" aria-label="{{ "Display Paragraphs as list"|t }}">list</button>
+      <button type="button" class="display-toggle style-tiles" title="{{ "Display Paragraphs as tiles"|t }}" aria-label="{{ "Display Paragraphs as tiles"|t }}">tiles</button>
+    </div>
+    <div class="paragraphs-ee-button-wrapper">
+      <div class="paragraphs-ee-buttons">
+        {% for category_id, group in groups %}
+          <div class="button-group clearfix" role="group"{% if categories[category_id].id %} aria-labelledby="{{ categories[category_id].id }}--label"{% if categories[category_id].description|length %} aria-describedby="{{- categories[category_id].id -}}--description"{% endif %} id="{{- categories[category_id].id -}}"{% endif %}>
+            <div{% if categories[category_id].id %} id="{{- categories[category_id].id -}}--label"{% endif %} class="category-title">{{ categories[category_id].title }}</div>
+            {% if categories[category_id].description|length %}
+              <div{% if categories[category_id].id %} id="{{- categories[category_id].id -}}--description"{% endif %} class="summary">{{ categories[category_id].description }}</div>
+            {% endif %}
+            <ul class="paragraphs-ee-buttons-list">
+              {% for button in group %}
+                {{ button }}
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
       </div>
     </div>
-    <button type="button" class="display-toggle style-list" title="{{ "Display Paragraphs as list"|t }}">list</button>
-    <button type="button" class="display-toggle style-tiles" title="{{ "Display Paragraphs as tiles"|t }}">tiles</button>
-  </div>
-  <div {{ dialog_attributes }}>
-    {% if (add_mode|default('modal') != 'off_canvas') %}
-      {% for category_id, group in groups %}
-        <div class="button-group clearfix" role="group"{% if categories[category_id].id %} aria-labelledby="{{ categories[category_id].id }}--label" aria-describedby="{{- categories[category_id].id -}}--description"{% endif %}>
-          <div{% if categories[category_id].id %} id="{{- categories[category_id].id -}}--label"{% endif %} class="category-title">{{ categories[category_id].title }}</div>
-          {% if categories[category_id].description|length %}
-            <summary{% if categories[category_id].id %} id="{{- categories[category_id].id -}}--description"{% endif %} class="summary">{{ categories[category_id].description }}</summary>
-          {% endif %}
-          <ul class="paragraphs-add-dialog-list">
-            {% for button in group %}
-              <li class="paragraphs-add-dialog-row">
-                {{ button }}
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endfor %}
-    {% endif %}
   </div>
 </div>

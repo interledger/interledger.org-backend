@@ -1,0 +1,54 @@
+uuid: e2b04a3f-878f-4714-adc0-fcfc08596927
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_news_view
+    - paragraphs.paragraphs_type.news_listings
+    - views.view.news
+  module:
+    - viewfield
+id: paragraph.news_listings.field_news_view
+field_name: field_news_view
+entity_type: paragraph
+bundle: news_listings
+label: 'News View'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    target_uuid: e7a6cb86-5062-4f97-a849-e38c01ce1052
+    display_id: graphql_1
+    arguments: ''
+    items_to_display: ''
+    token_help: ''
+default_value_callback: ''
+settings:
+  force_default: true
+  allowed_views:
+    news: news
+    content: '0'
+    block_content: '0'
+    files: '0'
+    media: '0'
+    media_library: '0'
+    news_latest: '0'
+    node_paths_graphql: '0'
+    user_admin_people: '0'
+    content_recent: '0'
+    speakers: '0'
+    talks: '0'
+    taxonomy_term: '0'
+    watchdog: '0'
+    who_s_new: '0'
+    who_s_online: '0'
+  allowed_display_types:
+    graphql: graphql
+    block: '0'
+    default: '0'
+    feed: '0'
+    page: '0'
+  handler: 'default:view'
+  handler_settings: {  }
+field_type: viewfield

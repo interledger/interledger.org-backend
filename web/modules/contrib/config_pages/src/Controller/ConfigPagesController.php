@@ -166,7 +166,7 @@ class ConfigPagesController extends ControllerBase {
    *   A form array as expected by drupal_render().
    */
   public function clearConfirmation(ConfigPagesInterface $config_pages) {
-    return \Drupal::formBuilder()->getForm('Drupal\config_pages\Form\ConfigPagesClearConfirmationForm', $config_pages);
+    return \Drupal::formBuilder()->getForm('Drupal\config_pages\Form\ConfigPagesClearConfirmationForm', $config_pages->id());
   }
 
   /**

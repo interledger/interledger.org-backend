@@ -8,7 +8,7 @@ use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeSchemaTypeBase;
 use GraphQL\Type\Definition\CustomScalarType;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "Time",
@@ -17,7 +17,7 @@ use GraphQL\Type\Definition\CustomScalarType;
 class TimeType extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];

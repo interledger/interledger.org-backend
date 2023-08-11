@@ -5,22 +5,25 @@ declare(strict_types=1);
 namespace Drupal\graphql_compose_fragments\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\graphql\Entity\ServerInterface;
 use Drupal\graphql_compose\Plugin\GraphQLComposeEntityTypeManager;
 use Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\TypeWithFields;
 use GraphQL\Type\Definition\UnionType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Controller for the GraphiQL query builder IDE.
+ * Controller for the GraphQL Compose fragment controller.
  */
 class FragmentController extends ControllerBase {
 
   /**
    * Construct a new Fragment Controller.
+   *
+   * @param \Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager $gqlSchemaTypeManager
+   *   The GraphQL Compose schema type manager.
+   * @param \Drupal\graphql_compose\Plugin\GraphQLComposeEntityTypeManager $gqlEntityTypeManager
+   *   The GraphQL Compose entity type manager.
    */
   public function __construct(
     protected GraphQLComposeSchemaTypeManager $gqlSchemaTypeManager,
@@ -38,17 +41,12 @@ class FragmentController extends ControllerBase {
   }
 
   /**
-   * Controller for the GraphiQL query builder IDE.
-   *
-   * @param \Drupal\graphql\Entity\ServerInterface $graphql_server
-   *   The server.
-   * @param \Symfony\Component\HttpFoundation\Request $request
-   *   The request.
+   * Show fragments.
    *
    * @return array
    *   The render array.
    */
-  public function show(ServerInterface $graphql_server, Request $request) {
+  public function show() {
 
     $types = [
       'unions' => [],
@@ -96,7 +94,7 @@ class FragmentController extends ControllerBase {
       }
     }
 
-    // Sort multidimentional array by key.
+    // Sort multi dimensional array by key.
     foreach ($types as &$type) {
       ksort($type);
     }

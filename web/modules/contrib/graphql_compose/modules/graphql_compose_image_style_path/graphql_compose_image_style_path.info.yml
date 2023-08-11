@@ -1,9 +1,0 @@
-name: "GraphQL Compose: Image Styles with path"
-description: "Enable image styles on image entities with path"
-type: module
-core_version_requirement: ^9 || ^10
-dependencies:
-  - graphql_compose:graphql_compose
-  - core:image
-package: GraphQL Compose
-hidden: false

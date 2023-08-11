@@ -6,8 +6,11 @@ dependencies:
     - field.storage.node.field_sections
     - node.type.article
     - paragraphs.paragraphs_type.button
+    - paragraphs.paragraphs_type.content_title
+    - paragraphs.paragraphs_type.image_full_width
     - paragraphs.paragraphs_type.spacer
     - paragraphs.paragraphs_type.text
+    - paragraphs.paragraphs_type.two_column_content
   module:
     - entity_reference_revisions
 id: node.article.field_sections
@@ -27,15 +30,84 @@ settings:
       text: text
       button: button
       spacer: spacer
+      content_title: content_title
+      image_full_width: image_full_width
+      two_column_content: two_column_content
     negate: 0
     target_bundles_drag_drop:
       button:
         weight: -6
         enabled: true
+      carousel_item:
+        weight: 27
+        enabled: false
+      content_carousel:
+        weight: 28
+        enabled: false
+      content_title:
+        weight: 29
+        enabled: true
+      hero_header:
+        weight: 30
+        enabled: false
+      highlighted_list:
+        weight: 31
+        enabled: false
+      highlighted_speakers:
+        weight: 32
+        enabled: false
+      image:
+        weight: 33
+        enabled: false
+      image_carousel:
+        weight: 34
+        enabled: false
+      image_full_width:
+        weight: 35
+        enabled: true
+      image_gallery:
+        weight: 36
+        enabled: false
+      large_callout_text:
+        weight: 37
+        enabled: false
+      media_header:
+        weight: 38
+        enabled: false
+      schedule:
+        weight: 39
+        enabled: false
+      schedule_day:
+        weight: 40
+        enabled: false
+      social_media:
+        weight: 41
+        enabled: false
+      social_media_link:
+        weight: 42
+        enabled: false
       spacer:
         weight: -5
         enabled: true
+      speakers_grid:
+        weight: 44
+        enabled: false
+      talk_header:
+        weight: 46
+        enabled: false
+      talks_grid:
+        weight: 45
+        enabled: false
+      teaser:
+        weight: 47
+        enabled: false
       text:
         weight: -7
         enabled: true
+      two_column_content:
+        weight: 49
+        enabled: true
+      video:
+        weight: 50
+        enabled: false
 field_type: entity_reference_revisions

@@ -8,7 +8,7 @@ _core:
   default_config_hash: P8ddpAIKtawJDi5SzOwCzVnnNYqONewSTJ6Xn0dW_aQ
 name: 'Basic HTML'
 format: basic_html
-weight: 0
+weight: -10
 filters:
   filter_html:
     id: filter_html
@@ -16,7 +16,7 @@ filters:
     status: true
     weight: -10
     settings:
-      allowed_html: '<br> <p> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <cite> <dl> <dt> <dd> <span> <img src alt height width data-entity-type data-entity-uuid data-align data-caption> <blockquote cite> <ul type> <ol type start> <a hreflang href> <strong> <em> <code> <li>'
+      allowed_html: '<br> <p> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <cite> <dl> <dt> <dd> <span> <img src alt height width data-entity-type data-entity-uuid data-align data-caption> <blockquote cite> <ul type> <ol type start> <a hreflang href> <strong> <em> <code class="language-*"> <pre> <li> <table> <tr> <td rowspan colspan> <th rowspan colspan> <thead> <tbody> <tfoot> <caption>'
       filter_html_help: false
       filter_html_nofollow: false
   filter_align:
@@ -61,4 +61,10 @@ filters:
     provider: filter
     status: true
     weight: 10
+    settings: {  }
+  filter_image_lazy_load:
+    id: filter_image_lazy_load
+    provider: filter
+    status: true
+    weight: 12
     settings: {  }

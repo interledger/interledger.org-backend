@@ -6,12 +6,12 @@ namespace Drupal\graphql_compose\Plugin\GraphQLCompose\FieldType;
 
 use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\Core\Field\FieldItemInterface;
-use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
-use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerTrait;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerItemInterface;
+use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerTrait;
+use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeFieldType(
  *   id = "tablefield",
@@ -32,7 +32,7 @@ class TableFieldItem extends GraphQLComposeFieldTypeBase implements FieldProduce
 
     $rows = [];
 
-    // Seperate weight and data.
+    // Separate weight and data.
     foreach ($values as $value) {
       $rows[] = [
         'weight' => $value['weight'] ?? 0,
@@ -42,8 +42,8 @@ class TableFieldItem extends GraphQLComposeFieldTypeBase implements FieldProduce
 
     return [
       'caption' => $item->caption ?: NULL,
-      'rows'    => $rows,
-      'format'  => $item->format ?? NULL,
+      'rows' => $rows,
+      'format' => $item->format ?? NULL,
     ];
   }
 

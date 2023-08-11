@@ -17,7 +17,7 @@
     <div {{ icon_attributes }}></div>
   {% endif %}
   {% if title %}
-    <div class="paragraphs-label" title="{{- title -}}">{{- title -}}</div>
+    <div class="paragraphs-label"{% if label_id %} id="{{ label_id }}"{% endif %}>{{- title -}}</div>
   {% endif %}
   {% if description %}
     <div class="paragraphs-description"{% if description_id %} id="{{ description_id }}"{% endif %}>{{- description -}}</div>

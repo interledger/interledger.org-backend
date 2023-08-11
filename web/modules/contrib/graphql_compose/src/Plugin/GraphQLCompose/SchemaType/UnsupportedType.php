@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "UnsupportedType",
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class UnsupportedType extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];

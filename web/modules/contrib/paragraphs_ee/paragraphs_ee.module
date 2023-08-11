@@ -100,6 +100,10 @@ function paragraphs_ee_field_widget_complete_form_alter(array &$field_widget_com
     return;
   }
 
+  if ($form_state->get('paragraphs_ee-add_mode') === 'off_canvas') {
+    unset($elements['add_more']['add_modal_form_area']);
+  }
+
   /** @var \Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList $items */
   $items = $context['items'];
 
@@ -163,6 +167,7 @@ function paragraphs_ee_field_widget_complete_form_alter(array &$field_widget_com
       $button['#id'] = Html::getUniqueId($button['#id']);
       $button_new_id = strtr(Html::getUniqueId($button_id), ['-' => '_']);
       $button['#name'] .= '__' . $buttons_ref[$button_id];
+      $button['#attributes']['data-paragraphs-ee-button-clone'] = '';
       // Add clone of button to add_more-element.
       $elements['add_more'][$button_new_id] = $button;
       // Store category for later use.
@@ -206,12 +211,12 @@ function paragraphs_ee_field_widget_complete_form_alter(array &$field_widget_com
   ];
   $elements['add_more']['#dialog_attributes'] = new Attribute();
   $elements['add_more']['#dialog_attributes']['class'] = [
+    'clearfix',
     'paragraphs-add-dialog',
     'paragraphs-add-dialog--categorized',
   ];
 
   if (!empty($widget_third_party_settings['dialog_style']) && ('tiles' !== $widget_third_party_settings['dialog_style'])) {
-    $elements['add_more']['#wrapper_attributes']['class'][] = 'paragraphs-style-' . $widget_third_party_settings['dialog_style'];
     $elements['#attached']['drupalSettings']['paragraphs_ee']['dialog_style'] = $widget_third_party_settings['dialog_style'];
     $elements['add_more']['#dialog_attributes']['class'][] = 'paragraphs-style-' . $widget_third_party_settings['dialog_style'];
   }
@@ -299,20 +304,35 @@ function template_preprocess_paragraphs_add_dialog__categorized(&$variables) {
   // Sort the entities using the entity class's sort() method.
   // See \Drupal\Core\Config\Entity\ConfigEntityBase::sort().
   uasort($paragraphs_categories, [ParagraphsCategory::class, 'sort']);
+  $category_translation_arguments = [
+    '@title' => $variables['element']['#dialog_attributes']['data-widget-title'],
+    '@title_plural' => $variables['element']['#dialog_attributes']['data-widget-title-plural'],
+  ];
+
+  $variables['categories']['_all'] = [
+    'title' => t('All'),
+    'link_title' => t('Show all @title_plural', $category_translation_arguments),
+    'description' => '',
+    'id' => 'all',
+  ];
 
   $category_names = array_keys($paragraphs_categories);
   $grouped = array_combine($category_names, array_fill(0, count($category_names), []));
   foreach ($paragraphs_categories as $key => $category) {
     $conditional_id = isset($variables['element']['#id']) ? $variables['element']['#id'] . '-category-' . $key : 'category-' . $key;
+    $category_translation_arguments['@category_title'] = $category->label();
     $variables['categories'][$key] = [
       'title' => $category->label(),
+      'link_title' => t('Show @category_title only', $category_translation_arguments),
       'description' => $category->getDescription(),
       'id' => Html::getUniqueId($conditional_id),
     ];
   }
   $variables['categories']['_none'] = [
     'title' => t('Uncategorized'),
+    'link_title' => t('Show uncategorized @title_plural', $category_translation_arguments),
     'description' => '',
+    'id' => Html::getUniqueId('uncategorized'),
   ];
   // Add category for uncategorized items.
   $grouped['_none'] = [];
@@ -327,11 +347,18 @@ function template_preprocess_paragraphs_add_dialog__categorized(&$variables) {
   $variables['dialog_attributes'] = $variables['element']['#dialog_attributes'];
   $variables['groups'] = array_filter($grouped);
 
+  // Remove all empty categories.
+  $empty_categories = array_diff(array_keys($grouped), array_keys(array_filter($grouped)));
+  if (count($empty_categories) > 0) {
+    $variables['categories'] = array_diff_key($variables['categories'], array_flip($empty_categories));
+  }
+
   $placeholder_value = 'Paragraphs';
   if (isset($variables['element']['#dialog_attributes']['data-widget-title-plural'])) {
-    $placeholder_value = $variables['element']['#dialog_attributes']['data-widget-title-plural'];
+    $placeholder_value = (string) $variables['element']['#dialog_attributes']['data-widget-title-plural'];
   }
-  $variables['filter_placeholder'] = t('Find @placeholder_value', ['@placeholder_value' => $placeholder_value], ['context' => 'Paragraphs Editor Enhancements']);
+  $variables['filter_placeholder'] = t('Search', [], ['context' => 'Paragraphs Editor Enhancements']);
+  $variables['filter_description'] = t('Search @placeholder_value by title and description', ['@placeholder_value' => $placeholder_value], ['context' => 'Paragraphs Editor Enhancements']);
 }
 
 /**
@@ -343,6 +370,7 @@ function paragraphs_ee_preprocess_input__submit__paragraph_action__image(&$vars)
   // Add title and description as custom element.
   $vars['title'] = $element['#value'];
   $vars['description'] = $element['#description'];
+  $vars['label_id'] = empty($vars['attributes']['aria-labeledby']) ? NULL : $vars['attributes']['aria-labeledby'];
   $vars['description_id'] = empty($vars['attributes']['aria-describedby']) ? NULL : $vars['attributes']['aria-describedby'];
 
   $icon_attributes = $element['#icon_attributes'];

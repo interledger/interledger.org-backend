@@ -10,13 +10,11 @@ use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeBase;
 use GraphQL\Type\Definition\ObjectType;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeEntityType(
  *   id = "user",
- *   interfaces = { "Node" },
  *   base_fields = {
- *     "uuid" = {},
  *     "created" = {},
  *     "changed" = {},
  *     "path" = {},

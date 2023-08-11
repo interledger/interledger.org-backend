@@ -1,0 +1,21 @@
+uuid: bb80fe58-0017-4bd3-b4aa-4d6fc72270b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.image_full_width.field_single_image
+    - paragraphs.paragraphs_type.image_full_width
+id: paragraph.image_full_width.default
+targetEntityType: paragraph
+bundle: image_full_width
+mode: default
+content:
+  field_single_image:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

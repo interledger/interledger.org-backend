@@ -11,7 +11,7 @@ use GraphQL\Type\Definition\EnumType;
 use function Symfony\Component\String\u;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "ImageStyleAvailable"
@@ -20,16 +20,16 @@ use function Symfony\Component\String\u;
 class ImageStyleAvailable extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
 
-    $config = $this->configFactory->get('graphql_compose.settings');
+    $settings = $this->configFactory->get('graphql_compose.settings');
 
     $image_styles = array_filter(
       $this->entityTypeManager->getStorage('image_style')->loadMultiple(),
-      fn (ImageStyleInterface $style) => $config->get('image_style.' . $style->id() . '.enabled') ?: FALSE
+      fn (ImageStyleInterface $style) => $settings->get('entity_config.image_style.' . $style->id() . '.enabled') ?: FALSE
     );
 
     $values = [];

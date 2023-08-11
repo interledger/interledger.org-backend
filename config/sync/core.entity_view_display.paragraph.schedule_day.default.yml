@@ -1,0 +1,36 @@
+uuid: 2e6d188e-7ffe-4632-ba0b-21d98ff9b025
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.schedule_day.field_date
+    - field.field.paragraph.schedule_day.field_talks_view
+    - paragraphs.paragraphs_type.schedule_day
+  module:
+    - datetime
+    - viewfield
+id: paragraph.schedule_day.default
+targetEntityType: paragraph
+bundle: schedule_day
+mode: default
+content:
+  field_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_talks_view:
+    type: viewfield_default
+    label: above
+    settings:
+      view_title: hidden
+      always_build_output: false
+      empty_view_title: hidden
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

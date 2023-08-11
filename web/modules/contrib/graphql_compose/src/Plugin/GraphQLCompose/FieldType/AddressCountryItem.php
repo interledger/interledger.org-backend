@@ -14,7 +14,7 @@ use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeFieldType(
  *   id = "address_country",
@@ -27,18 +27,20 @@ class AddressCountryItem extends GraphQLComposeFieldTypeBase implements FieldPro
 
   /**
    * Address country repository.
+   *
+   * @var \CommerceGuys\Addressing\Country\CountryRepositoryInterface
    */
   protected CountryRepositoryInterface $countryRepository;
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $instance = parent::create(
       $container,
       $configuration,
-      $pluginId,
-      $pluginDefinition,
+      $plugin_id,
+      $plugin_definition
     );
 
     $instance->countryRepository = $container->get('address.country_repository');

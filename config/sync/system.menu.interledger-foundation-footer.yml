@@ -1,0 +1,8 @@
+uuid: f3fa8ae7-ac77-4123-8130-a74f642e3f52
+langcode: en
+status: true
+dependencies: {  }
+id: interledger-foundation-footer
+label: 'Interledger Foundation'
+description: 'Interledger Foundation Footer'
+locked: false

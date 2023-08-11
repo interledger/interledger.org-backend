@@ -31,25 +31,31 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class Viewer extends DataProducerPluginBase implements ContainerFactoryPluginInterface {
 
   /**
-   * The current user.
+   * Constructs a Viewer object.
    *
-   * @var \Drupal\Core\Session\AccountInterface
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param array $plugin_definition
+   *   The plugin implementation definition.
+   * @param \Drupal\Core\Session\AccountInterface $currentUser
+   *   The current user.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   The entity type manager service.
+   * @param \Drupal\graphql\GraphQL\Buffers\EntityBuffer $entityBuffer
+   *   The entity buffer service.
    */
-  protected AccountInterface $currentUser;
-
-  /**
-   * The entity type manager service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected EntityTypeManagerInterface $entityTypeManager;
-
-  /**
-   * The entity buffer service.
-   *
-   * @var \Drupal\graphql\GraphQL\Buffers\EntityBuffer
-   */
-  protected EntityBuffer $entityBuffer;
+  public function __construct(
+    array $configuration,
+    string $plugin_id,
+    array $plugin_definition,
+    protected AccountInterface $currentUser,
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected EntityBuffer $entityBuffer
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+  }
 
   /**
    * {@inheritdoc}
@@ -63,36 +69,6 @@ class Viewer extends DataProducerPluginBase implements ContainerFactoryPluginInt
       $container->get('entity_type.manager'),
       $container->get('graphql.buffer.entity')
     );
-  }
-
-  /**
-   * CurrentUser constructor.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param array $plugin_definition
-   *   The plugin implementation definition.
-   * @param \Drupal\Core\Session\AccountInterface $current_user
-   *   The current user.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   The entity type manager service.
-   * @param \Drupal\graphql\GraphQL\Buffers\EntityBuffer $entityBuffer
-   *   The entity buffer service.
-   */
-  public function __construct(
-    array $configuration,
-    string $plugin_id,
-    array $plugin_definition,
-    AccountInterface $current_user,
-    EntityTypeManagerInterface $entityTypeManager,
-    EntityBuffer $entityBuffer
-  ) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->currentUser = $current_user;
-    $this->entityTypeManager = $entityTypeManager;
-    $this->entityBuffer = $entityBuffer;
   }
 
   /**
@@ -117,6 +93,7 @@ class Viewer extends DataProducerPluginBase implements ContainerFactoryPluginInt
         // the cache entry is purged whenever a new entity of this type is
         // saved.
         $type = $this->entityTypeManager->getDefinition('user');
+
         /** @var \Drupal\Core\Entity\EntityTypeInterface $type */
         $tags = $type->getListCacheTags();
         $context->addCacheTags($tags);

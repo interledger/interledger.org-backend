@@ -1,0 +1,13 @@
+uuid: cb1c5d29-0514-4175-b44a-6d21a2549b3c
+langcode: en
+status: true
+dependencies: {  }
+id: node.developer_tools
+site_resolver: site_selector
+configuration:
+  sites:
+    client: client
+revalidator: path
+revalidator_configuration:
+  revalidate_page: true
+  additional_paths: ''

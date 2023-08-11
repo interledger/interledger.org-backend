@@ -50,6 +50,14 @@ class MetatagEntityFieldItemList extends FieldItemList {
       assert($metatag_manager instanceof MetatagManagerInterface);
 
       $metatags_for_entity = $metatag_manager->tagsFromEntityWithDefaults($entity);
+
+      // Trigger hook_metatags_alter().
+      // Allow modules to override tags or the entity used for token replacements.
+      $context = [
+        'entity' => &$entity,
+      ];
+      \Drupal::service('module_handler')->alter('metatags', $metatags_for_entity, $context);
+
       return $metatag_manager->generateRawElements($metatags_for_entity, $entity);
     });
     $this->list = [];

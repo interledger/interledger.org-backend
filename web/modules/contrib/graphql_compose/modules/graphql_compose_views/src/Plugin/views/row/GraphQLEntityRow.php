@@ -41,13 +41,13 @@ class GraphQLEntityRow extends RowPluginBase {
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
    * @param \Drupal\Core\Entity\EntityTypeBundleInfo $entityTypeBundleInfo
-   *   The entity type manager.
+   *   Drupal entity type bundle service.
    * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
-   *   The language manager.
+   *   Drupal language manager.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   The entity type manager.
+   *   Drupal entity type manager.
    * @param \Drupal\Core\Entity\EntityRepositoryInterface $entityRepository
-   *   The entity repository.
+   *   Drupal entity repository.
    */
   public function __construct(
     array $configuration,
@@ -64,11 +64,11 @@ class GraphQLEntityRow extends RowPluginBase {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
       $configuration,
-      $pluginId,
-      $pluginDefinition,
+      $plugin_id,
+      $plugin_definition,
       $container->get('entity_type.bundle.info'),
       $container->get('language_manager'),
       $container->get('entity_type.manager'),

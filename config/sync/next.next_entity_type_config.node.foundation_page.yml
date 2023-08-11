@@ -1,0 +1,13 @@
+uuid: c7df22e6-017a-45ec-981f-48e61332245a
+langcode: en
+status: true
+dependencies: {  }
+id: node.foundation_page
+site_resolver: site_selector
+configuration:
+  sites:
+    client: client
+revalidator: path
+revalidator_configuration:
+  revalidate_page: true
+  additional_paths: ''

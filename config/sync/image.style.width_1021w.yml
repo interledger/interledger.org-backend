@@ -1,0 +1,21 @@
+uuid: 7cc53dae-3828-4016-883f-78542a971151
+langcode: en
+status: true
+dependencies: {  }
+name: width_1021w
+label: width_1021w
+effects:
+  4673a8e3-7b56-4125-a8dd-4882d2b05c4e:
+    uuid: 4673a8e3-7b56-4125-a8dd-4882d2b05c4e
+    id: image_scale
+    weight: 0
+    data:
+      width: 1021
+      height: null
+      upscale: false
+  2d7ca45b-f35c-4d10-bd17-cbc11b92e395:
+    uuid: 2d7ca45b-f35c-4d10-bd17-cbc11b92e395
+    id: image_convert
+    weight: 1
+    data:
+      extension: webp

@@ -8,7 +8,7 @@ use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeSchemaTypeBase;
 use GraphQL\Type\Definition\EnumType;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "SortDirection",
@@ -17,7 +17,7 @@ use GraphQL\Type\Definition\EnumType;
 class SortDirectionType extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -35,7 +35,7 @@ class SortDirectionType extends GraphQLComposeSchemaTypeBase {
 
     $types[] = new EnumType([
       'name' => $this->getPluginId(),
-      'description' => (string) $this->t('List of menus available to load.'),
+      'description' => (string) $this->t('Sort direction.'),
       'values' => $sorts,
     ]);
 

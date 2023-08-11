@@ -6,9 +6,9 @@ namespace Drupal\graphql_compose_views\Plugin\views\row;
 
 use Drupal\Component\Render\MarkupInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\views\ViewExecutable;
 use Drupal\views\Plugin\views\display\DisplayPluginBase;
 use Drupal\views\Plugin\views\row\RowPluginBase;
+use Drupal\views\ViewExecutable;
 
 /**
  * Plugin which displays fields as raw data.
@@ -42,7 +42,7 @@ class GraphQLFieldRow extends RowPluginBase {
   protected $rawOutputOptions = [];
 
   /**
-   * Stores an array of field GrpahQL type.
+   * Stores an array of field GraphQL type.
    *
    * @var array
    */
@@ -51,7 +51,7 @@ class GraphQLFieldRow extends RowPluginBase {
   /**
    * {@inheritdoc}
    */
-  public function init(ViewExecutable $view, DisplayPluginBase $display, array &$options = NULL) {
+  public function init(ViewExecutable $view, DisplayPluginBase $display, ?array &$options = NULL) {
     parent::init($view, $display, $options);
 
     if (!empty($this->options['field_options'])) {
@@ -138,8 +138,13 @@ class GraphQLFieldRow extends RowPluginBase {
 
   /**
    * Form element validation handler.
+   *
+   * @param array $element
+   *   The form element.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
    */
-  public function validateAliasName($element, FormStateInterface $form_state) {
+  public function validateAliasName(array $element, FormStateInterface $form_state) {
     if (preg_match('@[^A-Za-z0-9]+@', $element['#value'])) {
       $form_state->setError($element, $this->t('The machine-readable name must contain only letters and numbers.'));
     }

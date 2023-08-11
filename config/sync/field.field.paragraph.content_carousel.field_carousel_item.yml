@@ -1,0 +1,100 @@
+uuid: d52d3298-8573-4726-910b-a6448cad6313
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_carousel_item
+    - paragraphs.paragraphs_type.content_carousel
+    - paragraphs.paragraphs_type.two_column_content
+  module:
+    - entity_reference_revisions
+id: paragraph.content_carousel.field_carousel_item
+field_name: field_carousel_item
+entity_type: paragraph
+bundle: content_carousel
+label: 'Carousel Item'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      two_column_content: two_column_content
+    negate: 0
+    target_bundles_drag_drop:
+      button:
+        weight: 16
+        enabled: false
+      carousel_item:
+        weight: 17
+        enabled: false
+      content_carousel:
+        weight: 27
+        enabled: false
+      content_title:
+        weight: 18
+        enabled: false
+      hero_header:
+        weight: 19
+        enabled: false
+      highlighted_list:
+        weight: 20
+        enabled: false
+      highlighted_speakers:
+        weight: 21
+        enabled: false
+      image:
+        weight: 22
+        enabled: false
+      image_carousel:
+        weight: 23
+        enabled: false
+      image_gallery:
+        weight: 24
+        enabled: false
+      large_callout_text:
+        weight: 25
+        enabled: false
+      media_header:
+        weight: 36
+        enabled: false
+      schedule:
+        weight: 37
+        enabled: false
+      schedule_day:
+        weight: 38
+        enabled: false
+      social_media:
+        weight: 39
+        enabled: false
+      social_media_link:
+        weight: 40
+        enabled: false
+      spacer:
+        weight: 26
+        enabled: false
+      speakers_grid:
+        weight: 42
+        enabled: false
+      talk_header:
+        weight: 44
+        enabled: false
+      talks_grid:
+        weight: 43
+        enabled: false
+      teaser:
+        weight: 27
+        enabled: false
+      text:
+        weight: 28
+        enabled: false
+      two_column_content:
+        weight: 29
+        enabled: true
+      video:
+        weight: 30
+        enabled: false
+field_type: entity_reference_revisions

@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Drupal\graphql_compose_routes\Plugin\GraphQL\SchemaExtension;
 
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Path\PathValidatorInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Url;
 use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
+use GraphQL\Error\UserError;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -17,7 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @SchemaExtension(
  *   id = "route_schema_extension",
- *   name = "Route Schema Extension",
+ *   name = "GraphQL Compose Routes",
  *   description = @Translation("URL, Links and paths"),
  *   schema = "graphql_compose"
  * )
@@ -29,7 +31,7 @@ class RouteSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
    *
    * @var \Drupal\Core\Path\PathValidatorInterface
    */
-  protected $pathValidator;
+  protected PathValidatorInterface $pathValidator;
 
   /**
    * {@inheritdoc}
@@ -61,35 +63,39 @@ class RouteSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
       $this->addRedirect($registry, $builder);
     }
 
-    // Extend links with route information.
-    $registry->addFieldResolver(
-      'Link',
-      'route',
-      $builder->callback(function ($link) {
-        $path = $link['url'] ?? $link['uri'] ?? NULL;
-        return $path ? $this->pathValidator->getUrlIfValid($path) : NULL;
-      }),
-    );
-
     $registry->addFieldResolver(
       'Query',
       'route',
-      $builder->produce('url_or_redirect')
-        ->map('path', $builder->fromArgument('path'))
-        ->map('langcode', $builder->fromArgument('langcode')),
+      $builder->compose(
+        $builder->produce('url_or_redirect')
+          ->map('path', $builder->fromArgument('path'))
+          ->map('langcode', $builder->fromArgument('langcode')),
+
+        $builder->context('langcode', $builder->fromArgument('langcode'))
+      )
     );
 
-    $registry->addTypeResolver('RouteUnion', function ($value) {
-      if ($value instanceof Url) {
-        return $value->isRouted() ? 'RouteInternal' : 'RouteExternal';
-      }
+    $registry->addTypeResolver(
+      'RouteUnion',
+      function ($value) {
+        $type = NULL;
 
-      if ($this->moduleHandler->moduleExists('redirect') && get_class($value) === 'Drupal\redirect\Entity\Redirect') {
-        return 'RouteRedirect';
-      }
+        if ($value instanceof Url) {
+          $type = $value->isRouted() ? 'RouteInternal' : 'RouteExternal';
+        }
 
-      throw new \Error('Could not resolve route type.');
-    });
+        // Give opportunity to extend this union.
+        $this->moduleHandler->invokeAll('graphql_compose_routes_union_alter', [
+          $value,
+          &$type,
+        ]);
+
+        if ($type) {
+          return $type;
+        }
+
+        throw new UserError('Could not resolve route type.');
+      });
 
   }
 
@@ -112,14 +118,15 @@ class RouteSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
     $registry->addFieldResolver(
       'RouteInternal',
       'entity',
-      $builder->produce('route_entity')
+      $builder->produce('route_entity_extra')
         ->map('url', $builder->fromParent())
+        ->map('language', $builder->fromContext('langcode'))
     );
 
     $registry->addFieldResolver(
       'RouteInternal',
-      'langcode',
-      $builder->produce('route_language')
+      'breadcrumbs',
+      $builder->produce('breadcrumbs')
         ->map('url', $builder->fromParent())
     );
 
@@ -201,6 +208,9 @@ class RouteSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
    *   The resolver registry.
    * @param \Drupal\graphql\GraphQL\ResolverBuilder $builder
    *   The resolver builder.
+   *
+   * @throws \GraphQL\Error\UserError
+   *   If the entity type is not exposed.
    */
   protected function addRouteUnion(ResolverRegistryInterface $registry, ResolverBuilder $builder) {
     $registry->addTypeResolver(
@@ -214,8 +224,7 @@ class RouteSchemaExtension extends SdlSchemaExtensionPluginBase implements Conta
         }
 
         // Its not a 404 but its not exposed.
-        // Just going to fail gracefully.
-        return 'UnsupportedType';
+        throw new UserError('Entity type is not able to be loaded by route.');
       }
     );
   }

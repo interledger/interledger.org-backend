@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "MetaTagLink",
@@ -18,19 +18,26 @@ use GraphQL\Type\Definition\Type;
 class MetaTagLink extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
 
     $types[] = new ObjectType([
       'name' => $this->getPluginId(),
+      'description' => (string) $this->t('A meta link element.'),
       'interfaces' => fn() => [
         static::type('MetaTag'),
       ],
       'fields' => fn() => [
-        'tag' => Type::nonNull(Type::string()),
-        'attributes' => Type::nonNull(static::type('MetaTagLinkAttributes')),
+        'tag' => [
+          'type' => Type::nonNull(Type::string()),
+          'description' => (string) $this->t('The HTML tag for this meta element.'),
+        ],
+        'attributes' => [
+          'type' => Type::nonNull(static::type('MetaTagLinkAttributes')),
+          'description' => (string) $this->t('The meta tag element attributes.'),
+        ],
       ],
     ]);
 

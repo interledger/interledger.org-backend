@@ -7,12 +7,12 @@ namespace Drupal\graphql_compose\Plugin\GraphQLCompose\FieldType;
 use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Field\FieldItemInterface;
-use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerItemInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerTrait;
+use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeFieldType(
  *   id = "datetime",
@@ -36,9 +36,9 @@ class DateTimeItem extends GraphQLComposeFieldTypeBase implements FieldProducerI
 
     return [
       'timestamp' => $date_time->getTimestamp(),
-      'timezone'  => $date_time->getTimezone()->getName(),
-      'offset'    => $date_time->format('P'),
-      'time'      => $date_time->format(\DateTime::RFC3339),
+      'timezone' => $date_time->getTimezone()->getName(),
+      'offset' => $date_time->format('P'),
+      'time' => $date_time->format(\DateTime::RFC3339),
     ];
   }
 

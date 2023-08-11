@@ -1,0 +1,16 @@
+uuid: 1c783832-2691-40ae-b306-509e6b10f089
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: social_media
+label: 'Social Media'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

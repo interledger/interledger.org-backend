@@ -10,7 +10,7 @@ use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\UnionType;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "BlockUnion"
@@ -19,7 +19,7 @@ use GraphQL\Type\Definition\UnionType;
 class BlockUnion extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -37,6 +37,8 @@ class BlockUnion extends GraphQLComposeSchemaTypeBase {
   }
 
   /**
+   * {@inheritdoc}
+   *
    * Disable automatic entity types.
    */
   public function getExtensions(): array {
@@ -50,9 +52,9 @@ class BlockUnion extends GraphQLComposeSchemaTypeBase {
           'type' => static::type('BlockUnion'),
           'description' => (string) $this->t('Load a Block plugin.'),
           'args' => [
-            'block_plugin_id' => [
-              'type' => Type::nonNull(Type::string()),
-              'description' => (string) $this->t('Block plugin name. Eg page_title_block, block_content:uuid'),
+            'id' => [
+              'type' => Type::nonNull(Type::id()),
+              'description' => (string) $this->t('Block plugin ID. Eg page_title_block, block_content:uuid'),
             ],
           ],
         ],

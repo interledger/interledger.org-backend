@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "BlockPlugin"
@@ -18,22 +18,30 @@ use GraphQL\Type\Definition\Type;
 class BlockPlugin extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
 
     $types[] = new ObjectType([
       'name' => $this->getPluginId(),
-      'description' => (string) $this->t('Block field information.'),
+      'description' => (string) $this->t("A generic block plugin is a modular piece of content that can be displayed in various regions of a website's layout."),
       'interfaces' => fn() => [
-        static::type('Node'),
-        static::type('Block'),
+        static::type('BlockInterface'),
       ],
       'fields' => fn() => [
-        'id'     => Type::nonNull(Type::id()),
-        'title'  => Type::string(),
-        'render' => static::type('Html'),
+        'id' => [
+          'type' => Type::nonNull(Type::id()),
+          'description' => (string) $this->t('The Universally Unique IDentifier (UUID).'),
+        ],
+        'title' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The title of the block if provided.'),
+        ],
+        'render' => [
+          'type' => static::type('Html'),
+          'description' => (string) $this->t('The rendered output of the block.'),
+        ],
       ],
     ]);
 

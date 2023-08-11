@@ -6,7 +6,7 @@ configure: require_login.settings
 dependencies:
   - drupal:user
 
-# Information added by Drupal.org packaging script on 2022-11-28
-version: '3.0.4'
+# Information added by Drupal.org packaging script on 2023-06-27
+version: '3.0.6'
 project: 'require_login'
-datestamp: 1669657577
+datestamp: 1687875854

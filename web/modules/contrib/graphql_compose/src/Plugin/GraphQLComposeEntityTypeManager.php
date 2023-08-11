@@ -14,8 +14,6 @@ use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeInterfa
  * Manager that collects and exposes GraphQL Compose entity plugins.
  *
  * A entity type is a plugin that defines how to resolve a Drupal Entity Type.
- *
- * @package Drupal\graphql_compose
  */
 class GraphQLComposeEntityTypeManager extends DefaultPluginManager {
 
@@ -27,7 +25,7 @@ class GraphQLComposeEntityTypeManager extends DefaultPluginManager {
   private array $instances = [];
 
   /**
-   * GraphQLComposeEntityTypeManager constructor.
+   * Constructs a GraphQLComposeEntityTypeManager object.
    *
    * @param bool|string $pluginSubdirectory
    *   The plugin's subdirectory.
@@ -102,8 +100,6 @@ class GraphQLComposeEntityTypeManager extends DefaultPluginManager {
    *
    * @return \Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeInterface|null
    *   Definitions calculated by data manager.
-   *
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function getPluginInstance(string $entity_type_id): ?GraphQLComposeEntityTypeInterface {
     $instances = $this->getPluginInstances();

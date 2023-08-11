@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - file
     - graphql
     - node
     - subrequests
@@ -13,5 +14,6 @@ is_admin: null
 permissions:
   - 'access user profiles'
   - 'bypass node access'
+  - 'delete own files'
   - 'execute graphql_compose_server arbitrary graphql requests'
   - 'issue subrequests'

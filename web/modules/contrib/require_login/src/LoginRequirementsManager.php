@@ -36,7 +36,12 @@ class LoginRequirementsManager implements LoginRequirementsManagerInterface {
     'user.login',
     'user.register',
     'user.pass',
+    'user.reset',
+    'user.reset.form',
     'user.reset.login',
+    'image.style_public',
+    'system.css_asset',
+    'system.js_asset',
   ];
 
   /**

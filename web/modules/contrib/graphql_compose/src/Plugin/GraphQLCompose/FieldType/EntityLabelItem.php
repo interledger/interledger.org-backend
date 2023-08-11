@@ -9,7 +9,7 @@ use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeFieldType(
  *   id = "entity_label",

@@ -10,7 +10,7 @@ namespace Drupal\graphql_compose_edges\Wrappers;
 class Edge implements EdgeInterface {
 
   /**
-   * EntityEdge constructor.
+   * Constructs a Edge object.
    *
    * @param mixed $node
    *   The node for this edge.
@@ -25,7 +25,7 @@ class Edge implements EdgeInterface {
   /**
    * {@inheritdoc}
    */
-  public function getCursor() : string {
+  public function getCursor(): string {
     return $this->cursor;
   }
 

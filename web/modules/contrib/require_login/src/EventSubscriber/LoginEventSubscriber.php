@@ -63,6 +63,10 @@ class LoginEventSubscriber implements EventSubscriberInterface {
    *   The request event.
    */
   public function onRequestRedirect(RequestEvent $event): void {
+    if ($event->getRequestType() !== 1) {
+      // Prevent evaluations on sub requests.
+      return;
+    }
     if (!$this->exception && ($url = $this->loginRequirementsManager->evaluate())) {
       $event->setResponse(new TrustedRedirectResponse($url->toString()));
     }

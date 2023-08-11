@@ -6,6 +6,7 @@ namespace Drupal\graphql_compose\Plugin\GraphQLCompose;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\graphql_compose\Plugin\GraphQLComposeEntityTypeManager;
@@ -20,23 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class GraphQLComposeSchemaTypeBase extends PluginBase implements GraphQLComposeSchemaTypeInterface, ContainerFactoryPluginInterface {
 
   /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('config.factory'),
-      $container->get('entity_type.manager'),
-      $container->get('graphql_compose.entity_type_manager'),
-      $container->get('graphql_compose.field_type_manager'),
-      $container->get('graphql_compose.schema_type_manager'),
-    );
-  }
-
-  /**
-   * GraphQLComposeSchemaTypeBase constructor.
+   * Constructs a GraphQLComposeSchemaTypeBase object.
    *
    * @param array $configuration
    *   The plugin configuration array.
@@ -48,12 +33,14 @@ abstract class GraphQLComposeSchemaTypeBase extends PluginBase implements GraphQ
    *   Drupal config factory.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   Drupal entity type manager.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
+   *   Drupal module handler.
    * @param \Drupal\graphql_compose\Plugin\GraphQLComposeEntityTypeManager $gqlEntityTypeManager
-   *   Entity type plugin manager.
+   *   GraphQL Compose entity type plugin manager.
    * @param \Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeManager $gqlFieldTypeManager
-   *   Field type plugin manager.
+   *   GraphQL Compose field type plugin manager.
    * @param \Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager $gqlSchemaTypeManager
-   *   Schema type plugin manager.
+   *   GraphQL Compose schema type plugin manager.
    */
   public function __construct(
     array $configuration,
@@ -61,6 +48,7 @@ abstract class GraphQLComposeSchemaTypeBase extends PluginBase implements GraphQ
     array $plugin_definition,
     protected ConfigFactoryInterface $configFactory,
     protected EntityTypeManagerInterface $entityTypeManager,
+    protected ModuleHandlerInterface $moduleHandler,
     protected GraphQLComposeEntityTypeManager $gqlEntityTypeManager,
     protected GraphQLComposeFieldTypeManager $gqlFieldTypeManager,
     protected GraphQLComposeSchemaTypeManager $gqlSchemaTypeManager,
@@ -69,14 +57,31 @@ abstract class GraphQLComposeSchemaTypeBase extends PluginBase implements GraphQ
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
-  public static function type(string $plugin_id): Type {
-    return \Drupal::service('graphql_compose.schema_type_manager')->get($plugin_id);
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('config.factory'),
+      $container->get('entity_type.manager'),
+      $container->get('module_handler'),
+      $container->get('graphql_compose.entity_type_manager'),
+      $container->get('graphql_compose.field_type_manager'),
+      $container->get('graphql_compose.schema_type_manager'),
+    );
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
+   */
+  public static function type(string $plugin_id, bool $multiple = FALSE, bool $required = FALSE): Type {
+    return \Drupal::service('graphql_compose.schema_type_manager')->get($plugin_id, $multiple, $required);
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function getExtensions(): array {
     return [];

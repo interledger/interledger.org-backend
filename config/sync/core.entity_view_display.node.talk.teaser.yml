@@ -1,0 +1,44 @@
+uuid: 922685eb-4b54-45a2-8826-64e67792c404
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.talk.body
+    - field.field.node.talk.field_date_time
+    - field.field.node.talk.field_description
+    - field.field.node.talk.field_duration
+    - field.field.node.talk.field_header
+    - field.field.node.talk.field_seo_description
+    - field.field.node.talk.field_speakers
+    - field.field.node.talk.field_teaser
+    - node.type.talk
+  module:
+    - text
+    - user
+id: node.talk.teaser
+targetEntityType: node
+bundle: talk
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_date_time: true
+  field_description: true
+  field_duration: true
+  field_header: true
+  field_seo_description: true
+  field_speakers: true
+  field_teaser: true

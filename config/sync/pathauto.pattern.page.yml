@@ -5,14 +5,14 @@ dependencies:
   module:
     - node
 id: page
-label: Page
+label: 'Summit Page'
 type: 'canonical_entities:node'
-pattern: '[node:title]'
+pattern: 'summit/[node:title]'
 selection_criteria:
-  01d7d2f0-c7e9-49c3-8e1b-a2df66901cb8:
+  3d861174-617d-4042-8c39-668f8e8e6255:
     id: 'entity_bundle:node'
     negate: false
-    uuid: 01d7d2f0-c7e9-49c3-8e1b-a2df66901cb8
+    uuid: 3d861174-617d-4042-8c39-668f8e8e6255
     context_mapping:
       node: node
     bundles:

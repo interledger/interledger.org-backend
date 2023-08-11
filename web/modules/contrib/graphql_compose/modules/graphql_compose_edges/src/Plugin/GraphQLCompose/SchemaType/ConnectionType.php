@@ -4,25 +4,51 @@ declare(strict_types=1);
 
 namespace Drupal\graphql_compose_edges\Plugin\GraphQLCompose\SchemaType;
 
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeSchemaTypeBase;
 use Drupal\graphql_compose_edges\EnabledBundlesTrait;
 use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "Connection",
  * )
  */
-class ConnectionType extends GraphQLComposeSchemaTypeBase {
+class ConnectionType extends GraphQLComposeSchemaTypeBase implements ContainerFactoryPluginInterface {
 
   use EnabledBundlesTrait;
 
   /**
-   * {@inheritDoc}
+   * Drupal language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected LanguageManagerInterface $languageManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $instance = parent::create(
+      $container,
+      $configuration,
+      $plugin_id,
+      $plugin_definition
+    );
+
+    $instance->languageManager = $container->get('language_manager');
+
+    return $instance;
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -36,7 +62,7 @@ class ConnectionType extends GraphQLComposeSchemaTypeBase {
           'description' => (string) $this->t('The edges of this connection.'),
         ],
         'nodes' => [
-          'type' => Type::nonNull(Type::listOf(Type::nonNull(static::type('Node')))),
+          'type' => Type::nonNull(Type::listOf(Type::nonNull(static::type('EdgeNode')))),
           'description' => (string) $this->t('The nodes of the edges of this connection.'),
         ],
         'pageInfo' => [
@@ -69,7 +95,7 @@ class ConnectionType extends GraphQLComposeSchemaTypeBase {
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
    * Create bundle queries.
    */
@@ -77,6 +103,16 @@ class ConnectionType extends GraphQLComposeSchemaTypeBase {
     $extensions = parent::getExtensions();
 
     foreach ($this->getEnabledBundlePlugins() as $bundle) {
+
+      $definition = $bundle->entityTypePlugin->getPluginDefinition();
+
+      // Some extensions may opt to put the connection elsewhere.
+      // How they do that is up to that extension.
+      $query_enabled = $definition['edges_query'] ?? TRUE;
+      if (!$query_enabled) {
+        continue;
+      }
+
       $type_sdl = $bundle->getTypeSdl();
 
       $extensions[] = new ObjectType([
@@ -112,6 +148,11 @@ class ConnectionType extends GraphQLComposeSchemaTypeBase {
               'sortKey' => [
                 'type' => static::type('ConnectionSortKeys'),
                 'description' => (string) $this->t('Sort the underlying list by the given key.'),
+              ],
+              'langcode' => [
+                'type' => Type::string(),
+                'description' => (string) $this->t('Filter the results by language. Eg en, ja, fr.'),
+                'defaultValue' => $this->languageManager->getDefaultLanguage()->getId(),
               ],
             ],
           ],

@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "ImageStyleDerivative",
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class ImageStyleDerivative extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -27,9 +27,9 @@ class ImageStyleDerivative extends GraphQLComposeSchemaTypeBase {
       'name' => $this->getPluginId(),
       'description' => (string) $this->t('ImageStyle derivatives for an Image.'),
       'fields' => fn() => [
-        'name'   => Type::nonNull(Type::string()),
-        'url'    => Type::nonNull(Type::string()),
-        'width'  => Type::nonNull(Type::int()),
+        'name' => Type::nonNull(Type::string()),
+        'url' => Type::nonNull(Type::string()),
+        'width' => Type::nonNull(Type::int()),
         'height' => Type::nonNull(Type::int()),
       ],
     ]);
@@ -38,7 +38,7 @@ class ImageStyleDerivative extends GraphQLComposeSchemaTypeBase {
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getExtensions(): array {
     $extensions = parent::getExtensions();

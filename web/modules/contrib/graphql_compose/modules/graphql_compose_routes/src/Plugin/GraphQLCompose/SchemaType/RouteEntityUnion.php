@@ -10,7 +10,7 @@ use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Definition\UnionType;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "RouteEntityUnion"
@@ -19,14 +19,14 @@ use GraphQL\Type\Definition\UnionType;
 class RouteEntityUnion extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
 
     $types[] = new UnionType([
       'name' => $this->getPluginId(),
-      'description' => (string) $this->t('A list of possible entites that can be returned by URL.'),
+      'description' => (string) $this->t('A list of possible entities that can be returned by URL.'),
       'types' => fn() => array_map(
         fn(EntityTypeWrapper $bundle): Type => static::type($bundle->getTypeSdl()),
         $this->getUnionBundles()

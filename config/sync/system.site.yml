@@ -2,13 +2,13 @@ _core:
   default_config_hash: VDJxTZtQR21qB4lvOq8zszJZLvLKrSPQpdn2E3T71Ww
 langcode: en
 uuid: b364efbe-9451-47ca-8357-237e209f1a17
-name: 'Drupal Headless CMS'
-mail: marcus@joipolloi.com
+name: 'Interledger Foundation'
+mail: dev@joipolloi.com
 slogan: ''
 page:
   403: ''
   404: ''
-  front: /node/2
+  front: /node/13
 admin_compact_mode: false
 weight_select_max: 100
 default_langcode: en

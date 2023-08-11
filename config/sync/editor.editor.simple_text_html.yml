@@ -1,0 +1,17 @@
+uuid: 666ae952-6700-4070-99cc-2ee54e0b8ca6
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.simple_text_html
+  module:
+    - ckeditor5
+format: simple_text_html
+editor: ckeditor5
+settings:
+  toolbar:
+    items:
+      - bold
+      - italic
+  plugins: {  }
+image_upload: {  }

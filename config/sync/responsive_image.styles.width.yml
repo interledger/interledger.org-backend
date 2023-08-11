@@ -1,0 +1,33 @@
+uuid: 07170564-58b7-4f7e-80f7-06a3fc356942
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.width_1021w
+    - image.style.width_1228w
+    - image.style.width_1400w
+    - image.style.width_1600w
+    - image.style.width_1920w
+    - image.style.width_320w
+    - image.style.width_450w
+    - image.style.width_725w
+id: width
+label: Width
+image_style_mappings:
+  -
+    image_mapping_type: sizes
+    image_mapping:
+      sizes: 100vw
+      sizes_image_styles:
+        - width_1021w
+        - width_1228w
+        - width_1400w
+        - width_1600w
+        - width_1920w
+        - width_320w
+        - width_450w
+        - width_725w
+    breakpoint_id: responsive_image.viewport_sizing
+    multiplier: 1x
+breakpoint_group: responsive_image
+fallback_image_style: width_1228w

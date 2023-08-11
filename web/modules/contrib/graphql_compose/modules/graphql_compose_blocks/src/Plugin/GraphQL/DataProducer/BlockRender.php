@@ -16,7 +16,7 @@ use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Load drupal blocks.
+ * Render drupal blocks.
  *
  * @DataProducer(
  *   id = "block_render",
@@ -35,6 +35,33 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class BlockRender extends DataProducerPluginBase implements ContainerFactoryPluginInterface {
 
   /**
+   * Constructs a BlockRender object.
+   *
+   * @param array $configuration
+   *   The plugin configuration.
+   * @param string $plugin_id
+   *   The plugin id.
+   * @param mixed $plugin_definition
+   *   The plugin definition.
+   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entityRepository
+   *   Drupal entity repository.
+   * @param \Drupal\Core\Session\AccountProxyInterface $currentUser
+   *   The current user.
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   Drupal renderer service.
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    protected EntityRepositoryInterface $entityRepository,
+    protected AccountProxyInterface $currentUser,
+    protected RendererInterface $renderer,
+  ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+  }
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -49,21 +76,15 @@ class BlockRender extends DataProducerPluginBase implements ContainerFactoryPlug
   }
 
   /**
-   * LayoutDefinitionLoad constructor.
-   */
-  public function __construct(
-    array $configuration,
-    $pluginId,
-    $pluginDefinition,
-    protected EntityRepositoryInterface $entityRepository,
-    protected AccountProxyInterface $currentUser,
-    protected RendererInterface $renderer,
-  ) {
-    parent::__construct($configuration, $pluginId, $pluginDefinition);
-  }
-
-  /**
    * Resolve the layout definition.
+   *
+   * @param \Drupal\Core\Block\BlockPluginInterface $block_instance
+   *   The block instance.
+   * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface $metadata
+   *   The cache metadata.
+   *
+   * @return string|null
+   *   The rendered block.
    */
   public function resolve(BlockPluginInterface $block_instance, RefinableCacheableDependencyInterface $metadata): ?string {
     $metadata->addCacheableDependency($block_instance);
@@ -75,26 +96,33 @@ class BlockRender extends DataProducerPluginBase implements ContainerFactoryPlug
       return NULL;
     }
 
-    $build = [];
+    // Render the block within a context to catch cache.
+    $render_context = new RenderContext();
+    $content = $this->renderer->executeInRenderContext(
+      $render_context,
+      function () use ($block_instance, $access): string {
+        $build = [];
 
-    // Place the content returned by the block plugin into a 'content' child
-    // element, as a way to allow the plugin to have complete control of its
-    // properties and rendering (for instance, its own #theme) without
-    // conflicting with the properties used above.
-    $build['content'] = $block_instance->build();
+        // Place the content returned by the block plugin into a 'content' child
+        // element, as a way to allow the plugin to have complete control of its
+        // properties and rendering (for instance, its own #theme) without
+        // conflicting with the properties used above.
+        $build['content'] = $block_instance->build();
 
-    CacheableMetadata::createFromRenderArray($build)
-      ->addCacheableDependency($access)
-      ->addCacheableDependency($block_instance)
-      ->applyTo($build);
+        CacheableMetadata::createFromRenderArray($build)
+          ->addCacheableDependency($access)
+          ->addCacheableDependency($block_instance)
+          ->applyTo($build);
 
-    // This seems dumb. Turn url back into a path.
-    $context = new RenderContext();
-    $content = $this->renderer->executeInRenderContext($context, function () use ($build): string {
-      return (string) $this->renderer->renderRoot($build);
-    });
+        return (string) $this->renderer->renderRoot($build);
+      }
+    );
 
-    return $content;
+    if (!$render_context->isEmpty()) {
+      $metadata->addCacheableDependency($render_context->pop());
+    }
+
+    return (string) $content ?: NULL;
   }
 
 }

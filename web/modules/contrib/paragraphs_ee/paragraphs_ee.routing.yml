@@ -35,10 +35,6 @@ paragraphs_ee.paragraphs_browser:
   defaults:
     _controller: '\Drupal\paragraphs_ee\Controller\ParagraphsOffCanvasBrowser::content'
     _title_callback: '\Drupal\paragraphs_ee\Controller\ParagraphsOffCanvasBrowser::getTitle'
-    entity_type: null
-    bundle: null
-    form_mode: null
-    field_name: null
   requirements:
 #    _csrf_token: 'TRUE'
     _permission: 'access content'

@@ -1,4 +1,5 @@
-graphql_compose_fragments.fragments:
-  route_name: graphql_compose_fragments.fragments
-  base_route: entity.graphql_server.edit_form
+graphql_compose.settings.fragments:
   title: Fragments
+  route_name: graphql_compose_fragments.fragments
+  parent_id: graphql_compose.settings
+  weight: 100

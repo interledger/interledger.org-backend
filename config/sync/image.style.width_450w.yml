@@ -1,0 +1,21 @@
+uuid: b622586d-23ed-458d-96fc-8f7180b01be3
+langcode: en
+status: true
+dependencies: {  }
+name: width_450w
+label: width_450w
+effects:
+  33449865-7656-4604-b475-95f3c892b654:
+    uuid: 33449865-7656-4604-b475-95f3c892b654
+    id: image_scale
+    weight: 0
+    data:
+      width: 450
+      height: null
+      upscale: false
+  b269cfce-45ef-403e-af2a-a16318033a0d:
+    uuid: b269cfce-45ef-403e-af2a-a16318033a0d
+    id: image_convert
+    weight: 1
+    data:
+      extension: webp

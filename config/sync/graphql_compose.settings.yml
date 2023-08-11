@@ -1,62 +1,135 @@
 _core:
-  default_config_hash: UUIwv478j8AtmCC-S4c5LLZQlyt2IsOPJ7vYrZ1Gu8w
-entities: {  }
-field_config:
+  default_config_hash: HjBACF5NUOUEE_nzaQUEQf3mwzx-c-cevV4NejXsv1A
+entity_config:
+  config_pages:
+    site_settings:
+      enabled: true
+      query_load_enabled: true
+  image_style:
+    medium:
+      enabled: true
+  media:
+    image:
+      enabled: true
+    remote_video:
+      enabled: true
+    vector_image:
+      enabled: true
+    video:
+      enabled: true
+  menu:
+    developer-tools:
+      enabled: true
+    footer:
+      enabled: true
+    interledger-foundation-footer:
+      enabled: true
+    interledger-summit-footer:
+      enabled: true
+    main:
+      enabled: true
+    summit:
+      enabled: true
   node:
     article:
-      field_sections:
-        enabled: true
-      field_image:
-        enabled: true
+      enabled: true
+      routes_enabled: true
+    developer_tools:
+      enabled: true
+      routes_enabled: true
+    foundation_page:
+      enabled: true
+      routes_enabled: true
     page:
-      field_sections:
-        enabled: true
-      field_teaser:
-        enabled: true
-      field_header:
-        enabled: true
+      enabled: true
+      routes_enabled: true
+    speaker:
+      enabled: true
+      routes_enabled: true
+    talk:
+      enabled: true
+      routes_enabled: true
   paragraph:
+    anchor:
+      enabled: true
     button:
-      field_link:
-        enabled: true
-    text:
-      field_text:
-        enabled: true
-    spacer:
-      field_spacer_size:
-        enabled: true
-      field_spacer_line:
-        enabled: true
-    two_column_content:
-      field_first_column:
-        enabled: true
-      field_second_column:
-        enabled: true
-    teaser:
-      field_image:
-        enabled: true
-    large_callout_text:
-      field_large_callout_text:
-        enabled: true
+      enabled: true
+    carousel_item:
+      enabled: true
+    content_carousel:
+      enabled: true
     content_title:
-      field_title:
-        enabled: true
-    highlighted_list:
-      field_list_item:
-        enabled: true
-    image:
-      field_image:
-        enabled: true
+      enabled: true
+    divider:
+      enabled: true
+    faq:
+      enabled: true
+    faqs:
+      enabled: true
     hero_header:
-      field_image:
-        enabled: true
-      field_video:
-        enabled: true
-      field_title:
-        enabled: true
-      field_where_text:
-        enabled: true
-      field_when_text:
+      enabled: true
+    highlighted_list:
+      enabled: true
+    highlighted_speakers:
+      enabled: true
+    image:
+      enabled: true
+    image_carousel:
+      enabled: true
+    image_full_width:
+      enabled: true
+    image_gallery:
+      enabled: true
+    large_callout_text:
+      enabled: true
+    media_header:
+      enabled: true
+    news_listings:
+      enabled: true
+      query_load_enabled: true
+    price:
+      enabled: true
+    price_list:
+      enabled: true
+    price_option:
+      enabled: true
+    schedule:
+      enabled: true
+    schedule_day:
+      enabled: true
+    social_media:
+      enabled: true
+    social_media_link:
+      enabled: true
+    spacer:
+      enabled: true
+    speakers_grid:
+      enabled: true
+    talk_header:
+      enabled: true
+    talks_grid:
+      enabled: true
+    teaser:
+      enabled: true
+    text:
+      enabled: true
+    two_column_content:
+      enabled: true
+    video:
+      enabled: true
+  responsive_image_style:
+    aspect_ratio_landscape_16_9:
+      enabled: true
+    aspect_ratio_portrait_9_16:
+      enabled: true
+    aspect_ratio_square_1_1:
+      enabled: true
+    width:
+      enabled: true
+field_config:
+  config_pages:
+    site_settings:
+      field_social:
         enabled: true
   media:
     image:
@@ -65,92 +138,220 @@ field_config:
     remote_video:
       field_media_oembed_video:
         enabled: true
-    video:
-      field_media_video_file:
-        enabled: true
     vector_image:
       field_media_svg:
         enabled: true
-media:
-  image:
-    enabled: true
-    query_load_enabled: false
-    routes_enabled: false
-  remote_video:
-    enabled: true
-    query_load_enabled: false
-    routes_enabled: false
-  video:
-    enabled: true
-    query_load_enabled: false
-    routes_enabled: false
-  vector_image:
-    enabled: true
-    query_load_enabled: false
-    routes_enabled: false
-paragraph:
-  spacer:
-    enabled: true
-    query_load_enabled: false
-  button:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  text:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  two_column_content:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  teaser:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  large_callout_text:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  content_title:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  highlighted_list:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  image:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-  hero_header:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: false
-responsive_image_style:
-  aspect_ratio_landscape_16_9:
-    enabled: true
-  aspect_ratio_portrait_9_16:
-    enabled: true
-  aspect_ratio_square_1_1:
-    enabled: true
-node:
-  article:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: true
-    routes_enabled: true
-  page:
-    enabled: true
-    query_load_enabled: false
-    edges_enabled: true
-    routes_enabled: true
-image_style:
-  medium:
-    enabled: true
-menu:
-  footer:
-    enabled: true
-  main:
-    enabled: true
+    video:
+      field_media_video_file:
+        enabled: true
+  node:
+    article:
+      field_image:
+        enabled: true
+      field_sections:
+        enabled: true
+      field_summary:
+        enabled: true
+      field_teaser:
+        enabled: true
+    developer_tools:
+      field_sections:
+        enabled: true
+    foundation_page:
+      field_header:
+        enabled: true
+      field_sections:
+        enabled: true
+      field_teaser:
+        enabled: true
+    page:
+      field_header:
+        enabled: true
+      field_sections:
+        enabled: true
+      field_teaser:
+        enabled: true
+    speaker:
+      field_biography:
+        enabled: true
+      field_company:
+        enabled: true
+      field_email:
+        enabled: true
+      field_image:
+        enabled: true
+      field_role:
+        enabled: true
+      field_social_media:
+        enabled: true
+      field_speaker_talks:
+        enabled: true
+        name_sdl: talks
+        viewfield_query: true
+      field_summary:
+        enabled: true
+      field_teaser:
+        enabled: true
+    talk:
+      field_date_time:
+        enabled: true
+      field_description:
+        enabled: true
+      field_duration:
+        enabled: true
+      field_header:
+        enabled: true
+      field_speakers:
+        enabled: true
+      field_teaser:
+        enabled: true
+  paragraph:
+    anchor:
+      field_title:
+        enabled: true
+    button:
+      field_link:
+        enabled: true
+    carousel_item:
+      field_single_image:
+        enabled: true
+    content_carousel:
+      field_carousel_item:
+        enabled: true
+    content_title:
+      field_title:
+        enabled: true
+    faq:
+      field_answer:
+        enabled: true
+      field_question:
+        enabled: true
+    faqs:
+      field_faqs:
+        enabled: true
+    hero_header:
+      field_single_image:
+        enabled: true
+      field_title:
+        enabled: true
+      field_video:
+        enabled: true
+      field_when_text:
+        enabled: true
+      field_where_text:
+        enabled: true
+    highlighted_list:
+      field_list_item:
+        enabled: true
+    highlighted_speakers:
+      field_speakers:
+        enabled: true
+    image:
+      field_single_image:
+        enabled: true
+    image_carousel:
+      field_carousel_item:
+        enabled: true
+    image_full_width:
+      field_single_image:
+        enabled: true
+    image_gallery:
+      field_multiple_images:
+        enabled: true
+    large_callout_text:
+      field_large_callout_text:
+        enabled: true
+    media_header:
+      field_single_image:
+        enabled: true
+      field_video:
+        enabled: true
+    news_listings:
+      field_news_latest_view:
+        enabled: true
+        viewfield_query: true
+      field_news_view:
+        enabled: true
+        viewfield_query: true
+    price:
+      field_menu_title:
+        enabled: true
+      field_options:
+        enabled: true
+      field_pricing:
+        enabled: true
+      field_title:
+        enabled: true
+    price_list:
+      field_prices_footer:
+        enabled: true
+      field_prices_main:
+        enabled: true
+    price_option:
+      field_subtitle:
+        enabled: true
+      field_title:
+        enabled: true
+    schedule:
+      field_days:
+        enabled: true
+      field_title:
+        enabled: true
+    schedule_day:
+      field_date:
+        enabled: true
+      field_talks_view:
+        enabled: true
+        viewfield_query: true
+    social_media:
+      field_social_media_links:
+        enabled: true
+    social_media_link:
+      field_link:
+        enabled: true
+      field_social_media_type:
+        enabled: true
+    spacer:
+      field_spacer_line:
+        enabled: true
+      field_spacer_size:
+        enabled: true
+    speakers_grid:
+      field_speakers_view:
+        enabled: true
+        viewfield_query: true
+    talk_header:
+      field_header_after:
+        enabled: true
+      field_header_before:
+        enabled: true
+      field_header_during:
+        enabled: true
+    talks_grid:
+      field_talks_view:
+        enabled: true
+        viewfield_query: true
+    teaser:
+      field_single_image:
+        enabled: true
+    text:
+      field_text:
+        enabled: true
+    two_column_content:
+      field_first_column:
+        enabled: true
+      field_second_column:
+        enabled: true
+    video:
+      field_single_image:
+        enabled: true
+      field_video:
+        enabled: true
+settings:
+  expose_entity_ids: false
+  schema_description: 'GraphQL Compose'
+  schema_version: '1'
+  simple_unions: false
+  site_name: false
+  site_slogan: false
+  site_front: true

@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Drupal\graphql_compose\Plugin\GraphQLCompose;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Field\Entity\BaseFieldOverride;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\PluginBase;
-use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql_compose\Plugin\GraphQLComposeEntityTypeManager;
 use Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeManager;
 use Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager;
 use Drupal\graphql_compose\Wrapper\EntityTypeWrapper;
-use GraphQL\Type\Definition\Type;
-use GraphQL\Type\Definition\UnionType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use function Symfony\Component\String\u;
@@ -28,31 +28,13 @@ use function Symfony\Component\String\u;
 abstract class GraphQLComposeFieldTypeBase extends PluginBase implements GraphQLComposeFieldTypeInterface, ContainerFactoryPluginInterface {
 
   /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
-    return new static(
-      $configuration,
-      $pluginId,
-      $pluginDefinition,
-      $container->get('entity_type.manager'),
-      $container->get('entity_type.bundle.info'),
-      $container->get('entity_field.manager'),
-      $container->get('graphql_compose.entity_type_manager'),
-      $container->get('graphql_compose.field_type_manager'),
-      $container->get('graphql_compose.schema_type_manager'),
-      $container->get('module_handler')
-    );
-  }
-
-  /**
-   * Entity Type plugin constructor.
+   * Constructs a GraphQLComposeFieldTypeBase object.
    *
    * @param array $configuration
    *   The plugin configuration array.
-   * @param string $pluginId
+   * @param string $plugin_id
    *   The plugin id.
-   * @param array $pluginDefinition
+   * @param array $plugin_definition
    *   The plugin definition array.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   Entity type manager service.
@@ -61,27 +43,49 @@ abstract class GraphQLComposeFieldTypeBase extends PluginBase implements GraphQL
    * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entityFieldManager
    *   Entity field manager service.
    * @param \Drupal\graphql_compose\Plugin\GraphQLComposeEntityTypeManager $gqlEntityTypeManager
-   *   Entity type plugin manager.
+   *   GraphQL Compose entity type plugin manager.
    * @param \Drupal\graphql_compose\Plugin\GraphQLComposeFieldTypeManager $gqlFieldTypeManager
-   *   Field type plugin manager.
+   *   GraphQL Compose field type plugin manager.
    * @param \Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager $gqlSchemaTypeManager
-   *   SDL type plugin manager.
+   *   GraphQL Compose schema type plugin manager.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The module handler service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
+   *   The config factory service.
    */
   public function __construct(
     array $configuration,
-    $pluginId,
-    array $pluginDefinition,
+    $plugin_id,
+    array $plugin_definition,
     protected EntityTypeManagerInterface $entityTypeManager,
     protected EntityTypeBundleInfoInterface $entityTypeBundleInfo,
     protected EntityFieldManagerInterface $entityFieldManager,
     protected GraphQLComposeEntityTypeManager $gqlEntityTypeManager,
     protected GraphQLComposeFieldTypeManager $gqlFieldTypeManager,
     protected GraphQLComposeSchemaTypeManager $gqlSchemaTypeManager,
-    protected ModuleHandlerInterface $moduleHandler
+    protected ModuleHandlerInterface $moduleHandler,
+    protected ConfigFactoryInterface $configFactory
   ) {
-    parent::__construct($configuration, $pluginId, $pluginDefinition);
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->get('entity_type.manager'),
+      $container->get('entity_type.bundle.info'),
+      $container->get('entity_field.manager'),
+      $container->get('graphql_compose.entity_type_manager'),
+      $container->get('graphql_compose.field_type_manager'),
+      $container->get('graphql_compose.schema_type_manager'),
+      $container->get('module_handler'),
+      $container->get('config.factory')
+    );
   }
 
   /**
@@ -108,6 +112,13 @@ abstract class GraphQLComposeFieldTypeBase extends PluginBase implements GraphQL
   /**
    * {@inheritdoc}
    */
+  public function setEntityWrapper(EntityTypeWrapper $entity_wrapper): void {
+    $this->configuration['entity'] = $entity_wrapper;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getEntityWrapper(): ?EntityTypeWrapper {
     return $this->configuration['entity'] ?? NULL;
   }
@@ -116,7 +127,8 @@ abstract class GraphQLComposeFieldTypeBase extends PluginBase implements GraphQL
    * {@inheritdoc}
    */
   public function getDescription(): ?string {
-    return $this->configuration['description'] ?? NULL;
+    $description = $this->configuration['description'] ?? NULL;
+    return is_null($description) ? NULL : (string) $description;
   }
 
   /**
@@ -135,27 +147,7 @@ abstract class GraphQLComposeFieldTypeBase extends PluginBase implements GraphQL
    * {@inheritdoc}
    */
   public function getTypeSdl(): string {
-    return $this->pluginDefinition['type_sdl'] ?? $this->configuration['type_sdl'];
-  }
-
-  /**
-   * Get common union name between entity bundles.
-   */
-  public function getUnionTypeSdl(): string
-  {
-    $definition = $this->getFieldDefinition();
-    $field_parent_entity = $definition->getTargetEntityTypeId();
-    $field_parent_bundle = $definition->getTargetBundle();
-    $parent_entity_plugin_type = $this->gqlEntityTypeManager->getPluginInstance($field_parent_entity);
-    $parent_bundle_sdl = $parent_entity_plugin_type->getBundle($field_parent_bundle)->getTypeSdl();
-    $name_sdl = u($this->getNameSdl())
-      ->camel()
-      ->title()
-      ->prepend('Field')
-      ->append('Union')
-      ->toString();
-
-    return $parent_bundle_sdl . $name_sdl;
+    return $this->configuration['type_sdl'] ?? $this->pluginDefinition['type_sdl'];
   }
 
   /**
@@ -172,69 +164,20 @@ abstract class GraphQLComposeFieldTypeBase extends PluginBase implements GraphQL
     return $this->configuration['required'] ?? FALSE;
   }
 
-  public function registerTypes(): void
-  {
+  /**
+   * {@inheritdoc}
+   */
+  public function isBaseField(): bool {
+    $field_definition = $this->getFieldDefinition();
 
-    $type = $this->getFieldType();
-    if ($type === "entity_reference" || $type === "entity_reference_revisions") {
-      $settings = $this->getFieldDefinition()->getSettings();
-      $target_type = $settings["target_type"];
-      if ($target_type != 'domain' && isset($settings["handler_settings"]["target_bundles"])) {
-        $entity_plugin_type = $this->gqlEntityTypeManager->getPluginInstance($target_type);
-        $target_bundles = $settings["handler_settings"]["target_bundles"];
-
-        if ($target_bundles && count($target_bundles) > 1) {
-          $bundles = [];
-          foreach ($target_bundles as $key => $bundle) {
-            if ($entity_plugin_type->getBundle($bundle)) {
-              $bundles[$key] = $entity_plugin_type->getBundle($bundle);
-            }
-          }
-          $union = new UnionType([
-            'name' => $this->getUnionTypeSdl(),
-            'types' => fn () => array_map(
-              fn (EntityTypeWrapper $bundle): Type => $this->gqlSchemaTypeManager->get($bundle->getTypeSdl()),
-              $bundles
-            ) ?: [$this->gqlSchemaTypeManager->get('UnsupportedType')],
-          ]);
-
-          $this->gqlSchemaTypeManager->add($union);
-        }
-      }
-    }
+    return ($field_definition instanceof BaseFieldDefinition || $field_definition instanceof BaseFieldOverride);
   }
 
   /**
    * {@inheritdoc}
-   *
-   * Resolve unions only if there is multiple enabled bundles.
    */
-  public function registerResolvers(ResolverRegistryInterface $registry): void
-  {
-
-    $type = $this->getFieldType();
-    if ($type === "entity_reference" || $type === "entity_reference_revisions") {
-      $settings = $this->getFieldDefinition()->getSettings();
-      $target_type = $settings["target_type"];
-      if ($target_type != 'domain' && isset($settings["handler_settings"]["target_bundles"])) {
-        $bundles = $settings["handler_settings"]["target_bundles"];
-        if ($bundles && count($bundles) > 1) {
-          $entity_plugin_type = $this->gqlEntityTypeManager->getPluginInstance($target_type);
-          $entity_class = $this->entityTypeManager
-            ->getDefinition($target_type)
-            ->getClass();
-          $registry->addTypeResolver(
-            $this->getUnionTypeSdl(),
-            function ($value) use ($entity_class, $entity_plugin_type) {
-              if ($value instanceof ($entity_class)) {
-                return $entity_plugin_type->getBundle($value->bundle())->getTypeSdl();
-              }
-              throw new \InvalidArgumentException('Could not resolve entity union type.');
-            }
-          );
-        }
-      }
-    }
+  public function getArgsSdl(): array {
+    return [];
   }
 
 }

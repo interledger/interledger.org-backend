@@ -6,6 +6,8 @@
  */
 
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Access\AccessResultInterface;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * @addtogroup hooks
@@ -29,11 +31,14 @@ use Drupal\Core\Access\AccessResult;
  *     \Drupal\Core\Field\FieldItemListInterface object.
  *   - default: A boolean indicating whether the form is being shown as a dummy
  *     form to set default values.
+ *
+ * @return \Drupal\Core\Access\AccessResultInterface
+ *   The access result.
  */
-function hook_paragraphs_ee_widget_access(array $elements, FormStateInterface $form_state, array $context) {
+function hook_paragraphs_ee_widget_access(array $elements, FormStateInterface $form_state, array $context): AccessResultInterface {
   /** @var \Drupal\entity_reference_revisions\EntityReferenceRevisionsFieldItemList $items */
   $items = $context['items'];
-  if (empty($items)) {
+  if ($items->isEmpty()) {
     return AccessResult::forbidden('No items available in widget.');
   }
   return AccessResult::neutral();

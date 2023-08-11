@@ -32,48 +32,46 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SchemaEnumValue extends DataProducerPluginBase implements ContainerFactoryPluginInterface {
 
   /**
-   * Field producer constructor.
+   * Schema type manager.
    *
-   * @param array $configuration
-   *   The plugin configuration array.
-   * @param string $pluginId
-   *   The plugin id.
-   * @param mixed $pluginDefinition
-   *   The plugin definition.
-   * @param \Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager $gqlSchemaTypeManager
-   *   Schema type manager.
+   * @var \Drupal\graphql_compose\Plugin\GraphQLComposeSchemaTypeManager
    */
-  public function __construct(
-    array $configuration,
-    $pluginId,
-    $pluginDefinition,
-    protected GraphQLComposeSchemaTypeManager $gqlSchemaTypeManager,
-  ) {
-    parent::__construct($configuration, $pluginId, $pluginDefinition);
-  }
+  protected GraphQLComposeSchemaTypeManager $gqlSchemaTypeManager;
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
-    return new static(
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $instance = new static(
       $configuration,
-      $pluginId,
-      $pluginDefinition,
-      $container->get('graphql_compose.schema_type_manager'),
+      $plugin_id,
+      $plugin_definition,
     );
+
+    $instance->gqlSchemaTypeManager = $container->get('graphql_compose.schema_type_manager');
+
+    return $instance;
   }
 
   /**
    * Finds the requested enum value.
+   *
+   * @param string $type
+   *   The enum type to search.
+   * @param string|array $value
+   *   The value(s) to search for.
+   *
+   * @return string|array|null
+   *   The found value(s).
    */
   public function resolve(string $type, string|array $value): string | array | null {
-    /** @var \GraphQL\Type\Definition\EnumType $type */
+
     $type = $this->gqlSchemaTypeManager->get($type);
     if (!$type || !$value) {
       return NULL;
     }
 
+    /** @var \GraphQL\Type\Definition\EnumType $type */
     if (!is_array($value)) {
       return $type->getValue($value)?->value ?: NULL;
     }

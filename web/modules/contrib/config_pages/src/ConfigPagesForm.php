@@ -371,7 +371,7 @@ class ConfigPagesForm extends ContentEntityForm {
         '#value' => t('Clear values'),
         '#submit' => ['::configPagesClearValues'],
         '#button_type' => "submit",
-        '#access' => $this->user->hasPermission('administer config_pages entity'),
+        '#access' => $this->user->hasPermission('edit ' . $entity->bundle() . ' config page entity'),
       ];
     }
 

@@ -7,9 +7,10 @@ namespace Drupal\graphql_compose_routes\Plugin\GraphQLCompose\SchemaType;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeSchemaTypeBase;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\UnionType;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "RouteRedirect"
@@ -18,7 +19,7 @@ use GraphQL\Type\Definition\Type;
 class RouteRedirect extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -30,8 +31,14 @@ class RouteRedirect extends GraphQLComposeSchemaTypeBase {
         static::type('Route'),
       ],
       'fields' => fn() => [
-        'url' => Type::nonNull(Type::string()),
-        'internal' => Type::nonNull(Type::boolean()),
+        'url' => [
+          'type' => Type::nonNull(Type::string()),
+          'description' => (string) $this->t('URL of this route.'),
+        ],
+        'internal' => [
+          'type' => Type::nonNull(Type::boolean()),
+          'description' => (string) $this->t('Whether this route is internal or external.'),
+        ],
         'status' => [
           'type' => Type::nonNull(Type::int()),
           'description' => (string) $this->t('Suggested status for redirect. Eg 301.'),
@@ -44,6 +51,24 @@ class RouteRedirect extends GraphQLComposeSchemaTypeBase {
     ]);
 
     return $types;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getExtensions(): array {
+    $extensions = parent::getExtensions();
+
+    if ($this->moduleHandler->moduleExists('redirect')) {
+      $extensions[] = new UnionType([
+        'name' => 'RouteUnion',
+        'types' => [
+          static::type('RouteRedirect'),
+        ],
+      ]);
+    }
+
+    return $extensions;
   }
 
 }

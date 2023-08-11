@@ -3,6 +3,7 @@
 namespace Drupal\metatag_favicons\Plugin\metatag\Tag;
 
 use Drupal\metatag\Plugin\metatag\Tag\LinkRelBase;
+use Drupal\Component\Utility\Random;
 
 /**
  * The Favicons "mask-icon" meta tag.
@@ -24,7 +25,7 @@ class MaskIcon extends LinkRelBase {
   /**
    * {@inheritdoc}
    */
-  public function form(array $element = []) {
+  public function form(array $element = []): array {
     $form['#container'] = TRUE;
     $form['#tree'] = TRUE;
 
@@ -63,7 +64,7 @@ class MaskIcon extends LinkRelBase {
   /**
    * {@inheritdoc}
    */
-  public function output() {
+  public function output(): array {
     $values = $this->value;
 
     // Make sure the value is an array, if it is not then assume it was assigned
@@ -77,30 +78,31 @@ class MaskIcon extends LinkRelBase {
     }
 
     // Build the output.
-    $href = $this->tidy($values['href']);
-    if ($href != '') {
-      $this->tidy($values['href']);
-      $element['#tag'] = 'link';
-      $element['#attributes'] = [
-        'rel' => $this->name(),
-        'href' => $href,
-      ];
+    if (!empty($values['href'])) {
+      $href = $this->tidy($values['href']);
+      if ($href != '') {
+        $element['#tag'] = 'link';
+        $element['#attributes'] = [
+          'rel' => $this->name(),
+          'href' => $href,
+        ];
 
-      // Add the 'color' element.
-      if (!empty($values['color'])) {
-        $element['#attributes']['color'] = $this->tidy($values['color']);
+        // Add the 'color' element.
+        if (!empty($values['color'])) {
+          $element['#attributes']['color'] = $this->tidy($values['color']);
+        }
+
+        return $element;
       }
-
-      return $element;
     }
 
-    return '';
+    return [];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setValue($value) {
+  public function setValue($value): void {
     // Do not store array with empty values.
     if (is_array($value) && empty(array_filter($value))) {
       $this->value = [];
@@ -108,6 +110,39 @@ class MaskIcon extends LinkRelBase {
     else {
       $this->value = $value;
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTestFormXpath(): array {
+    // This meta tag provides two separate form fields, so each needs to be
+    // tested.
+    return [
+      "//input[@name='mask_icon[href]' and @type='text']",
+      "//input[@name='mask_icon[color]' and @type='text']",
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTestFormData(): array {
+    $random = new Random();
+    return [
+      // Use three alphanumeric strings joined with spaces.
+      'mask_icon[href]' => 'https://www.example.com/images/' . $random->word(6) . '.gif',
+      'mask_icon[color]' => '#b1ed9c',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTestOutputValuesXpath(array $values): array {
+    return [
+      "//link[@rel='mask-icon' and @href='{$values['mask_icon[href]']}' and @color='{$values['mask_icon[color]']}']",
+    ];
   }
 
 }

@@ -74,8 +74,8 @@ function admin_toolbar_links_access_filter_filter_non_accessible_links(array &$i
         // Do not filter external URL at all.
         continue;
       }
-      $route_name = $original_link->getRouteName();
-      $route_params = $original_link->getRouteParameters();
+      $route_name = $original_link->getRouteName() ?: $original_link->getUrlObject()->getRouteName();
+      $route_params = $original_link->getRouteParameters() ?: $original_link->getUrlObject()->getRouteParameters();
     }
     elseif (!empty($item['url'])) {
       /** @var \Drupal\Core\Url $url */

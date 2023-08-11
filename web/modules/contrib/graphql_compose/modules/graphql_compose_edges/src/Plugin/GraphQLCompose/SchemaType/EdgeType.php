@@ -11,7 +11,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "Edge",
@@ -22,7 +22,7 @@ class EdgeType extends GraphQLComposeSchemaTypeBase {
   use EnabledBundlesTrait;
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -34,7 +34,7 @@ class EdgeType extends GraphQLComposeSchemaTypeBase {
       '),
       'fields' => fn() => [
         'cursor' => Type::nonNull(static::type('Cursor')),
-        'node' => Type::nonNull(static::type('Node')),
+        'node' => Type::nonNull(static::type('EdgeNode')),
       ],
     ]);
 

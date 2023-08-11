@@ -36,7 +36,7 @@ class UserRoles extends DataProducerPluginBase implements DataProducerPluginCach
    * @return string[]
    *   The roles the user has.
    */
-  public function resolve(UserInterface $user) {
+  public function resolve(UserInterface $user): array {
     return $user->getRoles();
   }
 

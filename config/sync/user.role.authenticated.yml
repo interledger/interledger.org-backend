@@ -2,9 +2,13 @@ uuid: 2bce8678-6710-43ac-a863-1cf26334bf45
 langcode: en
 status: true
 dependencies:
+  config:
+    - node.type.page
   module:
     - contact
+    - file
     - media
+    - node
     - search
     - shortcut
     - system
@@ -18,5 +22,8 @@ permissions:
   - 'access content'
   - 'access shortcuts'
   - 'access site-wide contact form'
+  - 'create page content'
+  - 'delete own files'
+  - 'edit any page content'
   - 'search content'
   - 'view media'

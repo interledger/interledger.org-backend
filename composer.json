@@ -11,7 +11,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://bitbucket.org/rckt/graphql_compose"
+            "url": "https://bitbucket.org/rckt/graphql_compose_extra"
         },
         {
             "type": "composer",
@@ -26,20 +26,21 @@
         "drupal/autocomplete_deluxe": "^2.0",
         "drupal/cloudfront_cache_path_invalidate": "^3.0",
         "drupal/config_pages": "^2.14",
-        "drupal/core-composer-scaffold": "^10",
-        "drupal/core-project-message": "^10",
-        "drupal/core-recommended": "^10",
+        "drupal/core-composer-scaffold": "10.1.1",
+        "drupal/core-project-message": "10.1.1",
+        "drupal/core-recommended": "10.1.1",
         "drupal/entity_reference_purger": "^1.0@beta",
         "drupal/field_group": "^3.4",
         "drupal/focal_point": "^2.0@alpha",
         "drupal/gin": "^3.0@RC",
         "drupal/graphql": "^4.4",
-        "drupal/graphql_compose": "dev-dev-2.0.x",
+        "drupal/graphql_compose": "^2.0@beta",
+        "drupal/graphql_compose_extra": "dev-main",
         "drupal/health_check": "^3.0",
         "drupal/image_styles_builder": "^1.1",
         "drupal/imagemagick": "^3.4",
         "drupal/media_library_edit": "^3.0",
-        "drupal/metatag": "^1.22",
+        "drupal/metatag": "^2.0",
         "drupal/next": "^1.6",
         "drupal/paragraphs": "^1.15",
         "drupal/paragraphs_ee": "^2.1@alpha",
@@ -48,7 +49,9 @@
         "drupal/require_login": "^3.0",
         "drupal/smtp": "^1.2",
         "drupal/svg_image_field": "^2.2",
+        "drupal/token": "^1.12",
         "drupal/upgrade_status": "^4.0",
+        "drupal/viewfield": "^3.0@beta",
         "drush/drush": "^11.3"
     },
     "conflict": {
@@ -74,9 +77,6 @@
             "drupal/decoupled_router": {
                 "Unable to resolve path on node in other language than default": "https://www.drupal.org/files/issues/2022-12-01/decouple_router-3111456-resolve-language-issue-58--get-translation.patch"
             },
-            "drupal/metatag": {
-                "add metatag data type": "https://www.drupal.org/files/issues/2022-10-13/metatag-data-type-support-2945817-154.patch"
-            },
             "drupal/focal_point": {
                 "add crop by aspect ratio": "https://www.drupal.org/files/issues/2021-02-23/3186353-a8e65e97.patch"
             }
@@ -90,6 +90,11 @@
                     "mode": "replace",
                     "path": "scaffold/.htaccess",
                     "overwrite": true
+                },
+                "[web-root]/sites/default/settings.local.php": {
+                    "mode": "replace",
+                    "path": "scaffold/settings.local.php",
+                    "overwrite": false
                 },
                 "[web-root]/sites/development.services.yml": {
                     "mode": "replace",

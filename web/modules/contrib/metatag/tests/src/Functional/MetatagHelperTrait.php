@@ -3,10 +3,13 @@
 namespace Drupal\Tests\metatag\Functional;
 
 use Drupal\Component\Render\FormattableMarkup;
-use Drupal\Component\Utility\Html;
+use Drupal\node\NodeInterface;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\taxonomy\TermInterface;
+use Drupal\taxonomy\VocabularyInterface;
 use Drupal\user\Entity\User;
+use Drupal\user\UserInterface;
 
 /**
  * Misc helper functions for the automated tests.
@@ -16,10 +19,10 @@ trait MetatagHelperTrait {
   /**
    * Log in as user 1.
    *
-   * @return \Drupal\user\Entity\User
+   * @return \Drupal\user\UserInterface
    *   The full user object for user 1, after logging in.
    */
-  protected function loginUser1() {
+  protected function loginUser1(): UserInterface {
     // Load user 1.
     /** @var \Drupal\user\Entity\User $account */
     $account = User::load(1);
@@ -49,7 +52,7 @@ trait MetatagHelperTrait {
    * @return \Drupal\node\NodeInterface
    *   A fully formatted node object.
    */
-  private function createContentTypeNode($title = 'Title test', $body = 'Body test') {
+  private function createContentTypeNode($title = 'Title test', $body = 'Body test'): NodeInterface {
     $content_type = 'metatag_test';
     $args = [
       'type' => $content_type,
@@ -79,10 +82,10 @@ trait MetatagHelperTrait {
    *   be automatically generated. If the 'name' item is not present the 'vid'
    *   will be used.
    *
-   * @return \Drupal\taxonomy\Entity\Vocabulary
+   * @return \Drupal\taxonomy\VocabularyInterface
    *   A fully formatted vocabulary object.
    */
-  private function createVocabulary(array $values = []) {
+  private function createVocabulary(array $values = []): VocabularyInterface {
     // Find a non-existent random type name.
     if (!isset($values['vid'])) {
       do {
@@ -110,10 +113,10 @@ trait MetatagHelperTrait {
    * @param array $values
    *   Items passed to the term. Requires the 'vid' element.
    *
-   * @return \Drupal\taxonomy\Entity\Term
+   * @return \Drupal\taxonomy\Term
    *   A fully formatted term object.
    */
-  private function createTerm(array $values = []) {
+  private function createTerm(array $values = []): TermInterface {
     // Populate defaults array.
     $values += [
       'description' => [

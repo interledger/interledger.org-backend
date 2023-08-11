@@ -1,0 +1,38 @@
+uuid: fa9b0d0b-81a5-455d-8d1f-2ae51638b596
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.foundation_page.body
+    - field.field.node.foundation_page.field_header
+    - field.field.node.foundation_page.field_sections
+    - field.field.node.foundation_page.field_seo_description
+    - field.field.node.foundation_page.field_teaser
+    - node.type.foundation_page
+  module:
+    - text
+    - user
+id: node.foundation_page.teaser
+targetEntityType: node
+bundle: foundation_page
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_header: true
+  field_sections: true
+  field_seo_description: true
+  field_teaser: true

@@ -107,7 +107,7 @@ class MetatagStringTest extends BrowserTestBase {
   /**
    * Tests that specific strings are not double escaped.
    */
-  public function checkString($string) {
+  public function checkString($string): void {
     $this->checkConfig($string);
     $this->checkNode($string);
     $this->checkEncodedField($string);
@@ -116,7 +116,7 @@ class MetatagStringTest extends BrowserTestBase {
   /**
    * Tests that a specific config string is not double encoded.
    */
-  public function checkConfig($string) {
+  public function checkConfig($string): void {
     // The original strings.
     $title_original = 'Title: ' . $string;
     $desc_original = 'Description: ' . $string;
@@ -195,7 +195,7 @@ class MetatagStringTest extends BrowserTestBase {
   /**
    * Tests that a specific node string is not double escaped.
    */
-  public function checkNode($string) {
+  public function checkNode($string): void {
     // The original strings.
     $title_original = 'Title: ' . $string;
     $desc_original = 'Description: ' . $string;
@@ -265,7 +265,7 @@ class MetatagStringTest extends BrowserTestBase {
   /**
    * Tests that fields with encoded HTML entities will not be double-encoded.
    */
-  public function checkEncodedField($string) {
+  public function checkEncodedField($string): void {
     // The original strings.
     $title_original = 'Title: ' . $string;
     $desc_original = 'Description: ' . $string;

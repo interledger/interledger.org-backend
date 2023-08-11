@@ -9,7 +9,7 @@ use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * A choose your own adventure field type.
  * Useful for custom property fields.

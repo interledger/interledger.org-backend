@@ -1,9 +1,0 @@
-name: "GraphQL Compose: Domain"
-description: "Load domain information on entities."
-type: module
-core_version_requirement: ^9 || ^10
-dependencies:
-  - domain:domain
-  - graphql_compose:graphql_compose
-package: GraphQL Compose
-hidden: false

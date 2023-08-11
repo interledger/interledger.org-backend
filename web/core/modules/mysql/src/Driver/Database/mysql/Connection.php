@@ -4,7 +4,7 @@ namespace Drupal\mysql\Driver\Database\mysql;
 
 use Drupal\Core\Database\DatabaseAccessDeniedException;
 use Drupal\Core\Database\DatabaseExceptionWrapper;
-use Drupal\Core\Database\StatementWrapper;
+use Drupal\Core\Database\StatementWrapperIterator;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Database\DatabaseNotFoundException;
 use Drupal\Core\Database\DatabaseException;
@@ -56,7 +56,7 @@ class Connection extends DatabaseConnection implements SupportsTemporaryTablesIn
   /**
    * {@inheritdoc}
    */
-  protected $statementWrapperClass = StatementWrapper::class;
+  protected $statementWrapperClass = StatementWrapperIterator::class;
 
   /**
    * Flag to indicate if the cleanup function in __destruct() should run.
@@ -103,15 +103,18 @@ class Connection extends DatabaseConnection implements SupportsTemporaryTablesIn
     // @see https://dev.mysql.com/doc/refman/5.7/en/sql-mode.html#sqlmode_ansi_quotes
     $ansi_quotes_modes = ['ANSI_QUOTES', 'ANSI', 'DB2', 'MAXDB', 'MSSQL', 'ORACLE', 'POSTGRESQL'];
     $is_ansi_quotes_mode = FALSE;
-    foreach ($ansi_quotes_modes as $mode) {
-      // None of the modes in $ansi_quotes_modes are substrings of other modes
-      // that are not in $ansi_quotes_modes, so a simple stripos() does not
-      // return false positives.
-      if (stripos($connection_options['init_commands']['sql_mode'], $mode) !== FALSE) {
-        $is_ansi_quotes_mode = TRUE;
-        break;
+    if (isset($connection_options['init_commands']['sql_mode'])) {
+      foreach ($ansi_quotes_modes as $mode) {
+        // None of the modes in $ansi_quotes_modes are substrings of other modes
+        // that are not in $ansi_quotes_modes, so a simple stripos() does not
+        // return false positives.
+        if (stripos($connection_options['init_commands']['sql_mode'], $mode) !== FALSE) {
+          $is_ansi_quotes_mode = TRUE;
+          break;
+        }
       }
     }
+
     if ($this->identifierQuotes === ['"', '"'] && !$is_ansi_quotes_mode) {
       $this->identifierQuotes = ['`', '`'];
     }
@@ -229,6 +232,11 @@ class Connection extends DatabaseConnection implements SupportsTemporaryTablesIn
     $connection_options['init_commands'] += [
       'sql_mode' => "SET sql_mode = 'ANSI,TRADITIONAL'",
     ];
+    if (!empty($connection_options['isolation_level'])) {
+      $connection_options['init_commands'] += [
+        'isolation_level' => 'SET SESSION TRANSACTION ISOLATION LEVEL ' . strtoupper($connection_options['isolation_level']),
+      ];
+    }
 
     // Execute initial commands.
     foreach ($connection_options['init_commands'] as $sql) {

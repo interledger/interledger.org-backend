@@ -14,7 +14,7 @@ class QueryEntityTypePluginTypeDeriver extends DeriverBase {
   /**
    * {@inheritdoc}
    *
-   * PLUGIN:ENTITYTYPE:BUNDLE.
+   * Return a deriver with a pattern of PLUGIN:ENTITYTYPE:BUNDLE.
    */
   public function getDerivativeDefinitions($base_plugin_definition) {
 

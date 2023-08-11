@@ -164,8 +164,8 @@
  *   $variables['#attached'] @endcode, e.g.:
  *   @code
  *   function THEME_preprocess_menu_local_action(array &$variables) {
- *     // We require Modernizr's touch test for button styling.
- *     $variables['#attached']['library'][] = 'core/modernizr';
+ *     // We require touch events detection for button styling.
+ *     $variables['#attached']['library'][] = 'core/drupal.touchevents-test';
  *   }
  *   @endcode
  *
@@ -547,7 +547,7 @@ function hook_preprocess(&$variables, $hook) {
   }
 
   if (!isset($hooks)) {
-    $hooks = theme_get_registry();
+    $hooks = \Drupal::service('theme.registry')->get();
   }
 
   // Determine the primary theme function argument.
@@ -664,6 +664,8 @@ function hook_theme_suggestions_HOOK(array $variables) {
  * hook_theme_suggestions_HOOK_alter(). So, for each module or theme, the more
  * general hooks are called first followed by the more specific.
  *
+ * New suggestions must begin with the value of HOOK, followed by two underscores to be discoverable.
+ *
  * In the following example, we provide an alternative template suggestion to
  * node and taxonomy term templates based on the user being logged in.
  * @code
@@ -709,11 +711,27 @@ function hook_theme_suggestions_alter(array &$suggestions, array $variables, $ho
  * hook called (in this case 'node__article') is available in
  * $variables['theme_hook_original'].
  *
+ * New suggestions must begin with the value of HOOK, followed by two underscores to be discoverable.
+ * For example, consider the below suggestions from hook_theme_suggestions_node_alter:
+ *   - node__article is valid
+ *   - node__article__custom_template is valid
+ *   - node--article is invalid
+ *   - article__custom_template is invalid
+ *
  * Implementations of this hook must be placed in *.module or *.theme files, or
  * must otherwise make sure that the hook implementation is available at
  * any given time.
  *
- * @todo Add @code sample.
+ * In the following example, we provide an alternative template suggestion to
+ * node templates based on the user being logged in.
+ * @code
+ * function MYMODULE_theme_suggestions_node_alter(array &$suggestions, array $variables) {
+ *   if (\Drupal::currentUser()->isAuthenticated()) {
+ *     $suggestions[] = 'node__logged_in';
+ *   }
+ * }
+ *
+ * @endcode
  *
  * @param array $suggestions
  *   An array of theme suggestions.
@@ -779,8 +797,7 @@ function hook_extension() {
  * It is the theme engine's responsibility to escape variables. The only
  * exception is if a variable implements
  * \Drupal\Component\Render\MarkupInterface. Drupal is inherently unsafe if
- * other variables are not escaped. The helper function
- * theme_render_and_autoescape() may be used for this.
+ * other variables are not escaped.
  *
  * @param string $template_file
  *   The path (relative to the Drupal root directory) to the template to be
@@ -846,10 +863,12 @@ function hook_element_plugin_alter(array &$definitions) {
  *   An array of all JavaScript being presented on the page.
  * @param \Drupal\Core\Asset\AttachedAssetsInterface $assets
  *   The assets attached to the current response.
+ * @param \Drupal\Core\Language\LanguageInterface $language
+ *   The language for the page request that the assets will be rendered for.
  *
  * @see \Drupal\Core\Asset\AssetResolver
  */
-function hook_js_alter(&$javascript, \Drupal\Core\Asset\AttachedAssetsInterface $assets) {
+function hook_js_alter(&$javascript, \Drupal\Core\Asset\AttachedAssetsInterface $assets, \Drupal\Core\Language\LanguageInterface $language) {
   // Swap out jQuery to use an updated version of the library.
   $javascript['core/assets/vendor/jquery/jquery.min.js']['data'] = \Drupal::service('extension.list.module')->getPath('jquery_update') . '/jquery.js';
 }
@@ -1022,10 +1041,12 @@ function hook_library_info_alter(&$libraries, $extension) {
  *   An array of all CSS items (files and inline CSS) being requested on the page.
  * @param \Drupal\Core\Asset\AttachedAssetsInterface $assets
  *   The assets attached to the current response.
+ * @param \Drupal\Core\Language\LanguageInterface $language
+ *   The language of the request that the assets will be rendered for.
  *
  * @see Drupal\Core\Asset\LibraryResolverInterface::getCssAssets()
  */
-function hook_css_alter(&$css, \Drupal\Core\Asset\AttachedAssetsInterface $assets) {
+function hook_css_alter(&$css, \Drupal\Core\Asset\AttachedAssetsInterface $assets, \Drupal\Core\Language\LanguageInterface $language) {
   // Remove defaults.css file.
   $file_path = \Drupal::service('extension.list.module')->getPath('system') . '/defaults.css';
   unset($css[$file_path]);

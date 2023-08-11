@@ -7,10 +7,13 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 /**
  * The basic "Referrer policy" meta tag.
  *
+ * Note that this meta tag serves the same purpose as the HTTP header
+ * "Referrer-Policy", so both are not needed.
+ *
  * @MetatagTag(
  *   id = "referrer",
  *   label = @Translation("Referrer policy"),
- *   description = @Translation("Indicate to search engines and other page scrapers whether or not links should be followed. See <a href='https://w3c.github.io/webappsec/specs/referrer-policy/'>the W3C specifications</a> for further details."),
+ *   description = @Translation("Indicate to search engines and other page scrapers whether or not links should be followed. See <a href='https://w3c.github.io/webappsec/specs/referrer-policy/'>the W3C specifications</a> for further details. Note: this serves the same purpose as the HTTP header by the same name."),
  *   name = "referrer",
  *   group = "advanced",
  *   weight = 5,
@@ -26,7 +29,7 @@ class Referrer extends MetaNameBase {
   /**
    * {@inheritdoc}
    */
-  public function form(array $element = []) {
+  public function form(array $element = []): array {
     $form = [
       '#type' => 'select',
       '#title' => $this->label(),
@@ -48,7 +51,7 @@ class Referrer extends MetaNameBase {
    * @return array
    *   A list of values available for this select tag.
    */
-  protected function formValues() {
+  protected function formValues(): array {
     return [
       'no-referrer' => $this->t('No Referrer'),
       'no-referrer-when-downgrade' => $this->t('No Referrer When Downgrade'),
@@ -59,6 +62,24 @@ class Referrer extends MetaNameBase {
       'strict-origin-when-cross-origin' => $this->t('Strict Origin When Cross-Origin'),
       'unsafe-url' => $this->t('Unsafe URL'),
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTestFormXpath(): array {
+    return [
+      // @todo This should work but it results in the following error:
+      // DOMXPath::query(): Invalid predicate.
+      // "//select[@name='{$this->id}'",
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTestFormData(): array {
+    return [$this->id => 'no-referrer'];
   }
 
 }

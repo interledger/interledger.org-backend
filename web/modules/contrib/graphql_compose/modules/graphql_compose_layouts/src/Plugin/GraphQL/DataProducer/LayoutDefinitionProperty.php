@@ -9,7 +9,7 @@ use Drupal\graphql\Plugin\DataProducerPluginCachingInterface;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
 
 /**
- * Load drupal layout definition.
+ * Load drupal layout definition property.
  *
  * @DataProducer(
  *   id = "layout_definition_property",
@@ -32,6 +32,14 @@ class LayoutDefinitionProperty extends DataProducerPluginBase implements DataPro
 
   /**
    * Resolve the layout definition.
+   *
+   * @param \Drupal\Core\Layout\LayoutDefinition $layout
+   *   The layout definition.
+   * @param string $path
+   *   The property path.
+   *
+   * @return mixed
+   *   The value of the property.
    */
   public function resolve(LayoutDefinition $layout, string $path): mixed {
     return ($path === 'regions') ? $layout->getRegionNames() : $layout->get($path);

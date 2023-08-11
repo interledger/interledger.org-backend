@@ -1,0 +1,35 @@
+uuid: e08a7802-8582-49ae-a4f5-08b07c66ddbf
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.site_settings
+    - field.storage.config_pages.field_share_image
+    - media.type.image
+  module:
+    - entity_reference_purger
+third_party_settings:
+  entity_reference_purger:
+    remove_orphaned: false
+    use_queue: true
+id: config_pages.site_settings.field_share_image
+field_name: field_share_image
+entity_type: config_pages
+bundle: site_settings
+label: 'Share Image'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

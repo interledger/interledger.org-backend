@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Add comment mutation flag to comment bundles.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_graphql_compose_entity_type_form_alter().
+ */
+function graphql_compose_comments_graphql_compose_entity_type_form_alter(array &$form, FormStateInterface $form_state, EntityTypeInterface $entity_type, string $bundle_id, array $settings): void {
+  if ($entity_type->id() === 'comment') {
+    $form['comments_mutation_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Enable Comment Mutation'),
+      '#default_value' => $settings['comments_mutation_enabled'] ?? FALSE,
+      '#description' => t('Allow users with permission to post comments.'),
+    ];
+  }
+}
+
+/**
+ * Implements hook_config_schema_info_alter().
+ */
+function graphql_compose_comments_config_schema_info_alter(&$definitions) {
+  $definitions['graphql_compose.entity.*.*']['mapping']['comments_mutation_enabled'] = [
+    'type' => 'boolean',
+    'label' => t('Enable comment mutations'),
+  ];
+}

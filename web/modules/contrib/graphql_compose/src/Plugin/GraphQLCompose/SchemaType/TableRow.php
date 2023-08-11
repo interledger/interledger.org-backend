@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "TableRow",
@@ -18,16 +18,27 @@ use GraphQL\Type\Definition\Type;
 class TableRow extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
 
+    if (!$this->moduleHandler->moduleExists('tablefield')) {
+      return [];
+    }
+
     $types[] = new ObjectType([
       'name' => $this->getPluginId(),
+      'description' => (string) $this->t('A row of a table field.'),
       'fields' => fn() => [
-        'weight' => Type::int(),
-        'data'   => Type::listOf(Type::string()),
+        'data' => [
+          'type' => Type::listOf(Type::string()),
+          'description' => (string) $this->t('The data of the row.'),
+        ],
+        'weight' => [
+          'type' => Type::int(),
+          'description' => (string) $this->t('The weight of the row.'),
+        ],
       ],
     ]);
 

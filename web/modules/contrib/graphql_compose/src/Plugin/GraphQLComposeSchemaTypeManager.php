@@ -7,6 +7,7 @@ namespace Drupal\graphql_compose\Plugin;
 use Drupal\Component\Plugin\Exception\PluginNotFoundException;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use GraphQL\Type\Definition\Type;
 use GraphQL\Type\Schema;
@@ -16,8 +17,6 @@ use GraphQL\Utils\SchemaPrinter;
  * Manage graphql types for lazy loading schema creation.
  *
  * A schema type is a plugin that defines how to resolve a GraphQL Type.
- *
- * @package Drupal\graphql_compose
  */
 class GraphQLComposeSchemaTypeManager extends DefaultPluginManager {
 
@@ -36,7 +35,7 @@ class GraphQLComposeSchemaTypeManager extends DefaultPluginManager {
   private array $extensions = [];
 
   /**
-   * GraphQLComposeSchemaTypeManager constructor.
+   * Constructs a GraphQLComposeSchemaTypeManager object.
    *
    * @param bool|string $pluginSubdirectory
    *   The plugin's subdirectory.
@@ -53,6 +52,8 @@ class GraphQLComposeSchemaTypeManager extends DefaultPluginManager {
    *   The cache backend.
    * @param \Drupal\graphql_compose\Plugin\GraphQLComposeEntityTypeManager $gqlEntityTypeManager
    *   Entity type plugin manager.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $loggerFactory
+   *   The logger factory.
    * @param array $config
    *   The configuration service parameter.
    */
@@ -64,6 +65,7 @@ class GraphQLComposeSchemaTypeManager extends DefaultPluginManager {
     $plugin_definition_annotation_name,
     CacheBackendInterface $cache_backend,
     protected GraphQLComposeEntityTypeManager $gqlEntityTypeManager,
+    protected LoggerChannelFactoryInterface $loggerFactory,
     array $config
   ) {
     parent::__construct(
@@ -81,9 +83,17 @@ class GraphQLComposeSchemaTypeManager extends DefaultPluginManager {
 
   /**
    * Hijack the createInstance to store the types and extensions.
+   *
+   * @param string $plugin_id
+   *   The plugin id.
+   * @param array $configuration
+   *   The plugin configuration.
+   *
+   * @return \Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeSchemaTypeInterface
+   *   The plugin instance.
    */
   public function createInstance($plugin_id, array $configuration = []) {
-    /** @var \Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeSchemaTypeBase $instance */
+    /** @var \Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeSchemaTypeInterface $instance */
     $instance = parent::createInstance($plugin_id, $configuration);
 
     foreach ($instance->getTypes() as $type) {
@@ -100,6 +110,15 @@ class GraphQLComposeSchemaTypeManager extends DefaultPluginManager {
 
   /**
    * Store an instance of a type in the registry.
+   *
+   * @param \GraphQL\Type\Definition\Type $type
+   *   The type to store.
+   *
+   * @return \GraphQL\Type\Definition\Type
+   *   The stored type.
+   *
+   * @throws \Exception
+   *   If the type does not have a name.
    */
   public function add(Type $type): Type {
     if (!$type->name) {
@@ -112,35 +131,47 @@ class GraphQLComposeSchemaTypeManager extends DefaultPluginManager {
   /**
    * Get a type by name, or load it up.
    *
-   * @throws \Drupal\Component\Plugin\Exception\PluginException
+   * @param string $plugin_id
+   *   The name of the type.
+   * @param bool $multiple
+   *   Optional, if the type is a list, wrap the type.
+   * @param bool $required
+   *   Optional, if the type is required, wrap the type.
+   *
+   * @return \GraphQL\Type\Definition\Type
+   *   The GraphQL type.
    */
-  public function get(string $name, bool $multiple = FALSE, bool $required = FALSE): Type {
-    $standardTypes = Type::getStandardTypes();
+  public function get(string $plugin_id, bool $multiple = FALSE, bool $required = FALSE): Type {
 
-    if (in_array($name, $standardTypes)) {
-      $type = $standardTypes[$name];
+    $standard_types = array_change_key_case(Type::getStandardTypes(), CASE_LOWER);
+    $standard_id = strtolower($plugin_id);
+    if (array_key_exists($standard_id, $standard_types)) {
+      $type = $standard_types[$standard_id];
     }
     else {
-      if (!array_key_exists($name, $this->types)) {
+      if (!array_key_exists($plugin_id, $this->types)) {
         try {
-          $this->createInstance($name);
+          $this->createInstance($plugin_id);
         }
         catch (PluginNotFoundException $e) {
           // This type may be referenced by a field, but not enabled in GUI.
           // or may not have a defined plugin in GraphqlCompose/SchemaType.
-          $message = 'Type @name not found (perhaps no bundle is enabled?), replacing with UnsupportedType.';
-          \Drupal::logger('graphql_compose')->warning($message, [
-            '@name' => $name,
+          $message = 'Type @plugin_id not found (perhaps no bundle is enabled?), replacing with UnsupportedType.';
+          $this->loggerFactory->get('graphql_compose')->warning($message, [
+            '@plugin_id' => $plugin_id,
           ]);
-          $name = 'UnsupportedType';
-          $this->createInstance($name);
         }
       }
 
-      $type = $this->types[$name];
+      // If the type is still not found, load the UnsupportedType.
+      if (empty($this->types[$plugin_id])) {
+        $this->createInstance('UnsupportedType');
+      }
+
+      // Get the type from the registry.
+      $type = $this->types[$plugin_id] ?? $this->types['UnsupportedType'];
     }
 
-    // Extra utility for fields.
     if ($multiple) {
       $type = Type::listOf(Type::nonNull($type));
     }
@@ -154,32 +185,48 @@ class GraphQLComposeSchemaTypeManager extends DefaultPluginManager {
 
   /**
    * Add an extension to the registry.
+   *
+   * @param \GraphQL\Type\Definition\Type $type
+   *   The type to extend.
+   *
+   * @return \GraphQL\Type\Definition\Type
+   *   The extended type.
    */
   public function extend(Type $type): Type {
-
-    // This is a good spot for a hook probably. Hit me up if you want it.
     $this->extensions[] = $type;
     return $type;
   }
 
   /**
    * Utility function to get current defined types.
+   *
+   * @return \GraphQL\Type\Definition\Type[]
+   *   The types.
    */
-  public function getTypes() {
+  public function getTypes(): array {
     return $this->types;
   }
 
   /**
-   * Utility function to get current estensions.
+   * Utility function to get current extensions.
+   *
+   * @return \GraphQL\Type\Definition\Type[]
+   *   The extensions.
    */
-  public function getExtensions() {
+  public function getExtensions(): array {
     return $this->extensions;
   }
 
   /**
    * Print types as GraphQL strings.
+   *
+   * @return string|null
+   *   The GraphQL schema types.
    */
-  public function printTypes() {
+  public function printTypes(): ?string {
+
+    // Give opportunity to hook this printer.
+    $this->moduleHandler->invokeAll('graphql_compose_print_types', [$this]);
 
     // Load all types.
     foreach ($this->getDefinitions() as $definition) {
@@ -197,11 +244,25 @@ class GraphQLComposeSchemaTypeManager extends DefaultPluginManager {
 
   /**
    * Print extensions as GraphQL strings.
+   *
+   * @return string|null
+   *   The GraphQL schema type extensions.
    */
-  public function printExtensions() {
+  public function printExtensions(): ?string {
+
+    // Give opportunity to hook this printer.
+    $this->moduleHandler->invokeAll('graphql_compose_print_extensions', [$this]);
+
+    $print = function (Type $type) {
+      $printed = SchemaPrinter::printType($type);
+
+      // Allow types to extend only interfaces.
+      // Strip empty {} blocks.
+      return preg_replace('/\{[\s\r\n\t]+\}/', '', $printed);
+    };
 
     $types = array_map(
-      fn($type) => 'extend ' . SchemaPrinter::printType($type),
+      fn($type) => 'extend ' . $print($type),
       $this->extensions
     );
 

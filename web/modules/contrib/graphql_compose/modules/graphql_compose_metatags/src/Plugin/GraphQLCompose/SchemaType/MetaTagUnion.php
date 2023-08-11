@@ -8,7 +8,7 @@ use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeSchemaTypeBase;
 use GraphQL\Type\Definition\UnionType;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "MetaTagUnion",
@@ -17,13 +17,14 @@ use GraphQL\Type\Definition\UnionType;
 class MetaTagUnion extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
 
     $types[] = new UnionType([
       'name' => $this->getPluginId(),
+      'description' => (string) $this->t('A meta tag element.'),
       'types' => fn() => [
         static::type('MetaTagLink'),
         static::type('MetaTagValue'),

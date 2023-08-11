@@ -6,6 +6,9 @@ dependencies:
     - field.field.node.article.body
     - field.field.node.article.field_image
     - field.field.node.article.field_sections
+    - field.field.node.article.field_seo_description
+    - field.field.node.article.field_summary
+    - field.field.node.article.field_teaser
     - node.type.article
   module:
     - entity_reference_revisions
@@ -42,6 +45,29 @@ content:
       link: ''
     third_party_settings: {  }
     weight: 107
+    region: content
+  field_seo_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_summary:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_teaser:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
     region: content
   links:
     settings: {  }

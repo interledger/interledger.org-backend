@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "MetaTagPropertyAttributes",
@@ -18,16 +18,23 @@ use GraphQL\Type\Definition\Type;
 class MetaTagPropertyAttributes extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
 
     $types[] = new ObjectType([
       'name' => $this->getPluginId(),
+      'description' => (string) $this->t("A meta property element's attributes."),
       'fields' => fn() => [
-        'property' => Type::string(),
-        'content' => Type::string(),
+        'property' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The property attribute of the meta tag.'),
+        ],
+        'content' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The content attribute of the meta tag.'),
+        ],
       ],
     ]);
 

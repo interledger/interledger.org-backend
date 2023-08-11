@@ -1,0 +1,152 @@
+uuid: 6efd8222-50e0-41b7-b326-bc4dba139c6a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sections
+    - node.type.foundation_page
+    - paragraphs.paragraphs_type.button
+    - paragraphs.paragraphs_type.content_carousel
+    - paragraphs.paragraphs_type.content_title
+    - paragraphs.paragraphs_type.faqs
+    - paragraphs.paragraphs_type.highlighted_list
+    - paragraphs.paragraphs_type.image_carousel
+    - paragraphs.paragraphs_type.image_full_width
+    - paragraphs.paragraphs_type.image_gallery
+    - paragraphs.paragraphs_type.large_callout_text
+    - paragraphs.paragraphs_type.news_listings
+    - paragraphs.paragraphs_type.price_list
+    - paragraphs.paragraphs_type.spacer
+    - paragraphs.paragraphs_type.text
+    - paragraphs.paragraphs_type.two_column_content
+    - paragraphs.paragraphs_type.video
+  module:
+    - entity_reference_revisions
+id: node.foundation_page.field_sections
+field_name: field_sections
+entity_type: node
+bundle: foundation_page
+label: Sections
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      text: text
+      button: button
+      spacer: spacer
+      large_callout_text: large_callout_text
+      two_column_content: two_column_content
+      content_title: content_title
+      highlighted_list: highlighted_list
+      image_full_width: image_full_width
+      image_carousel: image_carousel
+      image_gallery: image_gallery
+      video: video
+      content_carousel: content_carousel
+      faqs: faqs
+      news_listings: news_listings
+      price_list: price_list
+    negate: 0
+    target_bundles_drag_drop:
+      button:
+        weight: -50
+        enabled: true
+      carousel_item:
+        weight: -38
+        enabled: false
+      content_carousel:
+        weight: -40
+        enabled: true
+      content_title:
+        weight: -46
+        enabled: true
+      divider:
+        weight: 37
+        enabled: false
+      faq:
+        weight: 33
+        enabled: false
+      faqs:
+        weight: 34
+        enabled: true
+      hero_header:
+        weight: -37
+        enabled: false
+      highlighted_list:
+        weight: -45
+        enabled: true
+      highlighted_speakers:
+        weight: -36
+        enabled: false
+      image:
+        weight: -39
+        enabled: false
+      image_carousel:
+        weight: -43
+        enabled: true
+      image_full_width:
+        weight: -44
+        enabled: true
+      image_gallery:
+        weight: -42
+        enabled: true
+      large_callout_text:
+        weight: -48
+        enabled: true
+      media_header:
+        weight: -35
+        enabled: false
+      news_listings:
+        weight: 40
+        enabled: true
+      price:
+        weight: 50
+        enabled: false
+      price_list:
+        weight: 51
+        enabled: true
+      price_option:
+        weight: 52
+        enabled: false
+      schedule:
+        weight: -28
+        enabled: false
+      schedule_day:
+        weight: -27
+        enabled: false
+      social_media:
+        weight: -34
+        enabled: false
+      social_media_link:
+        weight: -33
+        enabled: false
+      spacer:
+        weight: -49
+        enabled: true
+      speakers_grid:
+        weight: -32
+        enabled: false
+      talk_header:
+        weight: -30
+        enabled: false
+      talks_grid:
+        weight: -31
+        enabled: false
+      teaser:
+        weight: -29
+        enabled: false
+      text:
+        weight: -51
+        enabled: true
+      two_column_content:
+        weight: -47
+        enabled: true
+      video:
+        weight: -41
+        enabled: true
+field_type: entity_reference_revisions

@@ -109,7 +109,11 @@ function paragraphs_ee_sets_preprocess_paragraphs_add_dialog__categorized(&$vars
       $vars['groups']['paragraphs_sets'][] = $button;
     }
   }
-  if (!empty($vars['groups']['paragraphs_sets'])) {
+  if (empty($vars['groups']['paragraphs_sets'])) {
+    // Remove empty group.
+    unset($vars['groups']['paragraphs_sets']);
+  }
+  else {
     // Add new button group.
     $vars['categories']['paragraphs_sets'] = [
       'id' => Html::getUniqueId($vars['element']['#id'] . '-category-paragraphs_sets'),

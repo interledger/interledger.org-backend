@@ -72,14 +72,14 @@ class ParagraphsCategory extends ConfigEntityBase implements ParagraphsCategoryI
    * {@inheritdoc}
    */
   public function getDescription() {
-    return $this->get('description');
+    return strval($this->get('description'));
   }
 
   /**
    * {@inheritdoc}
    */
   public function getWeight() {
-    return $this->get('weight');
+    return intval($this->get('weight'));
   }
 
 }

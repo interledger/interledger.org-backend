@@ -11,10 +11,8 @@ use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeBase;
  *
  * @GraphQLComposeEntityType(
  *   id = "node",
- *   interfaces = { "Node" },
  *   prefix = "Node",
  *   base_fields = {
- *     "uuid" = {},
  *     "langcode" = {},
  *     "path" = {},
  *     "created" = {},

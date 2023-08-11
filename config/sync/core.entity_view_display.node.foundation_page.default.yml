@@ -1,0 +1,67 @@
+uuid: f1140fe2-813d-4a4d-9f4c-0d4a7012ca1f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.foundation_page.body
+    - field.field.node.foundation_page.field_header
+    - field.field.node.foundation_page.field_sections
+    - field.field.node.foundation_page.field_seo_description
+    - field.field.node.foundation_page.field_teaser
+    - node.type.foundation_page
+  module:
+    - entity_reference_revisions
+    - text
+    - user
+id: node.foundation_page.default
+targetEntityType: node
+bundle: foundation_page
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_header:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_sections:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_seo_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_teaser:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

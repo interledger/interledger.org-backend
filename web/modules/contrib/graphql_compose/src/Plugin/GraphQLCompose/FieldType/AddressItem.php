@@ -14,7 +14,7 @@ use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeFieldType(
  *   id = "address",
@@ -27,18 +27,20 @@ class AddressItem extends GraphQLComposeFieldTypeBase implements FieldProducerIt
 
   /**
    * Address country repository.
+   *
+   * @var \CommerceGuys\Addressing\Country\CountryRepositoryInterface
    */
   protected CountryRepositoryInterface $countryRepository;
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $instance = parent::create(
       $container,
       $configuration,
-      $pluginId,
-      $pluginDefinition,
+      $plugin_id,
+      $plugin_definition
     );
 
     $instance->countryRepository = $container->get('address.country_repository');
@@ -59,16 +61,16 @@ class AddressItem extends GraphQLComposeFieldTypeBase implements FieldProducerIt
         'name' => $countries[$item->country_code] ?? $item->country_code ?: NULL,
         'code' => $item->country_code ?: NULL,
       ],
-      'givenName'          => $item->given_name ?: NULL,
-      'additionalName'     => $item->additional_name ?: NULL,
-      'familyName'         => $item->family_name ?: NULL,
-      'organization'       => $item->organization ?: NULL,
-      'addressLine1'       => $item->address_line1 ?: NULL,
-      'addressLine2'       => $item->address_line2 ?: NULL,
-      'postalCode'         => $item->postal_code ?: NULL,
-      'sortingCode'        => $item->sorting_code ?: NULL,
-      'dependentLocality'  => $item->dependent_locality ?: NULL,
-      'locality'           => $item->locality ?: NULL,
+      'givenName' => $item->given_name ?: NULL,
+      'additionalName' => $item->additional_name ?: NULL,
+      'familyName' => $item->family_name ?: NULL,
+      'organization' => $item->organization ?: NULL,
+      'addressLine1' => $item->address_line1 ?: NULL,
+      'addressLine2' => $item->address_line2 ?: NULL,
+      'postalCode' => $item->postal_code ?: NULL,
+      'sortingCode' => $item->sorting_code ?: NULL,
+      'dependentLocality' => $item->dependent_locality ?: NULL,
+      'locality' => $item->locality ?: NULL,
       'administrativeArea' => $item->administrative_area ?: NULL,
     ];
   }

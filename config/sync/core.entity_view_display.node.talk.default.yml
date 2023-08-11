@@ -1,0 +1,95 @@
+uuid: 1dce67c0-a63c-45ec-8e43-039c62c5a475
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.talk.body
+    - field.field.node.talk.field_date_time
+    - field.field.node.talk.field_description
+    - field.field.node.talk.field_duration
+    - field.field.node.talk.field_header
+    - field.field.node.talk.field_seo_description
+    - field.field.node.talk.field_speakers
+    - field.field.node.talk.field_teaser
+    - node.type.talk
+  module:
+    - datetime
+    - entity_reference_revisions
+    - text
+    - user
+id: node.talk.default
+targetEntityType: node
+bundle: talk
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_date_time:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_duration:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_header:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_seo_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_speakers:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_teaser:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

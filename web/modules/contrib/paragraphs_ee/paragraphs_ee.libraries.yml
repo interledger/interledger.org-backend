@@ -35,4 +35,3 @@ paragraphs_ee.off_canvas:
     - core/once
     - core/drupal
     - core/drupalSettings
-    - paragraphs_ee/paragraphs_ee.categories

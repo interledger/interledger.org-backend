@@ -10,7 +10,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "LayoutParagraphsInterface",
@@ -19,14 +19,14 @@ use GraphQL\Type\Definition\Type;
 class LayoutParagraphsInterface extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
 
     $types[] = new InterfaceType([
       'name' => $this->getPluginId(),
-      'description' => (string) $this->t('This content has been arranged by a User using a layout builder.'),
+      'description' => (string) $this->t('This content has been arranged by a User using Layout Paragraphs.'),
       'fields' => fn() => [
         'composition' => Type::nonNull(static::type('LayoutParagraphs')),
       ],
@@ -36,7 +36,7 @@ class LayoutParagraphsInterface extends GraphQLComposeSchemaTypeBase {
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getExtensions(): array {
     $extensions = parent::getExtensions();
@@ -53,7 +53,7 @@ class LayoutParagraphsInterface extends GraphQLComposeSchemaTypeBase {
         'fields' => fn() => [
           'composition' => [
             'type' => Type::nonNull(static::type('LayoutParagraphs')),
-            'description' => (string) $this->t('Layout metadata for this paragraph.'),
+            'description' => (string) $this->t('Layout Paragraphs metadata for this paragraph.'),
           ],
         ],
       ]);

@@ -2,7 +2,7 @@ _core:
   default_config_hash: do7QLcSY6lDV82NBI3jy5FNsUwWFjjJzXmHPTGsSvIQ
 quality: 75
 binaries: imagemagick
-path_to_binaries: /usr/local/bin/
+path_to_binaries: /opt/homebrew/bin/
 prepend: ''
 log_warnings: true
 debug: false

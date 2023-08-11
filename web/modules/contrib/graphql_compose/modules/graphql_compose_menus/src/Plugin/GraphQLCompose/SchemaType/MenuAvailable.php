@@ -11,7 +11,7 @@ use GraphQL\Type\Definition\EnumType;
 use function Symfony\Component\String\u;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "MenuAvailable"
@@ -20,21 +20,24 @@ use function Symfony\Component\String\u;
 class MenuAvailable extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
 
-    $config = $this->configFactory->get('graphql_compose.settings');
+    $settings = $this->configFactory->get('graphql_compose.settings');
 
     $menus = array_filter(
       $this->entityTypeManager->getStorage('menu')->loadMultiple(),
-      fn (MenuInterface $menu) => $config->get('menu.' . $menu->id() . '.enabled') ?: FALSE
+      fn (MenuInterface $menu) => $settings->get('entity_config.menu.' . $menu->id() . '.enabled') ?: FALSE
     );
 
     $values = [];
     foreach ($menus as $menu) {
-      $id = u($menu->id())->snake()->upper()->toString();
+      $id = u($menu->id())
+        ->snake()
+        ->upper()
+        ->toString();
 
       $values[$id] = [
         'value' => $menu->id(),

@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "LayoutParagraphsPosition"
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class LayoutParagraphsPosition extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -29,7 +29,7 @@ class LayoutParagraphsPosition extends GraphQLComposeSchemaTypeBase {
       'fields' => fn() => [
         'parentId' => [
           'type' => Type::id(),
-          'description' => (string) $this->t('Parent component this component belongs to.'),
+          'description' => (string) $this->t('The UUID of the component this component belongs to.'),
         ],
         'region' => [
           'type' => Type::string(),

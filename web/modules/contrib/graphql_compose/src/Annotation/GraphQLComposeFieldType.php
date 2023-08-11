@@ -45,7 +45,7 @@ class GraphQLComposeFieldType extends Plugin {
   public $type_sdl;
 
   /**
-   * FieldType constructor.
+   * Constructs a GraphQLComposeFieldType object.
    *
    * @param mixed $values
    *   The plugin annotation values.

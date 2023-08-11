@@ -1,0 +1,103 @@
+uuid: 6d30d6d9-56db-4a32-b303-bf162ba9c67f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_teaser
+    - node.type.article
+    - paragraphs.paragraphs_type.teaser
+  module:
+    - entity_reference_revisions
+id: node.article.field_teaser
+field_name: field_teaser
+entity_type: node
+bundle: article
+label: Teaser
+description: 'Preview image pulled in when post displayed in listings'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      teaser: teaser
+    negate: 0
+    target_bundles_drag_drop:
+      button:
+        weight: 6
+        enabled: false
+      carousel_item:
+        weight: 23
+        enabled: false
+      content_carousel:
+        weight: 28
+        enabled: false
+      content_title:
+        weight: 24
+        enabled: false
+      hero_header:
+        weight: 25
+        enabled: false
+      highlighted_list:
+        weight: 26
+        enabled: false
+      highlighted_speakers:
+        weight: 27
+        enabled: false
+      image:
+        weight: 28
+        enabled: false
+      image_carousel:
+        weight: 29
+        enabled: false
+      image_full_width:
+        weight: 35
+        enabled: false
+      image_gallery:
+        weight: 30
+        enabled: false
+      large_callout_text:
+        weight: 31
+        enabled: false
+      media_header:
+        weight: 32
+        enabled: false
+      schedule:
+        weight: 39
+        enabled: false
+      schedule_day:
+        weight: 40
+        enabled: false
+      social_media:
+        weight: 33
+        enabled: false
+      social_media_link:
+        weight: 34
+        enabled: false
+      spacer:
+        weight: 7
+        enabled: false
+      speakers_grid:
+        weight: 36
+        enabled: false
+      talk_header:
+        weight: 38
+        enabled: false
+      talks_grid:
+        weight: 37
+        enabled: false
+      teaser:
+        weight: 8
+        enabled: true
+      text:
+        weight: 9
+        enabled: false
+      two_column_content:
+        weight: 10
+        enabled: false
+      video:
+        weight: 42
+        enabled: false
+field_type: entity_reference_revisions

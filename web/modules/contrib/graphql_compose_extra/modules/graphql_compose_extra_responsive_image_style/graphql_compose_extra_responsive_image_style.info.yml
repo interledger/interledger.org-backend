@@ -1,0 +1,10 @@
+name: "GraphQL Compose Extra: Responsive Image Styles"
+description: "Enable responsive image styles on image entities"
+type: module
+core_version_requirement: ^9 || ^10
+dependencies:
+  - graphql_compose_extra:graphql_compose_extra
+  - core:image
+  - core:responsive_image
+package: GraphQL Compose Extra
+hidden: false

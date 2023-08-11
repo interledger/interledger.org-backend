@@ -50,7 +50,7 @@ class GraphQLComposeEntityType extends Plugin {
   public $base_fields;
 
   /**
-   * EntityType constructor.
+   * Constructs a GraphQLComposeEntityType object.
    *
    * @param mixed $values
    *   The plugin annotation values.

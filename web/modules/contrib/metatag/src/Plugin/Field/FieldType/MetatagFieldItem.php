@@ -2,6 +2,7 @@
 
 namespace Drupal\metatag\Plugin\Field\FieldType;
 
+use Drupal\Component\Serialization\Json;
 use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\TypedData\DataDefinition;
@@ -16,9 +17,6 @@ use Drupal\Core\TypedData\DataDefinition;
  *   list_class = "\Drupal\metatag\Plugin\Field\FieldType\MetatagFieldItemList",
  *   default_widget = "metatag_firehose",
  *   default_formatter = "metatag_empty_formatter",
- *   serialized_property_names = {
- *     "value"
- *   }
  * )
  */
 class MetatagFieldItem extends FieldItemBase {
@@ -46,20 +44,6 @@ class MetatagFieldItem extends FieldItemBase {
       ->setLabel(t('Metatag'))
       ->setRequired(TRUE);
 
-    $sorted_tags = \Drupal::service('metatag.manager')->sortedGroupsWithTags();
-
-    foreach ($sorted_tags as $group_id => $group) {
-      if (isset($group['tags'])) {
-        foreach ($group['tags'] as $tag_id => $tag) {
-          $properties[$tag_id] = DataDefinition::create('string')
-            ->setLabel(t('@label', ['@label' => $tag['label']]))
-            ->setComputed(TRUE)
-            ->setClass('\Drupal\metatag\TypedData\IndividualTag')
-            ->setSetting('tag_name', $tag_id);
-        }
-      }
-    }
-
     return $properties;
   }
 
@@ -68,7 +52,7 @@ class MetatagFieldItem extends FieldItemBase {
    */
   public function isEmpty() {
     $value = $this->get('value')->getValue();
-    return $value === NULL || $value === '' || $value === serialize([]);
+    return $value === NULL || $value === '' || $value === Json::encode([]);
   }
 
   /**
@@ -86,7 +70,7 @@ class MetatagFieldItem extends FieldItemBase {
 
     // Only unserialize if still serialized string.
     if (is_string($current_value)) {
-      $current_tags = unserialize($current_value, ['allowed_classes' => FALSE]);
+      $current_tags = metatag_data_decode($current_value);
     }
     else {
       $current_tags = $current_value;
@@ -105,7 +89,7 @@ class MetatagFieldItem extends FieldItemBase {
     ksort($tags_to_save);
 
     // Update the value to only save overridden tags.
-    $this->value = serialize($tags_to_save);
+    $this->value = Json::encode($tags_to_save);
   }
 
 }

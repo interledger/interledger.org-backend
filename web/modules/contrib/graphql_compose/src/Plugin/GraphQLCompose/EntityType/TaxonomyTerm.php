@@ -7,20 +7,22 @@ namespace Drupal\graphql_compose\Plugin\GraphQLCompose\EntityType;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeEntityTypeBase;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeEntityType(
  *   id = "taxonomy_term",
- *   interfaces = { "Node" },
  *   type_sdl = "Term",
  *   prefix = "Term",
  *   base_fields = {
- *     "uuid" = {},
  *     "langcode" = {},
  *     "created" = {},
  *     "changed" = {},
  *     "path" = {},
  *     "status" = {},
+ *     "parent" = {
+ *       "required" = FALSE,
+ *       "multiple" = FALSE,
+ *     },
  *     "name" = {
  *       "field_type" = "entity_label",
  *     },

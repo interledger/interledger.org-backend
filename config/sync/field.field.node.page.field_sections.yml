@@ -8,11 +8,18 @@ dependencies:
     - paragraphs.paragraphs_type.button
     - paragraphs.paragraphs_type.content_title
     - paragraphs.paragraphs_type.highlighted_list
-    - paragraphs.paragraphs_type.image
+    - paragraphs.paragraphs_type.highlighted_speakers
+    - paragraphs.paragraphs_type.image_carousel
+    - paragraphs.paragraphs_type.image_full_width
+    - paragraphs.paragraphs_type.image_gallery
     - paragraphs.paragraphs_type.large_callout_text
+    - paragraphs.paragraphs_type.schedule
     - paragraphs.paragraphs_type.spacer
+    - paragraphs.paragraphs_type.speakers_grid
+    - paragraphs.paragraphs_type.talks_grid
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.two_column_content
+    - paragraphs.paragraphs_type.video
   module:
     - entity_reference_revisions
 id: node.page.field_sections
@@ -36,34 +43,89 @@ settings:
       two_column_content: two_column_content
       content_title: content_title
       highlighted_list: highlighted_list
-      image: image
+      image_full_width: image_full_width
+      highlighted_speakers: highlighted_speakers
+      image_carousel: image_carousel
+      image_gallery: image_gallery
+      video: video
+      schedule: schedule
+      speakers_grid: speakers_grid
+      talks_grid: talks_grid
     negate: 0
     target_bundles_drag_drop:
       button:
-        weight: 4
+        weight: -51
         enabled: true
+      carousel_item:
+        weight: -38
+        enabled: false
+      content_carousel:
+        weight: -37
+        enabled: false
       content_title:
-        weight: 9
+        weight: -46
         enabled: true
+      hero_header:
+        weight: -42
+        enabled: false
       highlighted_list:
-        weight: 11
+        weight: -44
+        enabled: true
+      highlighted_speakers:
+        weight: -41
         enabled: true
       image:
-        weight: 13
+        weight: -33
+        enabled: false
+      image_carousel:
+        weight: -40
+        enabled: true
+      image_full_width:
+        weight: -43
+        enabled: true
+      image_gallery:
+        weight: -39
         enabled: true
       large_callout_text:
-        weight: 8
+        weight: -48
         enabled: true
+      media_header:
+        weight: -35
+        enabled: false
+      schedule:
+        weight: -31
+        enabled: true
+      schedule_day:
+        weight: -29
+        enabled: false
+      social_media:
+        weight: -34
+        enabled: false
+      social_media_link:
+        weight: -32
+        enabled: false
       spacer:
-        weight: 5
+        weight: -50
+        enabled: true
+      speakers_grid:
+        weight: -30
+        enabled: true
+      talk_header:
+        weight: -28
+        enabled: false
+      talks_grid:
+        weight: -27
         enabled: true
       teaser:
-        weight: 10
+        weight: -45
         enabled: false
       text:
-        weight: 6
+        weight: -49
         enabled: true
       two_column_content:
-        weight: 8
+        weight: -47
+        enabled: true
+      video:
+        weight: -36
         enabled: true
 field_type: entity_reference_revisions

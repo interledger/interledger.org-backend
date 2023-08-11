@@ -9,6 +9,7 @@ use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\graphql\GraphQL\ResolverBuilder;
 use Drupal\graphql\GraphQL\ResolverRegistryInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPluginBase;
+use GraphQL\Error\UserError;
 
 /**
  * Add blocks to the Schema.
@@ -16,7 +17,7 @@ use Drupal\graphql_compose\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPlug
  * @SchemaExtension(
  *   id = "graphql_compose_blocks_schema",
  *   name = "GraphQL Compose Blocks",
- *   description = "Add blocks to the Schema.",
+ *   description = @Translation("Add blocks to the Schema."),
  *   schema = "graphql_compose"
  * )
  */
@@ -32,38 +33,40 @@ class BlocksSchemaExtension extends SdlSchemaExtensionPluginBase {
       'Query',
       'block',
       $builder->produce('block_load')
-        ->map('block_plugin_id', $builder->fromArgument('block_plugin_id'))
+        ->map('id', $builder->fromArgument('id'))
     );
 
-    foreach (['BlockPlugin', 'BlockContent'] as $plugin_id) {
-      // Block plugin ID.
-      $registry->addFieldResolver(
-        $plugin_id,
-        'id',
-        $builder->callback(fn (BlockPluginInterface $block) => $block->getPluginId())
-      );
+    // Block plugin ID.
+    $registry->addFieldResolver(
+      'BlockInterface',
+      'id',
+      $builder->callback(fn (BlockPluginInterface $block) => $block->getPluginId())
+    );
 
-      // Block derivative ID.
-      $registry->addFieldResolver(
-        $plugin_id,
-        'title',
-        $builder->callback(fn (BlockPluginInterface $block) => $block->label())
-      );
+    // Block title.
+    $registry->addFieldResolver(
+      'BlockInterface',
+      'title',
+      $builder->callback(function (BlockPluginInterface $block) {
+        $config = $block->getConfiguration();
+        $display = $config['label_display'] ?? FALSE;
+        return $display ? $block->label() : NULL;
+      })
+    );
 
-      // Block derivative ID.
-      $registry->addFieldResolver(
-        $plugin_id,
-        'render',
-        $builder->produce('block_render')
-          ->map('block_instance', $builder->fromParent())
-      );
-    }
+    // Block render.
+    $registry->addFieldResolver(
+      'BlockInterface',
+      'render',
+      $builder->produce('block_render')
+        ->map('block_instance', $builder->fromParent())
+    );
 
-    // Block derivative entity.
+    // Block content entity.
     $registry->addFieldResolver(
       'BlockContent',
       'entity',
-      $builder->produce('block_entity_load')
+      $builder->produce('block_content_entity_load')
         ->map('block_instance', $builder->fromParent())
     );
 
@@ -71,13 +74,27 @@ class BlocksSchemaExtension extends SdlSchemaExtensionPluginBase {
     $registry->addTypeResolver(
       'BlockUnion',
       function ($value) {
-        if ($value instanceof BlockContentBlock) {
-          return 'BlockContent';
-        }
+
+        // Generic fallback.
         if ($value instanceof BlockPluginInterface) {
-          return 'BlockPlugin';
+          $type = 'BlockPlugin';
         }
-        throw new \InvalidArgumentException('Could not resolve block union type.');
+
+        if ($value instanceof BlockContentBlock) {
+          $type = 'BlockContent';
+        }
+
+        // Give opportunity to extend this union.
+        $this->moduleHandler->invokeAll('graphql_compose_blocks_union_alter', [
+          $value,
+          &$type,
+        ]);
+
+        if ($type) {
+          return $type;
+        }
+
+        throw new UserError('Could not resolve block union type.');
       }
     );
   }

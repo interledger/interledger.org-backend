@@ -1,0 +1,10 @@
+name: "GraphQL Compose Extra: Metatags Schema"
+description: "Metatag with schema.org information added to GraphQL schema."
+type: module
+core_version_requirement: ^9 || ^10
+dependencies:
+  - graphql_compose_extra:graphql_compose_extra
+  - metatag:metatag
+  - schema_metatag:schema_metatag
+package: GraphQL Compose Extra
+hidden: false

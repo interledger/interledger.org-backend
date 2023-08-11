@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\graphql_compose_edges\Plugin\GraphQL\DataProducer;
 
+use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\graphql\Plugin\DataProducerPluginCachingInterface;
 use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
 use Drupal\graphql_compose_edges\ConnectionInterface;
@@ -32,11 +33,16 @@ class ConnectionNodes extends DataProducerPluginBase implements DataProducerPlug
    *
    * @param \Drupal\graphql_compose_edges\ConnectionInterface $connection
    *   The connection to return the edges from.
+   * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface $metadata
+   *   The cache metadata for this query.
    *
    * @return mixed
    *   The edges for the connection.
    */
-  public function resolve(ConnectionInterface $connection) {
+  public function resolve(ConnectionInterface $connection, RefinableCacheableDependencyInterface $metadata) {
+
+    $connection->setCacheContext($metadata);
+
     return $connection->nodes();
   }
 

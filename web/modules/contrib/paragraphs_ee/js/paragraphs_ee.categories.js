@@ -9,35 +9,33 @@
    *   The dialog to filter items.
    * @param string search
    *   The string to search for.
-   * @param bool search_description
-   *   If <code>true</code> the items description will be searched also.
    */
-  var filterItems = function ($dialog, search, search_description) {
+  var filterItems = function ($dialog, search) {
     if ('' === search) {
       // Display all potentially hidden elements.
       $('.button-group', $dialog).removeClass('js-hide');
-      $('.paragraphs-add-dialog-row', $dialog).removeClass('js-hide');
+      $('.paragraphs-button--add-more', $dialog).removeClass('js-hide');
       return;
     }
-    // Hide rows matching the input.
-    $('.paragraphs-add-dialog-row', $dialog).each(function () {
-      var $row = $(this);
-      var input_found = $('.paragraphs-label', $row).html().toLowerCase().indexOf(search.toLowerCase()) !== -1;
-      var description = $('.paragraphs-description', $row).html() || '';
-      if (search_description) {
-        input_found |= (description.toLowerCase().indexOf(search.toLowerCase()) !== -1);
-      }
+    // Hide buttons not matching the input.
+    $('.paragraphs-button--add-more', $dialog).each(function () {
+      var $button = $(this);
+      // Search in button label.
+      var input_found = $('.paragraphs-label', $button).html().toLowerCase().indexOf(search.toLowerCase()) !== -1;
+      var description = $('.paragraphs-description', $button).html() || '';
+      // Search in button description.
+      input_found |= (description.toLowerCase().indexOf(search.toLowerCase()) !== -1);
       if (input_found) {
-        $row.removeClass('js-hide');
+        $button.removeClass('js-hide');
       }
       else {
-        $row.addClass('js-hide');
+        $button.addClass('js-hide');
       }
     });
-    // Hide categories if no rows are visible.
+    // Hide categories if no buttons are visible.
     $('.button-group', $dialog).each(function () {
       var $group = $(this);
-      if ($('.paragraphs-add-dialog-row.js-hide', $group).length === $('.paragraphs-add-dialog-row', $group).length) {
+      if ($('.paragraphs-button--add-more.js-hide', $group).length === $('.paragraphs-button--add-more', $group).length) {
         $group.addClass('js-hide');
       }
       else {
@@ -47,28 +45,25 @@
   };
 
   /**
-   * Init display toggle for listing in paragraphs modal.
+   * Init filter for paragraphs in paragraphs modal.
    */
-  Drupal.behaviors.initParagraphsEEDialogDisplayToggle = {
+  Drupal.behaviors.initParagraphsEEDialogFilter = {
     attach: function (context) {
       $('.paragraphs-add-dialog--categorized', context).each(function () {
-        var $dialog_wrapper = $(this).closest('.ui-dialog-content, .paragraphs-add-wrapper');
-        var $dialog_header = $dialog_wrapper.find('.dialog-header');
+        var $dialog = $(this);
+        if ($('.paragraphs-button--add-more', $dialog).length < 3) {
+          // We do not need to enable the filter for very few items.
+          return;
+        }
 
-        $dialog_header.each(function (delta, elem) {
-          $(once('paragraphs-ee-dialog-toogle', '.display-toggle', elem)).on('click', function () {
+        var $filter_wrapper = $('.filter', $dialog);
+        $filter_wrapper.removeClass('js-hide');
+
+        $filter_wrapper.each(function (delta, elem) {
+          $(once('paragraphs-ee-dialog-item-filter', '.item-filter', elem)).on('input', function () {
             var $self = $(this);
-            var $dialog_wrapper = $(this).closest('.ui-dialog-content');
-            var $dialog = $dialog_wrapper.find('.paragraphs-add-dialog--categorized');
-
-            if ($self.hasClass('style-list')) {
-              $dialog_wrapper.addClass('paragraphs-style-list');
-              $dialog_wrapper.parent().addClass('paragraphs-style-list');
-            }
-            else {
-              $dialog_wrapper.removeClass('paragraphs-style-list');
-              $dialog_wrapper.parent().removeClass('paragraphs-style-list');
-            }
+            var $dialog_wrapper = $self.closest('.ui-dialog-content');
+            filterItems($dialog_wrapper, $self.val());
           });
         });
       });
@@ -76,40 +71,42 @@
   };
 
   /**
-   * Init filter for paragraphs in paragraphs modal.
+   * Init filter for categories in paragraphs modal.
    */
-  Drupal.behaviors.initParagraphsEEDialogFilter = {
+  Drupal.behaviors.initParagraphsEEDialogCategoriesFilter = {
     attach: function (context) {
       $('.paragraphs-add-dialog--categorized', context).each(function () {
-        var $dialog = $(this);
-        var $dialog_header = $dialog.parent().find('.dialog-header');
-        if ($('.paragraphs-add-dialog-row', $dialog).length < 3) {
-          // We do not need to enable the filter for very few items.
-          return;
-        }
+        // Add handler for "All categories".
+        var $tabCategoriesAll = $('.paragraphs-ee-category-list-item__all', $(this));
+        $tabCategoriesAll.on('click', function () {
+          var $dialog = $(this).closest('.paragraphs-ee-add-dialog');
+          // Display all button groups.
+          $('.paragraphs-ee-buttons .button-group', $dialog).removeClass('is-hidden');
 
-        var $filter_wrapper = $('.filter', $dialog_header);
-        $filter_wrapper.removeClass('js-hide');
-
-        $filter_wrapper.each(function (delta, elem) {
-          $(once('paragraphs-ee-dialog-item-filter', '.item-filter', elem)).on('input', function () {
-            var $self = $(this);
-            var $dialog_wrapper = $self.closest('.ui-dialog-content');
-            var $dialog = $dialog_wrapper.find('.paragraphs-add-dialog--categorized');
-            var $dialog_header = $dialog_wrapper.find('.dialog-header');
-            var $search_description = $('.search-description :checkbox', $dialog_header);
-            filterItems($dialog, $self.val(), $search_description.is(':checked'));
-          });
-
-          $(once('paragraphs-ee-dialog-search-description', '.search-description input[type=checkbox]', elem)).on('change', function () {
-            var $self = $(this);
-            var $dialog_wrapper = $self.closest('.ui-dialog-content');
-            var $dialog = $dialog_wrapper.find('.paragraphs-add-dialog--categorized');
-            var $dialog_header = $dialog_wrapper.find('.dialog-header');
-            var $filter = $('.item-filter', $dialog_header);
-            filterItems($dialog, $filter.val(), $self.is(':checked'));
-          });
+          // Remove highlighting from previously selected category.
+          $('.paragraphs-ee-category-list-item', $dialog).removeClass('is-selected');
+          // Mark current item as selected.
+          $(this).addClass('is-selected');
         });
+
+        // Add handler for paragraph categories.
+        var $tabCategories = $('.paragraphs-ee-category-list-item:not(.paragraphs-ee-category-list-item__all)', $(this));
+        $tabCategories.on('click', function () {
+          var $dialog = $(this).closest('.paragraphs-ee-add-dialog');
+          // Hide all button groups.
+          $('.paragraphs-ee-buttons .button-group', $dialog).addClass('is-hidden');
+          // Display selected button group.
+          var button_group_id = $('a', $(this)).attr('href');
+          $('.paragraphs-ee-buttons ' + button_group_id, $dialog).removeClass('is-hidden');
+
+          // Remove highlighting from previously selected category.
+          $('.paragraphs-ee-category-list-item', $dialog).removeClass('is-selected');
+          // Mark current item as selected.
+          $(this).addClass('is-selected');
+
+          return false;
+        });
+
       });
     }
   };

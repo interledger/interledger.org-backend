@@ -1,0 +1,24 @@
+uuid: 419d2f49-22f7-4851-8ef0-6ca92ceee3f7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_description
+    - filter.format.basic_html
+    - node.type.talk
+  module:
+    - text
+id: node.talk.field_description
+field_name: field_description
+entity_type: node
+bundle: talk
+label: Description
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text_long

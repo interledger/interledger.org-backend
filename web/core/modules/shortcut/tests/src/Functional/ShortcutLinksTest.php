@@ -218,8 +218,8 @@ class ShortcutLinksTest extends ShortcutTestBase {
       'revision' => FALSE,
     ])->save();
     // Test page with HTML tags in title.
-    $this->drupalGet('admin/structure/block/block-content/manage/basic');
-    $page_title = "Edit Basic block custom block type";
+    $this->drupalGet('admin/structure/block-content/manage/basic');
+    $page_title = "Edit Basic block block type";
     $this->assertSession()->pageTextContains($page_title);
     // Add shortcut to this page.
     $this->clickLink('Add to Default shortcuts');

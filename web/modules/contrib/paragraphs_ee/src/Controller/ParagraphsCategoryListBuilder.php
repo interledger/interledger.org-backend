@@ -9,12 +9,13 @@ use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\paragraphs_ee\ParagraphsCategoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a listing of Paragraph category entities.
  */
-class ParagraphsCategoryListBuilder extends DraggableListBuilder {
+class ParagraphsCategoryListBuilder extends DraggableListBuilder implements ParagraphsCategoryListBuilderInterface {
 
   /**
    * {@inheritdoc}
@@ -59,6 +60,7 @@ class ParagraphsCategoryListBuilder extends DraggableListBuilder {
    */
   public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
     return new static(
+      // @phpstan-ignore-next-line
       $entity_type, $container->get('entity_type.manager')->getStorage($entity_type->id()), $container->get('config.factory'), $container->get('messenger')
     );
   }
@@ -66,14 +68,14 @@ class ParagraphsCategoryListBuilder extends DraggableListBuilder {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'paragraphs_category_admin_overview';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildHeader() {
+  public function buildHeader(): array {
     $header['label'] = $this->t('Label');
     $header['description'] = $this->t('Description');
 
@@ -83,11 +85,13 @@ class ParagraphsCategoryListBuilder extends DraggableListBuilder {
   /**
    * {@inheritdoc}
    */
-  public function buildRow(EntityInterface $entity) {
+  public function buildRow(EntityInterface $entity): array {
     $row['label'] = $entity->label();
-    $row['description']['data'] = [
-      '#markup' => $entity->getDescription(),
-    ];
+    if ($entity instanceof ParagraphsCategoryInterface) {
+      $row['description']['data'] = [
+        '#markup' => $entity->getDescription(),
+      ];
+    }
 
     return $row + parent::buildRow($entity);
   }
@@ -95,7 +99,7 @@ class ParagraphsCategoryListBuilder extends DraggableListBuilder {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $form = parent::buildForm($form, $form_state);
     $form['actions']['submit']['#value'] = $this->t('Save');
     return $form;
@@ -104,7 +108,7 @@ class ParagraphsCategoryListBuilder extends DraggableListBuilder {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     parent::submitForm($form, $form_state);
 
     $this->messenger->addStatus($this->t('The Paragraphs category ordering has been saved.'));

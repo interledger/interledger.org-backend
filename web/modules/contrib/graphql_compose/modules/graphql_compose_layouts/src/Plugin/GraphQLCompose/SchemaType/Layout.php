@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "Layout"
@@ -18,7 +18,7 @@ use GraphQL\Type\Definition\Type;
 class Layout extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
@@ -26,9 +26,6 @@ class Layout extends GraphQLComposeSchemaTypeBase {
     $types[] = new ObjectType([
       'name' => $this->getPluginId(),
       'description' => (string) $this->t('A layout defined by the CMS.'),
-      'interfaces' => fn() => [
-        static::type('Node'),
-      ],
       'fields' => fn() => [
         'id' => [
           'type' => Type::nonNull(Type::id()),

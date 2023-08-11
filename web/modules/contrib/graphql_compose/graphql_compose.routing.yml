@@ -1,0 +1,19 @@
+graphql_compose.schema:
+  path: '/admin/config/graphql_compose'
+  defaults:
+    _form: '\Drupal\graphql_compose\Form\SchemaForm'
+    _title: 'GraphQL Compose Schema'
+  requirements:
+    _permission: 'administer graphql configuration'
+  options:
+    _admin_route: TRUE
+
+graphql_compose.settings:
+  path: '/admin/config/graphql_compose/settings'
+  defaults:
+    _form: '\Drupal\graphql_compose\Form\SettingsForm'
+    _title: 'GraphQL Compose Settings'
+  requirements:
+    _permission: 'administer graphql configuration'
+  options:
+    _admin_route: TRUE

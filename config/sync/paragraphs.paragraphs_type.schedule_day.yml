@@ -1,0 +1,16 @@
+uuid: f6f66dad-a499-4cd5-b081-cb534411c022
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: schedule_day
+label: 'Schedule Day'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

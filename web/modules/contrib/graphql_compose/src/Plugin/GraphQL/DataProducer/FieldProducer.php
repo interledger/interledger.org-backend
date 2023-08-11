@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   name = @Translation("Field plugin resolver"),
  *   description = @Translation("Returns plugin field item resolution."),
  *   produces = @ContextDefinition("any",
- *     label = @Translation("Field plgin item result")
+ *     label = @Translation("Field plugin item result")
  *   ),
  *   consumes = {
  *     "plugin" = @ContextDefinition("any",
@@ -37,40 +37,33 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class FieldProducer extends DataProducerPluginBase implements FieldProducerItemsInterface, FieldProducerItemInterface, ContainerFactoryPluginInterface {
 
   /**
-   * Field producer constructor.
+   * The renderer service.
    *
-   * @param array $configuration
-   *   The plugin configuration array.
-   * @param string $pluginId
-   *   The plugin id.
-   * @param mixed $pluginDefinition
-   *   The plugin definition.
-   * @param \Drupal\Core\Render\RendererInterface $renderer
-   *   The renderer service.
-   * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
-   *   The module handler service.
+   * @var \Drupal\Core\Render\RendererInterface
    */
-  public function __construct(
-    array $configuration,
-    $pluginId,
-    $pluginDefinition,
-    protected RendererInterface $renderer,
-    protected ModuleHandlerInterface $moduleHandler
-  ) {
-    parent::__construct($configuration, $pluginId, $pluginDefinition);
-  }
+  protected RendererInterface $renderer;
+
+  /**
+   * The module handler service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected ModuleHandlerInterface $moduleHandler;
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
-    return new static(
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    $instance = new static(
       $configuration,
-      $pluginId,
-      $pluginDefinition,
-      $container->get('renderer'),
-      $container->get('module_handler'),
+      $plugin_id,
+      $plugin_definition
     );
+
+    $instance->renderer = $container->get('renderer');
+    $instance->moduleHandler = $container->get('module_handler');
+
+    return $instance;
   }
 
   /**
@@ -106,7 +99,7 @@ class FieldProducer extends DataProducerPluginBase implements FieldProducerItems
   }
 
   /**
-   * Resolve file field items.
+   * Resolve producer field items.
    *
    * @param mixed $consumes
    *   Consumption options passed to the field.

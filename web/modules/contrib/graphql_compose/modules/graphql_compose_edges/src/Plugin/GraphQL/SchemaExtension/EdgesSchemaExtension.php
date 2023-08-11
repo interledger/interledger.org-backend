@@ -14,7 +14,7 @@ use Drupal\graphql_compose_edges\EnabledBundlesTrait;
  *
  * @SchemaExtension(
  *   id = "graphql_compose_edges_schema",
- *   name = "Edges Schema Extension",
+ *   name = "GraphQL Compose Edges",
  *   description = @Translation("Multiple query loading edge connections per entity type."),
  *   schema = "graphql_compose"
  * )
@@ -52,6 +52,7 @@ class EdgesSchemaExtension extends SdlSchemaExtensionPluginBase {
       $builder->produce('edge_cursor')
         ->map('edge', $builder->fromParent())
     );
+
     $registry->addFieldResolver('Edge', 'node',
       $builder->produce('edge_node')
         ->map('edge', $builder->fromParent())
@@ -61,6 +62,15 @@ class EdgesSchemaExtension extends SdlSchemaExtensionPluginBase {
     foreach ($this->getEnabledBundlePlugins() as $bundle) {
       // graphql_compose_edges_entity_type:node:page.
       $default_producer = 'graphql_compose_edges_entity_type:' . $bundle->entityTypePlugin->getPluginId() . ':' . $bundle->entity->id();
+
+      $definition = $bundle->entityTypePlugin->getPluginDefinition();
+
+      // Some extensions may opt to put the connection elsewhere.
+      // How they do that is up to that extension.
+      $query_enabled = $definition['edges_query'] ?? TRUE;
+      if (!$query_enabled) {
+        continue;
+      }
 
       $registry->addFieldResolver(
         'Query',
@@ -72,7 +82,9 @@ class EdgesSchemaExtension extends SdlSchemaExtensionPluginBase {
           ->map('last', $builder->fromArgument('last'))
           ->map('reverse', $builder->fromArgument('reverse'))
           ->map('sortKey', $builder->fromArgument('sortKey'))
-      );
+          ->map('langcode', $builder->fromArgument('langcode'))
+        );
+
     }
   }
 

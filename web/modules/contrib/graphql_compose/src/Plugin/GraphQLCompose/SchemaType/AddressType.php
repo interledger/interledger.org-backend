@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "Address"
@@ -18,27 +18,31 @@ use GraphQL\Type\Definition\Type;
 class AddressType extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
+
+    if (!$this->moduleHandler->moduleExists('address')) {
+      return [];
+    }
 
     $types[] = new ObjectType([
       'name' => $this->getPluginId(),
       'description' => (string) $this->t('Complex address data.'),
       'fields' => fn() => [
-        'langcode'           => Type::string(),
-        'country'            => static::type('AddressCountry'),
-        'givenName'          => Type::string(),
-        'additionalName'     => Type::string(),
-        'familyName'         => Type::string(),
-        'organization'       => Type::string(),
-        'addressLine1'       => Type::string(),
-        'addressLine2'       => Type::string(),
-        'postalCode'         => Type::string(),
-        'sortingCode'        => Type::string(),
-        'dependentLocality'  => Type::string(),
-        'locality'           => Type::string(),
+        'langcode' => Type::string(),
+        'country' => static::type('AddressCountry'),
+        'givenName' => Type::string(),
+        'additionalName' => Type::string(),
+        'familyName' => Type::string(),
+        'organization' => Type::string(),
+        'addressLine1' => Type::string(),
+        'addressLine2' => Type::string(),
+        'postalCode' => Type::string(),
+        'sortingCode' => Type::string(),
+        'dependentLocality' => Type::string(),
+        'locality' => Type::string(),
         'administrativeArea' => Type::string(),
       ],
     ]);

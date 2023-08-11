@@ -105,7 +105,7 @@ class MetatagFieldInstance extends DrupalSqlBase {
    * @return \ArrayIterator
    *   An array iterator object containing the entity type and bundle.
    */
-  public function initializeIterator() {
+  public function initializeIterator(): \ArrayIterator {
     $bundles = [];
     foreach (parent::initializeIterator() as $instance) {
       // For entity types for which we support creating derivatives, do not

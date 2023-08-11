@@ -1,0 +1,19 @@
+uuid: 87c0ce5e-58a4-4803-bbf6-2acb6a01c89f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_company
+    - node.type.speaker
+id: node.speaker.field_company
+field_name: field_company
+entity_type: node
+bundle: speaker
+label: Company
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

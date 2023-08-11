@@ -1,0 +1,124 @@
+uuid: 4ae64d4b-7d96-4649-b138-33b7d46f6d7f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_prices_main
+    - paragraphs.paragraphs_type.price
+    - paragraphs.paragraphs_type.price_list
+  module:
+    - entity_reference_revisions
+id: paragraph.price_list.field_prices_main
+field_name: field_prices_main
+entity_type: paragraph
+bundle: price_list
+label: 'Prices Main'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      price: price
+    negate: 0
+    target_bundles_drag_drop:
+      button:
+        weight: 33
+        enabled: false
+      carousel_item:
+        weight: 34
+        enabled: false
+      content_carousel:
+        weight: 35
+        enabled: false
+      content_title:
+        weight: 36
+        enabled: false
+      divider:
+        weight: 37
+        enabled: false
+      faq:
+        weight: 38
+        enabled: false
+      faqs:
+        weight: 39
+        enabled: false
+      hero_header:
+        weight: 40
+        enabled: false
+      highlighted_list:
+        weight: 41
+        enabled: false
+      highlighted_speakers:
+        weight: 42
+        enabled: false
+      image:
+        weight: 43
+        enabled: false
+      image_carousel:
+        weight: 44
+        enabled: false
+      image_full_width:
+        weight: 45
+        enabled: false
+      image_gallery:
+        weight: 46
+        enabled: false
+      large_callout_text:
+        weight: 47
+        enabled: false
+      media_header:
+        weight: 48
+        enabled: false
+      news_listings:
+        weight: 49
+        enabled: false
+      price:
+        weight: 50
+        enabled: true
+      price_list:
+        weight: 51
+        enabled: false
+      price_option:
+        weight: 52
+        enabled: false
+      schedule:
+        weight: 53
+        enabled: false
+      schedule_day:
+        weight: 54
+        enabled: false
+      social_media:
+        weight: 55
+        enabled: false
+      social_media_link:
+        weight: 56
+        enabled: false
+      spacer:
+        weight: 57
+        enabled: false
+      speakers_grid:
+        weight: 58
+        enabled: false
+      talk_header:
+        weight: 60
+        enabled: false
+      talks_grid:
+        weight: 59
+        enabled: false
+      teaser:
+        weight: 61
+        enabled: false
+      text:
+        weight: 62
+        enabled: false
+      two_column_content:
+        weight: 63
+        enabled: false
+      video:
+        weight: 64
+        enabled: false
+field_type: entity_reference_revisions

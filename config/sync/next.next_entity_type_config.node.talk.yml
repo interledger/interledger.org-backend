@@ -1,0 +1,19 @@
+uuid: da779fbc-57b4-430a-9fac-8a61d28f2499
+langcode: en
+status: true
+dependencies:
+  module:
+    - next_extras
+third_party_settings:
+  next_extras:
+    revalidate: false
+    revalidate_paths: ''
+id: node.talk
+site_resolver: site_selector
+configuration:
+  sites:
+    client: client
+revalidator: path
+revalidator_configuration:
+  revalidate_page: true
+  additional_paths: ''

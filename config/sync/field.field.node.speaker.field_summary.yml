@@ -1,0 +1,24 @@
+uuid: 87febd3e-65da-4fde-b36f-0024a39356a3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_summary
+    - filter.format.plain_text
+    - node.type.speaker
+  module:
+    - text
+id: node.speaker.field_summary
+field_name: field_summary
+entity_type: node
+bundle: speaker
+label: Summary
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - plain_text
+field_type: text_long

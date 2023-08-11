@@ -8,7 +8,7 @@ use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeSchemaTypeBase;
 use GraphQL\Type\Definition\CustomScalarType;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "Attributes",
@@ -17,14 +17,14 @@ use GraphQL\Type\Definition\CustomScalarType;
 class AttributesType extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
 
     $types[] = new CustomScalarType([
       'name' => $this->getPluginId(),
-      'description' => (string) $this->t('Untyped attribute data. Eg configuration, settings.'),
+      'description' => (string) $this->t('Untyped attribute data. Eg configuration, settings, attributes.'),
     ]);
 
     return $types;

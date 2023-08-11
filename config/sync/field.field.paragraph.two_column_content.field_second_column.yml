@@ -6,9 +6,11 @@ dependencies:
     - field.storage.paragraph.field_second_column
     - paragraphs.paragraphs_type.button
     - paragraphs.paragraphs_type.content_title
+    - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.spacer
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.two_column_content
+    - paragraphs.paragraphs_type.video
   module:
     - entity_reference_revisions
 id: paragraph.two_column_content.field_second_column
@@ -29,26 +31,67 @@ settings:
       spacer: spacer
       text: text
       content_title: content_title
+      image: image
+      video: video
     negate: 0
     target_bundles_drag_drop:
       button:
         weight: 5
         enabled: true
+      carousel_item:
+        weight: 17
+        enabled: false
       content_title:
         weight: 9
         enabled: true
+      hero_header:
+        weight: 19
+        enabled: false
       highlighted_list:
         weight: 12
         enabled: false
+      highlighted_speakers:
+        weight: 21
+        enabled: false
       image:
         weight: 13
+        enabled: true
+      image_carousel:
+        weight: 23
+        enabled: false
+      image_gallery:
+        weight: 24
         enabled: false
       large_callout_text:
         weight: 10
         enabled: false
+      media_header:
+        weight: 34
+        enabled: false
+      schedule:
+        weight: 35
+        enabled: false
+      schedule_day:
+        weight: 36
+        enabled: false
+      social_media:
+        weight: 37
+        enabled: false
+      social_media_link:
+        weight: 38
+        enabled: false
       spacer:
         weight: 6
         enabled: true
+      speakers_grid:
+        weight: 40
+        enabled: false
+      talk_header:
+        weight: 42
+        enabled: false
+      talks_grid:
+        weight: 41
+        enabled: false
       teaser:
         weight: 12
         enabled: false
@@ -58,4 +101,7 @@ settings:
       two_column_content:
         weight: 8
         enabled: false
+      video:
+        weight: 30
+        enabled: true
 field_type: entity_reference_revisions

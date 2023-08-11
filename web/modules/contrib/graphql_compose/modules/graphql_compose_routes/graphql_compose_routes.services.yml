@@ -1,0 +1,5 @@
+services:
+  # Remove once https://github.com/drupal-graphql/graphql/pull/1313 merged
+  graphql_compose_routes.buffer.subrequest:
+    class: Drupal\graphql_compose_routes\GraphQL\Buffers\SubrequestBuffer
+    arguments: ['@http_kernel', '@request_stack']

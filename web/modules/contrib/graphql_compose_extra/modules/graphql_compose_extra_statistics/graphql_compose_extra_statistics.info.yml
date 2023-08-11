@@ -1,0 +1,8 @@
+name: "GraphQL Compose Extra: Statistics"
+description: "Adds mutations to update node count statistics."
+type: module
+core_version_requirement: ^9 || ^10
+dependencies:
+  - graphql_compose_extra:graphql_compose_extra_edges
+package: GraphQL Compose Extra
+hidden: false

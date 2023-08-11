@@ -6,12 +6,12 @@ namespace Drupal\graphql_compose\Plugin\GraphQLCompose\FieldType;
 
 use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\Core\Field\FieldItemInterface;
-use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerItemInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerTrait;
+use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeFieldType(
  *   id = "language",
@@ -27,8 +27,8 @@ class LanguageItem extends GraphQLComposeFieldTypeBase implements FieldProducerI
    */
   public function resolveFieldItem(FieldItemInterface $item, array $context, RefinableCacheableDependencyInterface $metadata) {
     return [
-      'id'        => $item->language->getId(),
-      'name'      => $item->language->getName(),
+      'id' => $item->language->getId(),
+      'name' => $item->language->getName(),
       'direction' => $item->language->getDirection(),
     ];
   }

@@ -12,5 +12,5 @@ $grey-dark: #717171;
 $grey-light: #efefef;
 
 // Elements.
-$border-radius: 7px;
+$border-radius: calc(2 * var(--dropbutton-border-radius-size));
 $border-radius-small: 5px;

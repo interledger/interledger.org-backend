@@ -13,8 +13,8 @@ use Drupal\graphql_compose\Plugin\GraphQL\SchemaExtension\SdlSchemaExtensionPlug
  *
  * @SchemaExtension(
  *   id = "layout_paragraphs_schema_extension",
- *   name = "Layout Paragraphs",
- *   description = "Layout entities",
+ *   name = "GraphQL Compose Layout Paragraphs",
+ *   description = @Translation("Layout entities"),
  *   schema = "graphql_compose"
  * )
  */

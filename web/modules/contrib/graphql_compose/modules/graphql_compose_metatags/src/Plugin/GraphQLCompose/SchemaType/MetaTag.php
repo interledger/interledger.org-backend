@@ -9,7 +9,7 @@ use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\Type;
 
 /**
- * {@inheritDoc}
+ * {@inheritdoc}
  *
  * @GraphQLComposeSchemaType(
  *   id = "MetaTag",
@@ -18,16 +18,19 @@ use GraphQL\Type\Definition\Type;
 class MetaTag extends GraphQLComposeSchemaTypeBase {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function getTypes(): array {
     $types = [];
 
     $types[] = new InterfaceType([
       'name' => $this->getPluginId(),
-      'description' => (string) $this->t('Meta elements are tags used in HTML and XHTML documents to provide structured metadata about a Web page.'),
+      'description' => (string) $this->t('A meta tag element.'),
       'fields' => fn() => [
-        'tag' => Type::nonNull(Type::string()),
+        'tag' => [
+          'type' => Type::nonNull(Type::string()),
+          'description' => (string) $this->t('The HTML tag for this meta element.'),
+        ],
       ],
     ]);
 

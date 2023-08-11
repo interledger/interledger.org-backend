@@ -1,0 +1,33 @@
+uuid: 436f5cfe-47f4-4748-81c6-5ac1b1f4799f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.schedule.field_days
+    - field.field.paragraph.schedule.field_title
+    - paragraphs.paragraphs_type.schedule
+  module:
+    - entity_reference_revisions
+id: paragraph.schedule.default
+targetEntityType: paragraph
+bundle: schedule
+mode: default
+content:
+  field_days:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

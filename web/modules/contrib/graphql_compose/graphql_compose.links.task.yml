@@ -1,0 +1,15 @@
+graphql_compose.settings:
+  title: GraphQL Compose
+  route_name: graphql_compose.schema
+  base_route: entity.graphql_server.collection
+
+graphql_compose.settings.schema:
+  title: Schema
+  route_name: graphql_compose.schema
+  parent_id: graphql_compose.settings
+
+graphql_compose.settings.config:
+  title: Settings
+  route_name: graphql_compose.settings
+  parent_id: graphql_compose.settings
+  weight: 50

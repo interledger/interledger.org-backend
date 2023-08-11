@@ -1,0 +1,16 @@
+uuid: 9e4efbdc-c152-449e-9a71-0301c0861ea6
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: carousel_item
+label: 'Carousel Item'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

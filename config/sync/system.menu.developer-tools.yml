@@ -1,0 +1,8 @@
+uuid: f06dc5fc-1578-4c22-bb34-c316bcdd9b0f
+langcode: en
+status: true
+dependencies: {  }
+id: developer-tools
+label: 'Developer Tools'
+description: ''
+locked: false

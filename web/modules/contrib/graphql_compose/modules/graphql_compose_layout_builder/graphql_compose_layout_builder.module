@@ -1,0 +1,89 @@
+<?php
+
+/**
+ * @file
+ * GraphQL Composer Layout Builder module file.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\layout_builder\LayoutBuilderEnabledInterface;
+use Drupal\layout_builder\Plugin\Block\FieldBlock;
+use Drupal\layout_builder\Plugin\Block\InlineBlock;
+
+/**
+ * Implements hook_graphql_compose_entity_type_form_alter().
+ */
+function graphql_compose_layout_builder_graphql_compose_entity_type_form_alter(array &$form, FormStateInterface $form_state, EntityTypeInterface $entity_type, string $bundle_id, array $settings): void {
+
+  $view_modes = \Drupal::service('entity_display.repository')->getViewModes($entity_type->id());
+  $view_modes = array_keys($view_modes);
+  $view_modes[] = 'default';
+
+  // Map the view modes to display ids.
+  $display_ids = array_map(
+    fn($view_mode) => $entity_type->id() . '.' . $bundle_id . '.' . $view_mode,
+    $view_modes
+  );
+
+  // Load all the displays for the entity type.
+  $view_displays = \Drupal::entityTypeManager()
+    ->getStorage('entity_view_display')
+    ->loadMultiple($display_ids);
+
+  // Filter out any displays that don't have a layout builder enabled.
+  $layout_displays = array_filter(
+    $view_displays,
+    fn($view_display) => $view_display instanceof LayoutBuilderEnabledInterface && $view_display->isLayoutBuilderEnabled()
+  );
+
+  if ($layout_displays) {
+    $form['layout_builder_enabled'] = [
+      '#type' => 'checkbox',
+      '#title' => t('Enable Layout Builder'),
+      '#default_value' => $settings['layout_builder_enabled'] ?? FALSE,
+      '#description' => t('Expose layout information via the sections field.'),
+    ];
+  }
+}
+
+/**
+ * Implements hook_config_schema_info_alter().
+ */
+function graphql_compose_layout_builder_config_schema_info_alter(&$definitions) {
+  $definitions['graphql_compose.entity.*.*']['mapping']['layout_builder_enabled'] = [
+    'type' => 'boolean',
+    'label' => t('Enable Layout Builder'),
+  ];
+}
+
+/**
+ * Implements hook_graphql_compose_field_type_form_alter().
+ *
+ * Hide layout_builder__layout field from form.
+ * This could lead to confusion having them in the UI.
+ */
+function graphql_compose_layout_builder_graphql_compose_field_type_form_alter(array &$form, FormStateInterface $form_state, FieldDefinitionInterface $field, array $settings) {
+  if ($field->getName() === 'layout_builder__layout') {
+    $form = [
+      '#type' => 'markup',
+      '#access' => FALSE,
+    ];
+  }
+}
+
+/**
+ * Implements hook_graphql_compose_blocks_union_alter().
+ */
+function graphql_compose_layout_builder_graphql_compose_blocks_union_alter($value, ?string &$type): void {
+  if ($value instanceof FieldBlock) {
+    $type = 'BlockField';
+  }
+
+  if ($value instanceof InlineBlock) {
+    $type = 'BlockContent';
+  }
+}

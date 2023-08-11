@@ -83,19 +83,6 @@ class MetatagSerializationTest extends EntityKernelTestBase {
   }
 
   /**
-   * Tests the deserialization.
-   */
-  public function testMetatagDeserialization() {
-    $entity = EntityTest::create();
-    $json = json_decode($this->serializer->serialize($entity, 'json'), TRUE);
-    $json['field_test'][0]['value'] = 'string data';
-    $serialized = json_encode($json, TRUE);
-    $this->expectException(\LogicException::class);
-    $this->expectExceptionMessage('The generic FieldItemNormalizer cannot denormalize string values for "value" properties of the "field_test" field (field item class: Drupal\metatag\Plugin\Field\FieldType\MetatagFieldItem).');
-    $this->serializer->deserialize($serialized, EntityTest::class, 'json');
-  }
-
-  /**
    * Tests normalization of the computed metatag field.
    */
   public function testJsonapiNormalization() {
@@ -118,13 +105,13 @@ class MetatagSerializationTest extends EntityKernelTestBase {
     $entity->validate();
     $entity->save();
 
-
     $resource_type = $resource_type_repository->get($entity->getEntityTypeId(), $entity->bundle());
     $resource_object = ResourceObject::createFromEntity($resource_type, $entity);
-    $cacheable_normalization = $serializer->normalize($resource_object, 'api_json', [
+    $normal_args = [
       'resource_type' => $resource_type,
       'account' => User::getAnonymousUser(),
-    ]);
+    ];
+    $cacheable_normalization = $serializer->normalize($resource_object, 'api_json', $normal_args);
     assert($cacheable_normalization instanceof CacheableNormalization);
     $normalization = $cacheable_normalization->getNormalization();
     assert(is_array($normalization));
@@ -134,13 +121,6 @@ class MetatagSerializationTest extends EntityKernelTestBase {
         'attributes' => [
           'name' => 'title',
           'content' => 'Llama | Test site',
-        ],
-      ],
-      [
-        'tag' => 'link',
-        'attributes' => [
-          'rel' => 'canonical',
-          'href' => $entity->toUrl()->toString(),
         ],
       ],
       [
@@ -155,6 +135,13 @@ class MetatagSerializationTest extends EntityKernelTestBase {
         'attributes' => [
           'name' => 'keywords',
           'content' => 'drupal8, testing, jsonapi, metatag',
+        ],
+      ],
+      [
+        'tag' => 'link',
+        'attributes' => [
+          'rel' => 'canonical',
+          'href' => $entity->toUrl()->toString(),
         ],
       ],
     ], $normalization['attributes']['metatag'], var_export($normalization['attributes']['metatag'], TRUE));

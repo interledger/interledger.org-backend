@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.page.body
     - field.field.node.page.field_header
     - field.field.node.page.field_sections
+    - field.field.node.page.field_seo_description
     - field.field.node.page.field_teaser
     - node.type.page
   module:
@@ -43,6 +44,13 @@ content:
       link: ''
     third_party_settings: {  }
     weight: 2
+    region: content
+  field_seo_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 108
     region: content
   field_teaser:
     type: entity_reference_revisions_entity_view

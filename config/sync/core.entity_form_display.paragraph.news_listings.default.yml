@@ -1,0 +1,30 @@
+uuid: 54df8559-2f35-4e33-ad4f-8c229d206ab8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.news_listings.field_news_latest_view
+    - field.field.paragraph.news_listings.field_news_view
+    - paragraphs.paragraphs_type.news_listings
+  module:
+    - viewfield
+id: paragraph.news_listings.default
+targetEntityType: paragraph
+bundle: news_listings
+mode: default
+content:
+  field_news_latest_view:
+    type: viewfield_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_news_view:
+    type: viewfield_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

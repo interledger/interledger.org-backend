@@ -9,7 +9,7 @@ use Drupal\graphql\Plugin\GraphQL\DataProducer\DataProducerPluginBase;
 use Drupal\views\ViewExecutable;
 
 /**
- * Load a Route or Redirect based on Path.
+ * Get pager info for a view.
  *
  * @DataProducer(
  *   id = "views_page_info",
@@ -28,7 +28,12 @@ use Drupal\views\ViewExecutable;
 class ViewsPageInfo extends DataProducerPluginBase {
 
   /**
-   * Resolver.
+   * Resolve extra views pager information.
+   *
+   * @param \Drupal\views\ViewExecutable $view
+   *   View executable.
+   * @param \Drupal\Core\Cache\RefinableCacheableDependencyInterface $metadata
+   *   The cache metadata.
    *
    * @return array
    *   Path resolution result.

@@ -1,0 +1,27 @@
+uuid: 1ce7cb2c-25ad-443c-8962-0bd93f695788
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.carousel_item.field_single_image
+    - paragraphs.paragraphs_type.carousel_item
+  module:
+    - media_library
+    - media_library_edit
+id: paragraph.carousel_item.default
+targetEntityType: paragraph
+bundle: carousel_item
+mode: default
+content:
+  field_single_image:
+    type: media_library_widget
+    weight: 0
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings:
+      media_library_edit:
+        show_edit: '1'
+hidden:
+  created: true
+  status: true
