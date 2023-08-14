@@ -1,0 +1,24 @@
+uuid: 8696de59-a11a-40f3-8fa6-a9a681d19103
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.people
+  module:
+    - text
+id: node.people.body
+field_name: body
+entity_type: node
+bundle: people
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

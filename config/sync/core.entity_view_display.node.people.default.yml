@@ -1,0 +1,56 @@
+uuid: bd733bc6-2ac8-44dc-b29d-d28d0a60b728
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.people.body
+    - field.field.node.people.field_description
+    - field.field.node.people.field_position
+    - field.field.node.people.field_teaser
+    - node.type.people
+  module:
+    - entity_reference_revisions
+    - text
+    - user
+id: node.people.default
+targetEntityType: node
+bundle: people
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_position:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_teaser:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

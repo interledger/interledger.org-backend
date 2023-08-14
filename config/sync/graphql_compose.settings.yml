@@ -43,6 +43,9 @@ entity_config:
     page:
       enabled: true
       routes_enabled: true
+    people:
+      enabled: true
+      routes_enabled: true
     speaker:
       enabled: true
       routes_enabled: true
@@ -55,6 +58,8 @@ entity_config:
     button:
       enabled: true
     carousel_item:
+      enabled: true
+    contact_form:
       enabled: true
     content_carousel:
       enabled: true
@@ -87,6 +92,8 @@ entity_config:
     news_listings:
       enabled: true
       query_load_enabled: true
+    people_grid:
+      enabled: true
     price:
       enabled: true
     price_list:
@@ -125,6 +132,9 @@ entity_config:
     aspect_ratio_square_1_1:
       enabled: true
     width:
+      enabled: true
+  taxonomy_term:
+    contact_topics:
       enabled: true
 field_config:
   config_pages:
@@ -168,6 +178,13 @@ field_config:
       field_header:
         enabled: true
       field_sections:
+        enabled: true
+      field_teaser:
+        enabled: true
+    people:
+      field_description:
+        enabled: true
+      field_position:
         enabled: true
       field_teaser:
         enabled: true
@@ -215,6 +232,12 @@ field_config:
     carousel_item:
       field_single_image:
         enabled: true
+    contact_form:
+      field_contact_topic:
+        enabled: true
+      field_contact_topics_view:
+        enabled: true
+        viewfield_query: true
     content_carousel:
       field_carousel_item:
         enabled: true
@@ -271,6 +294,10 @@ field_config:
         enabled: true
         viewfield_query: true
       field_news_view:
+        enabled: true
+        viewfield_query: true
+    people_grid:
+      field_people_view:
         enabled: true
         viewfield_query: true
     price:

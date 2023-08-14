@@ -1,0 +1,57 @@
+uuid: 6baef2f0-f19b-4df8-b9b8-3f07c3234c03
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_contact_topics_view
+    - paragraphs.paragraphs_type.contact_form
+    - views.view.contact_topics_graphql
+  module:
+    - viewfield
+id: paragraph.contact_form.field_contact_topics_view
+field_name: field_contact_topics_view
+entity_type: paragraph
+bundle: contact_form
+label: 'Contact Topics View'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    target_uuid: a6a7d555-73f2-4717-9ced-1e3abfc699e7
+    display_id: graphql_1
+    arguments: ''
+    items_to_display: ''
+    token_help: ''
+default_value_callback: ''
+settings:
+  force_default: true
+  allowed_views:
+    contact_topics_graphql: contact_topics_graphql
+    content: '0'
+    block_content: '0'
+    files: '0'
+    media: '0'
+    media_library: '0'
+    news: '0'
+    node_paths_graphql: '0'
+    user_admin_people: '0'
+    people: '0'
+    content_recent: '0'
+    speakers: '0'
+    talks: '0'
+    taxonomy_term: '0'
+    watchdog: '0'
+    webform_submissions: '0'
+    who_s_new: '0'
+    who_s_online: '0'
+  allowed_display_types:
+    graphql: graphql
+    block: '0'
+    default: '0'
+    embed: '0'
+    feed: '0'
+    page: '0'
+  handler: 'default:view'
+  handler_settings: {  }
+field_type: viewfield

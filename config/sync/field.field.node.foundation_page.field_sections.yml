@@ -6,6 +6,7 @@ dependencies:
     - field.storage.node.field_sections
     - node.type.foundation_page
     - paragraphs.paragraphs_type.button
+    - paragraphs.paragraphs_type.contact_form
     - paragraphs.paragraphs_type.content_carousel
     - paragraphs.paragraphs_type.content_title
     - paragraphs.paragraphs_type.faqs
@@ -15,6 +16,7 @@ dependencies:
     - paragraphs.paragraphs_type.image_gallery
     - paragraphs.paragraphs_type.large_callout_text
     - paragraphs.paragraphs_type.news_listings
+    - paragraphs.paragraphs_type.people_grid
     - paragraphs.paragraphs_type.price_list
     - paragraphs.paragraphs_type.spacer
     - paragraphs.paragraphs_type.text
@@ -49,16 +51,24 @@ settings:
       video: video
       content_carousel: content_carousel
       faqs: faqs
+      contact_form: contact_form
       news_listings: news_listings
       price_list: price_list
+      people_grid: people_grid
     negate: 0
     target_bundles_drag_drop:
+      anchor:
+        weight: 35
+        enabled: false
       button:
         weight: -50
         enabled: true
       carousel_item:
         weight: -38
         enabled: false
+      contact_form:
+        weight: 39
+        enabled: true
       content_carousel:
         weight: -40
         enabled: true
@@ -103,6 +113,9 @@ settings:
         enabled: false
       news_listings:
         weight: 40
+        enabled: true
+      people_grid:
+        weight: 53
         enabled: true
       price:
         weight: 50
