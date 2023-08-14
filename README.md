@@ -12,7 +12,7 @@
 `web/sites/default/settings.local.php`
 * Reset the admin password
  `drush uli --uri http://admin.interledger.test`
-* Once logged in create a folder in the root directory called `keys`. Then goto `/admin/config/people/simple_oauth` and select Generate Keys and input `../keys` and Generate
+* Generate oauth keys for previews `drush simple-oauth:generate-keys ../keys`
 
 ### Deployment ###
 

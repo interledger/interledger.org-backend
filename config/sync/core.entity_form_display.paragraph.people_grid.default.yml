@@ -1,0 +1,23 @@
+uuid: adcd5476-f71f-4ea8-b991-6376aae3ed0a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.people_grid.field_people_view
+    - paragraphs.paragraphs_type.people_grid
+  module:
+    - viewfield
+id: paragraph.people_grid.default
+targetEntityType: paragraph
+bundle: people_grid
+mode: default
+content:
+  field_people_view:
+    type: viewfield_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

@@ -1,0 +1,13 @@
+uuid: caf77c0b-44d5-465e-ac50-ef8a9200fc83
+langcode: en
+status: true
+dependencies: {  }
+id: node.people
+site_resolver: site_selector
+configuration:
+  sites:
+    client: client
+revalidator: path
+revalidator_configuration:
+  revalidate_page: true
+  additional_paths: ''

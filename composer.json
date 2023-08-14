@@ -47,11 +47,13 @@
         "drupal/paragraphs_features": "^2.0@beta",
         "drupal/quick_node_clone": "^1.16",
         "drupal/require_login": "^3.0",
+        "drupal/restui": "^1.21",
         "drupal/smtp": "^1.2",
         "drupal/svg_image_field": "^2.2",
         "drupal/token": "^1.12",
         "drupal/upgrade_status": "^4.0",
         "drupal/viewfield": "^3.0@beta",
+        "drupal/webform_rest": "^4.0",
         "drush/drush": "^11.3"
     },
     "conflict": {

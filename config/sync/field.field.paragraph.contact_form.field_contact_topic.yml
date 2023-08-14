@@ -1,0 +1,35 @@
+uuid: af27482f-3d80-45b4-b2c6-518c44421e20
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_contact_topic
+    - paragraphs.paragraphs_type.contact_form
+    - taxonomy.vocabulary.contact_topics
+  module:
+    - entity_reference_purger
+third_party_settings:
+  entity_reference_purger:
+    remove_orphaned: false
+    use_queue: true
+id: paragraph.contact_form.field_contact_topic
+field_name: field_contact_topic
+entity_type: paragraph
+bundle: contact_form
+label: 'Contact Topic'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      contact_topics: contact_topics
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

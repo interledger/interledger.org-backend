@@ -8,6 +8,7 @@ dependencies:
     - node.type.article
     - node.type.foundation_page
     - node.type.page
+    - node.type.people
     - node.type.speaker
     - node.type.talk
     - taxonomy.vocabulary.tags
@@ -36,10 +37,12 @@ permissions:
   - 'create article content'
   - 'create foundation_page content'
   - 'create page content'
+  - 'create people content'
   - 'create speaker content'
   - 'create talk content'
   - 'create terms in tags'
   - 'create url aliases'
+  - 'delete any people content'
   - 'delete article revisions'
   - 'delete own article content'
   - 'delete own files'
@@ -49,6 +52,7 @@ permissions:
   - 'delete speaker revisions'
   - 'edit any article content'
   - 'edit any foundation_page content'
+  - 'edit any people content'
   - 'edit any speaker content'
   - 'edit any talk content'
   - 'edit own page content'
@@ -57,6 +61,7 @@ permissions:
   - 'revert article revisions'
   - 'revert foundation_page revisions'
   - 'revert page revisions'
+  - 'revert people revisions'
   - 'revert speaker revisions'
   - 'revert talk revisions'
   - 'use text format basic_html'
@@ -66,6 +71,7 @@ permissions:
   - 'view foundation_page revisions'
   - 'view own unpublished content'
   - 'view page revisions'
+  - 'view people revisions'
   - 'view speaker revisions'
   - 'view talk revisions'
   - 'view the administration theme'

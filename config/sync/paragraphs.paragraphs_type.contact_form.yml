@@ -1,0 +1,16 @@
+uuid: 428fd96e-f4b7-4719-ab95-ea626cd31473
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: contact_form
+label: 'Contact Form'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
