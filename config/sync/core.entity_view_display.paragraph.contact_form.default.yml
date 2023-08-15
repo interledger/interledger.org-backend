@@ -6,8 +6,6 @@ dependencies:
     - field.field.paragraph.contact_form.field_contact_topic
     - field.field.paragraph.contact_form.field_contact_topics_view
     - paragraphs.paragraphs_type.contact_form
-  module:
-    - viewfield
 id: paragraph.contact_form.default
 targetEntityType: paragraph
 bundle: contact_form
@@ -21,14 +19,5 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-  field_contact_topics_view:
-    type: viewfield_default
-    label: above
-    settings:
-      view_title: hidden
-      always_build_output: false
-      empty_view_title: hidden
-    third_party_settings: {  }
-    weight: 1
-    region: content
-hidden: {  }
+hidden:
+  field_contact_topics_view: true

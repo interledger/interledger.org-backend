@@ -4,6 +4,10 @@
 
 * Headless Drupal CMS
 
+### Prerequisites ###
+* php 8.2 `brew install php`
+* composer 2  - https://getcomposer.org/doc/00-intro.md
+
 ### How do I get set up? ###
 
 * Install Drush https://github.com/drush-ops/drush-launcher#installation---phar

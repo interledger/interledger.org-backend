@@ -8,6 +8,7 @@ dependencies:
     - paragraphs.paragraphs_type.button
     - paragraphs.paragraphs_type.contact_form
     - paragraphs.paragraphs_type.content_carousel
+    - paragraphs.paragraphs_type.content_column_cards
     - paragraphs.paragraphs_type.content_title
     - paragraphs.paragraphs_type.faqs
     - paragraphs.paragraphs_type.highlighted_list
@@ -53,6 +54,7 @@ settings:
       faqs: faqs
       contact_form: contact_form
       news_listings: news_listings
+      content_column_cards: content_column_cards
       price_list: price_list
       people_grid: people_grid
     negate: 0
@@ -66,11 +68,17 @@ settings:
       carousel_item:
         weight: -38
         enabled: false
+      column_card:
+        weight: 41
+        enabled: false
       contact_form:
         weight: 39
         enabled: true
       content_carousel:
         weight: -40
+        enabled: true
+      content_column_cards:
+        weight: 44
         enabled: true
       content_title:
         weight: -46

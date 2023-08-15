@@ -1,0 +1,16 @@
+uuid: 89ee400f-4275-441d-aab6-7cf3e943e247
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: column_card
+label: 'Column Card'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
