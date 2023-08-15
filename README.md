@@ -5,37 +5,38 @@
 * Headless Drupal CMS
 
 ### Prerequisites ###
-* php 8.2 `brew install php`
-* composer 2  - https://getcomposer.org/doc/00-intro.md
+* php 8.2: `brew install php`
+* composer 2: follow instructions at [https://getcomposer.org/download/](https://getcomposer.org/download/)
+* ImageMagick: `brew install imagemagick`
 
 ### How do I get set up? ###
 
 * Install Drush https://github.com/drush-ops/drush-launcher#installation---phar
-* `composer install`
-* Set up database and configure in
-`web/sites/default/settings.local.php`
-* Reset the admin password
- `drush uli --uri http://admin.interledger.test`
+* `composer install` from your Drupal root folder
+* Set up database and configure in `web/sites/default/settings.local.php`
+    * Make sure the `$base_url` in `settings.local.php` matches the node server running the frontend
+* Reset the admin password by running `drush uli --uri http://LOCAL_HOSTNAME`
 * Generate oauth keys for previews `drush simple-oauth:generate-keys ../keys`
+* Make sure the files from the backup are copied into the `/web/sites/default/files` folder
 
 ### Deployment ###
 
 #### Environment Variables ####
-BASE_URL
-ENVIRONMENT
-RDS_DB_NAME
-RDS_USERNAME
-RDS_PASSWORD
-RDS_HOSTNAME
-RDS_PORT
-MOUNT_DIR
-FILE_SYSTEM_ID
-CLOUDFRONT_DISTRIBUTIONID
-CLOUDFRONT_REGION
-AWS_ACCESS_KEY
-AWS_SECRET_KEY
-HASH_SALT
-IMAGE_CDN
+BASE_URL  
+ENVIRONMENT  
+RDS_DB_NAME  
+RDS_USERNAME  
+RDS_PASSWORD  
+RDS_HOSTNAME  
+RDS_PORT  
+MOUNT_DIR  
+FILE_SYSTEM_ID  
+CLOUDFRONT_DISTRIBUTIONID  
+CLOUDFRONT_REGION  
+AWS_ACCESS_KEY  
+AWS_SECRET_KEY  
+HASH_SALT  
+IMAGE_CDN  
 
 ### Import/Export config and content? ###
 
