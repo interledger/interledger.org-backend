@@ -1,0 +1,37 @@
+uuid: 444585b4-90ed-4b82-97de-0be0d8b5b5f6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_single_image
+    - media.type.image
+    - media.type.vector_image
+    - paragraphs.paragraphs_type.column_card
+  module:
+    - entity_reference_purger
+third_party_settings:
+  entity_reference_purger:
+    remove_orphaned: false
+    use_queue: true
+id: paragraph.column_card.field_single_image
+field_name: field_single_image
+entity_type: paragraph
+bundle: column_card
+label: Image
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+      vector_image: vector_image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: image
+field_type: entity_reference

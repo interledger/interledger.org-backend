@@ -59,9 +59,13 @@ entity_config:
       enabled: true
     carousel_item:
       enabled: true
+    column_card:
+      enabled: true
     contact_form:
       enabled: true
     content_carousel:
+      enabled: true
+    content_column_cards:
       enabled: true
     content_title:
       enabled: true
@@ -232,6 +236,13 @@ field_config:
     carousel_item:
       field_single_image:
         enabled: true
+    column_card:
+      field_link:
+        enabled: true
+      field_single_image:
+        enabled: true
+      field_text:
+        enabled: true
     contact_form:
       field_contact_topic:
         enabled: true
@@ -240,6 +251,11 @@ field_config:
         viewfield_query: true
     content_carousel:
       field_carousel_item:
+        enabled: true
+    content_column_cards:
+      field_content:
+        enabled: true
+      field_image_style:
         enabled: true
     content_title:
       field_title:

@@ -5,21 +5,10 @@ dependencies:
   config:
     - field.field.paragraph.people_grid.field_people_view
     - paragraphs.paragraphs_type.people_grid
-  module:
-    - viewfield
 id: paragraph.people_grid.default
 targetEntityType: paragraph
 bundle: people_grid
 mode: default
-content:
-  field_people_view:
-    type: viewfield_default
-    label: above
-    settings:
-      view_title: hidden
-      always_build_output: false
-      empty_view_title: hidden
-    third_party_settings: {  }
-    weight: 0
-    region: content
-hidden: {  }
+content: {  }
+hidden:
+  field_people_view: true
