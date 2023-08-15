@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.paragraph.field_single_image
     - media.type.image
-    - media.type.vector_image
     - paragraphs.paragraphs_type.column_card
   module:
     - entity_reference_purger
@@ -28,7 +27,6 @@ settings:
   handler_settings:
     target_bundles:
       image: image
-      vector_image: vector_image
     sort:
       field: _none
       direction: ASC
