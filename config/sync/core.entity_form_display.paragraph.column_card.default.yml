@@ -1,0 +1,49 @@
+uuid: d798b11b-6cb5-416f-8ee1-bb42c4c14ddd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.column_card.field_link
+    - field.field.paragraph.column_card.field_single_image
+    - field.field.paragraph.column_card.field_text
+    - paragraphs.paragraphs_type.column_card
+  module:
+    - link
+    - media_library
+    - media_library_edit
+    - text
+id: paragraph.column_card.default
+targetEntityType: paragraph
+bundle: column_card
+mode: default
+content:
+  field_link:
+    type: link_default
+    weight: 1
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_single_image:
+    type: media_library_widget
+    weight: 0
+    region: content
+    settings:
+      media_types:
+        - image
+        - vector_image
+    third_party_settings:
+      media_library_edit:
+        show_edit: '1'
+  field_text:
+    type: text_textarea
+    weight: 0
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

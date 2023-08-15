@@ -4,6 +4,10 @@
 
 * Headless Drupal CMS
 
+### Prerequisites ###
+* php 8.2 `brew install php`
+* composer 2  - https://getcomposer.org/doc/00-intro.md
+
 ### How do I get set up? ###
 
 * Install Drush https://github.com/drush-ops/drush-launcher#installation---phar
@@ -12,7 +16,7 @@
 `web/sites/default/settings.local.php`
 * Reset the admin password
  `drush uli --uri http://admin.interledger.test`
-* Once logged in create a folder in the root directory called `keys`. Then goto `/admin/config/people/simple_oauth` and select Generate Keys and input `../keys` and Generate
+* Generate oauth keys for previews `drush simple-oauth:generate-keys ../keys`
 
 ### Deployment ###
 

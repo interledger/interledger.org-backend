@@ -1,0 +1,30 @@
+uuid: f37dc120-cb0c-4b7e-aadf-31f9a834e0e7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.contact_form.field_contact_topic
+    - field.field.paragraph.contact_form.field_contact_topics_view
+    - paragraphs.paragraphs_type.contact_form
+  module:
+    - viewfield
+id: paragraph.contact_form.default
+targetEntityType: paragraph
+bundle: contact_form
+mode: default
+content:
+  field_contact_topic:
+    type: options_select
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_contact_topics_view:
+    type: viewfield_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

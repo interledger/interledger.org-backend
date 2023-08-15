@@ -3,10 +3,12 @@ langcode: en
 status: true
 dependencies:
   config:
+    - filter.format.webform_default
     - node.type.page
   module:
     - contact
     - file
+    - filter
     - media
     - node
     - search
@@ -26,4 +28,5 @@ permissions:
   - 'delete own files'
   - 'edit any page content'
   - 'search content'
+  - 'use text format webform_default'
   - 'view media'

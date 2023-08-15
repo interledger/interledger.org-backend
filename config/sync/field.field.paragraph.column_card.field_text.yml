@@ -1,0 +1,24 @@
+uuid: e3e4e2ab-d3cd-43bc-b1ba-900beee95641
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_text
+    - filter.format.simple_text_html
+    - paragraphs.paragraphs_type.column_card
+  module:
+    - text
+id: paragraph.column_card.field_text
+field_name: field_text
+entity_type: paragraph
+bundle: column_card
+label: Text
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - simple_text_html
+field_type: text_long

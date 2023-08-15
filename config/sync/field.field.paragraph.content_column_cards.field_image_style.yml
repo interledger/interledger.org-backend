@@ -1,0 +1,21 @@
+uuid: 1886dcfe-48c9-40a2-9a29-a64bb9389d34
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_image_style
+    - paragraphs.paragraphs_type.content_column_cards
+  module:
+    - options
+id: paragraph.content_column_cards.field_image_style
+field_name: field_image_style
+entity_type: paragraph
+bundle: content_column_cards
+label: 'Image Style'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

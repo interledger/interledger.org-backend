@@ -1,0 +1,16 @@
+uuid: a0a26626-ebfd-4e20-8d90-891647e29e9c
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      content: content
+id: people_grid
+label: 'People Grid'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

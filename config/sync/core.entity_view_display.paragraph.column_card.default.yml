@@ -1,0 +1,45 @@
+uuid: 8a3a429f-0f7e-473f-80b0-6b60d3c847ee
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.column_card.field_link
+    - field.field.paragraph.column_card.field_single_image
+    - field.field.paragraph.column_card.field_text
+    - paragraphs.paragraphs_type.column_card
+  module:
+    - link
+    - text
+id: paragraph.column_card.default
+targetEntityType: paragraph
+bundle: column_card
+mode: default
+content:
+  field_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_single_image:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_text:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

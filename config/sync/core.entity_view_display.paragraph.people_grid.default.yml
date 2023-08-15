@@ -1,0 +1,14 @@
+uuid: ffbbcfec-0677-413e-b7bc-8c2043b20c23
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.people_grid.field_people_view
+    - paragraphs.paragraphs_type.people_grid
+id: paragraph.people_grid.default
+targetEntityType: paragraph
+bundle: people_grid
+mode: default
+content: {  }
+hidden:
+  field_people_view: true
