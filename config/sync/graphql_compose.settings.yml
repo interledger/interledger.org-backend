@@ -22,10 +22,6 @@ entity_config:
       enabled: true
     footer:
       enabled: true
-    interledger-foundation-footer:
-      enabled: true
-    interledger-summit-footer:
-      enabled: true
     main:
       enabled: true
     summit:

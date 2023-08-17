@@ -6,7 +6,6 @@ dependencies:
     - filter.format.restricted_html
   module:
     - config_pages
-    - contact
     - filter
     - graphql
     - media
@@ -20,7 +19,6 @@ weight: 0
 is_admin: false
 permissions:
   - 'access content'
-  - 'access site-wide contact form'
   - 'execute graphql_compose_server arbitrary graphql requests'
   - 'search content'
   - 'use text format restricted_html'

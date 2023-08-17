@@ -6,7 +6,6 @@ dependencies:
     - filter.format.webform_default
     - node.type.page
   module:
-    - contact
     - file
     - filter
     - media
@@ -23,7 +22,6 @@ is_admin: false
 permissions:
   - 'access content'
   - 'access shortcuts'
-  - 'access site-wide contact form'
   - 'create page content'
   - 'delete own files'
   - 'edit any page content'
