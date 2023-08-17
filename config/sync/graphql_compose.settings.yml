@@ -191,13 +191,9 @@ field_config:
     speaker:
       field_biography:
         enabled: true
-      field_company:
-        enabled: true
       field_email:
         enabled: true
       field_image:
-        enabled: true
-      field_role:
         enabled: true
       field_social_media:
         enabled: true
@@ -207,20 +203,14 @@ field_config:
         viewfield_query: true
       field_summary:
         enabled: true
-      field_teaser:
+      field_tag_line:
         enabled: true
     talk:
       field_date_time:
         enabled: true
       field_description:
         enabled: true
-      field_duration:
-        enabled: true
-      field_header:
-        enabled: true
       field_speakers:
-        enabled: true
-      field_teaser:
         enabled: true
   paragraph:
     anchor:

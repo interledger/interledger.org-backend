@@ -1,0 +1,16 @@
+{
+  "name": "drupal/feeds_dependency",
+  "type": "drupal-module",
+  "description": "Allow to set a Feed as a dependency on an another Feed.",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/feeds_dependency",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/feeds_dependency",
+    "source": "http://cgit.drupalcode.org/feeds_dependency"
+  },
+  "require": {
+      "drupal/feeds": "~3.0"
+  }
+}
