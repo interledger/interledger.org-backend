@@ -1,0 +1,134 @@
+uuid: 7647eacc-287c-4764-85bf-3b32f6c46f78
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.base_field_override.node.speaker.title
+    - field.field.node.speaker.field_biography
+    - field.field.node.speaker.field_image
+    - field.field.node.speaker.field_seo_description
+    - field.field.node.speaker.field_sessionizeid
+    - field.field.node.speaker.field_summary
+    - field.field.node.speaker.field_tag_line
+    - node.type.speaker
+  module:
+    - feeds_ex
+    - node
+label: Speakers
+id: speakers
+description: ''
+help: ''
+import_period: 3600
+fetcher: http
+fetcher_configuration:
+  auto_detect_feeds: false
+  use_pubsubhubbub: false
+  always_download: false
+  fallback_hub: ''
+  request_timeout: 30
+parser: jsonpath
+parser_configuration:
+  context:
+    value: '$.*'
+  source_encoding:
+    - auto
+  display_errors: false
+  line_limit: 100
+processor: 'entity:node'
+processor_configuration:
+  values:
+    type: speaker
+  langcode: en
+  insert_new: 1
+  update_existing: 2
+  update_non_existent: _keep
+  skip_hash_check: false
+  authorize: true
+  revision: false
+  expire: -1
+  owner_feed_author: false
+  owner_id: 0
+custom_sources:
+  '':
+    value: ''
+    label: ''
+    machine_name: ''
+    type: blank
+  fullname:
+    value: fullName
+    label: fullName
+    machine_name: fullname
+    type: json
+  bio:
+    value: bio
+    label: bio
+    machine_name: bio
+    type: json
+  profilepicture:
+    value: profilePicture
+    label: profilePicture
+    machine_name: profilepicture
+    type: json
+  tagline:
+    value: tagLine
+    label: tagLine
+    machine_name: tagline
+    type: json
+  id:
+    value: id
+    label: id
+    machine_name: id
+    type: json
+mappings:
+  -
+    target: title
+    map:
+      value: fullname
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: field_biography
+    map:
+      value: bio
+    settings:
+      language: ''
+      format: basic_html
+  -
+    target: field_seo_description
+    map:
+      value: bio
+    settings:
+      language: null
+  -
+    target: field_image
+    map:
+      target_id: profilepicture
+    settings:
+      language: ''
+      reference_by: name
+      feeds_item: guid
+      autocreate: 0
+      autocreate_bundle: image
+  -
+    target: field_summary
+    map:
+      value: tagline
+    settings:
+      language: null
+      format: plain_text
+  -
+    target: field_sessionizeid
+    map:
+      value: id
+    settings:
+      language: null
+    unique:
+      value: 1
+  -
+    target: field_tag_line
+    map:
+      value: tagline
+    settings:
+      language: null
+    unique: {  }

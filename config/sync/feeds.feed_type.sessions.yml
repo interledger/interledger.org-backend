@@ -1,0 +1,120 @@
+uuid: c9c131e6-f9c4-4ce4-ba12-eef94c408baf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.talk.field_date_time
+    - field.field.node.talk.field_description
+    - field.field.node.talk.field_seo_description
+    - field.field.node.talk.field_sessionizeid
+    - field.field.node.talk.field_speakers
+    - node.type.talk
+  module:
+    - feeds_ex
+    - node
+label: Sessions
+id: sessions
+description: ''
+help: ''
+import_period: 3600
+fetcher: http
+fetcher_configuration:
+  auto_detect_feeds: false
+  use_pubsubhubbub: false
+  always_download: false
+  fallback_hub: ''
+  request_timeout: 30
+parser: jsonpath
+parser_configuration:
+  context:
+    value: '$.[*].sessions.*'
+  source_encoding:
+    - auto
+  display_errors: false
+  line_limit: 100
+processor: 'entity:node'
+processor_configuration:
+  values:
+    type: talk
+  langcode: en
+  insert_new: 1
+  update_existing: 2
+  update_non_existent: _keep
+  skip_hash_check: false
+  authorize: true
+  revision: false
+  expire: -1
+  owner_feed_author: false
+  owner_id: 0
+custom_sources:
+  speakers:
+    value: 'speakers[*].id'
+    label: 'speakers[*].id'
+    machine_name: speakers
+    type: json
+  title:
+    value: title
+    label: title
+    machine_name: title
+    type: json
+  startsat:
+    value: startsAt
+    label: startsAt
+    machine_name: startsat
+    type: json
+  description:
+    value: description
+    label: description
+    machine_name: description
+    type: json
+  id:
+    value: id
+    label: id
+    machine_name: id
+    type: json
+mappings:
+  -
+    target: field_speakers
+    map:
+      target_id: speakers
+    settings:
+      language: ''
+      reference_by: field_sessionizeid
+      feeds_item: guid
+      autocreate: 0
+      autocreate_bundle: speaker
+  -
+    target: title
+    map:
+      value: title
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: field_date_time
+    map:
+      value: startsat
+    settings:
+      language: null
+      timezone: UTC
+  -
+    target: field_description
+    map:
+      value: description
+    settings:
+      language: ''
+      format: basic_html
+  -
+    target: field_seo_description
+    map:
+      value: description
+    settings:
+      language: null
+  -
+    target: field_sessionizeid
+    map:
+      value: id
+    settings:
+      language: null
+    unique:
+      value: 1

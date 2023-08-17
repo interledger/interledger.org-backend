@@ -1,0 +1,23 @@
+uuid: 2d8f48d3-fc0a-4b5d-8740-bab35665dda2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.feeds_item
+    - node.type.talk
+  module:
+    - feeds
+id: node.talk.feeds_item
+field_name: feeds_item
+entity_type: node
+bundle: talk
+label: 'Feeds item'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:feeds_feed'
+  handler_settings: {  }
+field_type: feeds_item
