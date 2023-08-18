@@ -3,20 +3,46 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.talk.field_date_time
     - field.field.node.talk.field_description
+    - field.field.node.talk.field_ends_at
     - field.field.node.talk.field_seo_description
     - field.field.node.talk.field_sessionizeid
     - field.field.node.talk.field_speakers
+    - field.field.node.talk.field_starts_at
+    - field.field.node.talk.field_status
     - node.type.talk
   module:
     - feeds_ex
+    - feeds_tamper
     - node
+third_party_settings:
+  feeds_tamper:
+    tampers:
+      8b66341f-5e5c-4f86-9f84-418f836b3a80:
+        words: |-
+          Accepted
+          Informed
+          Confirmed
+        word_boundaries: false
+        exact: true
+        case_sensitive: false
+        invert: false
+        word_list:
+          - /^Accepted$/ui
+          - /^Informed$/ui
+          - /^Confirmed$/ui
+        regex: true
+        function: matchRegex
+        uuid: 8b66341f-5e5c-4f86-9f84-418f836b3a80
+        plugin: keyword_filter
+        source: status
+        weight: 0
+        label: 'Keyword filter'
 label: Sessions
 id: sessions
 description: ''
 help: ''
-import_period: 3600
+import_period: 0
 fetcher: http
 fetcher_configuration:
   auto_detect_feeds: false
@@ -39,7 +65,7 @@ processor_configuration:
   langcode: en
   insert_new: 1
   update_existing: 2
-  update_non_existent: _keep
+  update_non_existent: _delete
   skip_hash_check: false
   authorize: true
   revision: false
@@ -72,6 +98,16 @@ custom_sources:
     label: id
     machine_name: id
     type: json
+  status:
+    value: status
+    label: status
+    machine_name: status
+    type: json
+  endsat:
+    value: endsAt
+    label: endsAt
+    machine_name: endsat
+    type: json
 mappings:
   -
     target: field_speakers
@@ -90,13 +126,6 @@ mappings:
     settings:
       language: null
     unique: {  }
-  -
-    target: field_date_time
-    map:
-      value: startsat
-    settings:
-      language: null
-      timezone: UTC
   -
     target: field_description
     map:
@@ -118,3 +147,24 @@ mappings:
       language: null
     unique:
       value: 1
+  -
+    target: field_status
+    map:
+      value: status
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: field_ends_at
+    map:
+      value: endsat
+    settings:
+      language: null
+      timezone: UTC
+  -
+    target: field_starts_at
+    map:
+      value: startsat
+    settings:
+      language: null
+      timezone: UTC

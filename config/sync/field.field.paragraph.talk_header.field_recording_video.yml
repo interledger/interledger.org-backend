@@ -1,0 +1,35 @@
+uuid: c4034662-4d8d-4a1f-ac59-6f7353c910bc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_recording_video
+    - media.type.remote_video
+    - paragraphs.paragraphs_type.talk_header
+  module:
+    - entity_reference_purger
+third_party_settings:
+  entity_reference_purger:
+    remove_orphaned: false
+    use_queue: true
+id: paragraph.talk_header.field_recording_video
+field_name: field_recording_video
+entity_type: paragraph
+bundle: talk_header
+label: 'Recording Video'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      remote_video: remote_video
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

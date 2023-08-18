@@ -206,11 +206,15 @@ field_config:
       field_tag_line:
         enabled: true
     talk:
-      field_date_time:
-        enabled: true
       field_description:
         enabled: true
+      field_ends_at:
+        enabled: true
+      field_header:
+        enabled: true
       field_speakers:
+        enabled: true
+      field_starts_at:
         enabled: true
   paragraph:
     anchor:
@@ -350,11 +354,9 @@ field_config:
         enabled: true
         viewfield_query: true
     talk_header:
-      field_header_after:
+      field_live_video:
         enabled: true
-      field_header_before:
-        enabled: true
-      field_header_during:
+      field_recording_video:
         enabled: true
     talks_grid:
       field_talks_view:

@@ -1,0 +1,21 @@
+uuid: 7e9cb739-a497-46a6-8bf3-dfde18b4469e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_starts_at
+    - node.type.talk
+  module:
+    - datetime
+id: node.talk.field_starts_at
+field_name: field_starts_at
+entity_type: node
+bundle: talk
+label: 'Starts At'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

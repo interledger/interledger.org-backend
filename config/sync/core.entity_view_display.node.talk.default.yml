@@ -5,14 +5,18 @@ dependencies:
   config:
     - field.field.node.talk.body
     - field.field.node.talk.feeds_item
-    - field.field.node.talk.field_date_time
     - field.field.node.talk.field_description
+    - field.field.node.talk.field_ends_at
+    - field.field.node.talk.field_header
     - field.field.node.talk.field_seo_description
     - field.field.node.talk.field_sessionizeid
     - field.field.node.talk.field_speakers
+    - field.field.node.talk.field_starts_at
+    - field.field.node.talk.field_status
     - node.type.talk
   module:
     - datetime
+    - entity_reference_revisions
     - text
     - user
 id: node.talk.default
@@ -27,21 +31,30 @@ content:
     third_party_settings: {  }
     weight: 101
     region: content
-  field_date_time:
-    type: datetime_default
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {  }
-    weight: 105
-    region: content
   field_description:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
     weight: 107
+    region: content
+  field_ends_at:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 112
+    region: content
+  field_header:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
     region: content
   field_seo_description:
     type: basic_string
@@ -65,6 +78,23 @@ content:
       link: true
     third_party_settings: {  }
     weight: 106
+    region: content
+  field_starts_at:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_status:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 110
     region: content
   links:
     settings: {  }

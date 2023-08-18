@@ -1,7 +1,13 @@
 uuid: 31de61be-aa73-4af5-a4b9-2ece1583b844
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - next_extras
+third_party_settings:
+  next_extras:
+    revalidate: false
+    revalidate_paths: ''
 id: node.speaker
 site_resolver: site_selector
 configuration:
@@ -10,4 +16,4 @@ configuration:
 revalidator: path
 revalidator_configuration:
   revalidate_page: true
-  additional_paths: ''
+  additional_paths: /summit/speakers
