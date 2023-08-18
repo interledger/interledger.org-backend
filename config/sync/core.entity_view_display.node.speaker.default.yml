@@ -19,7 +19,6 @@ dependencies:
     - entity_reference_revisions
     - text
     - user
-    - viewfield
 id: node.speaker.default
 targetEntityType: node
 bundle: speaker
@@ -30,14 +29,14 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 6
+    weight: 2
     region: content
   field_email:
     type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 8
+    weight: 4
     region: content
   field_image:
     type: entity_reference_entity_view
@@ -46,14 +45,14 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
-    weight: 103
+    weight: 5
     region: content
   field_seo_description:
     type: basic_string
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 108
+    weight: 6
     region: content
   field_sessionizeid:
     type: string
@@ -61,7 +60,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 7
     region: content
   field_social_media:
     type: entity_reference_revisions_entity_view
@@ -70,24 +69,14 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 7
-    region: content
-  field_speaker_talks:
-    type: viewfield_default
-    label: above
-    settings:
-      view_title: hidden
-      always_build_output: false
-      empty_view_title: hidden
-    third_party_settings: {  }
-    weight: 104
+    weight: 3
     region: content
   field_summary:
     type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 5
+    weight: 1
     region: content
   field_tag_line:
     type: string
@@ -95,7 +84,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 110
+    weight: 8
     region: content
   links:
     settings: {  }
@@ -105,3 +94,4 @@ content:
 hidden:
   body: true
   feeds_item: true
+  field_speaker_talks: true

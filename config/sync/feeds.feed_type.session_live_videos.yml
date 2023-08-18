@@ -1,0 +1,94 @@
+uuid: 717483ea-5035-4943-b15f-195dd6614ba8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.media.remote_video.field_media_oembed_video
+    - media.type.remote_video
+  module:
+    - feeds_ex
+    - feeds_log
+    - feeds_tamper
+    - media
+third_party_settings:
+  feeds_log:
+    status: true
+    operations:
+      created: created
+      updated: updated
+      deleted: deleted
+      skipped: skipped
+      failed: failed
+      cleaned: cleaned
+    items:
+      created: created
+      updated: updated
+      deleted: deleted
+      skipped: skipped
+      failed: failed
+    source: true
+  feeds_tamper:
+    tampers:
+      ce64e726-ce87-4001-8047-19df64344d5b:
+        invert: false
+        uuid: ce64e726-ce87-4001-8047-19df64344d5b
+        plugin: required
+        source: liveurl
+        weight: 0
+        label: Required
+label: 'Session Live Videos'
+id: session_live_videos
+description: ''
+help: ''
+import_period: 3600
+fetcher: http
+fetcher_configuration:
+  auto_detect_feeds: false
+  use_pubsubhubbub: false
+  always_download: false
+  fallback_hub: ''
+  request_timeout: 30
+parser: jsonpath
+parser_configuration:
+  context:
+    value: '$.[*].sessions.*'
+  source_encoding:
+    - auto
+  display_errors: false
+  line_limit: 100
+processor: 'entity:media'
+processor_configuration:
+  values:
+    bundle: remote_video
+  langcode: en
+  insert_new: 1
+  update_existing: 2
+  update_non_existent: _delete
+  skip_hash_check: false
+  authorize: true
+  revision: false
+  expire: -1
+  owner_feed_author: false
+  owner_id: 0
+custom_sources:
+  liveurl:
+    value: liveUrl
+    label: liveUrl
+    machine_name: liveurl
+    type: json
+mappings:
+  -
+    target: field_media_oembed_video
+    map:
+      value: liveurl
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: name
+    map:
+      value: liveurl
+    settings:
+      language: null
+    unique:
+      value: 1

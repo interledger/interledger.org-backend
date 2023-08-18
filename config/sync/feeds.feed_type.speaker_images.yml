@@ -7,12 +7,23 @@ dependencies:
     - media.type.image
   module:
     - feeds_ex
+    - feeds_tamper
     - media
+third_party_settings:
+  feeds_tamper:
+    tampers:
+      491fe926-b43d-463f-803f-0d4b3c32ebc6:
+        invert: false
+        uuid: 491fe926-b43d-463f-803f-0d4b3c32ebc6
+        plugin: required
+        source: profilepicture
+        weight: 0
+        label: Required
 label: 'Speaker Images'
 id: speaker_images
 description: ''
 help: ''
-import_period: 3600
+import_period: 0
 fetcher: http
 fetcher_configuration:
   auto_detect_feeds: false
@@ -35,7 +46,7 @@ processor_configuration:
   langcode: en
   insert_new: 1
   update_existing: 2
-  update_non_existent: _keep
+  update_non_existent: _delete
   skip_hash_check: false
   authorize: true
   revision: false

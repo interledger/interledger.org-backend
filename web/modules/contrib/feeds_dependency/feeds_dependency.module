@@ -5,6 +5,7 @@
  * Contains feeds_dependency.module.
  */
 
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Form\FormStateInterface;
@@ -35,8 +36,9 @@ function feeds_dependency_entity_base_field_info(EntityTypeInterface $entity_typ
 
   if ($entity_type->id() === 'feeds_feed') {
     $fields['feed_dependency_id'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Feed dependency'))
-      ->setDescription(t('The feed dependency on which this feed depend. Each import of this feed will be preceded by the import of the feed declared as dependency'))
+      ->setLabel(t('Feed dependencies'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setDescription(t('The feed dependencies on which this feed depends. Each import of this feed will be preceded by the import of the feeds declared as dependencies'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'feeds_feed')
       ->setSetting('handler', 'default')
@@ -63,8 +65,8 @@ function feeds_dependency_entity_base_field_info(EntityTypeInterface $entity_typ
       ->setDisplayConfigurable('view', TRUE);
 
     $fields['clear_dependency'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Clear the dependency.'))
-      ->setDescription(t('Clear the feed set as dependency when this feed is cleared.'))
+      ->setLabel(t('Clear the dependencies.'))
+      ->setDescription(t('Clear the feeds set as dependencies when this feed is cleared.'))
       ->setRevisionable(TRUE)
       ->setTranslatable(TRUE)
       ->setDefaultValue(TRUE)

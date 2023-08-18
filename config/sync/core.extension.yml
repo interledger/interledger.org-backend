@@ -26,6 +26,8 @@ module:
   feeds: 0
   feeds_dependency: 0
   feeds_ex: 0
+  feeds_log: 0
+  feeds_tamper: 0
   field: 0
   field_group: 0
   field_ui: 0
@@ -87,6 +89,7 @@ module:
   subrequests: 0
   svg_image_field: 0
   system: 0
+  tamper: 0
   taxonomy: 0
   text: 0
   token: 0

@@ -33,6 +33,7 @@
         "drupal/feeds": "^3.0@beta",
         "drupal/feeds_dependency": "^2.0",
         "drupal/feeds_ex": "^1.0@beta",
+        "drupal/feeds_tamper": "^2.0@beta",
         "drupal/field_group": "^3.4",
         "drupal/focal_point": "^2.0@alpha",
         "drupal/gin": "^3.0@RC",
@@ -84,6 +85,9 @@
             },
             "drupal/focal_point": {
                 "add crop by aspect ratio": "https://www.drupal.org/files/issues/2021-02-23/3186353-a8e65e97.patch"
+            },
+            "drupal/feeds_dependency": {
+                "Allow feed to have multiple dependencies": "https://git.drupalcode.org/project/feeds_dependency/-/merge_requests/1.diff"
             }
         },
         "drupal-scaffold": {

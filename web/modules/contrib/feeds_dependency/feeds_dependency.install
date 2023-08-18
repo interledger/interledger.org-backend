@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * @file
+ * Update hooks for feeds_dependency.
+ */
+
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+
+/**
+ * Increase cardinality for feed_dependency_id.
+ */
+function feeds_dependency_update_8001() {
+
+  $database = \Drupal::database();
+
+  // Retrieve existing field data keyed by feed id.
+  $feeds = $database->select('feeds_feed', 'f')
+    ->fields('f', ['fid', 'feed_dependency_id', 'type'])
+    ->execute()
+    ->fetchAll(PDO::FETCH_ASSOC);
+
+  // Remove existing feed_dependency_id values from the
+  // feeds_feed table.
+  $database->update('feeds_feed')
+    ->fields(['feed_dependency_id' => NULL])
+    ->execute();
+
+  // Increase cardinality now that there are no values.
+  // This will generate a new table to store the entity references.
+  $manager = \Drupal::entityDefinitionUpdateManager();
+  $storage_definition = $manager->getFieldStorageDefinition(
+    'feed_dependency_id',
+    'feeds_feed'
+  );
+  $storage_definition->setCardinality(
+    FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED
+  );
+  $manager->updateFieldStorageDefinition($storage_definition);
+
+  // Restore feed_dependency_id values in the new entity reference table.
+  $insert_query = $database->insert('feeds_feed__feed_dependency_id')
+    ->fields(
+      [
+        'bundle',
+        'deleted',
+        'entity_id',
+        'revision_id',
+        'langcode',
+        'delta',
+        'feed_dependency_id_target_id',
+      ]
+    );
+  foreach ($feeds as $feed) {
+    // Only insert non null values.
+    if ($feed['feed_dependency_id']) {
+      $insert_query->values(
+        [
+          $feed['type'],
+          0,
+          $feed['fid'],
+          $feed['fid'],
+          'en',
+          0,
+          $feed['feed_dependency_id'],
+        ]
+      );
+    }
+  }
+  $insert_query->execute();
+
+}
