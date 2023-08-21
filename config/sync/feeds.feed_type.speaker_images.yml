@@ -7,6 +7,7 @@ dependencies:
     - media.type.image
   module:
     - feeds_ex
+    - feeds_log
     - feeds_tamper
     - media
 third_party_settings:
@@ -19,6 +20,22 @@ third_party_settings:
         source: profilepicture
         weight: 0
         label: Required
+  feeds_log:
+    status: true
+    operations:
+      created: created
+      updated: updated
+      deleted: deleted
+      skipped: skipped
+      failed: failed
+      cleaned: cleaned
+    items:
+      created: created
+      updated: updated
+      deleted: deleted
+      skipped: skipped
+      failed: failed
+    source: true
 label: 'Speaker Images'
 id: speaker_images
 description: ''

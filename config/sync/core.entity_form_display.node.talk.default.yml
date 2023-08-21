@@ -7,7 +7,8 @@ dependencies:
     - field.field.node.talk.feeds_item
     - field.field.node.talk.field_description
     - field.field.node.talk.field_ends_at
-    - field.field.node.talk.field_header
+    - field.field.node.talk.field_live_video
+    - field.field.node.talk.field_recording_video
     - field.field.node.talk.field_seo_description
     - field.field.node.talk.field_sessionizeid
     - field.field.node.talk.field_speakers
@@ -18,9 +19,7 @@ dependencies:
     - autocomplete_deluxe
     - datetime
     - field_group
-    - paragraphs
-    - paragraphs_ee
-    - paragraphs_features
+    - media_library
     - path
     - text
 third_party_settings:
@@ -31,7 +30,7 @@ third_party_settings:
       label: 'Extra Info'
       region: content
       parent_name: ''
-      weight: 6
+      weight: 7
       format_type: details
       format_settings:
         classes: ''
@@ -47,13 +46,13 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 8
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
   field_description:
     type: text_textarea
-    weight: 5
+    weight: 4
     region: content
     settings:
       rows: 5
@@ -61,38 +60,24 @@ content:
     third_party_settings: {  }
   field_ends_at:
     type: datetime_default
-    weight: 3
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_header:
-    type: paragraphs
-    weight: 1
+  field_live_video:
+    type: media_library_widget
+    weight: 5
     region: content
     settings:
-      title: Paragraph
-      title_plural: Paragraphs
-      edit_mode: open
-      closed_mode: summary
-      autocollapse: none
-      closed_mode_threshold: 0
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: _none
-      features:
-        add_above: '0'
-        collapse_edit_all: collapse_edit_all
-        duplicate: duplicate
-    third_party_settings:
-      paragraphs_features:
-        add_in_between: false
-        add_in_between_link_count: 3
-        delete_confirmation: false
-        show_drag_and_drop: true
-      paragraphs_ee:
-        paragraphs_ee:
-          dialog_off_canvas: false
-          dialog_style: tiles
+      media_types: {  }
+    third_party_settings: {  }
+  field_recording_video:
+    type: media_library_widget
+    weight: 6
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
   field_seo_description:
     type: string_textarea
     weight: 12
@@ -103,7 +88,7 @@ content:
     third_party_settings: {  }
   field_speakers:
     type: autocomplete_deluxe
-    weight: 4
+    weight: 3
     region: content
     settings:
       match_operator: CONTAINS
@@ -120,13 +105,13 @@ content:
     third_party_settings: {  }
   field_starts_at:
     type: datetime_default
-    weight: 2
+    weight: 1
     region: content
     settings: {  }
     third_party_settings: {  }
   field_status:
     type: string_textfield
-    weight: 13
+    weight: 14
     region: content
     settings:
       size: 60
@@ -134,27 +119,27 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 11
+    weight: 12
     region: content
     settings: {  }
     third_party_settings: {  }
   promote:
     type: boolean_checkbox
-    weight: 9
+    weight: 10
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 12
+    weight: 13
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
-    weight: 10
+    weight: 11
     region: content
     settings:
       display_label: true
@@ -169,7 +154,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 7
+    weight: 8
     region: content
     settings:
       match_operator: CONTAINS
