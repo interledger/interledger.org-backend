@@ -1,22 +1,22 @@
-uuid: c4034662-4d8d-4a1f-ac59-6f7353c910bc
+uuid: c9c53672-4f61-402c-94a9-190772dd7970
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_recording_video
+    - field.storage.node.field_live_video
     - media.type.remote_video
-    - paragraphs.paragraphs_type.talk_header
+    - node.type.talk
   module:
     - entity_reference_purger
 third_party_settings:
   entity_reference_purger:
     remove_orphaned: false
     use_queue: true
-id: paragraph.talk_header.field_recording_video
-field_name: field_recording_video
-entity_type: paragraph
-bundle: talk_header
-label: 'Recording Video'
+id: node.talk.field_live_video
+field_name: field_live_video
+entity_type: node
+bundle: talk
+label: 'Live Video'
 description: ''
 required: false
 translatable: false

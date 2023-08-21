@@ -5,6 +5,8 @@ dependencies:
   config:
     - field.field.node.talk.field_description
     - field.field.node.talk.field_ends_at
+    - field.field.node.talk.field_live_video
+    - field.field.node.talk.field_recording_video
     - field.field.node.talk.field_seo_description
     - field.field.node.talk.field_sessionizeid
     - field.field.node.talk.field_speakers
@@ -13,6 +15,7 @@ dependencies:
     - node.type.talk
   module:
     - feeds_ex
+    - feeds_log
     - feeds_tamper
     - node
 third_party_settings:
@@ -38,6 +41,22 @@ third_party_settings:
         source: status
         weight: 0
         label: 'Keyword filter'
+  feeds_log:
+    status: true
+    operations:
+      created: created
+      updated: updated
+      deleted: deleted
+      skipped: skipped
+      failed: failed
+      cleaned: cleaned
+    items:
+      created: created
+      updated: updated
+      deleted: deleted
+      skipped: skipped
+      failed: failed
+    source: true
 label: Sessions
 id: sessions
 description: ''
@@ -108,6 +127,16 @@ custom_sources:
     label: endsAt
     machine_name: endsat
     type: json
+  liveurl:
+    value: liveUrl
+    label: liveUrl
+    machine_name: liveurl
+    type: json
+  recordingurl:
+    value: recordingUrl
+    label: recordingUrl
+    machine_name: recordingurl
+    type: json
 mappings:
   -
     target: field_speakers
@@ -168,3 +197,23 @@ mappings:
     settings:
       language: null
       timezone: UTC
+  -
+    target: field_live_video
+    map:
+      target_id: liveurl
+    settings:
+      language: null
+      reference_by: name
+      autocreate: false
+      autocreate_bundle: remote_video
+      feeds_item: false
+  -
+    target: field_recording_video
+    map:
+      target_id: recordingurl
+    settings:
+      language: null
+      reference_by: name
+      autocreate: false
+      autocreate_bundle: remote_video
+      feeds_item: false
