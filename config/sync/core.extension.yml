@@ -35,6 +35,7 @@ module:
   file_mdm: 0
   filter: 0
   focal_point: 0
+  gin_custom: 0
   gin_toolbar: 0
   graphql: 0
   graphql_compose: 0

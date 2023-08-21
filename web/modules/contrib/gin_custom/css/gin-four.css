@@ -1,0 +1,40 @@
+.gin--dark-mode.js
+  .paragraphs-add-dialog--categorized
+  .paragraphs-add-dialog--categorized
+  .paragraphs-label,
+.gin--dark-mode.js
+  .paragraphs-add-dialog--categorized
+  .search-description
+  label,
+.gin--dark-mode.js
+  .paragraphs-add-dialog--categorized
+  .paragraphs-add-dialog--categorized
+  .paragraphs-description,
+.gin--dark-mode.js
+  .ui-dialog.ui-dialog-off-canvas.paragraphs-ee-off-canvas--browser
+  #drupal-off-canvas
+  .paragraphs-add-dialog--categorized
+  .paragraphs-description,
+.gin--dark-mode.js
+  .paragraphs-add-dialog--categorized
+  .paragraphs-add-dialog--categorized
+  .category-title,
+.ui-dialog.ui-dialog-off-canvas.paragraphs-ee-off-canvas--browser
+  #drupal-off-canvas
+  .paragraphs-add-dialog--categorized
+  .category-title {
+  color: white !important;
+}
+
+.gin--dark-mode.js
+  .paragraphs-add-dialog--categorized
+  .paragraphs-add-dialog--categorized:not(.paragraphs-style-list)
+  .paragraphs-button--icon:before,
+.gin--dark-mode.js
+  .ui-dialog.ui-dialog-off-canvas.paragraphs-ee-off-canvas--browser
+  #drupal-off-canvas
+  .paragraphs-add-dialog--categorized:not(.paragraphs-style-list)
+  .paragraphs-button--icon:before {
+  margin-left: 0;
+  margin-top: 0;
+}

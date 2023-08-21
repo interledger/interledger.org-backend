@@ -1,0 +1,6 @@
+name: "Gin Custom"
+type: module
+description: "Overwrite default styling for Gin Admin theme"
+package: Custom
+core_version_requirement: ^9 || ^10
+hidden: false
