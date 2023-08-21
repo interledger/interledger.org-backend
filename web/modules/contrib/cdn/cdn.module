@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * @file
+ * Provides integration with CDNs for files.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\cdn\CdnSettings;
+use Drupal\editor\Entity\Editor;
+
+/**
+ * Implements hook_help().
+ */
+function cdn_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.cdn':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('The CDN module can serve files (CSS, JavaScript, images, fonts, videos …) from a <abbr title="Content Delivery Network">CDN</abbr> instead of your web server(s). For more information, see the <a href=":online">online documentation for the CDN module</a>.', [':online' => 'https://www.drupal.org/docs/8/managing-site-performance-and-scalability/content-delivery-network-cdn']) . '</p>';
+      $output .= '<h3>' . t('Uses') . '</h3>';
+      $output .= '<dl>';
+      $output .= '<dt>' . t('General') . '</dt>';
+      $output .= '<dd>' . t('A content delivery network is a collection of web servers distributed across multiple locations around the world to deliver content more efficiently to users. The server selected for delivering content to a specific user is typically based on a measure of network proximity. For more information, see <a href="http://wimleers.com/article/key-properties-of-a-cdn"><q>Key Properties of a CDN</q>.</a>') . '</dd>';
+      $output .= '<dt>' . t('Improving performance') . '</dt>';
+      $output .= '<dd>' . t('Because a CDN automatically serves files from the location that is closest to the end user, files can be downloaded by end users faster. It can be faster in two ways: downloads start faster (lower latency) and downloads complete faster (higher bandwidth).') . '</dd>';
+      $output .= '<dt>' . t('Reducing server load & costs') . '</dt>';
+      $output .= '<dd>' . t('By letting a CDN serve files instead of your webserver(s), it is possible to significantly reduce the load on your server and its costs. Note that it may just as well end up costing more — it depends on pricing of the CDN and your server(s).') . '</dd>';
+      $output .= '</dl>';
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_editor_js_settings_alter().
+ */
+function cdn_editor_js_settings_alter(array &$settings) {
+  if (!\Drupal::moduleHandler()->moduleExists('ckeditor')) {
+    return;
+  }
+
+  // Don't serve CKEditor plugins from a CDN when far future future is enabled
+  // (CKEditor insists on computing other assets to load based on these URLs).
+  if (!\Drupal::service(CdnSettings::class)->farfutureIsEnabled()) {
+    return;
+  }
+
+  global $_cdn_in_css_file;
+  $_cdn_in_css_file = TRUE;
+
+  $ckeditor_plugin_manager = \Drupal::service('plugin.manager.ckeditor.plugin');
+  $root_relative_file_url = function ($uri) {
+    return file_url_transform_relative(file_create_url($uri));
+  };
+  foreach ($settings['editor']['formats'] as $format => &$format_settings) {
+    if ($format_settings['editor'] === 'ckeditor') {
+      $editor = Editor::load($format);
+      // @see \Drupal\ckeditor\Plugin\Editor\CKEditor::getJSSettings()
+      $external_plugin_files = $ckeditor_plugin_manager->getEnabledPluginFiles($editor);
+      $format_settings['editorSettings']['drupalExternalPlugins'] = array_map($root_relative_file_url, $external_plugin_files);
+    }
+  }
+
+  $_cdn_in_css_file = FALSE;
+}
