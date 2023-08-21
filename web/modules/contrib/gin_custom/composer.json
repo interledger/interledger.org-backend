@@ -1,0 +1,10 @@
+{
+  "name": "rckt/gin_custom",
+  "type": "drupal-module",
+  "description": "Gin custom theme overwrite",
+  "minimum-stability": "dev",
+  "keywords": [],
+  "require": {
+    "php": ">=8.1"
+  }
+}

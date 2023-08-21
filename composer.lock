@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e35c75a51c6f351878a006d93d5713c",
+    "content-hash": "b470c128eb8b6dbf6f1cf1642c1a7bc7",
     "packages": [
         {
             "name": "arthurkushman/query-path",
@@ -8372,6 +8372,31 @@
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
             "time": "2019-03-08T08:55:37+00:00"
+        },
+        {
+            "name": "rckt/gin_custom",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/rckt/gin_custom.git",
+                "reference": "85cb0528d6b53b803edfb3a64405b8b7d4296480"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/rckt/gin_custom/get/85cb0528d6b53b803edfb3a64405b8b7d4296480.zip",
+                "reference": "85cb0528d6b53b803edfb3a64405b8b7d4296480",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "type": "drupal-module",
+            "description": "Gin custom theme overwrite",
+            "homepage": "https://bitbucket.org/rckt/gin_custom",
+            "support": {
+                "source": "https://bitbucket.org/rckt/gin_custom/src/85cb0528d6b53b803edfb3a64405b8b7d4296480/?at=v1.1.0"
+            },
+            "time": "2023-08-18T13:03:58+00:00"
         },
         {
             "name": "sebastian/diff",

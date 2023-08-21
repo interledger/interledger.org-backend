@@ -1,0 +1,24 @@
+uuid: 3b9a8ef9-81cd-4953-bd83-b97522a64136
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.scrolling_logo_carousel.field_images
+    - paragraphs.paragraphs_type.scrolling_logo_carousel
+  module:
+    - media_library
+id: paragraph.scrolling_logo_carousel.default
+targetEntityType: paragraph
+bundle: scrolling_logo_carousel
+mode: default
+content:
+  field_images:
+    type: media_library_widget
+    weight: 0
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

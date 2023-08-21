@@ -104,6 +104,8 @@ entity_config:
       enabled: true
     schedule_day:
       enabled: true
+    scrolling_logo_carousel:
+      enabled: true
     social_media:
       enabled: true
     social_media_link:
@@ -336,6 +338,9 @@ field_config:
       field_talks_view:
         enabled: true
         viewfield_query: true
+    scrolling_logo_carousel:
+      field_images:
+        enabled: true
     social_media:
       field_social_media_links:
         enabled: true

@@ -19,6 +19,7 @@ dependencies:
     - paragraphs.paragraphs_type.news_listings
     - paragraphs.paragraphs_type.people_grid
     - paragraphs.paragraphs_type.price_list
+    - paragraphs.paragraphs_type.scrolling_logo_carousel
     - paragraphs.paragraphs_type.spacer
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.two_column_content
@@ -57,6 +58,7 @@ settings:
       content_column_cards: content_column_cards
       price_list: price_list
       people_grid: people_grid
+      scrolling_logo_carousel: scrolling_logo_carousel
     negate: 0
     target_bundles_drag_drop:
       anchor:
@@ -140,6 +142,9 @@ settings:
       schedule_day:
         weight: -27
         enabled: false
+      scrolling_logo_carousel:
+        weight: 66
+        enabled: true
       social_media:
         weight: -34
         enabled: false

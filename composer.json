@@ -14,6 +14,10 @@
             "url": "https://bitbucket.org/rckt/graphql_compose_extra"
         },
         {
+            "type": "vcs",
+            "url": "https://bitbucket.org/rckt/gin_custom"
+        },
+        {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
         }
@@ -58,7 +62,8 @@
         "drupal/upgrade_status": "^4.0",
         "drupal/viewfield": "^3.0@beta",
         "drupal/webform_rest": "^4.0",
-        "drush/drush": "^11.3"
+        "drush/drush": "^11.3",
+        "rckt/gin_custom": "^1.1"
     },
     "conflict": {
         "drupal/drupal": "*"
