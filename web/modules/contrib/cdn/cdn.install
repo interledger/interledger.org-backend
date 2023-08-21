@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * @file
+ * Update functions for the CDN module.
+ */
+
+/**
+ * Force container & cache rebuild upon upgrading from 8.x-3.x to 4.x.
+ */
+function cdn_update_9401() {
+}
