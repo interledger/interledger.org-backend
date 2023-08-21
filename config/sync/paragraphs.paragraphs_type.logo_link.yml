@@ -1,0 +1,16 @@
+uuid: d05e892c-7803-49c0-9de9-6bf1ca1528e8
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs_ee
+third_party_settings:
+  paragraphs_ee:
+    paragraphs_categories:
+      media: media
+id: logo_link
+label: 'Logo Link'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

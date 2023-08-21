@@ -87,6 +87,8 @@ entity_config:
       enabled: true
     large_callout_text:
       enabled: true
+    logo_link:
+      enabled: true
     media_header:
       enabled: true
     news_listings:
@@ -292,6 +294,11 @@ field_config:
     large_callout_text:
       field_large_callout_text:
         enabled: true
+    logo_link:
+      field_link:
+        enabled: true
+      field_single_image:
+        enabled: true
     media_header:
       field_single_image:
         enabled: true
@@ -339,7 +346,7 @@ field_config:
         enabled: true
         viewfield_query: true
     scrolling_logo_carousel:
-      field_images:
+      field_logos:
         enabled: true
     social_media:
       field_social_media_links:

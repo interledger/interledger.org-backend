@@ -3,19 +3,21 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.scrolling_logo_carousel.field_images
+    - field.field.paragraph.scrolling_logo_carousel.field_logos
     - paragraphs.paragraphs_type.scrolling_logo_carousel
+  module:
+    - entity_reference_revisions
 id: paragraph.scrolling_logo_carousel.default
 targetEntityType: paragraph
 bundle: scrolling_logo_carousel
 mode: default
 content:
-  field_images:
-    type: entity_reference_entity_view
+  field_logos:
+    type: entity_reference_revisions_entity_view
     label: above
     settings:
       view_mode: default
-      link: false
+      link: ''
     third_party_settings: {  }
     weight: 0
     region: content
