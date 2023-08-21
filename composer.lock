@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f7f054d2b6b0cab7bd2027181545c417",
+    "content-hash": "b470c128eb8b6dbf6f1cf1642c1a7bc7",
     "packages": [
         {
             "name": "arthurkushman/query-path",
@@ -1609,50 +1609,6 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/autocomplete_deluxe",
                 "issues": "https://www.drupal.org/project/issues/autocomplete_deluxe"
-            }
-        },
-        {
-            "name": "drupal/cdn",
-            "version": "4.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/cdn.git",
-                "reference": "4.0.1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/cdn-4.0.1.zip",
-                "reference": "4.0.1",
-                "shasum": "d4a67c110a5fd3d5887d681a3d865c03095ac65a"
-            },
-            "require": {
-                "drupal/core": "^9.4 || ^10"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "4.0.1",
-                    "datestamp": "1670927366",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Wim Leers",
-                    "homepage": "https://www.drupal.org/user/99777"
-                }
-            ],
-            "description": "Serves files (CSS, JS, images …) from a CDN.",
-            "homepage": "https://www.drupal.org/project/cdn",
-            "support": {
-                "source": "https://git.drupalcode.org/project/cdn"
             }
         },
         {
