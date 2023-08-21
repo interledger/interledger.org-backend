@@ -8375,16 +8375,16 @@
         },
         {
             "name": "rckt/gin_custom",
-            "version": "v1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/rckt/gin_custom.git",
-                "reference": "85cb0528d6b53b803edfb3a64405b8b7d4296480"
+                "reference": "c250414d15fe42e4da6aeefccf75f0c299f464d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://bitbucket.org/rckt/gin_custom/get/85cb0528d6b53b803edfb3a64405b8b7d4296480.zip",
-                "reference": "85cb0528d6b53b803edfb3a64405b8b7d4296480",
+                "url": "https://bitbucket.org/rckt/gin_custom/get/c250414d15fe42e4da6aeefccf75f0c299f464d0.zip",
+                "reference": "c250414d15fe42e4da6aeefccf75f0c299f464d0",
                 "shasum": ""
             },
             "require": {
@@ -8394,9 +8394,9 @@
             "description": "Gin custom theme overwrite",
             "homepage": "https://bitbucket.org/rckt/gin_custom",
             "support": {
-                "source": "https://bitbucket.org/rckt/gin_custom/src/85cb0528d6b53b803edfb3a64405b8b7d4296480/?at=v1.1.0"
+                "source": "https://bitbucket.org/rckt/gin_custom/src/c250414d15fe42e4da6aeefccf75f0c299f464d0/?at=1.2.0"
             },
-            "time": "2023-08-18T13:03:58+00:00"
+            "time": "2023-08-18T13:14:47+00:00"
         },
         {
             "name": "sebastian/diff",
