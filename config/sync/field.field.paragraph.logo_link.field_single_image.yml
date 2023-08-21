@@ -1,22 +1,22 @@
-uuid: 4ca6c202-ef79-4436-a64d-34192225296e
+uuid: a2e591d2-1849-47d4-a70e-2c19814ca1a0
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_images
+    - field.storage.paragraph.field_single_image
     - media.type.image
-    - paragraphs.paragraphs_type.scrolling_logo_carousel
+    - paragraphs.paragraphs_type.logo_link
   module:
     - entity_reference_purger
 third_party_settings:
   entity_reference_purger:
     remove_orphaned: false
     use_queue: true
-id: paragraph.scrolling_logo_carousel.field_images
-field_name: field_images
+id: paragraph.logo_link.field_single_image
+field_name: field_single_image
 entity_type: paragraph
-bundle: scrolling_logo_carousel
-label: Images
+bundle: logo_link
+label: Image
 description: ''
 required: true
 translatable: false
