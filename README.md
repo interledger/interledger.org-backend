@@ -13,7 +13,7 @@
 
 * Install Drush https://github.com/drush-ops/drush-launcher#installation---phar
 * `composer install` from your Drupal root folder
-* Set up database and configure in `web/sites/default/settings.local.php`
+* Copy `web/sites/example.settings.local.php` to `web/sites/default/settings.local.php` and configure database
 * Make sure the `$base_url` in `settings.local.php` matches the node server running the frontend
 * Reset the admin password by running `drush uli --uri http://LOCAL_HOSTNAME`
 * Generate oauth keys for previews `drush simple-oauth:generate-keys ../keys`

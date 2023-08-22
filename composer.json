@@ -28,7 +28,6 @@
         "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^3.3",
         "drupal/autocomplete_deluxe": "^2.0",
-        "drupal/cdn": "^4.0",
         "drupal/cloudfront_cache_path_invalidate": "^3.0",
         "drupal/config_pages": "^2.14",
         "drupal/core-composer-scaffold": "10.1.1",
@@ -106,11 +105,7 @@
                     "path": "scaffold/.htaccess",
                     "overwrite": true
                 },
-                "[web-root]/sites/default/settings.local.php": {
-                    "mode": "replace",
-                    "path": "scaffold/settings.local.php",
-                    "overwrite": false
-                },
+                "[web-root]/sites/example.settings.local.php": "scaffold/example.settings.local.php",
                 "[web-root]/sites/development.services.yml": {
                     "mode": "replace",
                     "path": "scaffold/development.services.yml",
