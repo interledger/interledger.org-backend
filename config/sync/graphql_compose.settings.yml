@@ -126,6 +126,8 @@ entity_config:
       enabled: true
     video:
       enabled: true
+    video_embed:
+      enabled: true
   responsive_image_style:
     aspect_ratio_landscape_16_9:
       enabled: true
@@ -385,6 +387,10 @@ field_config:
         enabled: true
       field_video:
         enabled: true
+    video_embed:
+      field_video:
+        enabled: true
+        name_sdl: remoteVideo
 settings:
   expose_entity_ids: false
   schema_description: 'GraphQL Compose'
