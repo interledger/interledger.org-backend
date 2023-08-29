@@ -767,9 +767,9 @@ $settings['migrate_node_migrate_type_classic'] = FALSE;
 
 $_SERVER['HTTPS'] = 'on';
 
-// if (isset($_SERVER['IMAGE_CDN'])) {
-//   $settings['file_public_base_url'] =  $_SERVER['IMAGE_CDN'] . '/sites/default/files';
-// }
+if (isset($_SERVER['IMAGE_CDN'])) {
+  $settings['file_public_base_url'] =  $_SERVER['IMAGE_CDN'] . '/sites/default/files';
+}
 
 /**
  *  If these variables exist, this is an EB instance, so connect to RDS
