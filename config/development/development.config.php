@@ -11,3 +11,7 @@ $config['graphql.graphql_servers.test']['debug_flag'] = 0;
 
 // imagemagick
 $config['imagemagick.settings']['path_to_binaries'] = '/usr/bin/';
+
+// cdn
+$config['cdn.settings']['domain'] = $_SERVER['IMAGE_CDN_DOMAIN'];
+$config['cdn.settings']['scheme'] = 'https://';
