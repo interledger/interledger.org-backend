@@ -15,6 +15,7 @@
 * `composer install` from your Drupal root folder
 * Copy `web/sites/example.settings.local.php` to `web/sites/default/settings.local.php` and configure database
 * Make sure the `$base_url` in `settings.local.php` matches the node server running the frontend
+* Make sure the `$settings['file_public_base_url']` in `settings.local.php` matches the cms url (this will be the cdn in production)
 * Reset the admin password by running `drush uli --uri http://LOCAL_HOSTNAME`
 * Generate oauth keys for previews `drush simple-oauth:generate-keys ../keys`
 * Make sure the files from the backup are copied into the `/web/sites/default/files` folder
