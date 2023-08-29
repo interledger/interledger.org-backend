@@ -188,8 +188,10 @@ class ResponsiveImageDerivative extends DataProducerPluginBase implements Contai
             }
 
             return [
-                'path' => $fallback_file_path,
-                'srcSetPath' => $structured_source['srcset'],
+                'path' => $fallback_file_path, //deprecated
+                'url' => $fallback_file_url,
+                'srcSetPath' => $structured_source['srcset'], //deprecated
+                'srcSet' => $structured_source['srcset'],
                 'width' => isset($fallback_image) ? $fallback_image->getWidth() : '',
                 'height' => isset($fallback_image) ? $fallback_image->getHeight() : '',
             ];

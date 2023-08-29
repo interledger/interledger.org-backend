@@ -1,6 +1,6 @@
 <?php
 
-// phpcs:ignoreFile
+// @codingStandardsIgnoreFile
 
 /**
  * @file
@@ -26,9 +26,9 @@
  * @see http://php.net/assert
  * @see https://www.drupal.org/node/2492225
  *
- * It is strongly recommended that you set zend.assertions=1 in the PHP.ini file
- * (It cannot be changed from .htaccess or runtime) on development machines and
- * to 0 or -1 in production.
+ * If you are using PHP 7.0 it is strongly recommended that you set
+ * zend.assertions=1 in the PHP.ini file (It cannot be changed from .htaccess
+ * or runtime) on development machines and to 0 in production.
  *
  * @see https://wiki.php.net/rfc/expectations
  */
@@ -66,7 +66,7 @@ $config['system.performance']['js']['preprocess'] = FALSE;
  *
  * Only use this setting once the site has been installed.
  */
-# $settings['cache']['bins']['render'] = 'cache.backend.null';
+$settings['cache']['bins']['render'] = 'cache.backend.null';
 
 /**
  * Disable caching for migrations.
@@ -74,7 +74,7 @@ $config['system.performance']['js']['preprocess'] = FALSE;
  * Uncomment the code below to only store migrations in memory and not in the
  * database. This makes it easier to develop custom migrations.
  */
-# $settings['cache']['bins']['discovery_migration'] = 'cache.backend.memory';
+$settings['cache']['bins']['discovery_migration'] = 'cache.backend.memory';
 
 /**
  * Disable Internal Page Cache.
@@ -88,7 +88,7 @@ $config['system.performance']['js']['preprocess'] = FALSE;
  *
  * Only use this setting once the site has been installed.
  */
-# $settings['cache']['bins']['page'] = 'cache.backend.null';
+$settings['cache']['bins']['page'] = 'cache.backend.null';
 
 /**
  * Disable Dynamic Page Cache.
@@ -97,7 +97,7 @@ $config['system.performance']['js']['preprocess'] = FALSE;
  * cacheability metadata is present (and hence the expected behavior). However,
  * in the early stages of development, you may want to disable it.
  */
-# $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
+$settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
 
 /**
  * Allow test modules and themes to be installed.
@@ -116,7 +116,7 @@ $config['system.performance']['js']['preprocess'] = FALSE;
  * be gained by generating a query string from rebuild_token_calculator.sh and
  * using these parameters in a request to rebuild.php.
  */
-$settings['rebuild_access'] = TRUE;
+$settings['rebuild_access'] = FALSE;
 
 /**
  * Skip file system permissions hardening.
@@ -153,3 +153,29 @@ $settings['skip_permissions_hardening'] = TRUE;
  * the language or field module.
  */
 # $settings['config_exclude_modules'] = ['devel', 'stage_file_proxy'];
+
+$settings['hash_salt'] = '25P5YZXmNg0ImP4bb7-7XnjQ9CC6bUWfsgiAjY8X6jgy4SwD5SDTelbdifOAuUIFZ3czzBgS0A';
+
+$databases['default']['default'] = array(
+  'database' => 'drupal-headless-next',
+  'username' => 'root',
+  'password' => 'root',
+  'prefix' => '',
+  'host' => '127.0.0.1',
+  'port' => '3306',
+  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+  'driver' => 'mysql',
+);
+
+$settings['config_sync_directory'] = '../config/sync';
+
+$settings['file_temp_path'] = '/tmp';
+
+$settings['trusted_host_patterns'] = [];
+
+$base_url = 'http://localhost:3000';
+
+// nextjs
+$config['next.next_site.client']['base_url'] = $base_url;
+$config['next.next_site.client']['preview_url'] = $base_url . '/api/preview';
+$config['next.next_site.client']['revalidate_url'] = $base_url . '/api/revalidate';

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b470c128eb8b6dbf6f1cf1642c1a7bc7",
+    "content-hash": "851941fe10883c3963f7d1dc3a53bb30",
     "packages": [
         {
             "name": "arthurkushman/query-path",
@@ -3141,36 +3141,6 @@
             }
         },
         {
-            "name": "drupal/graphql_compose_extra",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://bitbucket.org/rckt/graphql_compose_extra.git",
-                "reference": "a20f132124e83f36ae3798936769415eca071b7d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://bitbucket.org/rckt/graphql_compose_extra/get/a20f132124e83f36ae3798936769415eca071b7d.zip",
-                "reference": "a20f132124e83f36ae3798936769415eca071b7d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1"
-            },
-            "default-branch": true,
-            "type": "drupal-module",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "description": "Toolkit for generating GraphQL schemas in Drupal.",
-            "homepage": "http://drupal.org/project/graphql_compose",
-            "support": {
-                "issues": "https://www.drupal.org/project/issues/graphql_compose",
-                "source": "http://cgit.drupalcode.org/graphql_compose"
-            },
-            "time": "2023-08-04T08:46:44+00:00"
-        },
-        {
             "name": "drupal/graphql_compose_fragments",
             "version": "2.0.0-beta9",
             "require": {
@@ -5468,6 +5438,34 @@
                 "source": "https://github.com/FileEye/pel/tree/0.9.20"
             },
             "time": "2023-06-20T07:10:35+00:00"
+        },
+        {
+            "name": "four/graphql_compose_extra",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/rckt/graphql_compose_extra.git",
+                "reference": "920deac7b9d7b0ecaddf3b39f5fdb3577bc14c31"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/rckt/graphql_compose_extra/get/920deac7b9d7b0ecaddf3b39f5fdb3577bc14c31.zip",
+                "reference": "920deac7b9d7b0ecaddf3b39f5fdb3577bc14c31",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Toolkit for generating GraphQL schemas in Drupal.",
+            "homepage": "https://bitbucket.org/rckt/graphql_compose_extra",
+            "support": {
+                "source": "https://bitbucket.org/rckt/graphql_compose_extra/src/920deac7b9d7b0ecaddf3b39f5fdb3577bc14c31/?at=v1.2.0"
+            },
+            "time": "2023-08-29T11:18:24+00:00"
         },
         {
             "name": "galbar/jsonpath",
@@ -11352,7 +11350,6 @@
         "drupal/focal_point": 15,
         "drupal/gin": 5,
         "drupal/graphql_compose": 10,
-        "drupal/graphql_compose_extra": 20,
         "drupal/paragraphs_ee": 15,
         "drupal/paragraphs_features": 10,
         "drupal/viewfield": 10
