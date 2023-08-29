@@ -10,3 +10,10 @@
  */
 function cdn_update_9401() {
 }
+
+/**
+ * Add the new "prevent_duplicate_content" setting, set it to its default initial value.
+ */
+function cdn_update_8004() {
+  \Drupal::configFactory()->getEditable('cdn.settings')->set('prevent_duplicate_content', TRUE)->save();
+}
