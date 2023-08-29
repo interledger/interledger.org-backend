@@ -94,6 +94,9 @@
             },
             "drupal/feeds_dependency": {
                 "Allow feed to have multiple dependencies": "https://git.drupalcode.org/project/feeds_dependency/-/merge_requests/1.diff"
+            },
+            "drupal/cdn": {
+                "Fix redirect loop": "https://www.drupal.org/files/issues/2023-05-19/3219339-19.patch"
             }
         },
         "drupal-scaffold": {

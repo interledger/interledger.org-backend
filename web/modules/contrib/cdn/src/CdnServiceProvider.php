@@ -19,7 +19,11 @@ class CdnServiceProvider implements ServiceProviderInterface {
    * {@inheritdoc}
    */
   public function register(ContainerBuilder $container) {
-    if ($this->cdnStatusIsEnabled()) {
+    if (!$this->cdnStatusIsEnabled()) {
+      return;
+    }
+
+    if ($this->cdnDuplicateContentPreventionIsEnabled()) {
       $container->register('http_middleware.cdn.duplicate_content_prevention', DuplicateContentPreventionMiddleware::class)
         ->addArgument(new Reference('request_stack'))
         // Set the priority so that this middleware runs:
@@ -43,6 +47,20 @@ class CdnServiceProvider implements ServiceProviderInterface {
       return FALSE;
     }
     return $cdn_settings['status'] === TRUE;
+  }
+
+  /**
+   * @return bool
+   */
+  protected function cdnDuplicateContentPreventionIsEnabled() : bool {
+    $cdn_settings = BootstrapConfigStorageFactory::get()->read('cdn.settings');
+    // In Kernel tests it's possible this code is called before cdn.settings
+    // exists. In such cases behave as though the CDN status is "disabled". This
+    // is also the default value in cdn.settings.yml.
+    if ($cdn_settings === FALSE) {
+      return FALSE;
+    }
+    return $cdn_settings['prevent_duplicate_content'] === TRUE;
   }
 
 }

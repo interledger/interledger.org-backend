@@ -28,3 +28,6 @@ cdn.settings:
       type: sequence
       sequence:
         type: cdn.stream_wrapper_scheme
+    prevent_duplicate_content:
+      type: boolean
+      label: 'Prevent duplicate content'

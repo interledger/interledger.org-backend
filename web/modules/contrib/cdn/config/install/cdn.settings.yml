@@ -75,3 +75,7 @@ farfuture:
 # Public is enabled by default, additional local stream wrappers can be added.
 stream_wrappers:
   - public
+# Duplicate content prevention is enabled by default, can optionally be disabled. This is needed when on the one hand
+# certain files are served from CDN A, but on the other hand the entire site is put behind CDN B.
+# @see \Drupal\cdn\StackMiddleware\DuplicateContentPreventionMiddleware
+prevent_duplicate_content: true
