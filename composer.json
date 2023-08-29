@@ -43,7 +43,6 @@
         "drupal/gin": "^3.0@RC",
         "drupal/graphql": "^4.4",
         "drupal/graphql_compose": "^2.0@beta",
-        "drupal/graphql_compose_extra": "^1.1.0",
         "drupal/health_check": "^3.0",
         "drupal/image_styles_builder": "^1.1",
         "drupal/imagemagick": "^3.4",
@@ -63,6 +62,7 @@
         "drupal/viewfield": "^3.0@beta",
         "drupal/webform_rest": "^4.0",
         "drush/drush": "^11.3",
+        "four/graphql_compose_extra": "^1.2.0",
         "rckt/gin_custom": "^1.1"
     },
     "conflict": {
