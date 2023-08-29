@@ -21,21 +21,10 @@ third_party_settings:
         weight: 0
         label: Required
   feeds_log:
-    status: true
-    operations:
-      created: created
-      updated: updated
-      deleted: deleted
-      skipped: skipped
-      failed: failed
-      cleaned: cleaned
-    items:
-      created: created
-      updated: updated
-      deleted: deleted
-      skipped: skipped
-      failed: failed
-    source: true
+    status: false
+    operations: {  }
+    items: {  }
+    source: false
 label: 'Speaker Images'
 id: speaker_images
 description: ''

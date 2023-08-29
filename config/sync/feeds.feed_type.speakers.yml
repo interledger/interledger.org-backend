@@ -17,21 +17,10 @@ dependencies:
     - node
 third_party_settings:
   feeds_log:
-    status: true
-    operations:
-      created: created
-      updated: updated
-      deleted: deleted
-      skipped: skipped
-      failed: failed
-      cleaned: cleaned
-    items:
-      created: created
-      updated: updated
-      deleted: deleted
-      skipped: skipped
-      failed: failed
-    source: true
+    status: false
+    operations: {  }
+    items: {  }
+    source: false
 label: Speakers
 id: speakers
 description: ''

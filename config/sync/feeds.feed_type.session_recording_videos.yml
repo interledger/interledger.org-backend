@@ -12,21 +12,10 @@ dependencies:
     - media
 third_party_settings:
   feeds_log:
-    status: true
-    operations:
-      created: created
-      updated: updated
-      deleted: deleted
-      skipped: skipped
-      failed: failed
-      cleaned: cleaned
-    items:
-      created: created
-      updated: updated
-      deleted: deleted
-      skipped: skipped
-      failed: failed
-    source: true
+    status: false
+    operations: {  }
+    items: {  }
+    source: false
   feeds_tamper:
     tampers:
       2b6eb01d-8677-4eae-bbaf-95d59778c990:
