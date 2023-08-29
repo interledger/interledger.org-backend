@@ -1,0 +1,11 @@
+name: CDN
+description: "Serves files (CSS, JS, images …) from a CDN."
+type: module
+package: "Web services"
+core_version_requirement: ^9.4 || ^10
+php: 8.1
+
+# Information added by Drupal.org packaging script on 2022-12-13
+version: '4.0.1'
+project: 'cdn'
+datestamp: 1670927370
