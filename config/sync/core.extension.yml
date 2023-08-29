@@ -41,9 +41,9 @@ module:
   graphql_compose: 0
   graphql_compose_extra: 0
   graphql_compose_extra_config_pages: 0
-  graphql_compose_extra_image_style: 0
   graphql_compose_extra_responsive_image_style: 0
   graphql_compose_fragments: 0
+  graphql_compose_image_style: 0
   graphql_compose_menus: 0
   graphql_compose_metatags: 0
   graphql_compose_routes: 0

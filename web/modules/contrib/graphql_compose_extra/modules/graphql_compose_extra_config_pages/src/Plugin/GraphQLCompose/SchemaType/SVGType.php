@@ -15,27 +15,35 @@ use GraphQL\Type\Definition\Type;
  *   id = "SVG",
  * )
  */
-class SVGType extends GraphQLComposeSchemaTypeBase {
+class SVGType extends GraphQLComposeSchemaTypeBase
+{
 
   /**
    * {@inheritdoc}
    */
-  public function getTypes(): array {
+  public function getTypes(): array
+  {
     $types = [];
 
     $types[] = new ObjectType([
       'name' => $this->getPluginId(),
       'description' => (string) $this->t('A file object to represent an managed file.'),
-      'fields' => fn() => [
-        'name' => Type::string(),
-        'url'  => Type::nonNull(Type::string()),
-        'size' => Type::nonNull(Type::int()),
-        'mime' => Type::string(),
-        'description' => Type::string(),
+      'fields' => fn () => [
+        'url' => [
+          'type' => Type::nonNull(Type::string()),
+          'description' => (string) $this->t('The URL of the svg.'),
+        ],
+        'title' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The title text of the image.'),
+        ],
+        'mime' => [
+          'type' => Type::string(),
+          'description' => (string) $this->t('The mime type of the image.'),
+        ],
       ],
     ]);
 
     return $types;
   }
-
 }

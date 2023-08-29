@@ -24,7 +24,30 @@ class ResponsiveImageStyleSchemaExtension extends SdlSchemaExtensionPluginBase {
   public function registerResolvers(ResolverRegistryInterface $registry): void {
     $builder = new ResolverBuilder();
 
-    // Add style() query to Image types.
+        // Add style() query to Image types.
+    $registry->addFieldResolver(
+      'Image',
+      'responsiveVariations',
+      $builder->compose(
+        $builder->produce('property_path')
+          ->map('value', $builder->fromContext('field_value'))
+          ->map('path', $builder->fromValue('entity')),
+
+        $builder->context('entity', $builder->fromParent()),
+
+        $builder->produce('schema_enum_value')
+          ->map('type', $builder->fromValue('ResponsiveImageStyleAvailable'))
+          ->map('value', $builder->fromArgument('styles')),
+
+        $builder->compose(
+          $builder->produce('responsive_image_derivatives')
+            ->map('entity', $builder->fromContext('entity'))
+            ->map('styles', $builder->fromParent())
+        )
+      ),
+    );
+
+    // Add style() query to Image types. (Deprecated)
     $registry->addFieldResolver(
       'Image',
       'responsive',
@@ -46,7 +69,7 @@ class ResponsiveImageStyleSchemaExtension extends SdlSchemaExtensionPluginBase {
       ),
     );
 
-    // Load up the image style entity on a new field "style".
+    // Load up the image style entity on a new field "style".  (Deprecated)
     $registry->addFieldResolver(
       'ResponsiveImageStyleDerivative',
       'responsive',
