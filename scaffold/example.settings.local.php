@@ -175,6 +175,8 @@ $settings['trusted_host_patterns'] = [];
 
 $base_url = 'http://localhost:3000';
 
+$settings['file_public_base_url'] = 'http://admin.interledger.test/sites/default/files';
+
 // nextjs
 $config['next.next_site.client']['base_url'] = $base_url;
 $config['next.next_site.client']['preview_url'] = $base_url . '/api/preview';
