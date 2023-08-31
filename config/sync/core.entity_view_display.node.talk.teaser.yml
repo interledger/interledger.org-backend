@@ -5,13 +5,16 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.talk.body
-    - field.field.node.talk.field_date_time
+    - field.field.node.talk.feeds_item
     - field.field.node.talk.field_description
-    - field.field.node.talk.field_duration
-    - field.field.node.talk.field_header
+    - field.field.node.talk.field_ends_at
+    - field.field.node.talk.field_live_video
+    - field.field.node.talk.field_recording_video
     - field.field.node.talk.field_seo_description
+    - field.field.node.talk.field_sessionizeid
     - field.field.node.talk.field_speakers
-    - field.field.node.talk.field_teaser
+    - field.field.node.talk.field_starts_at
+    - field.field.node.talk.field_status
     - node.type.talk
   module:
     - text
@@ -35,10 +38,13 @@ content:
     weight: 100
     region: content
 hidden:
-  field_date_time: true
+  feeds_item: true
   field_description: true
-  field_duration: true
-  field_header: true
+  field_ends_at: true
+  field_live_video: true
+  field_recording_video: true
   field_seo_description: true
+  field_sessionizeid: true
   field_speakers: true
-  field_teaser: true
+  field_starts_at: true
+  field_status: true

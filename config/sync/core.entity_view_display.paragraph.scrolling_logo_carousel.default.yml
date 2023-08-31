@@ -1,0 +1,24 @@
+uuid: c427c793-0719-4dcc-8fc9-908cbc516696
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.scrolling_logo_carousel.field_logos
+    - paragraphs.paragraphs_type.scrolling_logo_carousel
+  module:
+    - entity_reference_revisions
+id: paragraph.scrolling_logo_carousel.default
+targetEntityType: paragraph
+bundle: scrolling_logo_carousel
+mode: default
+content:
+  field_logos:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

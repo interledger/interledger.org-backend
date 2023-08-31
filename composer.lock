@@ -4,8 +4,61 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d9995a3a250e7ece8c2a317df662c04",
+    "content-hash": "98c5316e2f90546ef13c3bcd39669f19",
     "packages": [
+        {
+            "name": "arthurkushman/query-path",
+            "version": "3.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/arthurkushman/querypath.git",
+                "reference": "a62260eddc58e0b30dfeb7c9db60a8bd593d2135"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/arthurkushman/querypath/zipball/a62260eddc58e0b30dfeb7c9db60a8bd593d2135",
+                "reference": "a62260eddc58e0b30dfeb7c9db60a8bd593d2135",
+                "shasum": ""
+            },
+            "require": {
+                "masterminds/html5": "2.*",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "^1.8",
+                "mockery/mockery": "^1.1",
+                "phpunit/phpunit": "^7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/qp_functions.php"
+                ],
+                "psr-4": {
+                    "QueryPath\\": "src/",
+                    "QueryPathTests\\": "tests/QueryPath/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "HTML/XML querying (CSS 4 or XPath) and processing (like jQuery)",
+            "homepage": "https://github.com/arthurkushman/querypath",
+            "keywords": [
+                "PHP7",
+                "css",
+                "html",
+                "jquery",
+                "xml",
+                "xslt"
+            ],
+            "support": {
+                "issues": "https://github.com/arthurkushman/querypath/issues",
+                "source": "https://github.com/arthurkushman/querypath/tree/3.1.4"
+            },
+            "time": "2022-03-28T14:28:31+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.1.1",
@@ -2365,6 +2418,304 @@
             }
         },
         {
+            "name": "drupal/feeds",
+            "version": "3.0.0-beta4",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/feeds.git",
+                "reference": "8.x-3.0-beta4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/feeds-8.x-3.0-beta4.zip",
+                "reference": "8.x-3.0-beta4",
+                "shasum": "d715c428819b71d7018d022862c8d1c453bcf4d7"
+            },
+            "require": {
+                "drupal/core": "^9.3 || ^10",
+                "laminas/laminas-feed": "^2.13"
+            },
+            "require-dev": {
+                "drupal/pathauto": "^1.8",
+                "drush/drush": "^9 || ^10 || ^11"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-3.0-beta4",
+                    "datestamp": "1685558328",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9 || ^10 || ^11"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "alex_b",
+                    "homepage": "https://www.drupal.org/user/53995"
+                },
+                {
+                    "name": "Dave Reid",
+                    "homepage": "https://www.drupal.org/user/53892"
+                },
+                {
+                    "name": "e2thex",
+                    "homepage": "https://www.drupal.org/user/189123"
+                },
+                {
+                    "name": "febbraro",
+                    "homepage": "https://www.drupal.org/user/43670"
+                },
+                {
+                    "name": "franz",
+                    "homepage": "https://www.drupal.org/user/581844"
+                },
+                {
+                    "name": "Ian Ward",
+                    "homepage": "https://www.drupal.org/user/4736"
+                },
+                {
+                    "name": "jmiccolis",
+                    "homepage": "https://www.drupal.org/user/31731"
+                },
+                {
+                    "name": "joelpittet",
+                    "homepage": "https://www.drupal.org/user/160302"
+                },
+                {
+                    "name": "kking",
+                    "homepage": "https://www.drupal.org/user/24399"
+                },
+                {
+                    "name": "MegaChriz",
+                    "homepage": "https://www.drupal.org/user/654114"
+                },
+                {
+                    "name": "tobby",
+                    "homepage": "https://www.drupal.org/user/154797"
+                },
+                {
+                    "name": "twistor",
+                    "homepage": "https://www.drupal.org/user/473738"
+                },
+                {
+                    "name": "Will White",
+                    "homepage": "https://www.drupal.org/user/32237"
+                },
+                {
+                    "name": "yhahn",
+                    "homepage": "https://www.drupal.org/user/264833"
+                }
+            ],
+            "description": "Aggregates RSS/Atom/RDF feeds, imports CSV files and more.",
+            "homepage": "https://www.drupal.org/project/feeds",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/feeds",
+                "issues": "https://www.drupal.org/project/issues/feeds"
+            }
+        },
+        {
+            "name": "drupal/feeds_dependency",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/feeds_dependency.git",
+                "reference": "2.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/feeds_dependency-2.0.0.zip",
+                "reference": "2.0.0",
+                "shasum": "d7890ea22f925583ad62e0c0c79879dfb20de32a"
+            },
+            "require": {
+                "drupal/core": "^9 || ^10",
+                "drupal/feeds": "~3.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.0.0",
+                    "datestamp": "1689299599",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "flocondetoile",
+                    "homepage": "https://www.drupal.org/user/2006064"
+                },
+                {
+                    "name": "ThomWilhelm",
+                    "homepage": "https://www.drupal.org/user/2470660"
+                }
+            ],
+            "description": "Allow to set a Feed as a dependency on an another Feed.",
+            "homepage": "https://www.drupal.org/project/feeds_dependency",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/feeds_dependency",
+                "issues": "https://www.drupal.org/project/issues/feeds_dependency"
+            }
+        },
+        {
+            "name": "drupal/feeds_ex",
+            "version": "1.0.0-beta3",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/feeds_ex.git",
+                "reference": "8.x-1.0-beta3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/feeds_ex-8.x-1.0-beta3.zip",
+                "reference": "8.x-1.0-beta3",
+                "shasum": "ba0e70154a2ac29edd03495271dc403d33411d38"
+            },
+            "require": {
+                "arthurkushman/query-path": "^3.0",
+                "drupal/core": "^9 || ^10",
+                "drupal/feeds": "*",
+                "mtdowling/jmespath.php": "^2.0",
+                "softcreatr/jsonpath": "^0.5 || ^0.7 || ^0.8"
+            },
+            "require-dev": {
+                "drupal/feeds": "3.x-dev"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.0-beta3",
+                    "datestamp": "1667586771",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Project has not opted into security advisory coverage!"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "joelpittet",
+                    "homepage": "https://www.drupal.org/user/160302"
+                },
+                {
+                    "name": "MegaChriz",
+                    "homepage": "https://www.drupal.org/user/654114"
+                },
+                {
+                    "name": "twistor",
+                    "homepage": "https://www.drupal.org/user/473738"
+                }
+            ],
+            "description": "A generic Feeds parser used to create extensible parsers.",
+            "homepage": "http://drupal.org/project/feeds_ex",
+            "keywords": [
+                "feeds",
+                "parser"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/feeds_ex",
+                "issues": "http://drupal.org/project/issues/feeds_ex"
+            }
+        },
+        {
+            "name": "drupal/feeds_tamper",
+            "version": "2.0.0-beta3",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/feeds_tamper.git",
+                "reference": "8.x-2.0-beta3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/feeds_tamper-8.x-2.0-beta3.zip",
+                "reference": "8.x-2.0-beta3",
+                "shasum": "5e70d15af38b41d913eb4d8ffea99db29024cbc9"
+            },
+            "require": {
+                "drupal/core": "^8 || ^9 || ^10",
+                "drupal/feeds": "^3.0",
+                "drupal/tamper": "^1.0-alpha3"
+            },
+            "require-dev": {
+                "drupal/feeds": "3.x-dev"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-2.0-beta3",
+                    "datestamp": "1670507596",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Beta releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "franz",
+                    "homepage": "https://www.drupal.org/user/581844"
+                },
+                {
+                    "name": "Honza Pobořil",
+                    "homepage": "https://www.drupal.org/user/123612"
+                },
+                {
+                    "name": "mausolos",
+                    "homepage": "https://www.drupal.org/user/642118"
+                },
+                {
+                    "name": "MegaChriz",
+                    "homepage": "https://www.drupal.org/user/654114"
+                },
+                {
+                    "name": "twistor",
+                    "homepage": "https://www.drupal.org/user/473738"
+                }
+            ],
+            "description": "Modify feeds data before it gets saved.",
+            "homepage": "http://drupal.org/project/feeds_tamper",
+            "keywords": [
+                "Drupal",
+                "feeds",
+                "tamper"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/feeds_tamper",
+                "issues": "http://drupal.org/project/issues/feeds_tamper"
+            }
+        },
+        {
             "name": "drupal/field_group",
             "version": "3.4.0",
             "source": {
@@ -2788,36 +3139,6 @@
                 "source": "http://cgit.drupalcode.org/graphql_compose",
                 "issues": "https://www.drupal.org/project/issues/graphql_compose"
             }
-        },
-        {
-            "name": "drupal/graphql_compose_extra",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://bitbucket.org/rckt/graphql_compose_extra.git",
-                "reference": "a20f132124e83f36ae3798936769415eca071b7d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://bitbucket.org/rckt/graphql_compose_extra/get/a20f132124e83f36ae3798936769415eca071b7d.zip",
-                "reference": "a20f132124e83f36ae3798936769415eca071b7d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1"
-            },
-            "default-branch": true,
-            "type": "drupal-module",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "description": "Toolkit for generating GraphQL schemas in Drupal.",
-            "homepage": "http://drupal.org/project/graphql_compose",
-            "support": {
-                "issues": "https://www.drupal.org/project/issues/graphql_compose",
-                "source": "http://cgit.drupalcode.org/graphql_compose"
-            },
-            "time": "2023-08-04T08:46:44+00:00"
         },
         {
             "name": "drupal/graphql_compose_fragments",
@@ -4128,6 +4449,67 @@
             }
         },
         {
+            "name": "drupal/tamper",
+            "version": "1.0.0-alpha4",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/tamper.git",
+                "reference": "8.x-1.0-alpha4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/tamper-8.x-1.0-alpha4.zip",
+                "reference": "8.x-1.0-alpha4",
+                "shasum": "ab591ab64adb923a9901390119bbe0beabc23859"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.0-alpha4",
+                    "datestamp": "1684984837",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Alpha releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "ericgsmith",
+                    "homepage": "https://www.drupal.org/user/1649952"
+                },
+                {
+                    "name": "jamesdixon",
+                    "homepage": "https://www.drupal.org/user/762570"
+                },
+                {
+                    "name": "MegaChriz",
+                    "homepage": "https://www.drupal.org/user/654114"
+                },
+                {
+                    "name": "twistor",
+                    "homepage": "https://www.drupal.org/user/473738"
+                }
+            ],
+            "description": "Generic plugin to modify data.",
+            "homepage": "https://www.drupal.org/project/tamper",
+            "keywords": [
+                "Drupal",
+                "tamper"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/tamper",
+                "issues": "http://drupal.org/project/issues/tamper"
+            }
+        },
+        {
             "name": "drupal/token",
             "version": "1.12.0",
             "source": {
@@ -5058,6 +5440,34 @@
             "time": "2023-06-20T07:10:35+00:00"
         },
         {
+            "name": "four/graphql_compose_extra",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/rckt/graphql_compose_extra.git",
+                "reference": "920deac7b9d7b0ecaddf3b39f5fdb3577bc14c31"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/rckt/graphql_compose_extra/get/920deac7b9d7b0ecaddf3b39f5fdb3577bc14c31.zip",
+                "reference": "920deac7b9d7b0ecaddf3b39f5fdb3577bc14c31",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "type": "drupal-module",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Toolkit for generating GraphQL schemas in Drupal.",
+            "homepage": "https://bitbucket.org/rckt/graphql_compose_extra",
+            "support": {
+                "source": "https://bitbucket.org/rckt/graphql_compose_extra/src/920deac7b9d7b0ecaddf3b39f5fdb3577bc14c31/?at=v1.2.0"
+            },
+            "time": "2023-08-29T11:18:24+00:00"
+        },
+        {
             "name": "galbar/jsonpath",
             "version": "1.3.1",
             "source": {
@@ -5481,6 +5891,148 @@
                 }
             ],
             "time": "2023-08-03T15:02:42+00:00"
+        },
+        {
+            "name": "laminas/laminas-escaper",
+            "version": "2.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-escaper.git",
+                "reference": "ee7a4c37bf3d0e8c03635d5bddb5bb3184ead490"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-escaper/zipball/ee7a4c37bf3d0e8c03635d5bddb5bb3184ead490",
+                "reference": "ee7a4c37bf3d0e8c03635d5bddb5bb3184ead490",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-mbstring": "*",
+                "php": "^7.4 || ~8.0.0 || ~8.1.0 || ~8.2.0"
+            },
+            "conflict": {
+                "zendframework/zend-escaper": "*"
+            },
+            "require-dev": {
+                "infection/infection": "^0.26.6",
+                "laminas/laminas-coding-standard": "~2.4.0",
+                "maglnet/composer-require-checker": "^3.8.0",
+                "phpunit/phpunit": "^9.5.18",
+                "psalm/plugin-phpunit": "^0.17.0",
+                "vimeo/psalm": "^4.22.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Escaper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Securely and safely escape HTML, HTML attributes, JavaScript, CSS, and URLs",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "escaper",
+                "laminas"
+            ],
+            "support": {
+                "chat": "https://laminas.dev/chat",
+                "docs": "https://docs.laminas.dev/laminas-escaper/",
+                "forum": "https://discourse.laminas.dev",
+                "issues": "https://github.com/laminas/laminas-escaper/issues",
+                "rss": "https://github.com/laminas/laminas-escaper/releases.atom",
+                "source": "https://github.com/laminas/laminas-escaper"
+            },
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2022-10-10T10:11:09+00:00"
+        },
+        {
+            "name": "laminas/laminas-feed",
+            "version": "2.21.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-feed.git",
+                "reference": "52918789a417bc292ccd6fbb4b91bd78a65d50ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-feed/zipball/52918789a417bc292ccd6fbb4b91bd78a65d50ab",
+                "reference": "52918789a417bc292ccd6fbb4b91bd78a65d50ab",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "laminas/laminas-escaper": "^2.9",
+                "laminas/laminas-stdlib": "^3.6",
+                "php": "~8.1.0 || ~8.2.0"
+            },
+            "conflict": {
+                "laminas/laminas-servicemanager": "<3.3",
+                "zendframework/zend-feed": "*"
+            },
+            "require-dev": {
+                "laminas/laminas-cache": "^2.13.2 || ^3.10.1",
+                "laminas/laminas-cache-storage-adapter-memory": "^1.1.0 || ^2.2",
+                "laminas/laminas-coding-standard": "~2.5.0",
+                "laminas/laminas-db": "^2.18",
+                "laminas/laminas-http": "^2.18",
+                "laminas/laminas-servicemanager": "^3.21.0",
+                "laminas/laminas-validator": "^2.30.1",
+                "phpunit/phpunit": "^10.2.6",
+                "psalm/plugin-phpunit": "^0.18.4",
+                "psr/http-message": "^2.0",
+                "vimeo/psalm": "^5.13.1"
+            },
+            "suggest": {
+                "laminas/laminas-cache": "Laminas\\Cache component, for optionally caching feeds between requests",
+                "laminas/laminas-db": "Laminas\\Db component, for use with PubSubHubbub",
+                "laminas/laminas-http": "Laminas\\Http for PubSubHubbub, and optionally for use with Laminas\\Feed\\Reader",
+                "laminas/laminas-servicemanager": "Laminas\\ServiceManager component, for easily extending ExtensionManager implementations",
+                "laminas/laminas-validator": "Laminas\\Validator component, for validating email addresses used in Atom feeds and entries when using the Writer subcomponent",
+                "psr/http-message": "PSR-7 ^1.0.1, if you wish to use Laminas\\Feed\\Reader\\Http\\Psr7ResponseDecorator"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Feed\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "provides functionality for creating and consuming RSS and Atom feeds",
+            "homepage": "https://laminas.dev",
+            "keywords": [
+                "atom",
+                "feed",
+                "laminas",
+                "rss"
+            ],
+            "support": {
+                "chat": "https://laminas.dev/chat",
+                "docs": "https://docs.laminas.dev/laminas-feed/",
+                "forum": "https://discourse.laminas.dev",
+                "issues": "https://github.com/laminas/laminas-feed/issues",
+                "rss": "https://github.com/laminas/laminas-feed/releases.atom",
+                "source": "https://github.com/laminas/laminas-feed"
+            },
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2023-07-24T09:21:16+00:00"
         },
         {
             "name": "laminas/laminas-servicemanager",
@@ -7820,6 +8372,31 @@
             "time": "2019-03-08T08:55:37+00:00"
         },
         {
+            "name": "rckt/gin_custom",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/rckt/gin_custom.git",
+                "reference": "c250414d15fe42e4da6aeefccf75f0c299f464d0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/rckt/gin_custom/get/c250414d15fe42e4da6aeefccf75f0c299f464d0.zip",
+                "reference": "c250414d15fe42e4da6aeefccf75f0c299f464d0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "type": "drupal-module",
+            "description": "Gin custom theme overwrite",
+            "homepage": "https://bitbucket.org/rckt/gin_custom",
+            "support": {
+                "source": "https://bitbucket.org/rckt/gin_custom/src/c250414d15fe42e4da6aeefccf75f0c299f464d0/?at=1.2.0"
+            },
+            "time": "2023-08-18T13:14:47+00:00"
+        },
+        {
             "name": "sebastian/diff",
             "version": "4.0.5",
             "source": {
@@ -7884,6 +8461,74 @@
                 }
             ],
             "time": "2023-05-07T05:35:17+00:00"
+        },
+        {
+            "name": "softcreatr/jsonpath",
+            "version": "0.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SoftCreatR/JSONPath.git",
+                "reference": "3a6108aa78e4944ea7d8dd846f9ae75a080b007b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SoftCreatR/JSONPath/zipball/3a6108aa78e4944ea7d8dd846f9ae75a080b007b",
+                "reference": "3a6108aa78e4944ea7d8dd846f9ae75a080b007b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=8.0"
+            },
+            "replace": {
+                "flow/jsonpath": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6",
+                "roave/security-advisories": "dev-latest"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Flow\\JSONPath\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen Frank",
+                    "email": "stephen@flowsa.com",
+                    "homepage": "https://prismaticbytes.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Sascha Greuel",
+                    "email": "hello@1-2.dev",
+                    "homepage": "https://1-2.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "JSONPath implementation for parsing, searching and flattening arrays",
+            "support": {
+                "email": "hello@1-2.dev",
+                "forum": "https://github.com/SoftCreatR/JSONPath/discussions",
+                "issues": "https://github.com/SoftCreatR/JSONPath/issues",
+                "source": "https://github.com/SoftCreatR/JSONPath"
+            },
+            "funding": [
+                {
+                    "url": "https://ecologi.com/softcreatr?r=61212ab3fc69b8eb8a2014f4",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/softcreatr",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-02-12T18:53:17+00:00"
         },
         {
             "name": "steverhoades/oauth2-openid-connect-server",
@@ -10699,10 +11344,12 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "drupal/entity_reference_purger": 10,
+        "drupal/feeds": 10,
+        "drupal/feeds_ex": 10,
+        "drupal/feeds_tamper": 10,
         "drupal/focal_point": 15,
         "drupal/gin": 5,
         "drupal/graphql_compose": 10,
-        "drupal/graphql_compose_extra": 20,
         "drupal/paragraphs_ee": 15,
         "drupal/paragraphs_features": 10,
         "drupal/viewfield": 10

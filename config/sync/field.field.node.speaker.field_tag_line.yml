@@ -1,0 +1,19 @@
+uuid: f79f9eb2-f45c-4c3c-a83b-e27d50d61c7c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tag_line
+    - node.type.speaker
+id: node.speaker.field_tag_line
+field_name: field_tag_line
+entity_type: node
+bundle: speaker
+label: 'Tag Line'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

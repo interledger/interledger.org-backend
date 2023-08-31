@@ -1,0 +1,20 @@
+uuid: 9f3e3876-e6e4-40c4-80d5-53c1fca81432
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - node
+id: node.field_recording_video
+field_name: field_recording_video
+entity_type: node
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

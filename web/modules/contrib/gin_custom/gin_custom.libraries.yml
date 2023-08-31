@@ -1,0 +1,7 @@
+# Custom module library for general purposes.
+gin_custom_library:
+  css:
+    component:
+      css/gin-four.css: {}
+  dependencies:
+    - core/drupalSettings

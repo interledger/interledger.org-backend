@@ -14,6 +14,10 @@
             "url": "https://bitbucket.org/rckt/graphql_compose_extra"
         },
         {
+            "type": "vcs",
+            "url": "https://bitbucket.org/rckt/gin_custom"
+        },
+        {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
         }
@@ -30,12 +34,15 @@
         "drupal/core-project-message": "10.1.1",
         "drupal/core-recommended": "10.1.1",
         "drupal/entity_reference_purger": "^1.0@beta",
+        "drupal/feeds": "^3.0@beta",
+        "drupal/feeds_dependency": "^2.0",
+        "drupal/feeds_ex": "^1.0@beta",
+        "drupal/feeds_tamper": "^2.0@beta",
         "drupal/field_group": "^3.4",
         "drupal/focal_point": "^2.0@alpha",
         "drupal/gin": "^3.0@RC",
         "drupal/graphql": "^4.4",
         "drupal/graphql_compose": "^2.0@beta",
-        "drupal/graphql_compose_extra": "dev-main",
         "drupal/health_check": "^3.0",
         "drupal/image_styles_builder": "^1.1",
         "drupal/imagemagick": "^3.4",
@@ -54,7 +61,9 @@
         "drupal/upgrade_status": "^4.0",
         "drupal/viewfield": "^3.0@beta",
         "drupal/webform_rest": "^4.0",
-        "drush/drush": "^11.3"
+        "drush/drush": "^11.3",
+        "four/graphql_compose_extra": "^1.2.0",
+        "rckt/gin_custom": "^1.1"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -81,6 +90,9 @@
             },
             "drupal/focal_point": {
                 "add crop by aspect ratio": "https://www.drupal.org/files/issues/2021-02-23/3186353-a8e65e97.patch"
+            },
+            "drupal/feeds_dependency": {
+                "Allow feed to have multiple dependencies": "https://git.drupalcode.org/project/feeds_dependency/-/merge_requests/1.diff"
             }
         },
         "drupal-scaffold": {
@@ -93,11 +105,7 @@
                     "path": "scaffold/.htaccess",
                     "overwrite": true
                 },
-                "[web-root]/sites/default/settings.local.php": {
-                    "mode": "replace",
-                    "path": "scaffold/settings.local.php",
-                    "overwrite": false
-                },
+                "[web-root]/sites/example.settings.local.php": "scaffold/example.settings.local.php",
                 "[web-root]/sites/development.services.yml": {
                     "mode": "replace",
                     "path": "scaffold/development.services.yml",

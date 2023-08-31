@@ -1,0 +1,27 @@
+uuid: ac3d748e-2ad7-41ca-883f-dfb69f7568cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.video_embed.field_video
+    - paragraphs.paragraphs_type.video_embed
+  module:
+    - media_library
+    - media_library_edit
+id: paragraph.video_embed.default
+targetEntityType: paragraph
+bundle: video_embed
+mode: default
+content:
+  field_video:
+    type: media_library_widget
+    weight: 1
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings:
+      media_library_edit:
+        show_edit: '1'
+hidden:
+  created: true
+  status: true

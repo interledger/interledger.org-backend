@@ -13,7 +13,8 @@ use GraphQL\Type\Definition\Type;
  *   id = "ResponsiveImageStyleDerivative",
  * )
  */
-class ResponsiveImageStyleDerivative extends GraphQLComposeSchemaTypeBase {
+class ResponsiveImageStyleDerivative extends GraphQLComposeSchemaTypeBase
+{
 
   /**
    * {@inheritdoc}
@@ -25,7 +26,19 @@ class ResponsiveImageStyleDerivative extends GraphQLComposeSchemaTypeBase {
     $types[] = new ObjectType([
       'name' => $this->getPluginId(),
       'description' => (string) $this->t('ResponsiveImageStyle derivative for an Image.'),
-      'fields' => fn() => [
+      'fields' => fn () => [
+        'name' => Type::nonNull(Type::string()),
+        'url' => Type::nonNull(Type::string()),
+        'srcSet' => Type::nonNull(Type::string()),
+        'width' => Type::nonNull(Type::int()),
+        'height' => Type::nonNull(Type::int()),
+      ],
+    ]);
+
+    $types[] = new ObjectType([
+      'name' => $this->getPluginId() . 'Deprecated',
+      'description' => (string) $this->t('ResponsiveImageStyle derivative for an Image (Deprecated).'),
+      'fields' => fn () => [
         'path'   => Type::string(),
         'srcSetPath'   => Type::string(),
         'width'  => Type::int(),
@@ -40,15 +53,23 @@ class ResponsiveImageStyleDerivative extends GraphQLComposeSchemaTypeBase {
   /**
    * {@inheritdoc}
    */
-  public function getExtensions(): array {
+  public function getExtensions(): array
+  {
     $extensions = parent::getExtensions();
 
     $extensions[] = new ObjectType([
       'name' => 'Image',
-      'fields' => fn() => [
+      'fields' => fn () => [
+        'responsiveVariations' => [
+          'type' => Type::listOf(Type::nonNull(static::type('ResponsiveImageStyleDerivative'))),
+          'description' => (string) $this->t('Responsive Image variations control different sizes and formats for images.'),
+          'args' => [
+            'styles' => Type::listOf(static::type('ResponsiveImageStyleAvailable')),
+          ],
+        ],
         'responsive' => [
-          'type' => static::type('ResponsiveImageStyleDerivative'),
-          'description' => (string) $this->t('Fetch an responsive image style.'),
+          'type' => static::type('ResponsiveImageStyleDerivativeDeprecated'),
+          'description' => (string) $this->t('Fetch an responsive image style. (Deprecated)'),
           'args' => [
             'name' => [
               'type' => static::type('ResponsiveImageStyleAvailable'),
@@ -61,5 +82,4 @@ class ResponsiveImageStyleDerivative extends GraphQLComposeSchemaTypeBase {
 
     return $extensions;
   }
-
 }

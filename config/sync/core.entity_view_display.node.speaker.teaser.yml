@@ -5,16 +5,16 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.speaker.body
+    - field.field.node.speaker.feeds_item
     - field.field.node.speaker.field_biography
-    - field.field.node.speaker.field_company
     - field.field.node.speaker.field_email
     - field.field.node.speaker.field_image
-    - field.field.node.speaker.field_role
     - field.field.node.speaker.field_seo_description
+    - field.field.node.speaker.field_sessionizeid
     - field.field.node.speaker.field_social_media
     - field.field.node.speaker.field_speaker_talks
     - field.field.node.speaker.field_summary
-    - field.field.node.speaker.field_teaser
+    - field.field.node.speaker.field_tag_line
     - node.type.speaker
   module:
     - text
@@ -38,13 +38,13 @@ content:
     weight: 100
     region: content
 hidden:
+  feeds_item: true
   field_biography: true
-  field_company: true
   field_email: true
   field_image: true
-  field_role: true
   field_seo_description: true
+  field_sessionizeid: true
   field_social_media: true
   field_speaker_talks: true
   field_summary: true
-  field_teaser: true
+  field_tag_line: true

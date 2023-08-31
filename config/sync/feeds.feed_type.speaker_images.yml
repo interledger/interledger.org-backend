@@ -1,0 +1,93 @@
+uuid: 19531667-1174-48a0-b789-08f6d8ab7da4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.media.image.field_media_image
+    - media.type.image
+  module:
+    - feeds_ex
+    - feeds_log
+    - feeds_tamper
+    - media
+third_party_settings:
+  feeds_tamper:
+    tampers:
+      491fe926-b43d-463f-803f-0d4b3c32ebc6:
+        invert: false
+        uuid: 491fe926-b43d-463f-803f-0d4b3c32ebc6
+        plugin: required
+        source: profilepicture
+        weight: 0
+        label: Required
+  feeds_log:
+    status: false
+    operations: {  }
+    items: {  }
+    source: false
+label: 'Speaker Images'
+id: speaker_images
+description: ''
+help: ''
+import_period: 0
+fetcher: http
+fetcher_configuration:
+  auto_detect_feeds: false
+  use_pubsubhubbub: false
+  always_download: false
+  fallback_hub: ''
+  request_timeout: 30
+parser: jsonpath
+parser_configuration:
+  context:
+    value: '$.*'
+  source_encoding:
+    - auto
+  display_errors: false
+  line_limit: 100
+processor: 'entity:media'
+processor_configuration:
+  values:
+    bundle: image
+  langcode: en
+  insert_new: 1
+  update_existing: 2
+  update_non_existent: _delete
+  skip_hash_check: false
+  authorize: true
+  revision: false
+  expire: -1
+  owner_feed_author: false
+  owner_id: 0
+custom_sources:
+  profilepicture:
+    value: profilePicture
+    label: profilePicture
+    machine_name: profilepicture
+    type: json
+  fullname:
+    value: fullName
+    label: fullName
+    machine_name: fullname
+    type: json
+mappings:
+  -
+    target: field_media_image
+    map:
+      target_id: profilepicture
+      alt: fullname
+      title: profilepicture
+    settings:
+      language: ''
+      reference_by: fid
+      autocreate: 0
+      existing: '1'
+      autocreate_bundle: false
+  -
+    target: name
+    map:
+      value: profilepicture
+    settings:
+      language: null
+    unique:
+      value: 1

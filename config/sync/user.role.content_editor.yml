@@ -10,7 +10,6 @@ dependencies:
     - node.type.page
     - node.type.people
     - node.type.speaker
-    - node.type.talk
     - taxonomy.vocabulary.tags
   module:
     - contextual
@@ -39,7 +38,6 @@ permissions:
   - 'create page content'
   - 'create people content'
   - 'create speaker content'
-  - 'create talk content'
   - 'create terms in tags'
   - 'create url aliases'
   - 'delete any people content'
@@ -54,7 +52,6 @@ permissions:
   - 'edit any foundation_page content'
   - 'edit any people content'
   - 'edit any speaker content'
-  - 'edit any talk content'
   - 'edit own page content'
   - 'edit terms in tags'
   - 'revert all revisions'
@@ -63,7 +60,6 @@ permissions:
   - 'revert page revisions'
   - 'revert people revisions'
   - 'revert speaker revisions'
-  - 'revert talk revisions'
   - 'use text format basic_html'
   - 'use text format simple_text_html'
   - 'view all revisions'
@@ -73,5 +69,4 @@ permissions:
   - 'view page revisions'
   - 'view people revisions'
   - 'view speaker revisions'
-  - 'view talk revisions'
   - 'view the administration theme'

@@ -14,7 +14,6 @@ module:
   config: 0
   config_pages: 0
   consumers: 0
-  contact: 0
   contextual: 0
   crop: 0
   datetime: 0
@@ -24,6 +23,11 @@ module:
   editor: 0
   entity_reference_purger: 0
   entity_reference_revisions: 0
+  feeds: 0
+  feeds_dependency: 0
+  feeds_ex: 0
+  feeds_log: 0
+  feeds_tamper: 0
   field: 0
   field_group: 0
   field_ui: 0
@@ -31,14 +35,15 @@ module:
   file_mdm: 0
   filter: 0
   focal_point: 0
+  gin_custom: 0
   gin_toolbar: 0
   graphql: 0
   graphql_compose: 0
   graphql_compose_extra: 0
   graphql_compose_extra_config_pages: 0
-  graphql_compose_extra_image_style: 0
   graphql_compose_extra_responsive_image_style: 0
   graphql_compose_fragments: 0
+  graphql_compose_image_style: 0
   graphql_compose_menus: 0
   graphql_compose_metatags: 0
   graphql_compose_routes: 0
@@ -85,6 +90,7 @@ module:
   subrequests: 0
   svg_image_field: 0
   system: 0
+  tamper: 0
   taxonomy: 0
   text: 0
   token: 0

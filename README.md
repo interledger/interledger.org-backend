@@ -13,8 +13,9 @@
 
 * Install Drush https://github.com/drush-ops/drush-launcher#installation---phar
 * `composer install` from your Drupal root folder
-* Set up database and configure in `web/sites/default/settings.local.php`
-    * Make sure the `$base_url` in `settings.local.php` matches the node server running the frontend
+* Copy `web/sites/example.settings.local.php` to `web/sites/default/settings.local.php` and configure database
+* Make sure the `$base_url` in `settings.local.php` matches the node server running the frontend
+* Make sure the `$settings['file_public_base_url']` in `settings.local.php` matches the cms url (this will be the cdn in production)
 * Reset the admin password by running `drush uli --uri http://LOCAL_HOSTNAME`
 * Generate oauth keys for previews `drush simple-oauth:generate-keys ../keys`
 * Make sure the files from the backup are copied into the `/web/sites/default/files` folder
@@ -22,21 +23,21 @@
 ### Deployment ###
 
 #### Environment Variables ####
-BASE_URL  
-ENVIRONMENT  
-RDS_DB_NAME  
-RDS_USERNAME  
-RDS_PASSWORD  
-RDS_HOSTNAME  
-RDS_PORT  
-MOUNT_DIR  
-FILE_SYSTEM_ID  
-CLOUDFRONT_DISTRIBUTIONID  
-CLOUDFRONT_REGION  
-AWS_ACCESS_KEY  
-AWS_SECRET_KEY  
-HASH_SALT  
-IMAGE_CDN  
+BASE_URL
+ENVIRONMENT
+RDS_DB_NAME
+RDS_USERNAME
+RDS_PASSWORD
+RDS_HOSTNAME
+RDS_PORT
+MOUNT_DIR
+FILE_SYSTEM_ID
+CLOUDFRONT_DISTRIBUTIONID
+CLOUDFRONT_REGION
+AWS_ACCESS_KEY
+AWS_SECRET_KEY
+HASH_SALT
+IMAGE_CDN
 
 ### Import/Export config and content? ###
 

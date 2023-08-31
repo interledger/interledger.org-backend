@@ -22,10 +22,6 @@ entity_config:
       enabled: true
     footer:
       enabled: true
-    interledger-foundation-footer:
-      enabled: true
-    interledger-summit-footer:
-      enabled: true
     main:
       enabled: true
     summit:
@@ -91,6 +87,8 @@ entity_config:
       enabled: true
     large_callout_text:
       enabled: true
+    logo_link:
+      enabled: true
     media_header:
       enabled: true
     news_listings:
@@ -108,6 +106,8 @@ entity_config:
       enabled: true
     schedule_day:
       enabled: true
+    scrolling_logo_carousel:
+      enabled: true
     social_media:
       enabled: true
     social_media_link:
@@ -115,8 +115,6 @@ entity_config:
     spacer:
       enabled: true
     speakers_grid:
-      enabled: true
-    talk_header:
       enabled: true
     talks_grid:
       enabled: true
@@ -127,6 +125,8 @@ entity_config:
     two_column_content:
       enabled: true
     video:
+      enabled: true
+    video_embed:
       enabled: true
   responsive_image_style:
     aspect_ratio_landscape_16_9:
@@ -195,13 +195,9 @@ field_config:
     speaker:
       field_biography:
         enabled: true
-      field_company:
-        enabled: true
       field_email:
         enabled: true
       field_image:
-        enabled: true
-      field_role:
         enabled: true
       field_social_media:
         enabled: true
@@ -211,20 +207,20 @@ field_config:
         viewfield_query: true
       field_summary:
         enabled: true
-      field_teaser:
+      field_tag_line:
         enabled: true
     talk:
-      field_date_time:
-        enabled: true
       field_description:
         enabled: true
-      field_duration:
+      field_ends_at:
         enabled: true
-      field_header:
+      field_live_video:
+        enabled: true
+      field_recording_video:
         enabled: true
       field_speakers:
         enabled: true
-      field_teaser:
+      field_starts_at:
         enabled: true
   paragraph:
     anchor:
@@ -300,6 +296,11 @@ field_config:
     large_callout_text:
       field_large_callout_text:
         enabled: true
+    logo_link:
+      field_link:
+        enabled: true
+      field_single_image:
+        enabled: true
     media_header:
       field_single_image:
         enabled: true
@@ -346,6 +347,9 @@ field_config:
       field_talks_view:
         enabled: true
         viewfield_query: true
+    scrolling_logo_carousel:
+      field_logos:
+        enabled: true
     social_media:
       field_social_media_links:
         enabled: true
@@ -363,13 +367,6 @@ field_config:
       field_speakers_view:
         enabled: true
         viewfield_query: true
-    talk_header:
-      field_header_after:
-        enabled: true
-      field_header_before:
-        enabled: true
-      field_header_during:
-        enabled: true
     talks_grid:
       field_talks_view:
         enabled: true
@@ -390,6 +387,10 @@ field_config:
         enabled: true
       field_video:
         enabled: true
+    video_embed:
+      field_video:
+        enabled: true
+        name_sdl: remoteVideo
 settings:
   expose_entity_ids: false
   schema_description: 'GraphQL Compose'

@@ -1,0 +1,19 @@
+uuid: 3ce0019f-eaee-4715-b48d-5eae5a2e373a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sessionizeid
+    - node.type.speaker
+id: node.speaker.field_sessionizeid
+field_name: field_sessionizeid
+entity_type: node
+bundle: speaker
+label: sessionizeID
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

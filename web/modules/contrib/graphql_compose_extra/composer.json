@@ -1,15 +1,11 @@
 {
-  "name": "drupal/graphql_compose_extra",
+  "name": "four/graphql_compose_extra",
   "type": "drupal-module",
   "description": "Toolkit for generating GraphQL schemas in Drupal.",
   "keywords": [],
-  "homepage": "http://drupal.org/project/graphql_compose",
+  "homepage": "https://bitbucket.org/rckt/graphql_compose_extra",
   "license": "GPL-2.0+",
   "minimum-stability": "dev",
-  "support": {
-    "issues": "https://www.drupal.org/project/issues/graphql_compose",
-    "source": "http://cgit.drupalcode.org/graphql_compose"
-  },
   "require": {
     "php": ">=8.1"
   }

@@ -1,0 +1,18 @@
+<?php
+
+use Drupal\gin\GinSettings; // Optional.
+
+/**
+ * Implements hook_page_attachments()
+ */
+function gin_custom_page_attachments(array &$attachments)
+{
+    // Get theme settings (optional).
+    /** @var \Drupal\gin\GinSettings $settings */
+
+
+    // attach the library if the active route is an admin one
+    if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+        $attachments['#attached']['library'][] = 'gin_custom/gin_custom_library';
+    }
+}

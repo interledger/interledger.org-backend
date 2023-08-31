@@ -4,21 +4,22 @@ status: true
 dependencies:
   config:
     - field.field.node.talk.body
-    - field.field.node.talk.field_date_time
+    - field.field.node.talk.feeds_item
     - field.field.node.talk.field_description
-    - field.field.node.talk.field_duration
-    - field.field.node.talk.field_header
+    - field.field.node.talk.field_ends_at
+    - field.field.node.talk.field_live_video
+    - field.field.node.talk.field_recording_video
     - field.field.node.talk.field_seo_description
+    - field.field.node.talk.field_sessionizeid
     - field.field.node.talk.field_speakers
-    - field.field.node.talk.field_teaser
+    - field.field.node.talk.field_starts_at
+    - field.field.node.talk.field_status
     - node.type.talk
   module:
     - autocomplete_deluxe
     - datetime
     - field_group
-    - paragraphs
-    - paragraphs_ee
-    - paragraphs_features
+    - media_library
     - path
     - text
 third_party_settings:
@@ -49,55 +50,34 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_date_time:
-    type: datetime_default
-    weight: 2
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_description:
     type: text_textarea
-    weight: 6
+    weight: 4
     region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_duration:
-    type: number
-    weight: 3
+  field_ends_at:
+    type: datetime_default
+    weight: 2
     region: content
-    settings:
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
-  field_header:
-    type: paragraphs
-    weight: 1
+  field_live_video:
+    type: media_library_widget
+    weight: 5
     region: content
     settings:
-      title: Paragraph
-      title_plural: Paragraphs
-      edit_mode: closed
-      closed_mode: summary
-      autocollapse: none
-      closed_mode_threshold: 0
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: talk_header
-      features:
-        add_above: '0'
-        collapse_edit_all: collapse_edit_all
-        duplicate: duplicate
-    third_party_settings:
-      paragraphs_features:
-        add_in_between: false
-        add_in_between_link_count: 3
-        delete_confirmation: false
-        show_drag_and_drop: true
-      paragraphs_ee:
-        paragraphs_ee:
-          dialog_off_canvas: false
-          dialog_style: tiles
+      media_types: {  }
+    third_party_settings: {  }
+  field_recording_video:
+    type: media_library_widget
+    weight: 6
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
   field_seo_description:
     type: string_textarea
     weight: 12
@@ -108,7 +88,7 @@ content:
     third_party_settings: {  }
   field_speakers:
     type: autocomplete_deluxe
-    weight: 4
+    weight: 3
     region: content
     settings:
       match_operator: CONTAINS
@@ -123,33 +103,20 @@ content:
       new_terms: false
       no_empty_message: 'No terms could be found. Please type in order to add a new term.'
     third_party_settings: {  }
-  field_teaser:
-    type: paragraphs
-    weight: 5
+  field_starts_at:
+    type: datetime_default
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_status:
+    type: string_textfield
+    weight: 14
     region: content
     settings:
-      title: Paragraph
-      title_plural: Paragraphs
-      edit_mode: closed
-      closed_mode: summary
-      autocollapse: none
-      closed_mode_threshold: 0
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: teaser
-      features:
-        collapse_edit_all: collapse_edit_all
-        duplicate: duplicate
-    third_party_settings:
-      paragraphs_features:
-        add_in_between: false
-        add_in_between_link_count: 3
-        delete_confirmation: false
-        show_drag_and_drop: true
-      paragraphs_ee:
-        paragraphs_ee:
-          dialog_off_canvas: false
-          dialog_style: tiles
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   path:
     type: path
     weight: 12
@@ -197,3 +164,5 @@ content:
     third_party_settings: {  }
 hidden:
   body: true
+  feeds_item: true
+  field_sessionizeid: true

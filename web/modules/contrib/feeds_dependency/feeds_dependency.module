@@ -1,0 +1,130 @@
+<?php
+
+/**
+ * @file
+ * Contains feeds_dependency.module.
+ */
+
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\feeds\FeedInterface;
+
+/**
+ * Implements hook_help().
+ */
+function feeds_dependency_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the feeds_dependency module.
+    case 'help.page.feeds_dependency':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Allow to set a Feed as a dependency on an another Feed.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_entity_base_field_info().
+ */
+function feeds_dependency_entity_base_field_info(EntityTypeInterface $entity_type) {
+  $fields = [];
+
+  if ($entity_type->id() === 'feeds_feed') {
+    $fields['feed_dependency_id'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('Feed dependencies'))
+      ->setCardinality(FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED)
+      ->setDescription(t('The feed dependencies on which this feed depends. Each import of this feed will be preceded by the import of the feeds declared as dependencies'))
+      ->setRevisionable(TRUE)
+      ->setSetting('target_type', 'feeds_feed')
+      ->setSetting('handler', 'default')
+      ->setSetting('handler_settings', [
+        'target_bundles' => NULL,
+        'auto_create' => FALSE,
+      ])
+      ->setTranslatable(TRUE)
+      ->setDisplayOptions('view', [
+        'label' => 'hidden',
+        'type' => 'entity_reference_label',
+        'weight' => 0,
+      ])
+      ->setDisplayOptions('form', [
+        'type' => 'entity_reference_autocomplete',
+        'weight' => 5,
+        'settings' => [
+          'match_operator' => 'CONTAINS',
+          'size' => '60',
+          'placeholder' => '',
+        ],
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['clear_dependency'] = BaseFieldDefinition::create('boolean')
+      ->setLabel(t('Clear the dependencies.'))
+      ->setDescription(t('Clear the feeds set as dependencies when this feed is cleared.'))
+      ->setRevisionable(TRUE)
+      ->setTranslatable(TRUE)
+      ->setDefaultValue(TRUE)
+      ->setDisplayOptions('form', [
+        'type' => 'boolean_checkbox',
+        'settings' => [
+          'display_label' => TRUE,
+        ],
+        'weight' => 15,
+      ])
+      ->setDisplayConfigurable('view', TRUE)
+      ->setDisplayConfigurable('form', TRUE);
+  }
+
+  return $fields;
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function feeds_dependency_form_feeds_feed_confirm_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  $form_object = $form_state->getFormObject();
+  $entity = $form_object->getEntity();
+  $operation = $form_object->getOperation();
+  if ($entity instanceof FeedInterface && $operation == 'clear') {
+    if (!$entity->get('feed_dependency_id')->isEmpty() && $entity->clear_dependency->value) {
+      $form["actions"]["submit"]["#submit"][] = '_feeds_dependency_operation_dependency_feed';
+    }
+  }
+}
+
+/**
+ * Submit function doing the clear operation on feed set as dependency.
+ */
+function _feeds_dependency_operation_dependency_feed(&$form, FormStateInterface $form_state) {
+  $form_object = $form_state->getFormObject();
+  $operation = $form_object->getOperation();
+  $entity = $form_state->getFormObject()->getEntity();
+  if (!$entity instanceof FeedInterface) {
+    return;
+  }
+  if ($operation == 'clear') {
+    $feed_dependencies = $entity->get('feed_dependency_id')->referencedEntities();
+    /** @var \Drupal\feeds\FeedInterface $feed_dependency */
+    foreach ($feed_dependencies as $feed_dependency) {
+      if ($feed_dependency->id() != $entity->id()) {
+        sleep(1);
+        $feed_dependency->startBatchClear();
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function feeds_dependency_entity_type_alter(array &$entity_types) {
+  /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
+  $entity_types['feeds_feed']->setHandlerClass('feed_import', '\Drupal\feeds_dependency\FeedDependencyImportHandler');
+}
