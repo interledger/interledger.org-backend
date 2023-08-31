@@ -5,16 +5,23 @@ dependencies:
   config:
     - filter.format.basic_html
     - filter.format.simple_text_html
+    - media.type.document
+    - media.type.image
+    - media.type.remote_video
+    - media.type.vector_image
+    - media.type.video
     - node.type.article
     - node.type.foundation_page
     - node.type.page
     - node.type.people
     - node.type.speaker
+    - taxonomy.vocabulary.contact_topics
     - taxonomy.vocabulary.tags
   module:
     - contextual
     - file
     - filter
+    - media
     - node
     - path
     - system
@@ -31,16 +38,28 @@ permissions:
   - 'access content overview'
   - 'access contextual links'
   - 'access files overview'
+  - 'access media overview'
+  - 'access taxonomy overview'
   - 'access toolbar'
   - 'administer url aliases'
   - 'create article content'
+  - 'create document media'
   - 'create foundation_page content'
+  - 'create image media'
   - 'create page content'
   - 'create people content'
+  - 'create remote_video media'
   - 'create speaker content'
+  - 'create terms in contact_topics'
   - 'create terms in tags'
   - 'create url aliases'
+  - 'create vector_image media'
+  - 'create video media'
+  - 'delete any image media'
   - 'delete any people content'
+  - 'delete any remote_video media'
+  - 'delete any vector_image media'
+  - 'delete any video media'
   - 'delete article revisions'
   - 'delete own article content'
   - 'delete own files'
@@ -48,11 +67,18 @@ permissions:
   - 'delete own speaker content'
   - 'delete page revisions'
   - 'delete speaker revisions'
+  - 'delete terms in contact_topics'
   - 'edit any article content'
+  - 'edit any document media'
   - 'edit any foundation_page content'
+  - 'edit any image media'
   - 'edit any people content'
+  - 'edit any remote_video media'
   - 'edit any speaker content'
+  - 'edit any vector_image media'
+  - 'edit any video media'
   - 'edit own page content'
+  - 'edit terms in contact_topics'
   - 'edit terms in tags'
   - 'revert all revisions'
   - 'revert article revisions'
