@@ -7,7 +7,7 @@ dependencies:
   - paragraphs_ee:paragraphs_ee
   - paragraphs_sets:paragraphs_sets
 
-# Information added by Drupal.org packaging script on 2023-07-20
-version: '2.2.0-rc1'
+# Information added by Drupal.org packaging script on 2023-08-01
+version: '10.0.0'
 project: 'paragraphs_ee'
-datestamp: 1689863186
+datestamp: 1690887496

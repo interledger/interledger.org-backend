@@ -8,6 +8,8 @@ use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Render\RenderContext;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerItemInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerTrait;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
@@ -33,6 +35,13 @@ class FileItem extends GraphQLComposeFieldTypeBase implements FieldProducerItemI
   protected FileUrlGeneratorInterface $fileUrlGenerator;
 
   /**
+   * Drupal renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected RendererInterface $renderer;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -44,6 +53,7 @@ class FileItem extends GraphQLComposeFieldTypeBase implements FieldProducerItemI
     );
 
     $instance->fileUrlGenerator = $container->get('file_url_generator');
+    $instance->renderer = $container->get('renderer');
 
     return $instance;
   }
@@ -63,8 +73,19 @@ class FileItem extends GraphQLComposeFieldTypeBase implements FieldProducerItemI
       return NULL;
     }
 
+    $context = new RenderContext();
+    $url = $this->renderer->executeInRenderContext($context, function () use ($item) {
+      return $this->fileUrlGenerator->generateAbsoluteString($item->entity->getFileUri());
+    });
+
+    if (!$context->isEmpty()) {
+      $metadata->addCacheableDependency($context->pop());
+    }
+
+    $metadata->addCacheableDependency($item->entity);
+
     return [
-      'url' => $this->fileUrlGenerator->generateAbsoluteString($item->entity->getFileUri()),
+      'url' => $url,
       'name' => $item->entity->getFilename(),
       'size' => (int) $item->entity->getSize(),
       'mime' => $item->entity->getMimeType(),

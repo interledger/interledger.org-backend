@@ -1,40 +1,95 @@
 .gin--dark-mode.js
-  .paragraphs-add-dialog--categorized
-  .paragraphs-add-dialog--categorized
-  .paragraphs-label,
+    .paragraphs-add-dialog--categorized
+    .paragraphs-add-dialog--categorized
+    .paragraphs-label,
 .gin--dark-mode.js
-  .paragraphs-add-dialog--categorized
-  .search-description
-  label,
+    .paragraphs-add-dialog--categorized
+    .search-description
+    label,
 .gin--dark-mode.js
-  .paragraphs-add-dialog--categorized
-  .paragraphs-add-dialog--categorized
-  .paragraphs-description,
+    .paragraphs-add-dialog--categorized
+    .paragraphs-add-dialog--categorized
+    .paragraphs-description,
 .gin--dark-mode.js
-  .ui-dialog.ui-dialog-off-canvas.paragraphs-ee-off-canvas--browser
-  #drupal-off-canvas
-  .paragraphs-add-dialog--categorized
-  .paragraphs-description,
+    .ui-dialog.ui-dialog-off-canvas.paragraphs-ee-off-canvas--browser
+    #drupal-off-canvas
+    .paragraphs-add-dialog--categorized
+    .paragraphs-description,
 .gin--dark-mode.js
-  .paragraphs-add-dialog--categorized
-  .paragraphs-add-dialog--categorized
-  .category-title,
+    .paragraphs-add-dialog--categorized
+    .paragraphs-add-dialog--categorized
+    .category-title,
 .ui-dialog.ui-dialog-off-canvas.paragraphs-ee-off-canvas--browser
-  #drupal-off-canvas
-  .paragraphs-add-dialog--categorized
-  .category-title {
-  color: white !important;
+    #drupal-off-canvas
+    .paragraphs-add-dialog--categorized
+    .category-title {
+    color: white !important;
 }
 
 .gin--dark-mode.js
-  .paragraphs-add-dialog--categorized
-  .paragraphs-add-dialog--categorized:not(.paragraphs-style-list)
-  .paragraphs-button--icon:before,
+    .paragraphs-add-dialog--categorized
+    .paragraphs-add-dialog--categorized:not(.paragraphs-style-list)
+    .paragraphs-button--icon:before,
 .gin--dark-mode.js
-  .ui-dialog.ui-dialog-off-canvas.paragraphs-ee-off-canvas--browser
-  #drupal-off-canvas
-  .paragraphs-add-dialog--categorized:not(.paragraphs-style-list)
-  .paragraphs-button--icon:before {
-  margin-left: 0;
-  margin-top: 0;
+    .ui-dialog.ui-dialog-off-canvas.paragraphs-ee-off-canvas--browser
+    #drupal-off-canvas
+    .paragraphs-add-dialog--categorized:not(.paragraphs-style-list)
+    .paragraphs-button--icon:before {
+    margin-left: 0;
+    margin-top: 0;
+}
+
+.paragraphs-add-dialog .paragraphs-ee-buttons .category-title {
+    color: var(--gin-color-text) !important;
+}
+
+.paragraphs-add-dialog .paragraphs-ee-category-list-item-link {
+    color: var(--gin-color-text) !important;
+}
+
+.paragraphs-add-dialog .paragraphs-ee-category-list-item.is-selected a,
+.paragraphs-add-dialog .paragraphs-ee-category-list-item a:hover {
+    color: var(--gin-color-primary) !important;
+}
+
+.ui-dialog.paragraphs-ee-add-dialog--categorized .ui-dialog-titlebar {
+    background-color: #1b1b1d !important;
+}
+
+.ui-dialog.paragraphs-ee-add-dialog--categorized .ui-dialog-title {
+    color: var(--gin-color-text) !important;
+}
+
+.ui-dialog.paragraphs-ee-add-dialog--categorized
+    .ui-dialog-titlebar
+    .display-toggle {
+    background-color: var(--gin-color-disabled) !important;
+}
+
+.ui-dialog.paragraphs-ee-add-dialog--categorized
+    .ui-dialog-titlebar
+    .display-toggle[aria-pressed='true'] {
+    background-color: var(--gin-color-primary) !important;
+}
+
+.js
+    .paragraphs-features__add-in-between__wrapper
+    .paragraphs-features__add-in-between__button.paragraphs_ee__add-in-between__dialog-button {
+    background-color: var(--gin-color-primary) !important;
+    color: var(--gin-color-button-text) !important;
+}
+
+.paragraphs-add-dialog .item-filter {
+    color: var(--gin-color-text) !important;
+}
+
+.paragraphs-add-dialog .item-filter:focus {
+    box-shadow: 0 0 0 0 var(--color-white), 0 0 0 2px var(--gin-color-primary) !important;
+}
+
+.paragraphs-add-dialog
+    .paragraphs-ee-buttons
+    .paragraphs-button--add-more:hover {
+    border-color: var(--gin-color-primary) !important;
+    color: var(--gin-color-primary) !important;
 }

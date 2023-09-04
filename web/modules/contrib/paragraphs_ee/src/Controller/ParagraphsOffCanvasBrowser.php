@@ -6,20 +6,19 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Field\PluginSettingsInterface;
 use Drupal\Core\Form\FormState;
-use Drupal\Core\Template\Attribute;
 use Drupal\paragraphs\Plugin\Field\FieldWidget\ParagraphsWidget;
 
 /**
  * Controller for the Paragraphs off-canvas browser.
  */
-class ParagraphsOffCanvasBrowser extends ControllerBase implements \Drupal\paragraphs_ee\Controller\ParagraphsOffCanvasBrowserInterface {
+class ParagraphsOffCanvasBrowser extends ControllerBase implements ParagraphsOffCanvasBrowserInterface {
 
   /**
    * The form display.
    *
-   * @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface
+   * @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface|null
    */
-  protected $formDisplay;
+  protected $formDisplay = NULL;
 
   /**
    * {@inheritdoc}
@@ -33,7 +32,7 @@ class ParagraphsOffCanvasBrowser extends ControllerBase implements \Drupal\parag
       return $title_default;
     }
 
-    if (!$component || !isset($component['third_party_settings']['paragraphs_ee']['paragraphs_ee']['dialog_off_canvas']) || TRUE !== $component['third_party_settings']['paragraphs_ee']['paragraphs_ee']['dialog_off_canvas']) {
+    if (!isset($component['third_party_settings']['paragraphs_ee']['paragraphs_ee']['dialog_off_canvas']) || ($component['third_party_settings']['paragraphs_ee']['paragraphs_ee']['dialog_off_canvas'] !== TRUE)) {
       return $title_default;
     }
 
@@ -52,7 +51,7 @@ class ParagraphsOffCanvasBrowser extends ControllerBase implements \Drupal\parag
       return $build;
     }
 
-    if (!$component || !isset($component['third_party_settings']['paragraphs_ee']['paragraphs_ee']['dialog_off_canvas']) || TRUE !== $component['third_party_settings']['paragraphs_ee']['paragraphs_ee']['dialog_off_canvas']) {
+    if (!isset($component['third_party_settings']['paragraphs_ee']['paragraphs_ee']['dialog_off_canvas']) || ($component['third_party_settings']['paragraphs_ee']['paragraphs_ee']['dialog_off_canvas'] !== TRUE)) {
       return $build;
     }
 
@@ -93,8 +92,7 @@ class ParagraphsOffCanvasBrowser extends ControllerBase implements \Drupal\parag
    * {@inheritdoc}
    */
   public function getFormDisplay(string $entity_type, string $bundle, string $form_mode): ?EntityFormDisplayInterface {
-    if (!isset($this->formDisplay)) {
-      /** @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface|null $form_display */
+    if (is_null($this->formDisplay)) {
       $this->formDisplay = $this->entityTypeManager()
         ->getStorage('entity_form_display')
         ->load($entity_type . '.' . $bundle . '.' . $form_mode);
@@ -126,7 +124,7 @@ class ParagraphsOffCanvasBrowser extends ControllerBase implements \Drupal\parag
    */
   public function getWidget(string $entity_type, string $bundle, string $form_mode, string $field_name): ?PluginSettingsInterface {
     /** @var \Drupal\Core\Entity\Display\EntityFormDisplayInterface|null $form_display */
-    $form_display = $this->getFormDisplay($entity_type, $bundle, $form_mode, $field_name);
+    $form_display = $this->getFormDisplay($entity_type, $bundle, $form_mode);
     if (is_null($form_display)) {
       return NULL;
     }

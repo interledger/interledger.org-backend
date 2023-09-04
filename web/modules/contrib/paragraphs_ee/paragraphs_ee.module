@@ -13,8 +13,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
-use Drupal\paragraphs\ParagraphsTypeInterface;
 use Drupal\paragraphs\Entity\ParagraphsType;
+use Drupal\paragraphs\ParagraphsTypeInterface;
 use Drupal\paragraphs\Plugin\Field\FieldWidget\ParagraphsWidget;
 use Drupal\paragraphs_ee\Entity\ParagraphsCategory;
 
@@ -290,7 +290,7 @@ function paragraphs_ee_form_paragraphs_type_form_builder($entity_type, Paragraph
 function template_preprocess_paragraphs_add_dialog__categorized(&$variables) {
   // Define variables for the template.
   $variables += ['buttons' => []];
-  $variables['add_mode'] = isset($variables['element']['#add_mode']) ? $variables['element']['#add_mode'] : 'modal';
+  $variables['add_mode'] = $variables['element']['#add_mode'] ?? 'modal';
   $variables['add'] = [];
   if (isset($variables['element']['add_modal_form_area'])) {
     $variables['add']['add_modal_form_area'] = $variables['element']['add_modal_form_area'];

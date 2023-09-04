@@ -29,7 +29,15 @@ class ParagraphsCategoryForm extends EntityForm implements ParagraphsCategoryFor
   }
 
   /**
-   * {@inheritdoc}
+   * Gets the actual form array to be built.
+   *
+   * @param array<mixed> $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   *
+   * @return array<mixed>
+   *   The form build array.
    */
   public function form(array $form, FormStateInterface $form_state): array {
     $form = parent::form($form, $form_state);
@@ -72,7 +80,18 @@ class ParagraphsCategoryForm extends EntityForm implements ParagraphsCategoryFor
   }
 
   /**
-   * {@inheritdoc}
+   * Form submission handler for the 'save' action.
+   *
+   * Normally this method should be overridden to provide specific messages to
+   * the user and redirect the form after the entity has been saved.
+   *
+   * @param array<mixed> $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   *
+   * @return int
+   *   Either SAVED_NEW or SAVED_UPDATED, depending on the operation performed.
    */
   public function save(array $form, FormStateInterface $form_state): int {
     /** @var \Drupal\paragraphs_ee\ParagraphsCategoryInterface $paragraphs_category */
@@ -110,7 +129,7 @@ class ParagraphsCategoryForm extends EntityForm implements ParagraphsCategoryFor
   /**
    * {@inheritdoc}
    */
-  function validateMachineName(array $element, FormStateInterface $form_state): void {
+  public function validateMachineName(array $element, FormStateInterface $form_state): void {
     $reserved_names = [
       'uncategorized',
     ];
