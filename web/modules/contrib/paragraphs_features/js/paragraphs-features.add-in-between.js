@@ -130,7 +130,7 @@
    * Get paragraphs add modal block in various themes structures.
    *
    *  gin:
-   *   .layer-wrapper table
+   *   .gin-table-scroll-wrapper table
    *   .form-actions
    * claro:
    *   table
@@ -158,7 +158,7 @@
         sibling = sibling.nextSibling;
       }
     };
-    return fromParent(table) || fromParent(table.parentNode);
+    return fromParent(table) || fromParent(table.parentNode) || fromParent(table.parentNode.parentNode);
   };
 
   /**

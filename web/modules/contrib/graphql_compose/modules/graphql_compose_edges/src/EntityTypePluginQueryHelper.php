@@ -17,8 +17,7 @@ use GraphQL\Executor\Promise\Adapter\SyncPromise;
 /**
  * Load nodes.
  */
-class EntityTypePluginQueryHelper implements ConnectionQueryHelperInterface
-{
+class EntityTypePluginQueryHelper implements ConnectionQueryHelperInterface {
 
   /**
    * Create a new connection query helper.
@@ -43,14 +42,12 @@ class EntityTypePluginQueryHelper implements ConnectionQueryHelperInterface
     protected string $entityBundleId,
     protected EntityTypeManagerInterface $entityTypeManager,
     protected EntityBuffer $graphqlEntityBuffer,
-  ) {
-  }
+  ) {}
 
   /**
    * {@inheritdoc}
    */
-  public function getQuery(): QueryInterface
-  {
+  public function getQuery(): QueryInterface {
 
     $entityTypeDefinition = $this->entityTypeManager->getDefinition($this->entityTypeId);
 
@@ -70,8 +67,7 @@ class EntityTypePluginQueryHelper implements ConnectionQueryHelperInterface
   /**
    * {@inheritdoc}
    */
-  public function getCursorObject(string $cursor): ?Cursor
-  {
+  public function getCursorObject(string $cursor): ?Cursor {
     $cursor_object = Cursor::fromCursorString($cursor);
 
     $is_valid = $cursor_object?->isValidFor($this->sortKey, $this->entityTypeId);
@@ -82,12 +78,12 @@ class EntityTypePluginQueryHelper implements ConnectionQueryHelperInterface
   /**
    * {@inheritdoc}
    */
-  public function getLoaderPromise(array $result): SyncPromise
-  {
+  public function getLoaderPromise(array $result): SyncPromise {
     if (empty($result)) {
       // In case of no results we create a callback the returns an empty array.
       $callback = static fn () => [];
-    } else {
+    }
+    else {
       // Otherwise we create a callback that uses the GraphQL entity buffer to
       // ensure the entities for this query are only loaded once. Even if the
       // results are used multiple times.
@@ -111,6 +107,7 @@ class EntityTypePluginQueryHelper implements ConnectionQueryHelperInterface
         );
 
         return new Edge($entity, $cursor);
+
       }, $entities);
     });
   }
@@ -118,24 +115,21 @@ class EntityTypePluginQueryHelper implements ConnectionQueryHelperInterface
   /**
    * {@inheritdoc}
    */
-  public function getIdField(): string
-  {
+  public function getIdField(): string {
     return $this->entityTypeManager->getDefinition($this->entityTypeId)->getKey('id') ?: 'id';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getEntityTypeId(): string
-  {
+  public function getEntityTypeId(): string {
     return $this->entityTypeId;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getSortField(): string
-  {
+  public function getSortField(): string {
     switch ($this->sortKey) {
       case 'CREATED_AT':
         return 'created';
@@ -154,6 +148,7 @@ class EntityTypePluginQueryHelper implements ConnectionQueryHelperInterface
 
       default:
         return $this->entityTypeManager->getDefinition($this->entityTypeId)->getKey('id');
+
     }
   }
 
@@ -166,8 +161,7 @@ class EntityTypePluginQueryHelper implements ConnectionQueryHelperInterface
    * @return mixed
    *   The sort value.
    */
-  protected function getSortValue(EntityInterface $entity): mixed
-  {
+  protected function getSortValue(EntityInterface $entity): mixed {
 
     assert($entity instanceof ContentEntityInterface);
 
@@ -195,48 +189,43 @@ class EntityTypePluginQueryHelper implements ConnectionQueryHelperInterface
   /**
    * {@inheritdoc}
    */
-  public function getLangcodeField(): ?string
-  {
+  public function getLangcodeField(): ?string {
     return $this->entityTypeManager->getDefinition($this->entityTypeId)->getKey('langcode') ?: NULL;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getLangcode(): ?string
-  {
+  public function getLangcode(): ?string {
     return $this->langcode;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getPublishedField(): ?string
-  {
+  public function getPublishedField(): ?string {
     return $this->entityTypeManager->getDefinition($this->entityTypeId)->getKey('published') ?: NULL;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getForwardSortDirection(): string
-  {
+  public function getForwardSortDirection(): string {
     return 'ASC';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getReverseSortDirection(): string
-  {
+  public function getReverseSortDirection(): string {
     return 'DESC';
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getAggregateSortFunction(): ?string
-  {
+  public function getAggregateSortFunction(): ?string {
     return NULL;
   }
+
 }

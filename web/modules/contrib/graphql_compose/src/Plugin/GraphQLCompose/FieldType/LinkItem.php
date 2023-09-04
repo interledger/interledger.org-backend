@@ -7,12 +7,11 @@ namespace Drupal\graphql_compose\Plugin\GraphQLCompose\FieldType;
 use Drupal\Core\Cache\RefinableCacheableDependencyInterface;
 use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Render\RenderContext;
 use Drupal\Core\Render\RendererInterface;
-use Drupal\Core\Url;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerItemInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerTrait;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
+use Drupal\link\LinkItemInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -54,22 +53,22 @@ class LinkItem extends GraphQLComposeFieldTypeBase implements FieldProducerItemI
    * {@inheritdoc}
    */
   public function resolveFieldItem(FieldItemInterface $item, array $context, RefinableCacheableDependencyInterface $metadata) {
-    if (!$item->uri) {
-      return;
+    if (!$item instanceof LinkItemInterface) {
+      return NULL;
     }
 
-    $context = new RenderContext();
+    if ($item->isEmpty()) {
+      return NULL;
+    }
 
-    return $this->renderer->executeInRenderContext($context, function () use ($item): array {
+    $url = $item->getUrl()->toString(TRUE);
+    $metadata->addCacheableDependency($url);
 
-      $url = $item->uri ? Url::fromUri($item->uri) : NULL;
-
-      return [
-        'url' => $url ? $url->toString() : NULL,
-        'internal' => $url ? $url->isRouted() : FALSE,
-        'title' => $item->title,
-      ];
-    });
+    return [
+      'title' => $item->getTitle(),
+      'url' => $url->getGeneratedUrl(),
+      'internal' => $item->isExternal(),
+    ];
   }
 
 }

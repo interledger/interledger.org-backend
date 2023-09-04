@@ -40,12 +40,13 @@ interface ParagraphsOffCanvasBrowserInterface extends ContainerInjectionInterfac
    * @param string $field_name
    *   Name of the paragraph reference field.
    *
-   * @return array
+   * @return array<array>
    *   Render array of the off-canvas content.
    */
   public function content(string $entity_type, string $bundle, string $form_mode, string $field_name): array;
 
   /**
+   * Get the form display for a given form mode..
    *
    * @param string $entity_type
    *   Type of entity the off-canvas browser is displayed on.
@@ -71,7 +72,7 @@ interface ParagraphsOffCanvasBrowserInterface extends ContainerInjectionInterfac
    * @param string $field_name
    *   Name of the paragraph reference field.
    *
-   * @return array|null
+   * @return array<string>|null
    *   The form component or NULL, if the field does not exist.
    */
   public function getComponent(string $entity_type, string $bundle, string $form_mode, string $field_name): ?array;
@@ -88,7 +89,7 @@ interface ParagraphsOffCanvasBrowserInterface extends ContainerInjectionInterfac
    * @param string $field_name
    *   Name of the paragraph reference field.
    *
-   * @return \Drupal\Core\Field\PluginSettingsInterface|null|null
+   * @return \Drupal\Core\Field\PluginSettingsInterface|null
    *   A widget plugin or NULL, if the field does not exist.
    */
   public function getWidget(string $entity_type, string $bundle, string $form_mode, string $field_name): ?PluginSettingsInterface;
