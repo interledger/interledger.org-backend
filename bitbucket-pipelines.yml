@@ -13,7 +13,7 @@ definitions:
           - chmod 755 keys
           - zip -r application.zip web composer.json composer.lock .ebextensions .platform scaffold keys config
           - export BITBUCKET_COMMIT_SHORT=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-          - pipe: atlassian/aws-elasticbeanstalk-deploy:1.1.0
+          - pipe: atlassian/aws-elasticbeanstalk-deploy:1.2.0
             variables:
               AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
               AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
@@ -27,7 +27,7 @@ definitions:
         name: "Deploy"
         script:
           - export BITBUCKET_COMMIT_SHORT=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-          - pipe: atlassian/aws-elasticbeanstalk-deploy:1.1.0
+          - pipe: atlassian/aws-elasticbeanstalk-deploy:1.2.0
             variables:
               AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
               AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
