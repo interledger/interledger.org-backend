@@ -15,6 +15,9 @@ settings:
       value: twitter
       label: Twitter
     -
+      value: mastadon
+      label: Mastadon
+    -
       value: instagram
       label: Instagram
     -

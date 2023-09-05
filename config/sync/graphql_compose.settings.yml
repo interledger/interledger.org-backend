@@ -190,6 +190,8 @@ field_config:
         enabled: true
       field_position:
         enabled: true
+      field_social:
+        enabled: true
       field_teaser:
         enabled: true
     speaker:

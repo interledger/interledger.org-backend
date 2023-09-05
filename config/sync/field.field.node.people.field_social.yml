@@ -1,0 +1,145 @@
+uuid: 05e49525-2e77-4313-be85-9f59824b2e3d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_social
+    - node.type.people
+    - paragraphs.paragraphs_type.social_media
+  module:
+    - entity_reference_revisions
+id: node.people.field_social
+field_name: field_social
+entity_type: node
+bundle: people
+label: Social
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      social_media: social_media
+    negate: 0
+    target_bundles_drag_drop:
+      anchor:
+        weight: 40
+        enabled: false
+      button:
+        weight: 41
+        enabled: false
+      carousel_item:
+        weight: 42
+        enabled: false
+      column_card:
+        weight: 43
+        enabled: false
+      contact_form:
+        weight: 44
+        enabled: false
+      content_carousel:
+        weight: 45
+        enabled: false
+      content_column_cards:
+        weight: 46
+        enabled: false
+      content_title:
+        weight: 47
+        enabled: false
+      divider:
+        weight: 48
+        enabled: false
+      faq:
+        weight: 49
+        enabled: false
+      faqs:
+        weight: 50
+        enabled: false
+      hero_header:
+        weight: 51
+        enabled: false
+      highlighted_list:
+        weight: 52
+        enabled: false
+      highlighted_speakers:
+        weight: 53
+        enabled: false
+      image:
+        weight: 54
+        enabled: false
+      image_carousel:
+        weight: 55
+        enabled: false
+      image_full_width:
+        weight: 56
+        enabled: false
+      image_gallery:
+        weight: 57
+        enabled: false
+      large_callout_text:
+        weight: 58
+        enabled: false
+      logo_link:
+        weight: 59
+        enabled: false
+      media_header:
+        weight: 60
+        enabled: false
+      news_listings:
+        weight: 61
+        enabled: false
+      people_grid:
+        weight: 62
+        enabled: false
+      price:
+        weight: 63
+        enabled: false
+      price_list:
+        weight: 64
+        enabled: false
+      price_option:
+        weight: 65
+        enabled: false
+      schedule:
+        weight: 66
+        enabled: false
+      schedule_day:
+        weight: 67
+        enabled: false
+      scrolling_logo_carousel:
+        weight: 68
+        enabled: false
+      social_media:
+        weight: 69
+        enabled: true
+      social_media_link:
+        weight: 70
+        enabled: false
+      spacer:
+        weight: 71
+        enabled: false
+      speakers_grid:
+        weight: 72
+        enabled: false
+      talks_grid:
+        weight: 73
+        enabled: false
+      teaser:
+        weight: 74
+        enabled: false
+      text:
+        weight: 75
+        enabled: false
+      two_column_content:
+        weight: 76
+        enabled: false
+      video:
+        weight: 77
+        enabled: false
+      video_embed:
+        weight: 78
+        enabled: false
+field_type: entity_reference_revisions
