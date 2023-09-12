@@ -11,6 +11,7 @@ dependencies:
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.two_column_content
     - paragraphs.paragraphs_type.video
+    - paragraphs.paragraphs_type.video_embed
   module:
     - entity_reference_revisions
 id: paragraph.two_column_content.field_first_column
@@ -33,17 +34,42 @@ settings:
       content_title: content_title
       image: image
       video: video
+      video_embed: video_embed
     negate: 0
     target_bundles_drag_drop:
+      anchor:
+        weight: 40
+        enabled: false
       button:
         weight: 5
         enabled: true
       carousel_item:
         weight: 17
         enabled: false
+      column_card:
+        weight: 43
+        enabled: false
+      contact_form:
+        weight: 44
+        enabled: false
+      content_carousel:
+        weight: 45
+        enabled: false
+      content_column_cards:
+        weight: 46
+        enabled: false
       content_title:
         weight: 9
         enabled: true
+      divider:
+        weight: 48
+        enabled: false
+      faq:
+        weight: 49
+        enabled: false
+      faqs:
+        weight: 50
+        enabled: false
       hero_header:
         weight: 19
         enabled: false
@@ -59,20 +85,44 @@ settings:
       image_carousel:
         weight: 23
         enabled: false
+      image_full_width:
+        weight: 56
+        enabled: false
       image_gallery:
         weight: 24
         enabled: false
       large_callout_text:
         weight: 10
         enabled: false
+      logo_link:
+        weight: 59
+        enabled: false
       media_header:
         weight: 34
+        enabled: false
+      news_listings:
+        weight: 61
+        enabled: false
+      people_grid:
+        weight: 62
+        enabled: false
+      price:
+        weight: 63
+        enabled: false
+      price_list:
+        weight: 64
+        enabled: false
+      price_option:
+        weight: 65
         enabled: false
       schedule:
         weight: 35
         enabled: false
       schedule_day:
         weight: 36
+        enabled: false
+      scrolling_logo_carousel:
+        weight: 68
         enabled: false
       social_media:
         weight: 37
@@ -85,9 +135,6 @@ settings:
         enabled: true
       speakers_grid:
         weight: 40
-        enabled: false
-      talk_header:
-        weight: 42
         enabled: false
       talks_grid:
         weight: 41
@@ -103,5 +150,8 @@ settings:
         enabled: false
       video:
         weight: 30
+        enabled: true
+      video_embed:
+        weight: 78
         enabled: true
 field_type: entity_reference_revisions
