@@ -37,7 +37,17 @@ class CropStorage extends SqlContentEntityStorage implements CropStorageInterfac
     if (!isset($this->cropsByUri[$uri])) {
       $query = $this->database->select('crop_field_data', 'cfd');
       $query->fields('cfd', ['type', 'cid']);
-      $query->condition('cfd.uri', $uri);
+
+      // If it is a WEBP derivative, then remove the webp extension from
+      // the end of the filename and try it with that URI, too.
+      $nonWebpUri = preg_replace('/\.webp$/', '', $uri);
+      if ($uri === $nonWebpUri) {
+        $query->condition('cfd.uri', $uri);
+      }
+      else {
+        $query->condition('cfd.uri', [$uri, $nonWebpUri], 'IN');
+      }
+
       $this->cropsByUri[$uri] = $query->execute()->fetchAllKeyed();
     }
 

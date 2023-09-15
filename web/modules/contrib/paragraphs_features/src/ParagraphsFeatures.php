@@ -5,11 +5,11 @@ namespace Drupal\paragraphs_features;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\InsertCommand;
-use Drupal\paragraphs_features\Ajax\ScrollToElementCommand;
 use Drupal\Core\Field\WidgetInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\paragraphs\Plugin\Field\FieldWidget\ParagraphsWidget;
+use Drupal\paragraphs_features\Ajax\ScrollToElementCommand;
 
 /**
  * Paragraphs features class.

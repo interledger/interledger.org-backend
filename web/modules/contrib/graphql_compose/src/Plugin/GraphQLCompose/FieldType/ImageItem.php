@@ -9,6 +9,8 @@ use Drupal\Core\Field\FieldItemInterface;
 use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\Core\Image\ImageFactory;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\Render\RenderContext;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerItemInterface;
 use Drupal\graphql_compose\Plugin\GraphQL\DataProducer\FieldProducerTrait;
 use Drupal\graphql_compose\Plugin\GraphQLCompose\GraphQLComposeFieldTypeBase;
@@ -41,6 +43,13 @@ class ImageItem extends GraphQLComposeFieldTypeBase implements FieldProducerItem
   protected ImageFactory $imageFactory;
 
   /**
+   * Drupal renderer service.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected RendererInterface $renderer;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -53,6 +62,7 @@ class ImageItem extends GraphQLComposeFieldTypeBase implements FieldProducerItem
 
     $instance->fileUrlGenerator = $container->get('file_url_generator');
     $instance->imageFactory = $container->get('image.factory');
+    $instance->renderer = $container->get('renderer');
 
     return $instance;
   }
@@ -72,6 +82,17 @@ class ImageItem extends GraphQLComposeFieldTypeBase implements FieldProducerItem
       return NULL;
     }
 
+    $context = new RenderContext();
+    $url = $this->renderer->executeInRenderContext($context, function () use ($item) {
+      return $this->fileUrlGenerator->generateAbsoluteString($item->entity->getFileUri());
+    });
+
+    if (!$context->isEmpty()) {
+      $metadata->addCacheableDependency($context->pop());
+    }
+
+    $metadata->addCacheableDependency($item->entity);
+
     $width = $item->width ?? NULL;
     $height = $item->height ?? NULL;
 
@@ -84,7 +105,7 @@ class ImageItem extends GraphQLComposeFieldTypeBase implements FieldProducerItem
     }
 
     return [
-      'url' => $this->fileUrlGenerator->generateAbsoluteString($item->entity->getFileUri()),
+      'url' => $url,
       'width' => $width ?: 0,
       'height' => $height ?: 0,
       'alt' => $item->alt ?: NULL,

@@ -11,8 +11,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Template\Attribute;
 use Drupal\paragraphs\Plugin\Field\FieldWidget\ParagraphsWidget;
-use Drupal\paragraphs_sets\ParagraphsSets;
 use Drupal\paragraphs_sets\Entity\ParagraphsSet;
+use Drupal\paragraphs_sets\ParagraphsSets;
 
 /**
  * Implements hook_paragraphs_ee_widget_access().

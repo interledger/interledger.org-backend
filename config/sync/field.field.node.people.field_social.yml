@@ -1,24 +1,18 @@
-uuid: 33d523bc-ac86-4dea-bc57-fbf72c877e37
+uuid: 05e49525-2e77-4313-be85-9f59824b2e3d
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_second_column
-    - paragraphs.paragraphs_type.button
-    - paragraphs.paragraphs_type.content_title
-    - paragraphs.paragraphs_type.image
-    - paragraphs.paragraphs_type.spacer
-    - paragraphs.paragraphs_type.text
-    - paragraphs.paragraphs_type.two_column_content
-    - paragraphs.paragraphs_type.video
-    - paragraphs.paragraphs_type.video_embed
+    - field.storage.node.field_social
+    - node.type.people
+    - paragraphs.paragraphs_type.social_media
   module:
     - entity_reference_revisions
-id: paragraph.two_column_content.field_second_column
-field_name: field_second_column
-entity_type: paragraph
-bundle: two_column_content
-label: 'Second Column'
+id: node.people.field_social
+field_name: field_social
+entity_type: node
+bundle: people
+label: Social
 description: ''
 required: false
 translatable: false
@@ -28,23 +22,17 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
-      button: button
-      spacer: spacer
-      text: text
-      content_title: content_title
-      image: image
-      video: video
-      video_embed: video_embed
+      social_media: social_media
     negate: 0
     target_bundles_drag_drop:
       anchor:
         weight: 40
         enabled: false
       button:
-        weight: 5
-        enabled: true
+        weight: 41
+        enabled: false
       carousel_item:
-        weight: 17
+        weight: 42
         enabled: false
       column_card:
         weight: 43
@@ -59,8 +47,8 @@ settings:
         weight: 46
         enabled: false
       content_title:
-        weight: 9
-        enabled: true
+        weight: 47
+        enabled: false
       divider:
         weight: 48
         enabled: false
@@ -71,34 +59,34 @@ settings:
         weight: 50
         enabled: false
       hero_header:
-        weight: 19
+        weight: 51
         enabled: false
       highlighted_list:
-        weight: 12
+        weight: 52
         enabled: false
       highlighted_speakers:
-        weight: 21
+        weight: 53
         enabled: false
       image:
-        weight: 13
-        enabled: true
+        weight: 54
+        enabled: false
       image_carousel:
-        weight: 23
+        weight: 55
         enabled: false
       image_full_width:
         weight: 56
         enabled: false
       image_gallery:
-        weight: 24
+        weight: 57
         enabled: false
       large_callout_text:
-        weight: 10
+        weight: 58
         enabled: false
       logo_link:
         weight: 59
         enabled: false
       media_header:
-        weight: 34
+        weight: 60
         enabled: false
       news_listings:
         weight: 61
@@ -116,42 +104,42 @@ settings:
         weight: 65
         enabled: false
       schedule:
-        weight: 35
+        weight: 66
         enabled: false
       schedule_day:
-        weight: 36
+        weight: 67
         enabled: false
       scrolling_logo_carousel:
         weight: 68
         enabled: false
       social_media:
-        weight: 37
-        enabled: false
+        weight: 69
+        enabled: true
       social_media_link:
-        weight: 38
+        weight: 70
         enabled: false
       spacer:
-        weight: 6
-        enabled: true
+        weight: 71
+        enabled: false
       speakers_grid:
-        weight: 40
+        weight: 72
         enabled: false
       talks_grid:
-        weight: 41
+        weight: 73
         enabled: false
       teaser:
-        weight: 12
+        weight: 74
         enabled: false
       text:
-        weight: 7
-        enabled: true
+        weight: 75
+        enabled: false
       two_column_content:
-        weight: 8
+        weight: 76
         enabled: false
       video:
-        weight: 30
-        enabled: true
+        weight: 77
+        enabled: false
       video_embed:
         weight: 78
-        enabled: true
+        enabled: false
 field_type: entity_reference_revisions

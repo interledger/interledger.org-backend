@@ -21,6 +21,13 @@ interface ParagraphsCategoryFormInterface extends EntityFormInterface {
 
   /**
    * Helper function to check whether a Paragraphs category entity exists.
+   *
+   * @param string $id
+   *   Identifier of paragraph category.
+   *
+   * @return bool
+   *   <code>TRUE</code> if a category with the given ID exists,
+   *   <code>FALSE</code> otherwise.
    */
   public function exist(string $id): bool;
 
@@ -32,6 +39,6 @@ interface ParagraphsCategoryFormInterface extends EntityFormInterface {
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   Current form state.
    */
-  function validateMachineName(array $element, FormStateInterface $form_state): void;
+  public function validateMachineName(array $element, FormStateInterface $form_state): void;
 
 }

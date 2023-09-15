@@ -41,6 +41,7 @@ permissions:
   - 'access media overview'
   - 'access taxonomy overview'
   - 'access toolbar'
+  - 'administer menu'
   - 'administer url aliases'
   - 'create article content'
   - 'create document media'

@@ -5,9 +5,9 @@ namespace Drupal\Tests\paragraphs_ee\FunctionalJavascript;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
-use Drupal\Tests\paragraphs\Traits\ParagraphsCoreVersionUiTestTrait;
 use Drupal\Tests\paragraphs\FunctionalJavascript\LoginAdminTrait;
 use Drupal\Tests\paragraphs\FunctionalJavascript\ParagraphsTestBaseTrait;
+use Drupal\Tests\paragraphs\Traits\ParagraphsCoreVersionUiTestTrait;
 use Drupal\Tests\paragraphs_ee\Traits\ParagraphsEEDialogTrait;
 
 /**
