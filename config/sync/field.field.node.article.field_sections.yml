@@ -7,7 +7,7 @@ dependencies:
     - node.type.article
     - paragraphs.paragraphs_type.button
     - paragraphs.paragraphs_type.content_title
-    - paragraphs.paragraphs_type.image_full_width
+    - paragraphs.paragraphs_type.image
     - paragraphs.paragraphs_type.spacer
     - paragraphs.paragraphs_type.text
     - paragraphs.paragraphs_type.two_column_content
@@ -31,22 +31,43 @@ settings:
       button: button
       spacer: spacer
       content_title: content_title
-      image_full_width: image_full_width
+      image: image
       two_column_content: two_column_content
     negate: 0
     target_bundles_drag_drop:
+      anchor:
+        weight: 40
+        enabled: false
       button:
         weight: -6
         enabled: true
       carousel_item:
         weight: 27
         enabled: false
+      column_card:
+        weight: 43
+        enabled: false
+      contact_form:
+        weight: 44
+        enabled: false
       content_carousel:
         weight: 28
+        enabled: false
+      content_column_cards:
+        weight: 46
         enabled: false
       content_title:
         weight: 29
         enabled: true
+      divider:
+        weight: 48
+        enabled: false
+      faq:
+        weight: 49
+        enabled: false
+      faqs:
+        weight: 50
+        enabled: false
       hero_header:
         weight: 30
         enabled: false
@@ -58,27 +79,48 @@ settings:
         enabled: false
       image:
         weight: 33
-        enabled: false
+        enabled: true
       image_carousel:
         weight: 34
         enabled: false
       image_full_width:
         weight: 35
-        enabled: true
+        enabled: false
       image_gallery:
         weight: 36
         enabled: false
       large_callout_text:
         weight: 37
         enabled: false
+      logo_link:
+        weight: 59
+        enabled: false
       media_header:
         weight: 38
+        enabled: false
+      news_listings:
+        weight: 61
+        enabled: false
+      people_grid:
+        weight: 62
+        enabled: false
+      price:
+        weight: 63
+        enabled: false
+      price_list:
+        weight: 64
+        enabled: false
+      price_option:
+        weight: 65
         enabled: false
       schedule:
         weight: 39
         enabled: false
       schedule_day:
         weight: 40
+        enabled: false
+      scrolling_logo_carousel:
+        weight: 68
         enabled: false
       social_media:
         weight: 41
@@ -91,9 +133,6 @@ settings:
         enabled: true
       speakers_grid:
         weight: 44
-        enabled: false
-      talk_header:
-        weight: 46
         enabled: false
       talks_grid:
         weight: 45
@@ -109,5 +148,8 @@ settings:
         enabled: true
       video:
         weight: 50
+        enabled: false
+      video_embed:
+        weight: 78
         enabled: false
 field_type: entity_reference_revisions

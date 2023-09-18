@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.talk.body
     - field.field.node.talk.feeds_item
+    - field.field.node.talk.field_date_time
     - field.field.node.talk.field_description
     - field.field.node.talk.field_ends_at
     - field.field.node.talk.field_live_video
@@ -39,6 +40,7 @@ content:
     region: content
 hidden:
   feeds_item: true
+  field_date_time: true
   field_description: true
   field_ends_at: true
   field_live_video: true

@@ -1,0 +1,21 @@
+uuid: e7b07a6c-0161-489f-9027-d2d1d2bb0beb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_date_time
+    - node.type.talk
+  module:
+    - datetime
+id: node.talk.field_date_time
+field_name: field_date_time
+entity_type: node
+bundle: talk
+label: 'Date Time'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

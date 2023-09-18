@@ -58,9 +58,9 @@
         "drupal/smtp": "^1.2",
         "drupal/svg_image_field": "^2.2",
         "drupal/token": "^1.12",
-        "drupal/upgrade_status": "^4.0",
         "drupal/viewfield": "^3.0@beta",
         "drupal/webform_rest": "^4.0",
+        "drupal/weight": "^3.4",
         "drush/drush": "^11.3",
         "four/graphql_compose_extra": "^1.2.0",
         "rckt/gin_custom": "^1.3"

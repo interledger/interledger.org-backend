@@ -7,7 +7,7 @@ dependencies:
 third_party_settings:
   paragraphs_ee:
     paragraphs_categories:
-      content: content
+      media: media
 id: image
 label: Image
 icon_uuid: null
