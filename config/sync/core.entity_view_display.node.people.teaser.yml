@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.people.field_position
     - field.field.node.people.field_social
     - field.field.node.people.field_teaser
+    - field.field.node.people.field_weight
     - node.type.people
   module:
     - text
@@ -36,3 +37,4 @@ hidden:
   field_position: true
   field_social: true
   field_teaser: true
+  field_weight: true

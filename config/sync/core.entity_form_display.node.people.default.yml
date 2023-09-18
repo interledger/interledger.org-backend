@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.people.field_position
     - field.field.node.people.field_social
     - field.field.node.people.field_teaser
+    - field.field.node.people.field_weight
     - node.type.people
   module:
     - paragraphs
@@ -15,6 +16,7 @@ dependencies:
     - paragraphs_features
     - path
     - text
+    - weight
 id: node.people.default
 targetEntityType: node
 bundle: people
@@ -88,6 +90,12 @@ content:
         paragraphs_ee:
           dialog_off_canvas: false
           dialog_style: tiles
+  field_weight:
+    type: weight_selector
+    weight: 26
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   path:
     type: path
     weight: 9
