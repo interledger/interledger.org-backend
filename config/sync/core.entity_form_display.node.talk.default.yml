@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.talk.body
     - field.field.node.talk.feeds_item
+    - field.field.node.talk.field_date_time
     - field.field.node.talk.field_description
     - field.field.node.talk.field_ends_at
     - field.field.node.talk.field_live_video
@@ -47,6 +48,12 @@ content:
   created:
     type: datetime_timestamp
     weight: 9
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_date_time:
+    type: datetime_default
+    weight: 26
     region: content
     settings: {  }
     third_party_settings: {  }
