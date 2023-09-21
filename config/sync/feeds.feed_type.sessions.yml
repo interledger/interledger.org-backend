@@ -20,27 +20,7 @@ dependencies:
     - node
 third_party_settings:
   feeds_tamper:
-    tampers:
-      8b66341f-5e5c-4f86-9f84-418f836b3a80:
-        words: |-
-          Accepted
-          Informed
-          Confirmed
-        word_boundaries: false
-        exact: true
-        case_sensitive: false
-        invert: false
-        word_list:
-          - /^Accepted$/ui
-          - /^Informed$/ui
-          - /^Confirmed$/ui
-        regex: true
-        function: matchRegex
-        uuid: 8b66341f-5e5c-4f86-9f84-418f836b3a80
-        plugin: keyword_filter
-        source: status
-        weight: 0
-        label: 'Keyword filter'
+    tampers: {  }
   feeds_log:
     status: false
     operations: {  }
