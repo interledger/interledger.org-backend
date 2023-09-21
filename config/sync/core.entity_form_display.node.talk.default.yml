@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.talk.field_date_time
     - field.field.node.talk.field_description
     - field.field.node.talk.field_ends_at
+    - field.field.node.talk.field_is_service_session
     - field.field.node.talk.field_live_video
     - field.field.node.talk.field_recording_video
     - field.field.node.talk.field_seo_description
@@ -70,6 +71,13 @@ content:
     weight: 2
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_is_service_session:
+    type: boolean_checkbox
+    weight: 27
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_live_video:
     type: media_library_widget

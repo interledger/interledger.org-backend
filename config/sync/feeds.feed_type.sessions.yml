@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.node.talk.field_description
     - field.field.node.talk.field_ends_at
+    - field.field.node.talk.field_is_service_session
     - field.field.node.talk.field_live_video
     - field.field.node.talk.field_recording_video
     - field.field.node.talk.field_seo_description
@@ -21,26 +22,14 @@ dependencies:
 third_party_settings:
   feeds_tamper:
     tampers:
-      8b66341f-5e5c-4f86-9f84-418f836b3a80:
-        words: |-
-          Accepted
-          Informed
-          Confirmed
-        word_boundaries: false
-        exact: true
-        case_sensitive: false
-        invert: false
-        word_list:
-          - /^Accepted$/ui
-          - /^Informed$/ui
-          - /^Confirmed$/ui
-        regex: true
-        function: matchRegex
-        uuid: 8b66341f-5e5c-4f86-9f84-418f836b3a80
-        plugin: keyword_filter
-        source: status
+      127ce34c-f11e-4a68-a66a-426781d4fed6:
+        default_value: ' '
+        only_if_empty: true
+        uuid: 127ce34c-f11e-4a68-a66a-426781d4fed6
+        plugin: default_value
+        source: description
         weight: 0
-        label: 'Keyword filter'
+        label: 'Set value or default value'
   feeds_log:
     status: false
     operations: {  }
@@ -126,6 +115,11 @@ custom_sources:
     label: recordingUrl
     machine_name: recordingurl
     type: json
+  isservicesession:
+    value: isServiceSession
+    label: isServiceSession
+    machine_name: isservicesession
+    type: json
 mappings:
   -
     target: field_speakers
@@ -206,3 +200,9 @@ mappings:
       autocreate: false
       autocreate_bundle: remote_video
       feeds_item: false
+  -
+    target: field_is_service_session
+    map:
+      value: isservicesession
+    settings:
+      language: null
