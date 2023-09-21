@@ -20,7 +20,15 @@ dependencies:
     - node
 third_party_settings:
   feeds_tamper:
-    tampers: {  }
+    tampers:
+      127ce34c-f11e-4a68-a66a-426781d4fed6:
+        default_value: ' '
+        only_if_empty: true
+        uuid: 127ce34c-f11e-4a68-a66a-426781d4fed6
+        plugin: default_value
+        source: description
+        weight: 0
+        label: 'Set value or default value'
   feeds_log:
     status: false
     operations: {  }
