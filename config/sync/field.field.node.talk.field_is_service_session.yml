@@ -1,0 +1,23 @@
+uuid: 46febb52-1c6d-42b9-aa8c-c85254f2ba71
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_is_service_session
+    - node.type.talk
+id: node.talk.field_is_service_session
+field_name: field_is_service_session
+entity_type: node
+bundle: talk
+label: 'Is Service Session'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'Yes'
+  off_label: 'No'
+field_type: boolean

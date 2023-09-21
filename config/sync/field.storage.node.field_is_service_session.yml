@@ -1,0 +1,18 @@
+uuid: f1dcbd78-1116-494b-b38f-db404ea2ef52
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_is_service_session
+field_name: field_is_service_session
+entity_type: node
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
