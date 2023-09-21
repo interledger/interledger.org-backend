@@ -1,7 +1,13 @@
 uuid: caf77c0b-44d5-465e-ac50-ef8a9200fc83
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - next_extras
+third_party_settings:
+  next_extras:
+    revalidate: false
+    revalidate_paths: ''
 id: node.people
 site_resolver: site_selector
 configuration:
@@ -10,4 +16,4 @@ configuration:
 revalidator: path
 revalidator_configuration:
   revalidate_page: true
-  additional_paths: ''
+  additional_paths: /team
