@@ -30,9 +30,9 @@
         "drupal/autocomplete_deluxe": "^2.0",
         "drupal/cloudfront_cache_path_invalidate": "^3.0",
         "drupal/config_pages": "^2.14",
-        "drupal/core-composer-scaffold": "10.1.1",
-        "drupal/core-project-message": "10.1.1",
-        "drupal/core-recommended": "10.1.1",
+        "drupal/core-composer-scaffold": "^10.1.1",
+        "drupal/core-project-message": "^10.1.1",
+        "drupal/core-recommended": "^10.1.1",
         "drupal/entity_reference_purger": "^1.0@beta",
         "drupal/feeds": "^3.0@beta",
         "drupal/feeds_dependency": "^2.0",
@@ -96,6 +96,9 @@
             },
             "drupal/feeds_dependency": {
                 "Allow feed to have multiple dependencies": "https://git.drupalcode.org/project/feeds_dependency/-/merge_requests/1.diff"
+            },
+            "drupal/pathauto": {
+                "php 8.2 fixes": "https://www.drupal.org/files/issues/2023-08-28/php8-2-notice-pathauto-3328670-27.patch"
             }
         },
         "drupal-scaffold": {
