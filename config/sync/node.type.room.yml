@@ -1,0 +1,17 @@
+uuid: 0095ad2a-11cf-40ab-948b-d41039ab147a
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Room
+type: room
+description: ''
+help: ''
+new_revision: true
+preview_mode: 0
+display_submitted: false

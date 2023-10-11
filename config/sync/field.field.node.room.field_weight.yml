@@ -1,0 +1,22 @@
+uuid: 95c09ad8-e82a-4c68-be0e-7183fe7d2891
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_weight
+    - node.type.room
+  module:
+    - weight
+id: node.room.field_weight
+field_name: field_weight
+entity_type: node
+bundle: room
+label: Weight
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  range: '20'
+field_type: weight

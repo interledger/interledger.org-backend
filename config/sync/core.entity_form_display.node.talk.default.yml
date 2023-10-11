@@ -8,9 +8,11 @@ dependencies:
     - field.field.node.talk.field_date_time
     - field.field.node.talk.field_description
     - field.field.node.talk.field_ends_at
+    - field.field.node.talk.field_is_plenum_session
     - field.field.node.talk.field_is_service_session
     - field.field.node.talk.field_live_video
     - field.field.node.talk.field_recording_video
+    - field.field.node.talk.field_room
     - field.field.node.talk.field_seo_description
     - field.field.node.talk.field_sessionizeid
     - field.field.node.talk.field_speakers
@@ -72,6 +74,13 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_is_plenum_session:
+    type: boolean_checkbox
+    weight: 29
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   field_is_service_session:
     type: boolean_checkbox
     weight: 27
@@ -92,6 +101,16 @@ content:
     region: content
     settings:
       media_types: {  }
+    third_party_settings: {  }
+  field_room:
+    type: entity_reference_autocomplete
+    weight: 28
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_seo_description:
     type: string_textarea

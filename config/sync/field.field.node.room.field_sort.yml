@@ -1,0 +1,25 @@
+uuid: 1f3e38f2-94da-4216-b53d-5a4524e270ec
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sort
+    - node.type.room
+id: node.room.field_sort
+field_name: field_sort
+entity_type: node
+bundle: room
+label: Sort
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
