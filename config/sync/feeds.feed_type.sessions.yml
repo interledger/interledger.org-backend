@@ -5,9 +5,11 @@ dependencies:
   config:
     - field.field.node.talk.field_description
     - field.field.node.talk.field_ends_at
+    - field.field.node.talk.field_is_plenum_session
     - field.field.node.talk.field_is_service_session
     - field.field.node.talk.field_live_video
     - field.field.node.talk.field_recording_video
+    - field.field.node.talk.field_room
     - field.field.node.talk.field_seo_description
     - field.field.node.talk.field_sessionizeid
     - field.field.node.talk.field_speakers
@@ -120,6 +122,16 @@ custom_sources:
     label: isServiceSession
     machine_name: isservicesession
     type: json
+  roomid:
+    value: roomId
+    label: roomId
+    machine_name: roomid
+    type: json
+  isplenumsession:
+    value: isPlenumSession
+    label: isPlenumSession
+    machine_name: isplenumsession
+    type: json
 mappings:
   -
     target: field_speakers
@@ -204,5 +216,21 @@ mappings:
     target: field_is_service_session
     map:
       value: isservicesession
+    settings:
+      language: null
+  -
+    target: field_room
+    map:
+      target_id: roomid
+    settings:
+      language: ''
+      reference_by: field_sessionizeid
+      feeds_item: guid
+      autocreate: 0
+      autocreate_bundle: room
+  -
+    target: field_is_plenum_session
+    map:
+      value: isplenumsession
     settings:
       language: null

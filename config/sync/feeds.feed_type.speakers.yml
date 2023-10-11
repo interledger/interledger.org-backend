@@ -14,6 +14,7 @@ dependencies:
   module:
     - feeds_ex
     - feeds_log
+    - feeds_tamper
     - node
 third_party_settings:
   feeds_log:
@@ -21,6 +22,16 @@ third_party_settings:
     operations: {  }
     items: {  }
     source: false
+  feeds_tamper:
+    tampers:
+      353f6a1a-e2fe-49e8-912b-98bac93c4fd7:
+        default_value: ' '
+        only_if_empty: true
+        uuid: 353f6a1a-e2fe-49e8-912b-98bac93c4fd7
+        plugin: default_value
+        source: bio
+        weight: 0
+        label: 'Set value or default value'
 label: Speakers
 id: speakers
 description: ''
@@ -49,7 +60,7 @@ processor_configuration:
   insert_new: 1
   update_existing: 2
   update_non_existent: _delete
-  skip_hash_check: false
+  skip_hash_check: true
   authorize: true
   revision: false
   expire: -1

@@ -1,14 +1,14 @@
-uuid: 3ce0019f-eaee-4715-b48d-5eae5a2e373a
+uuid: 7ef72b89-650e-44aa-8f06-9a59443985a2
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.field_sessionizeid
-    - node.type.speaker
-id: node.speaker.field_sessionizeid
+    - node.type.room
+id: node.room.field_sessionizeid
 field_name: field_sessionizeid
 entity_type: node
-bundle: speaker
+bundle: room
 label: sessionizeID
 description: ''
 required: true
