@@ -133,7 +133,7 @@ content:
     type: datetime_default
     label: above
     settings:
-      timezone_override: ''
+      timezone_override: UTC
       format_type: medium
     third_party_settings: {  }
     weight: 111
