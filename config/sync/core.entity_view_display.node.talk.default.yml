@@ -8,9 +8,11 @@ dependencies:
     - field.field.node.talk.field_date_time
     - field.field.node.talk.field_description
     - field.field.node.talk.field_ends_at
+    - field.field.node.talk.field_is_plenum_session
     - field.field.node.talk.field_is_service_session
     - field.field.node.talk.field_live_video
     - field.field.node.talk.field_recording_video
+    - field.field.node.talk.field_room
     - field.field.node.talk.field_seo_description
     - field.field.node.talk.field_sessionizeid
     - field.field.node.talk.field_speakers
@@ -58,6 +60,16 @@ content:
     third_party_settings: {  }
     weight: 112
     region: content
+  field_is_plenum_session:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 118
+    region: content
   field_is_service_session:
     type: boolean
     label: above
@@ -86,6 +98,14 @@ content:
     third_party_settings: {  }
     weight: 114
     region: content
+  field_room:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 117
+    region: content
   field_seo_description:
     type: basic_string
     label: above
@@ -113,7 +133,7 @@ content:
     type: datetime_default
     label: above
     settings:
-      timezone_override: ''
+      timezone_override: UTC
       format_type: medium
     third_party_settings: {  }
     weight: 111

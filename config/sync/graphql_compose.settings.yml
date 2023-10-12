@@ -42,6 +42,8 @@ entity_config:
     people:
       enabled: true
       routes_enabled: true
+    room:
+      enabled: true
     speaker:
       enabled: true
       routes_enabled: true
@@ -194,6 +196,11 @@ field_config:
         enabled: true
       field_teaser:
         enabled: true
+    room:
+      field_sessionizeid:
+        enabled: true
+      field_sort:
+        enabled: true
     speaker:
       field_biography:
         enabled: true
@@ -216,9 +223,15 @@ field_config:
         enabled: true
       field_ends_at:
         enabled: true
+      field_is_plenum_session:
+        enabled: true
+      field_is_service_session:
+        enabled: true
       field_live_video:
         enabled: true
       field_recording_video:
+        enabled: true
+      field_room:
         enabled: true
       field_speakers:
         enabled: true

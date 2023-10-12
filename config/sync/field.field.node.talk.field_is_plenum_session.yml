@@ -1,0 +1,23 @@
+uuid: 3c0f1191-1ff9-48fa-bbec-eea5c66ab423
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_is_plenum_session
+    - node.type.talk
+id: node.talk.field_is_plenum_session
+field_name: field_is_plenum_session
+entity_type: node
+bundle: talk
+label: 'Is Plenum Session'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

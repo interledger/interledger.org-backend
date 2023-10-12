@@ -1,0 +1,38 @@
+uuid: f4c03ece-104a-4426-990d-b5fe0131f4c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.room.body
+    - field.field.node.room.feeds_item
+    - field.field.node.room.field_sessionizeid
+    - field.field.node.room.field_sort
+    - field.field.node.room.field_weight
+    - node.type.room
+  module:
+    - text
+    - user
+id: node.room.teaser
+targetEntityType: node
+bundle: room
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  feeds_item: true
+  field_sessionizeid: true
+  field_sort: true
+  field_weight: true
