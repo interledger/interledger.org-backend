@@ -16,4 +16,4 @@ configuration:
 revalidator: path
 revalidator_configuration:
   revalidate_page: true
-  additional_paths: /summit/talks
+  additional_paths: "/summit/talks\r\n/summit/schedule"
