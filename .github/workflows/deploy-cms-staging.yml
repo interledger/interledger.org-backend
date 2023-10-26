@@ -1,0 +1,27 @@
+name: Deploy staging
+on:
+  push:
+    branches:
+    - staging
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout source code
+      uses: actions/checkout@v2
+
+    - name: Generate deployment package
+      run: zip -r application.zip web composer.json composer.lock .ebextensions .platform scaffold keys config
+
+    - name: Deploy to EB
+      uses: einaregilsson/beanstalk-deploy@v21
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        application_name: ${{ secrets.APPLICATION_NAME }}
+        environment_name: ${{ secrets.ENVIRONMENT_NAME }}
+        version_label: "build-${{ github.run_number }}-commit-${{ github.sha }}"
+        region: ${{ secrets.AWS_DEFAULT_REGION }}
+        deployment_package: application.zip
