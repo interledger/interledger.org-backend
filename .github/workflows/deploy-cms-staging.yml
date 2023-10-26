@@ -25,3 +25,4 @@ jobs:
         version_label: "build-${{ github.run_number }}-commit-${{ github.sha }}"
         region: ${{ secrets.AWS_DEFAULT_REGION }}
         deployment_package: application.zip
+        existing_bucket_name:  ${{ secrets.S3_BUCKET }}
