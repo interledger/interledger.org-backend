@@ -86,6 +86,7 @@ module:
   serialization: 0
   shortcut: 0
   simple_oauth: 0
+  smtp: 0
   sophron: 0
   subrequests: 0
   svg_image_field: 0
