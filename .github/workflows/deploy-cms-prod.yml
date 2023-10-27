@@ -1,8 +1,8 @@
-name: Deploy staging
+name: Deploy prod
 on:
   push:
     branches:
-    - staging
+    - main
 
 jobs:
   build:
