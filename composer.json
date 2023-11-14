@@ -81,6 +81,17 @@
         "sort-packages": true
     },
     "extra": {
+        "composer-exit-on-patch-failure": true,
+        "patchLevel": {
+            "drupal/core": "-p2",
+            "drupal/subrequests": "-p1",
+            "drupal/decoupled_router": "-p1",
+            "drupal/crop": "-p1",
+            "drupal/focal_point": "-p1",
+            "drupal/feeds_dependency": "-p1",
+            "drupal/pathauto": "-p1",
+            "drupal/webform_rest": "-p1"
+        },
         "patches": {
             "drupal/subrequests": {
                 "Get same results on different request": "https://www.drupal.org/files/issues/2019-07-18/change_request_type-63049395-09.patch"
@@ -99,6 +110,9 @@
             },
             "drupal/pathauto": {
                 "php 8.2 fixes": "https://www.drupal.org/files/issues/2023-08-28/php8-2-notice-pathauto-3328670-27.patch"
+            },
+            "drupal/webform_rest": {
+                "WebformSubmitResource::$entityTypeManager is deprecated": "https://www.drupal.org/files/issues/2023-07-20/3375829-2.patch"
             }
         },
         "drupal-scaffold": {
