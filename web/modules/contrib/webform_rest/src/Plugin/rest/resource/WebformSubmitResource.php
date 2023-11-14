@@ -24,6 +24,14 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 class WebformSubmitResource extends ResourceBase {
 
   /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+
+  /**
    * The renderer service.
    *
    * @var \Drupal\Core\Render\RendererInterface
