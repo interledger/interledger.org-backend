@@ -66,7 +66,7 @@ drush cr
 ### Update Drupal modules
 
 ```
-composer update drupal/modulename --with-dependencies
+composer update drupal/modulename --with-all-dependencies
 drush updb
 drush cr
 ```
